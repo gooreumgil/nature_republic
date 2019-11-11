@@ -19,6 +19,8 @@ public class Member {
     private Long id;
 
     private String name;
+    private String password;
+    private String email;
 
     @Embedded
     private Address address;
@@ -33,9 +35,11 @@ public class Member {
     private List<Order> orders;
 
 
-    public static Member createMember(String name, Address address, Birthday birthday, PhoneNumber phoneNumber) {
+    public static Member createMember(String name, String password, String email, Address address, Birthday birthday, PhoneNumber phoneNumber) {
         Member member = new Member();
         member.name = name;
+        member.password = password;
+        member.email = email;
         member.address = address;
         member.birthday = birthday;
         member.phoneNumber = phoneNumber;

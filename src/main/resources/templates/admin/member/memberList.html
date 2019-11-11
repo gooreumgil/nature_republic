@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/adminHeader :: adminHeader"/>
+<style>
+    body {
+         padding-top: 40px;
+     }
+</style>
+
+<div class="container">
+
+    <div th:replace="partials/adminBodyHeader :: adminBodyHeader"/>
+
+    <h1>Member List</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>주소</th>
+                <th>생년월일</th>
+                <th>핸드폰 번호</th>
+                <th>주문횟수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${memberDto}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.address.city} + ' ' + ${user.address.street} + ' ' +  ${user.address.zipcode}"></td>
+                <td th:text="${user.birthday.year} + ' ' + ${user.birthday.month} + ' ' + ${user.birthday.day}"></td>
+                <td th:text="${user.phoneNumber.number1} + '-' +  ${user.phoneNumber.number2} + '-' + ${user.phoneNumber.number3}"></td>
+                <td th:text="${user?.orderCount}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

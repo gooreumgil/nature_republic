@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,17 +22,68 @@ public class Item {
     private String description;
     private int capacity;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
-    private List<CategoryItem> categoryItems;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<CategoryItem> categoryItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemSrc> itemSrcs;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemTags> itemTags;
+
+    // 간단 생성 메소드
+    public static Item createItem(String nameKor, String nameEng, int price, int stockQuantity,
+                                  String description, int capacity, List<Category> categories) {
+        Item item = new Item();
+        item.nameKor = nameKor;
+        item.nameEng = nameEng;
+        item.price = price;
+        item.stockQuantity = stockQuantity;
+        item.likes = 0;
+        item.description = description;
+        item.capacity = capacity;
+        item.itemSrcs = new ArrayList<>();
+
+        for (Category category : categories) {
+            CategoryItem categoryItem = CategoryItem.createCategoryItem(category, item);
+            item.categoryItems.add(categoryItem);
+        }
+
+        return item;
+    }
+
+    public static Item createItemWithImg(
+            String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
+            Integer capacity, List<Category> categories, String mainImgPath, String detailImgPath) {
+
+        Item item = new Item();
+        item.nameKor = nameKor;
+        item.nameEng = nameEng;
+        item.price = price;
+        item.stockQuantity = stockQuantity;
+        item.likes = 0;
+        item.description = description;
+        item.capacity = capacity;
+        item.itemSrcs = new ArrayList<>();
+
+        String[] imgs = {mainImgPath, detailImgPath};
+
+        for (String imgPath : imgs) {
+            ItemSrc itemSrc = ItemSrc.createItemSrc(imgPath, item);
+            item.itemSrcs.add(itemSrc);
+        }
+
+        for (Category category : categories) {
+            CategoryItem categoryItem = CategoryItem.createCategoryItem(category, item);
+            item.categoryItems.add(categoryItem);
+        }
+
+        return item;
+
+    }
 
     // 연관관계 편의 메소드
     public void addComment(Comment comment) {

@@ -159,6 +159,7 @@ li {
 
 .top {
     width: 100%;
+    padding-top: 90px;
     height: 454px;
     font-family: 'Noto Sans KR', sans-serif;
     text-align: center;
@@ -169,7 +170,7 @@ li {
      rgba(124, 124, 124, .4)
     ),
     /* bottom, image */
-    url(../img/list_img/list_banner_bg.png);
+    url(../image/list_img/list_banner_bg.png);
     /*background-image: url(../list_img/list_banner_bg2.png);*/
     background-size: cover;
     background-position: center;
@@ -236,7 +237,6 @@ li {
     font-family: 'Noto Sans KR', sans-serif;
     max-width: 1260px;
     margin: 0 auto;
-    padding-top: 150px;
     text-align: center;
 }
 
@@ -309,7 +309,7 @@ li {
     color: #a0a0a0;
     font-weight: 300;
     padding-top: 5px;
-    margin: 5px 10px;
+    margin: 5px 15px;
 }
 
 .best_item span {

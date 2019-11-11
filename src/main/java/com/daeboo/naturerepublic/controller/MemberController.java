@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class MemberController {
     public String memberCreateForm(@ModelAttribute("memberDto") MemberDto.SignUp memberDto, Model model) {
 
         model.addAttribute("memberDto", memberDto);
-        return "signUp";
+        return "member/signUp";
 
     }
 
@@ -36,6 +38,7 @@ public class MemberController {
         return "redirect:/";
 
     }
+
 
 
 

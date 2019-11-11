@@ -26,6 +26,21 @@ public class ItemSrc {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    public static ItemSrc createItemSrc(String imgPath, Item item) {
+        ItemSrc itemSrc = new ItemSrc();
+        itemSrc.key = imgPath;
+        if (imgPath.contains("main")) {
+            itemSrc.type = ImgType.MAIN;
+        } else {
+            itemSrc.type = ImgType.DETAIL;
+        }
+
+        itemSrc.item = item;
+
+        return itemSrc;
+
+    }
+
     // 연관관계 편의 메소드
     public void setItem(Item item) {
         this.item = item;

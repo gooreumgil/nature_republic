@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/adminHeader :: adminHeader"/>
+<link rel="stylesheet" th:href="@{/css/jumbotron-narrow.css}" />
+<style>
+    h1 {
+        margin-bottom: 50px;
+    }
+
+    div.jumbotron {
+        background-color: #fff !important;
+        text-align: left;
+    }
+
+    div.container {
+        padding-top: 100px;
+        max-width: 800px !important;
+        text-align: left;
+    }
+
+    div.a-box {
+        margin: 5px 0;
+    }
+
+    div.a-box a {
+        display: block;
+    }
+</style>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Admin Page</h1>
+        <div class="a-box">
+            <a class="btn btn-lg btn-dark" th:href="@{/admin/members}">회원목록</a>
+        </div>
+
+        <div class="a-box">
+            <a class="btn btn-lg btn-dark" th:href="@{/admin/items/new}">상품 등록</a>
+        </div>
+
+        <div class="a-box">
+            <a class="btn btn-lg btn-dark" th:href="@{/admin/items}">상품 목록</a>
+        </div>
+
+        <div class="a-box">
+            <a class="btn btn-lg btn-dark" th:href="@{/admin/orders/list}">주문 목록</a>
+        </div>
+    </div>
+
+</div>
