@@ -26,7 +26,16 @@ public class ItemSrc {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    public static ItemSrc createItemSrc(String imgPath, Item item) {
+    public static ItemSrc createItemSrcMain(String mainPath, Item item) {
+        ItemSrc itemSrc = new ItemSrc();
+        itemSrc.key = mainPath;
+        itemSrc.type = ImgType.MAIN;
+        itemSrc.item = item;
+
+        return itemSrc;
+    }
+
+    public static ItemSrc createItemSrcDetail(String imgPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
         itemSrc.key = imgPath;
         if (imgPath.contains("main")) {

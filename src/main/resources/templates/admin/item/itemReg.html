@@ -47,12 +47,12 @@
 
             <div class="form__group">
                 <label th:for="mainImg">메인 이미지</label><br>
-                <input type="file" th:field="*{mainImg}" class="input">
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input">
             </div>
 
             <div class="form__group">
                 <label th:for="detailImg">상세 이미지</label><br>
-                <input type="file" th:field="*{detailImg}" class="input">
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input">
             </div>
 
             <div class="form__group">
@@ -62,3 +62,10 @@
     </div>
 
 </section>
+
+<script>
+    function submit() {
+        var form = document.getElementsByTagName("form");
+        form.
+    }
+</script>

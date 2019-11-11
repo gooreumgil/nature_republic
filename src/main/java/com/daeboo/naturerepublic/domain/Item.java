@@ -57,7 +57,7 @@ public class Item {
 
     public static Item createItemWithImg(
             String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
-            Integer capacity, List<Category> categories, String mainImgPath, String detailImgPath) {
+            Integer capacity, List<Category> categories, List<String> mainImgPaths, List<String> detailImgPaths) {
 
         Item item = new Item();
         item.nameKor = nameKor;
@@ -69,12 +69,16 @@ public class Item {
         item.capacity = capacity;
         item.itemSrcs = new ArrayList<>();
 
-        String[] imgs = {mainImgPath, detailImgPath};
-
-        for (String imgPath : imgs) {
-            ItemSrc itemSrc = ItemSrc.createItemSrc(imgPath, item);
+        mainImgPaths.stream().forEach(mainPath -> {
+            ItemSrc itemSrc = ItemSrc.createItemSrcMain(mainPath, item);
             item.itemSrcs.add(itemSrc);
-        }
+        });
+
+        detailImgPaths.stream().forEach(detailPath -> {
+            ItemSrc itemSrc = ItemSrc.createItemSrcDetail(detailPath, item);
+            item.itemSrcs.add(itemSrc);
+        });
+
 
         for (Category category : categories) {
             CategoryItem categoryItem = CategoryItem.createCategoryItem(category, item);

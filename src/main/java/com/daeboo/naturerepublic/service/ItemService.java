@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.Category;
+import com.daeboo.naturerepublic.domain.ImgType;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
@@ -14,7 +15,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,19 +29,45 @@ public class ItemService {
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\image";
 
-
     public void save(ItemDto.Create itemDto) {
 
-        StringBuilder mainFileName = new StringBuilder();
-        MultipartFile mainImg = itemDto.getMainImg();
-        createFileMain(mainFileName, mainImg);
-        String mainImgPath = mainFileName.toString();
+        Map<String, List<MultipartFile>> stringListMap = new HashMap<>();
 
-        StringBuilder detailFileName = new StringBuilder();
-        MultipartFile detailImg = itemDto.getDetailImg();
-        createFile(detailFileName, detailImg);
-        String detailImgPath = detailFileName.toString();
+        List<MultipartFile> mainImg = itemDto.getMainImg();
+        List<MultipartFile> detailImg = itemDto.getDetailImg();
 
+        stringListMap.put(ImgType.MAIN.name(), mainImg);
+        stringListMap.put(ImgType.DETAIL.name(), detailImg);
+
+        List<String> mainImgPaths = new ArrayList<>();
+        List<String> detailImgPaths = new ArrayList<>();
+
+        for (Map.Entry<String, List<MultipartFile>> entry : stringListMap.entrySet()) {
+
+            String s = entry.getKey();
+            List<MultipartFile> multipartFiles = entry.getValue();
+
+            if (s.contains(ImgType.MAIN.name())) {
+                multipartFiles.forEach(multipartFile -> {
+                    StringBuilder fileName = new StringBuilder();
+                    createFile(fileName, multipartFile);
+                    String mainImgPath = fileName.toString();
+                    mainImgPaths.add(mainImgPath);
+                });
+
+            }
+
+            if (s.contains(ImgType.DETAIL.name())) {
+                multipartFiles.forEach(multipartFile -> {
+                    StringBuilder fileName = new StringBuilder();
+                    createFile(fileName, multipartFile);
+                    String detailImgPath = fileName.toString();
+                    detailImgPaths.add(detailImgPath);
+                });
+
+            }
+
+        }
 
         String[] multiCategoryValues = itemDto.getMultiCategoryValues();
         List<Category> categories = new ArrayList<>();
@@ -50,7 +79,10 @@ public class ItemService {
 
         Item item = itemDto.toItemWithImg(itemDto.getNameKor(), itemDto.getNameEng(),
                 itemDto.getPrice(), itemDto.getStockQuantity(),
-                itemDto.getDescription(), itemDto.getCapacity(), categories, mainImgPath, detailImgPath);
+                itemDto.getDescription(), itemDto.getCapacity(), categories, mainImgPaths, detailImgPaths);
+
+        itemRepository.save(item);
+
     }
 
     public List<ItemDto.ListView> findAll() {
@@ -62,21 +94,6 @@ public class ItemService {
         }).collect(Collectors.toList());
 
         return result;
-    }
-
-    private void createFileMain(StringBuilder mainFileName, MultipartFile mainImg) {
-        String originalFilename = mainImg.getOriginalFilename();
-        originalFilename = "main" + originalFilename;
-
-        Path fileNameAndPath = Paths.get(uploadDirectory, originalFilename);
-        mainFileName.append("main");
-        mainFileName.append(mainImg.getOriginalFilename() + " ");
-
-        try {
-            Files.write(fileNameAndPath, mainImg.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void createFile(StringBuilder fileName, MultipartFile img) {
