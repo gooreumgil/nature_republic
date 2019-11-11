@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "comments")
 @Getter
 @NoArgsConstructor
 public class Comment {

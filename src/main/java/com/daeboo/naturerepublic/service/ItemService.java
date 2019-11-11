@@ -27,47 +27,58 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
 
-    public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\image";
+    public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
     public void save(ItemDto.Create itemDto) {
 
-        Map<String, List<MultipartFile>> stringListMap = new HashMap<>();
+//        Map<String, List<MultipartFile>> stringListMap = new HashMap<>();
 
         List<MultipartFile> mainImg = itemDto.getMainImg();
         List<MultipartFile> detailImg = itemDto.getDetailImg();
 
-        stringListMap.put(ImgType.MAIN.name(), mainImg);
-        stringListMap.put(ImgType.DETAIL.name(), detailImg);
+//        stringListMap.put(ImgType.MAIN.name(), mainImg);
+//        stringListMap.put(ImgType.DETAIL.name(), detailImg);
 
         List<String> mainImgPaths = new ArrayList<>();
         List<String> detailImgPaths = new ArrayList<>();
 
-        for (Map.Entry<String, List<MultipartFile>> entry : stringListMap.entrySet()) {
+        mainImg.forEach(img -> {
+            StringBuilder fileName = new StringBuilder();
+            createFile(fileName, img);
+            String mainImgPath = fileName.toString();
+            mainImgPaths.add(mainImgPath);
+        });
 
-            String s = entry.getKey();
-            List<MultipartFile> multipartFiles = entry.getValue();
+        detailImg.forEach(img -> {
+            StringBuilder fileName = new StringBuilder();
+            createFile(fileName, img);
+            String detailImgPath = fileName.toString();
+            detailImgPaths.add(detailImgPath);
+        });
 
-            if (s.contains(ImgType.MAIN.name())) {
-                multipartFiles.forEach(multipartFile -> {
-                    StringBuilder fileName = new StringBuilder();
-                    createFile(fileName, multipartFile);
-                    String mainImgPath = fileName.toString();
-                    mainImgPaths.add(mainImgPath);
-                });
-
-            }
-
-            if (s.contains(ImgType.DETAIL.name())) {
-                multipartFiles.forEach(multipartFile -> {
-                    StringBuilder fileName = new StringBuilder();
-                    createFile(fileName, multipartFile);
-                    String detailImgPath = fileName.toString();
-                    detailImgPaths.add(detailImgPath);
-                });
-
-            }
-
-        }
+//        for (Map.Entry<String, List<MultipartFile>> entry : stringListMap.entrySet()) {
+//
+//            String s = entry.getKey();
+//            List<MultipartFile> multipartFiles = entry.getValue();
+//
+//            if (s.contains(ImgType.MAIN.name())) {
+//                multipartFiles.forEach(multipartFile -> {
+//                    StringBuilder fileName = new StringBuilder();
+//                    createFile(fileName, multipartFile);
+//                    String mainImgPath = fileName.toString();
+//                    mainImgPaths.add(mainImgPath);
+//                });
+//            }
+//
+//            if (s.contains(ImgType.DETAIL.name())) {
+//                multipartFiles.forEach(multipartFile -> {
+//                    StringBuilder fileName = new StringBuilder();
+//                    createFile(fileName, multipartFile);
+//                    String detailImgPath = fileName.toString();
+//                    detailImgPaths.add(detailImgPath);
+//                });
+//            }
+//        }
 
         String[] multiCategoryValues = itemDto.getMultiCategoryValues();
         List<Category> categories = new ArrayList<>();

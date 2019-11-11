@@ -9,15 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ItemDto {
 
     @Getter @Setter
+    @NoArgsConstructor
     public static class Create {
 
         private String nameKor;
@@ -27,13 +25,8 @@ public class ItemDto {
         private String description;
         private Integer capacity;
         private String[] multiCategoryValues;
-//        private Map<String, List<MultipartFile>> imgs = new HashMap<>();
         private List<MultipartFile> mainImg;
         private List<MultipartFile> detailImg;
-
-        public Item toItem(String nameKor, String nameEng, int price, int stockQuantity, String description, int capacity, List<Category> categories) {
-            return Item.createItem(nameKor, nameEng, price, stockQuantity, description, capacity, categories);
-        }
 
         public Item toItemWithImg(
                 String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
@@ -69,7 +62,7 @@ public class ItemDto {
             this.capacity = item.getCapacity();
             item.getItemSrcs().stream().forEach(itemSrc -> {
 
-                if (itemSrc.getType().equals(ImgType.MAIN)) {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     this.mainSrcs.add(itemSrc);
                 } else {
                     this.detailSrcs.add(itemSrc);
@@ -77,5 +70,82 @@ public class ItemDto {
             });
         }
     }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class PopularPreview {
+
+        private Long id;
+        private String nameKor;
+        private int price;
+        private int discountPrice;
+        private int likes;
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+
+        public PopularPreview(Item item) {
+            this.id = item.getId();
+            this.nameKor = item.getNameKor();
+            this.price = item.getPrice();
+            this.discountPrice = (int) (item.getPrice() * 0.7);
+            this.likes = item.getLikes();
+            item.getItemSrcs().forEach(itemSrc -> {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainSrcs.add(itemSrc);
+                }
+            });
+        }
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class LatestPreview {
+
+        private Long id;
+        private String nameKor;
+        private int price;
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+
+        public LatestPreview(Item item) {
+            this.id = item.getId();
+            this.nameKor = item.getNameKor();
+            this.price = item.getPrice();
+            item.getItemSrcs().forEach(itemSrc -> {
+                if(itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainSrcs.add(itemSrc);
+                }
+            });
+        }
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class CategoryList {
+
+        private Long id;
+        private String nameKor;
+        private String description;
+        private int price;
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+
+        public CategoryList(Item item) {
+            this.id = item.getId();
+            this.nameKor = item.getNameKor();
+            this.description = item.getDescription();
+            this.price = item.getPrice();
+            item.getItemSrcs().forEach(itemSrc -> {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainSrcs.add(itemSrc);
+                }
+            });
+        }
+    }
+
+
+
+
+
+
+
+
 
 }

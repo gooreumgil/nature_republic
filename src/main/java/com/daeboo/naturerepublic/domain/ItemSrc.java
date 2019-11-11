@@ -9,18 +9,19 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Table(name = "item_src")
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class ItemSrc {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "item_src_id")
     private Long id;
 
-    private String key;
+    private String s3Key;
 
     @Enumerated(EnumType.STRING)
-    private ImgType type;
+    private ImgType imgType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
@@ -28,8 +29,8 @@ public class ItemSrc {
 
     public static ItemSrc createItemSrcMain(String mainPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
-        itemSrc.key = mainPath;
-        itemSrc.type = ImgType.MAIN;
+        itemSrc.s3Key = mainPath;
+        itemSrc.imgType = ImgType.MAIN;
         itemSrc.item = item;
 
         return itemSrc;
@@ -37,11 +38,11 @@ public class ItemSrc {
 
     public static ItemSrc createItemSrcDetail(String imgPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
-        itemSrc.key = imgPath;
+        itemSrc.s3Key = imgPath;
         if (imgPath.contains("main")) {
-            itemSrc.type = ImgType.MAIN;
+            itemSrc.imgType = ImgType.MAIN;
         } else {
-            itemSrc.type = ImgType.DETAIL;
+            itemSrc.imgType = ImgType.DETAIL;
         }
 
         itemSrc.item = item;

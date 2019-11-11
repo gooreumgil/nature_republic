@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/index.css}">
     <header class="head">
         <nav>
             <a href="/" class="logo_a">
@@ -12,7 +13,7 @@
                     <a href="#">브랜드</a>
                 </li>
                 <li>
-                    <a href="/list">상품</a>
+                    <a href="/item">상품</a>
                 </li>
                 <li>
                     <a href="#">이벤트</a>
@@ -77,55 +78,56 @@
             <p class="sub_font">네이처리퍼블릭에서 가장 사랑받는 제품들을 소개합니다.</p>
         </div>
         <ol class="clearfix">
-            <li class="col-3">
+            <li class="col-3" th:each="popular : ${populars}">
                 <div class="out_box">
                     <div class='inner-box'>
                         <a href="#">
-                            <img src="/image/best/best05.png">
+                            <img th:src="@{${'/upload/' + popular.mainSrcs.get(0).s3Key}}">
                             <div class="best_hover"></div>
                         </a>
                     </div>
-                    <h3>프레시 그린티 70 에멀젼</h3>
-                    <p><span class="won">9,900</span>&nbsp; <span id=id_color>6,930</span> 원</p>
+                    <h3 th:text="*{popular.nameKor}"></h3>
+                    <p><span class="won" th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}"></span>&nbsp;
+                        <span id=id_color th:text="${#numbers.formatInteger(popular.discountPrice, 3, 'COMMA')}"></span> 원</p>
                 </div>
             </li>
 
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/best/best06.png">
-                            <div class="best_hover"></div>
-                        </a>
-                    </div>
-                    <h3>화이트 비타 퍼스트 에센스</h3>
-                    <p><span class="won">23,900</span>&nbsp; <span id=id_color>14,340</span> 원</p>
-                </div>
-            </li>
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/best/best07.png">
-                            <div class="best_hover"></div>
-                        </a>
-                    </div>
-                    <h3>폴리네시아 라군워터 스킨</h3>
-                    <p><span class="won"></span><span id=id_color>9,900</span> 원</p>
-                </div>
-            </li>
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/best/best08.png">
-                            <div class="best_hover"></div>
-                        </a>
-                    </div>
-                    <h3>프레시 그린티 70 에멀젼</h3>
-                    <p><span class="won">31,000</span>&nbsp; <span id=id_color>15,500</span> 원</p>
-                </div>
-            </li>
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/best/best06.png">-->
+<!--                            <div class="best_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <h3>화이트 비타 퍼스트 에센스</h3>-->
+<!--                    <p><span class="won">23,900</span>&nbsp; <span id=id_color>14,340</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/best/best07.png">-->
+<!--                            <div class="best_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <h3>폴리네시아 라군워터 스킨</h3>-->
+<!--                    <p><span class="won"></span><span id=id_color>9,900</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/best/best08.png">-->
+<!--                            <div class="best_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <h3>프레시 그린티 70 에멀젼</h3>-->
+<!--                    <p><span class="won">31,000</span>&nbsp; <span id=id_color>15,500</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
         </ol>
     </section>
 
@@ -138,54 +140,54 @@
         </div>
 
         <ol class="clearfix">
-            <li class="col-3">
+            <li class="col-3" th:each="latestItem : ${latestItems}">
                 <div class="out_box">
                     <div class='inner-box'>
                         <a href="#">
-                            <img src="/image/new_arrival/new5.png">
+                            <img th:src="@{${'/upload/' + latestItem.mainSrcs.get(0).s3Key}}">
                             <div class="new_hover"></div>
                         </a>
                     </div>
-                    <h3>아이슬란드 브라이트닝 수분크림 &amp; 퍼스트 수분에센스</h3>
-                    <p><span class="won"></span><span id=id_color>29,900</span> 원</p>
+                    <h3 th:text="*{latestItem.nameKor}"></h3>
+                    <p><span class="won"></span><span id=id_color th:text="${#numbers.formatInteger(latestItem.price, 3, 'COMMA')}"></span> 원</p>
                 </div>
             </li>
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/new_arrival/new6.png">
-                            <div class="new_hover"></div>
-                        </a>
-                    </div>
-                    <h3>비타민 비파이브 에센스</h3>
-                    <p><span class="won"></span><span id=id_color>24,900</span> 원</p>
-                </div>
-            </li>
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/new_arrival/new7.png">
-                            <div class="new_hover"></div>
-                        </a>
-                    </div>
-                        <h3>프로방스 인텐스커버 3in1 스트로빙 파운데이션</h3>
-                        <p><span class="won"></span><span id=id_color>19,120</span> 원</p>
-                </div>
-            </li>
-            <li class="col-3">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a href="#">
-                            <img src="/image/new_arrival/new8.png">
-                            <div class="new_hover"></div>
-                        </a>
-                    </div>
-                    <h3>시티케어 마린워터 토너</h3>
-                    <p><span class="won"></span><span id=id_color>14,900</span> 원</p>
-                </div>
-            </li>
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/new_arrival/new6.png">-->
+<!--                            <div class="new_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <h3>비타민 비파이브 에센스</h3>-->
+<!--                    <p><span class="won"></span><span id=id_color>24,900</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/new_arrival/new7.png">-->
+<!--                            <div class="new_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                        <h3>프로방스 인텐스커버 3in1 스트로빙 파운데이션</h3>-->
+<!--                        <p><span class="won"></span><span id=id_color>19,120</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-3">-->
+<!--                <div class="out_box">-->
+<!--                    <div class='inner-box'>-->
+<!--                        <a href="#">-->
+<!--                            <img src="/image/new_arrival/new8.png">-->
+<!--                            <div class="new_hover"></div>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <h3>시티케어 마린워터 토너</h3>-->
+<!--                    <p><span class="won"></span><span id=id_color>14,900</span> 원</p>-->
+<!--                </div>-->
+<!--            </li>-->
         </ol>
     </section>
 

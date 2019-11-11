@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Item {
     private int likes;
     private String description;
     private int capacity;
+    private LocalDateTime registerAt;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<CategoryItem> categoryItems = new ArrayList<>();
@@ -67,6 +69,7 @@ public class Item {
         item.likes = 0;
         item.description = description;
         item.capacity = capacity;
+        item.registerAt = LocalDateTime.now();
         item.itemSrcs = new ArrayList<>();
 
         mainImgPaths.stream().forEach(mainPath -> {
