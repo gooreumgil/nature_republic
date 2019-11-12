@@ -16,6 +16,8 @@ public class CategoryItem {
     @Column(name = "category_item_id")
     private Long id;
 
+    private String categoryName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
@@ -27,6 +29,7 @@ public class CategoryItem {
     public static CategoryItem createCategoryItem(Category category, Item item) {
         CategoryItem categoryItem = new CategoryItem();
         categoryItem.category = category;
+        categoryItem.categoryName = category.getName();
         categoryItem.item = item;
 //        categoryItem.category = category;
 
@@ -41,6 +44,7 @@ public class CategoryItem {
 
     public void setCategory(Category category) {
         this.category = category;
+        this.categoryName = category.getName();
         category.addCategoryItem(this);
     }
 }

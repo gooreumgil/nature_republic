@@ -26,12 +26,12 @@
                 <div class="out_box">
                     <div class='inner-box'>
                         <a class='be_item' href="#">
-                            <img th:src="@{${'/upload/' + popular.mainSrcs.get(0).s3Key}}">
+                            <img th:src="@{${'/upload/' + popular.itemDto.mainSrcs.get(0).s3Key}}">
                             <div class="best_hover"></div>
                         </a>
                     </div>
-                    <h3 th:text="*{popular.nameKor}"></h3>
-                    <p class="d"><span class="won"></span><span id="id_color" th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}">13,900</span> 원</p>
+                    <h3 th:text="*{popular.itemDto.nameKor}"></h3>
+                    <p class="d"><span class="won"></span><span id="id_color" th:text="${#numbers.formatInteger(popular.itemDto.price, 3, 'COMMA')}">13,900</span> 원</p>
                 </div>
             </li>
 
@@ -40,11 +40,8 @@
 
     <nav class="category_nav">
         <ul class="clearfix category_wrapper">
-            <li>
-                <a href="#">전체</a>
-            </li>
             <li th:each="categoty : ${categories}">
-                <a href="#" th:utext="*{categoty.name}"></a>
+                <a th:href="@{${'/item?currentCategory=' + categoty.name}}" th:utext="*{categoty.name}"></a>
             </li>
         </ul>
     </nav>
@@ -84,4 +81,8 @@
 
     <div th:replace="partials/bottom :: bottom"/>
 
-    <footer th:replace="partials/footer :: footer"/>
+<footer th:replace="partials/footer :: footer"/>
+
+<script type="text/javascript">
+
+</script>

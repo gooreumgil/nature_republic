@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.Category;
+import com.daeboo.naturerepublic.domain.CategoryItem;
 import com.daeboo.naturerepublic.domain.ImgType;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
@@ -17,10 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,11 +119,12 @@ public class ItemService {
         }
     }
 
-    public Page<Item> findAll(PageRequest pageRequest) {
-        return itemRepository.findAll(pageRequest);
+    public Page<Item> findAll(Pageable pageable) {
+        return itemRepository.findAll(pageable);
     }
 
     public List<Item> findAllWithImg(Pageable pageable) {
         return itemRepository.findAllWithImg(pageable);
     }
+
 }
