@@ -1,0 +1,67 @@
+*{
+    letter-spacing: -.025em;
+}
+
+/*===================
+	  BOTTOM
+===================*/
+
+.bottom {
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #efefef;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.bottom ul {
+    display: block;
+}
+
+.bottom li {
+    display: inline-block;
+}
+
+.bottom a {
+    font-size: 14px;
+    color: #555;
+    font-weight: 300;
+}
+
+.bottom p {
+    display: inline-block;
+    color: #555;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/*===================
+	  FOOTER
+===================*/
+
+footer {
+    font-family: 'Noto Sans KR', sans-serif;
+    height: 309px;
+    max-width: 1260px;
+    margin: auto;
+    text-align: center;
+}
+
+footer p {
+    padding-top: 40px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.8;
+}
+
+footer img {
+    display: block;
+    margin: auto;
+}
+
+footer .a {
+    margin-top: 42px;
+    margin-bottom: 25px;
+}

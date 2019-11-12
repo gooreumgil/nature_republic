@@ -23,12 +23,14 @@ public class WelcomeController {
     @GetMapping("/")
     public String welcome(Model model) {
 
+        // Best Items
         Page<Item> populars = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likes"));
 
         List<ItemDto.PopularPreview> popularResult = populars.stream().map(item -> {
             return new ItemDto.PopularPreview(item);
         }).collect(Collectors.toList());
 
+        // Latest Items
         Page<Item> latestItems = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "registerAt"));
 
         List<ItemDto.LatestPreview> latestResult = latestItems.stream().map(item -> {
@@ -39,7 +41,11 @@ public class WelcomeController {
         model.addAttribute("latestItems", latestResult);
 
         return "welcome/index";
+    }
 
+    @GetMapping("/brand")
+    public String brand() {
+        return "brand/index";
     }
 
 }

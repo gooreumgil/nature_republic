@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
+<style>
+    .head {
+        box-shadow: 0 0 0 0 !important;
+    }
+</style>
 <link rel="stylesheet" th:href="@{/css/index.css}">
+
     <header class="head">
         <nav>
             <a href="/" class="logo_a">
@@ -10,7 +16,7 @@
             </a>
             <ul class="menu">
                 <li>
-                    <a href="#">브랜드</a>
+                    <a href="/brand">브랜드</a>
                 </li>
                 <li>
                     <a href="/item">상품</a>
@@ -36,10 +42,10 @@
                     <a href="#">
                         <div class="cart_inner">
                             <span class="helper"></span>
-                            <img src="/image/cart_fullback.png" class='cart-img'>
+                            <img src="/image/cart_fullback.png">
                             <div class="cart_number">
-                                <img src="/image/cart_number_fullback.png" class='cart-number'>
-                                <p id='p-cart-count'>0</p>
+                                <img src="/image/cart_number_fullback.png">
+                                <p>0</p>
                             </div>
                         </div>
                     </a>
@@ -293,14 +299,7 @@
 
     <!-- BOTTOM -->
 
-    <div class="bottom">
-        <ul>
-            <li><a href="#">이용약관</a></li><p>│</p>
-            <li><a href="#">개인정보 취급방침</a></li><p>│</p>
-            <li><a href="#">가맹점 문의</a></li><p>│</p>
-            <li><a href="#">본사 정품 판매처</a></li><p>│</p>
-            <li><a href="#">채용안내</a></li>
-        </ul>
-    </div>
+    <div th:replace="partials/bottom :: bottom"/>
+
 
 <footer th:replace="partials/footer :: footer"/>

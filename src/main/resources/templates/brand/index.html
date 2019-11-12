@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<style>
+    .main_font {
+        margin-bottom: 10px;
+    }
+    .bottom {
+        border-top: 1px solid #efefef;
+    }
+</style>
+<link rel="stylesheet" th:href="@{/css/brand.css}">
+
+<header th:replace="partials/bodyHeader :: bodyHeader"/>
+
+
+<aside class="banner">
+    <div class="banner__inner">
+        <h1>BRAND</h1>
+        <h3>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</h3>
+        <p>
+            우리는 전세계의 청정 자연에서 자연이 주는 선물을 찾아서 가장 자연<br>
+            그대로에 가까운 상태로 고객들에게 제공하는 것을 목표로 합니다.
+        </p>
+    </div>
+</aside>
+
+<section class="container">
+
+    <h2 class="main_font">Our Promise</h2>
+    <h3 class="sub_font">네이처리퍼블릭은 자연의 완벽함을 믿습니다.</h3>
+
+    <ul class="clearfix">
+        <li class="col-6 img">
+            <div class="img-box">
+                <img th:src="@{/image/brand/about_13.gif}" alt="">
+            </div>
+        </li>
+        <li class="col-6 text right">
+            <div class="text-box">
+                <h4>Pure Nature</h4>
+                <h3>오직 자연 그대로</h3>
+                <p>
+                    네이처리퍼블릭은 자연의 완벽함을 믿습니다.<br>
+                    우리는 전세계의 청정 자연에서 자연이 주는 선물을 찾아서 가장 자연<br>
+                    그대로에 가까운 상태로 고객들에게 제공하는 것을 목표로 합니다.
+                </p>
+            </div>
+        </li>
+
+        <li class="col-6 text">
+            <div class="text-box">
+                <h4>For Everyone</h4>
+                <h3>누구나 누릴 수 있도록</h3>
+                <p>
+                    네이처리퍼블릭은 늘 고객의 가까이에서 품질과 가격의 균형을 맞춘<br>
+                    합리적인 제품을 제안합니다.<br>
+                    전세계인 누구나 네이처리퍼블릭의 제품과 브랜드를 통해<br>
+                    자연의 선물을 누리게 할 수 있드록 하기 위함입니다.
+                </p>
+            </div>
+        </li>
+        <li class="col-6 img">
+            <div class="img-box">
+                <img th:src="@{/image/brand/about_17.gif}" alt="">
+            </div>
+        </li>
+
+        <li class="col-6 img">
+            <div class="img-box">
+                <img th:src="@{/image/brand/about_29.gif}" alt="">
+            </div>
+        </li>
+        <li class="col-6 text right">
+            <div class="text-box">
+                <h4>Originality</h4>
+                <h3>앞선 감각과 확신으로</h3>
+                <p>
+                    우리는 세계의 청정자연을 탐구하고 전 세계인을 고객으로 대하는<br>
+                    일은 우리에게 늘 새로운 영감을 줍니다.<br>
+                    우리는 자연주의 화장품의 선구자라는 자부심으로 다른 누군가를<br>
+                    모방하지 않고 오직 자연을 닮은 제품을 연구합니다.
+                </p>
+            </div>
+        </li>
+
+        <li class="col-6 text">
+            <div class="img-box">
+                <h4>Coummunity</h4>
+                <h3>함께 소통하며</h3>
+                <p>
+                    네이처리퍼블릭은 우리의 고객 그리고 파트너들과 늘 대화 하기를<br>
+                    즐기고 이들과 즐거움과 이로움을 함께 나누기 위해 제품과<br>
+                    매장에서의 경험을 끊임없이 개선합니다.
+                </p>
+            </div>
+        </li>
+        <li class="col-6 img">
+            <div class="img-box">
+                <img th:src="@{/image/brand/about_33.gif}" alt="">
+            </div>
+        </li>
+    </ul>
+
+</section>
+
+<div th:replace="partials/bottom :: bottom"/>
+
+<footer th:replace="partials/footer :: footer"/>
