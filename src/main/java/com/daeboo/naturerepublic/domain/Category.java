@@ -35,17 +35,21 @@ public class Category {
         String categoryName = category.getName();
 
         if (categoryName.contains(" ")) {
-            StringBuilder stringBuilder = new StringBuilder();
+//            StringBuilder stringBuilder = new StringBuilder();
+//
+//            String[] split = categoryName.split("\\s");
+//            stringBuilder.append(split[0]);
+//            stringBuilder.append('\n');
+//            stringBuilder.append(split[1]);
+//
+//            String s = stringBuilder.toString();
+//            String replace = StringUtils.replace(s, "\n", "<br/>");
+            String replace = StringUtils.replace(categoryName, " ", "<br/>");
 
-            String[] split = categoryName.split("\\s");
-            stringBuilder.append(split[0]);
-            stringBuilder.append('\n');
-            stringBuilder.append(split[1]);
-
-            String s = stringBuilder.toString();
-            String replace = StringUtils.replace(s, "\n", "<br/>");
             newCategory.name = replace;
-        } else {
+
+        }
+        else {
             newCategory.name = categoryName;
         }
         return newCategory;

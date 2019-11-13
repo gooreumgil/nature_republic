@@ -11,12 +11,12 @@ public class CategoryItemDto {
 
     @Getter @Setter
     @NoArgsConstructor
-    public static class BestViews {
+    public static class ListView {
         private Long id;
         private String categoryName;
         private ItemDto.CategoryList itemDto;
 
-        public BestViews(CategoryItem categoryItem) {
+        public ListView(CategoryItem categoryItem) {
             this.id = categoryItem.getId();
             this.categoryName = categoryItem.getCategoryName();
             itemDto = new ItemDto.CategoryList(categoryItem.getItem());

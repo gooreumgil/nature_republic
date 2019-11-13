@@ -41,7 +41,8 @@
     <nav class="category_nav">
         <ul class="clearfix category_wrapper">
             <li th:each="categoty : ${categories}">
-                <a th:href="@{${'/item?currentCategory=' + categoty.name}}" th:utext="*{categoty.name}"></a>
+                <a th:href="@{/item(currentCategory=${categoty.name})}" th:utext="*{categoty.name}"></a>
+<!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
             </li>
         </ul>
     </nav>
@@ -50,18 +51,20 @@
 
     <section class="skin_care">
         <div class="skin_top">
-            <p>전체 <span id="id_color">130개</span>의 제품이 있습니다 [<span id="id_color">12</span>]</p>
+            <p>
+                전체 <span id="id_color" th:text="${'(' + itemCount +')'}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.size()}">12</span>]
+            </p>
         </div>
         <ul class="skn_list clearfix">
-            <li class="col-3" th:each="item : ${items}">
+            <li class="col-3" th:each="categoryItem : ${categoryItems}">
                 <div class="img-box">
                     <a href="#">
-                        <img th:src="@{${'/upload/' + item.mainSrcs.get(0).s3Key}}">
+                        <img th:src="@{${'/upload/' + categoryItem.itemDto.mainSrcs.get(0).s3Key}}">
                     </a>
                 </div>
-                <h3 class="a" th:text="*{item.nameKor}"></h3>
-                <p class="b" th:text="*{item.description}"></p>
-                <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span> 원</p>
+                <h3 class="a" th:text="*{categoryItem.itemDto.nameKor}"></h3>
+                <p class="b" th:text="*{categoryItem.itemDto.description}"></p>
+                <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(categoryItem.itemDto.price, 3, 'COMMA')}"></span> 원</p>
                 <div class="cart">
                     <img src="/image/list_img/list/cart.png">
                 </div>
@@ -69,7 +72,7 @@
         </ul>
         <div class="more">
             <div>
-                <a th:href="@{${'/item?page=0&sort=id&direction=DESC&size=' + moreView}}">
+                <a th:href="@{${'/item?page=0&direction=DESC&size=' + moreView}}">
                      <p>More</p>
                      <img src="/image/list_img/list/arrow.png">
                 </a>
@@ -83,6 +86,17 @@
 
 <footer th:replace="partials/footer :: footer"/>
 
+
 <script type="text/javascript">
 
+    function replace(inum) {
+        // var replaceName = encodeURIComponent(inum);
+        // if (inum.contains("&")) {
+        //     inum = inum.replace("&", "%26");
+        // }
+
+        // location.href="/item?currentCategory=" + inum;
+    }
+
 </script>
+
