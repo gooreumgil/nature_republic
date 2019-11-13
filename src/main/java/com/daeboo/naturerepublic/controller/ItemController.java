@@ -4,21 +4,20 @@ import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.domain.CategoryItem;
 import com.daeboo.naturerepublic.dto.CategoryDto;
 import com.daeboo.naturerepublic.dto.CategoryItemDto;
+import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import com.daeboo.naturerepublic.service.CategoryItemService;
 import com.daeboo.naturerepublic.service.CategoryService;
 import com.daeboo.naturerepublic.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,22 +46,16 @@ public class ItemController {
             currentCategory = "ALL";
         }
 
-        if (currentCategory.contains("<br/>")) {
-            String replace = StringUtils.replace(currentCategory, "<br/>", " ");
-            currentCategory = replace;
-        }
+//        if (currentCategory.contains("<br/>")) {
+//            String replace = StringUtils.replace(currentCategory, "<br/>", " ");
+//            currentCategory = replace;
+//        }
 
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("categories", result);
 
         // Category Best
-        Page<CategoryItem> bestItems = categoryItemService.findALLByCategoryName(currentCategory, PageRequest.of(0, 4), "likes");
-        List<CategoryItemDto.ListView> popularPreviews = bestItems.stream().map(categoryItem -> {
-            return new CategoryItemDto.ListView(categoryItem);
-        }).collect(Collectors.toList());
-
-        Page<CategoryItemDto.ListView> listViewPages = new PageImpl<>(popularPreviews, PageRequest.of(0, 4), popularPreviews.size());
-
+        Page<CategoryItemDto.ListView> listViewPages = categoryItemService.findALLByCategoryName(currentCategory, PageRequest.of(0, 4), "likes");
         model.addAttribute("populars", listViewPages);
 
 //        Page<Item> populars = itemService.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likes"));
@@ -78,25 +71,30 @@ public class ItemController {
         int itemCount = categoryItemService.countAllByCategoryName(currentCategory);
         model.addAttribute("itemCount", itemCount);
 
-        Page<CategoryItem> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable, soryBy);
-        List<CategoryItemDto.ListView> categoryItems = itemList.stream().map(categoryItem -> {
-            return new CategoryItemDto.ListView(categoryItem);
-        }).collect(Collectors.toList());
-
-        // dtoList -> Page
-        Page<CategoryItemDto.ListView> listViews = new PageImpl<>(categoryItems, pageable, categoryItems.size());
+        Page<CategoryItemDto.ListView> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable, soryBy);
 
 //        List<Item> categoryItems = itemService.findAllWithImg(pageable);
 //        List<ItemDto.CategoryList> items = categoryItems.stream().map(item -> {
 //            return new ItemDto.CategoryList(item);
 //        }).collect(Collectors.toList());
 
-        int moreView = pageable.getPageSize() + 12;
+//        int moreView = pageable.getPageSize() + 12;
 
-        model.addAttribute("categoryItems", listViews);
-        model.addAttribute("moreView", moreView);
+        model.addAttribute("categoryItems", itemList);
+//        model.addAttribute("moreView", moreView);
 
         return "item/index";
+
+    }
+
+    @GetMapping("/detail")
+    public String itemDetail(Long id, String currentCategory, Model model) {
+
+        ItemDto.Detail findItem = itemService.findById(id);
+        model.addAttribute("item", findItem);
+        model.addAttribute("currentCategory", currentCategory);
+
+        return "item/detail";
 
     }
 

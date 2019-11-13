@@ -1,16 +1,15 @@
 package com.daeboo.naturerepublic.dto;
 
-import com.daeboo.naturerepublic.domain.Category;
-import com.daeboo.naturerepublic.domain.ImgType;
-import com.daeboo.naturerepublic.domain.Item;
-import com.daeboo.naturerepublic.domain.ItemSrc;
+import com.daeboo.naturerepublic.domain.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemDto {
 
@@ -137,15 +136,51 @@ public class ItemDto {
                     mainSrcs.add(itemSrc);
                 }
             });
+
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Detail {
 
+        private Long id;
+        private String nameKor;
+        private String nameEng;
+        private int price;
+        private int likes;
+        private String description;
+        private int capacity;
+        private String mainCategory;
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+        private List<ItemSrc> detailSrcs = new ArrayList<>();
+        private List<CommentDto.ItemReview> comments = new ArrayList<>();
 
+        public Detail(Item item) {
+            this.id = item.getId();
+            this.nameKor = item.getNameKor();
+            this.nameEng = item.getNameEng();
+            this.price = item.getPrice();
+            this.likes = item.getLikes();
+            this.description = item.getDescription();
+            this.capacity = item.getCapacity();
+            this.mainCategory = item.getCategoryItems().get(0).getCategoryName();
 
+            List<ItemSrc> itemSrcs = item.getItemSrcs();
 
+            itemSrcs.stream().forEach(itemSrc -> {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainSrcs.add(itemSrc);
+                } else {
+                    detailSrcs.add(itemSrc);
+                }
+            });
 
+            List<Comment> comments = item.getComments();
+            this.comments = comments.stream().map(comment -> {
+                return new CommentDto.ItemReview(comment);
+            }).collect(Collectors.toList());
 
-
-
+        }
+    }
 }

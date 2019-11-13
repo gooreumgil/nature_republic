@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface CategoryItemRepository extends JpaRepository<CategoryItem, Long> {
 
     @Query(value = "select ci from CategoryItem ci join fetch ci.item i where ci.categoryName = :category order by :sortBy desc",
-            countQuery = "select count(ci) from CategoryItem ci")
+            countQuery = "select count(i) from Item i")
     Page<CategoryItem> findALLByCategoryName(@Param("category") String category, Pageable pageable, @Param("sortBy") String sortBy);
 
     int countAllByCategoryName(String currentCategory);

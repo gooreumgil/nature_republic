@@ -37,14 +37,22 @@ li {
     margin: 0 auto;
 }
 
-.product_view .col-7 {
-    height: 635px;
-    position: relative;
-    overflow: hidden;
+.product_view .thumbnail img.main-thumb {
+    width: 100%;
 }
 
-.product_view .col-7 img {
-    width: 100%;
+.product_view .col-7 {
+    height: 645px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product_view .col-7 img.main-img {
+    width: auto;
 }
 
 thumb_wrap {
@@ -59,7 +67,9 @@ thumb_wrap {
 }
 .col-7 .thumbnail a {
     display: block;
-    height: 71px;
+    height: 80px;
+    width: 72px;
+    overflow: hidden;
 }
 
 .thumbnail .thumb_li {

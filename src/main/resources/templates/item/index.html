@@ -18,14 +18,15 @@
 
     <section class="best">
         <div class="best_title">
-            <h2 class="main_font">Category Product</h2>
-            <p class="sub_font">네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
+            <h2 class="main_font">Category Best</h2>
+            <p class="sub_font"><span th:text="${currentCategory.equals('ALL') ? '전체' : currentCategory}"></span> 카테고리 상품입니다</p>
         </div>
         <ol class="best_item clearfix">
             <li class="col-3" th:each="popular : ${populars}">
                 <div class="out_box">
                     <div class='inner-box'>
-                        <a class='be_item' href="#">
+<!--                        <a class='be_item' th:href="@{/item/detail/{id}(id=*{popular.itemDto.id})}">-->
+                        <a class='be_item' th:href="@{/item/detail(id=*{popular.itemDto.id}, currentCategory=${currentCategory})}">
                             <img th:src="@{${'/upload/' + popular.itemDto.mainSrcs.get(0).s3Key}}">
                             <div class="best_hover"></div>
                         </a>
@@ -41,10 +42,11 @@
     <nav class="category_nav">
         <ul class="clearfix category_wrapper">
             <li th:each="categoty : ${categories}">
-<!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
+                <!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
                 <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active"
-                   th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}"></a>
-<!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
+                   th:href="@{/item(currentCategory=${categoty.categoryName})}"
+                   th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}"></a>
+                <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
             </li>
         </ul>
     </nav>
@@ -74,7 +76,9 @@
         </ul>
         <div class="more">
             <div>
-                <a th:href="@{${'/item?page=0&direction=DESC&size=' + moreView}}">
+<!--                <a th:href="@{${'/item?page=0&direction=DESC&size=' + moreView}}">-->
+                <a th:if="${categoryItems.totalElements >= categoryItems.getSize()}"
+                   th:href="@{/item(page=0, direction=DESC, size=${categoryItems.size + categoryItems.size}, currentCategory=${currentCategory})}">
                      <p>More</p>
                      <img src="/image/list_img/list/arrow.png">
                 </a>

@@ -119,7 +119,28 @@ public class ItemService {
         }
     }
 
+    public ItemDto.Detail findById(Long id) {
+
+        return itemRepository.findById(id).map(item -> {
+            return new ItemDto.Detail(item);
+        }).orElseThrow(()-> new RuntimeException("존재하지 않는 아이디입니다."));
+
+    }
+
     public void deleteById(Long id) {
         itemRepository.deleteById(id);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

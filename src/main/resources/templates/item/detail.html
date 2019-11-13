@@ -10,39 +10,40 @@
     <section class="product">
         <ul class="product_view clearfix">
             <li class="col-7 left">
-                    <img src="/image/detail_img/detail_1.png">
+<!--                    <img src="/image/detail_img/detail_1.png">-->
+                    <img th:src="@{'/upload/' + ${item.mainSrcs.get(0).s3Key}}" class="main-img">
                 <div class="thumbnail">
                     <ul class="thumb_wrap clearfix">
-                        <li class="thumb_li">
-                            <a href="#">
-                                <img src="/image/detail_img/thumbnail_1.png">
-                            </a>
+                        <li class="thumb_li" th:each="itemsrc : ${item.mainSrcs}">
+<!--                            <a href="#">-->
+<!--                                <img th:src="@{'/upload/' + ${itemsrc.s3Key}}" alt="" class="main-thumb">-->
+<!--                            </a>-->
                         </li >
-                        <li class="thumb_li">
-                            <a href="#">
-                                <img src="/image/detail_img/thumbnail_2.png">
-                            </a>
-                        </li>
-                        <li class="thumb_li">
-                            <a href="#">
-                                <img src="/image/detail_img/thumbnail_3.png">
-                            </a>
-                        </li>
+<!--                        <li class="thumb_li">-->
+<!--                            <a href="#">-->
+<!--                                <img src="/image/detail_img/thumbnail_2.png">-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li class="thumb_li">-->
+<!--                            <a href="#">-->
+<!--                                <img src="/image/detail_img/thumbnail_3.png">-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </div>
             </li>
             <li class="col-5 right">
                 <nav class="top_nav">
-                    <p>Product</p> &nbsp;<img src="/image/detail_img/arrow.png"> &nbsp;<p>Skin Care</p>
+                    <p>Product</p> &nbsp;<img src="/image/detail_img/arrow.png"> &nbsp;<p th:text="${currentCategory.equals('ALL') ? item.mainCategory : currentCategory}"></p>
                 </nav>
                 <div class="product_sub">
-                    <h2>아이슬란드 퍼밍 수분크림</h2>
-                    <h3>Iceland firming watery cream</h3>
-                    <p>수분을 뛰어넘어 멀티 보습을 선사하고 피부 베리어 기능을 강화시켜주며<br> 생기와 탄력을 부여해주는 쫀쫀한 사용감의 수분크림</p>
+                    <h2 th:text="${item.nameKor}"></h2>
+                    <h3 th:text="${item.nameEng}">Iceland firming watery cream</h3>
+                    <p th:text="${item.description}"></p>
                 </div>
                 <div class="price">
-                    <p class="a">판매가</p><p><span>24,900</span> 원</p><br>
-                    <p class="a">할인가</p><p><span class="won" id="id_color">19,200</span> 원</p>
+                    <p class="a">판매가</p><p><span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span> 원</p><br>
+                    <p class="a">할인가</p><p><span class="won" id="id_color" th:text="${#numbers.formatInteger(item.price*0.8, 3, 'COMMA')}"></span> 원</p>
                 </div>
 
                 <div class="info">
@@ -50,12 +51,12 @@
                         <p>용량</p><br><p>포인트</p>
                     </div>
                     <div class="b">
-                        <p>50 ml</p><br><p>597 point</p>
+                        <p th:text="${item.capacity}">50 ml</p><br><p th:text="${#numbers.formatInteger(item.price*1/10, 3, 'POINT')}">597 point</p>
                     </div>
                     </div>
                     <div class="number">
                         <p>수량<span>1</span></p>
-                        <p class="a">총 상품금액:<span class="total_price" id="id_color">19,200</span> 원</p>
+                        <p class="a">총 상품금액:<span class="total_price" id="id_color" th:text="${item.price}"></span> 원</p>
                     </div>
                     <div class="button">
                         <ul class="clearfix">
