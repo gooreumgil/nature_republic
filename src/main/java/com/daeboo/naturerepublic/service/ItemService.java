@@ -119,12 +119,7 @@ public class ItemService {
         }
     }
 
-    public Page<Item> findAll(Pageable pageable) {
-        return itemRepository.findAll(pageable);
+    public void deleteById(Long id) {
+        itemRepository.deleteById(id);
     }
-
-    public List<Item> findAllWithImg(Pageable pageable) {
-        return itemRepository.findAllWithImg(pageable);
-    }
-
 }

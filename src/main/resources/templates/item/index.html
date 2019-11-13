@@ -41,7 +41,9 @@
     <nav class="category_nav">
         <ul class="clearfix category_wrapper">
             <li th:each="categoty : ${categories}">
-                <a th:href="@{/item(currentCategory=${categoty.name})}" th:utext="*{categoty.name}"></a>
+<!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
+                <!--/*@thymesVar id="replace" type=""*/-->
+                <a th:classappend="*{#strings.replace(categoty.categoryName, '<br/>', ' ').equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>
 <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
             </li>
         </ul>
@@ -52,7 +54,7 @@
     <section class="skin_care">
         <div class="skin_top">
             <p>
-                전체 <span id="id_color" th:text="${'(' + itemCount +')'}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.size()}">12</span>]
+                전체 <span id="id_color" th:text="${itemCount}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.getNumberOfElements()}"></span>]
             </p>
         </div>
         <ul class="skn_list clearfix">
@@ -89,14 +91,9 @@
 
 <script type="text/javascript">
 
-    function replace(inum) {
-        // var replaceName = encodeURIComponent(inum);
-        // if (inum.contains("&")) {
-        //     inum = inum.replace("&", "%26");
-        // }
-
-        // location.href="/item?currentCategory=" + inum;
-    }
+    // function hover(a) {
+    //     a.setAttribute('class', 'on');
+    // }
 
 </script>
 

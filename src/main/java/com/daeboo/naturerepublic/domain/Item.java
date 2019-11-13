@@ -27,13 +27,13 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemSrc> itemSrcs;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item")
     private List<ItemTags> itemTags;
 
     // 간단 생성 메소드

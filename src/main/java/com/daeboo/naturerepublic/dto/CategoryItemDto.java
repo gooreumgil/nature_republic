@@ -6,6 +6,7 @@ import com.daeboo.naturerepublic.domain.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 public class CategoryItemDto {
 
