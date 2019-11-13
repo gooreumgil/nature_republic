@@ -42,8 +42,8 @@
         <ul class="clearfix category_wrapper">
             <li th:each="categoty : ${categories}">
 <!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
-                <!--/*@thymesVar id="replace" type=""*/-->
-                <a th:classappend="*{#strings.replace(categoty.categoryName, '<br/>', ' ').equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>
+                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active"
+                   th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}"></a>
 <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
             </li>
         </ul>

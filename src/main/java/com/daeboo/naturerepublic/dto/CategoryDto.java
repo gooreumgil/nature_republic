@@ -15,12 +15,13 @@ public class CategoryDto {
 
         public NewLine(Category category) {
             String name = category.getName();
-            if (name.contains(" ")) {
-                String replace = StringUtils.replace(name, " ", "<br/>");
-                this.categoryName = replace;
-            } else {
-                categoryName = name;
-            }
+//            if (name.contains(" ")) {
+//                String replace = StringUtils.replace(name, " ", "<br/>");
+//                this.categoryName = replace;
+//            } else {
+//            }
+            categoryName = name;
+
         }
     }
 
