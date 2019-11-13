@@ -62,7 +62,7 @@
         <ul class="skn_list clearfix">
             <li class="col-3" th:each="categoryItem : ${categoryItems}">
                 <div class="img-box">
-                    <a href="#">
+                    <a th:href="@{/item/detail(id=*{categoryItem.itemDto.id}, currentCategory=${currentCategory})}">
                         <img th:src="@{${'/upload/' + categoryItem.itemDto.mainSrcs.get(0).s3Key}}">
                     </a>
                 </div>

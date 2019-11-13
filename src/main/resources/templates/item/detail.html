@@ -149,7 +149,8 @@
         </div>
         <div class="item_info">
             <div>
-                <img src="/image/detail_img/product_info.png">
+<!--                <img src="/image/detail_img/product_info.png">-->
+                <img th:src="@{'/upload/' + ${item.detailSrcs.get(0).s3Key}}">
             </div>
         </div>
     </section>
