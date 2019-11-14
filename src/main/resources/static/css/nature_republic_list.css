@@ -200,8 +200,9 @@ li {
 	CATEGORY NAV
 ===================*/
 nav.category_nav {
-    margin-top: 80px;
-    margin-bottom: 100px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    margin-top: 20px;
 }
 
 nav.category_nav ul.category_wrapper {
@@ -222,9 +223,9 @@ nav.category_nav ul.category_wrapper li a {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 68px;
+    height: 100px;
     width: 100%;
-    border-radius: 100px;
+    border-radius: 10px;
     border: 1px solid #e0e0e0;
     color: #333;
     font-size: 15px;
@@ -248,7 +249,6 @@ nav.category_nav ul.category_wrapper li a.active {
     font-family: 'Noto Sans KR', sans-serif;
     text-align: left;
     position: relative;
-    margin-top: 150px;
 }
 
 .skin_top {
@@ -264,6 +264,15 @@ nav.category_nav ul.category_wrapper li a.active {
     font-size: 24px;
     font-weight: 300;
 
+}
+
+.skin_select {
+    position: absolute;
+    right: 0;
+    top: -45px;
+}
+
+.skin_select select option {
 }
 
 .skin_care .col-3 {

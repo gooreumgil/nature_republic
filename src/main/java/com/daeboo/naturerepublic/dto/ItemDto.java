@@ -124,6 +124,7 @@ public class ItemDto {
         private String nameKor;
         private String description;
         private int price;
+        private int likes;
         private List<ItemSrc> mainSrcs = new ArrayList<>();
 
         public CategoryList(Item item) {
@@ -131,6 +132,7 @@ public class ItemDto {
             this.nameKor = item.getNameKor();
             this.description = item.getDescription();
             this.price = item.getPrice();
+            this.likes = item.getLikes();
             item.getItemSrcs().forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
@@ -164,7 +166,14 @@ public class ItemDto {
             this.likes = item.getLikes();
             this.description = item.getDescription();
             this.capacity = item.getCapacity();
-            this.mainCategory = item.getCategoryItems().get(0).getCategoryName();
+            List<CategoryItem> categoryExcludeAll = item.getCategoryItems().stream().filter(categoryItem -> {
+                if (!categoryItem.getCategoryName().equals("ALL")) {
+                    return true;
+                }
+                return false;
+            }).collect(Collectors.toList());
+
+            this.mainCategory = categoryExcludeAll.get(0).getCategoryName();
 
             List<ItemSrc> itemSrcs = item.getItemSrcs();
 

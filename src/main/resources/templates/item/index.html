@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
+<style>
+    .head {
+        position: fixed !important;
+    }
+
+    .head.active {
+        box-shadow: 0 0 5px 0 #dcdcdc;
+    }
+
+    .top {
+        padding-top: 180px !important;
+    }
+</style>
 <link rel="stylesheet" th:href="@{/css/nature_republic_list.css}">
 
     <header th:replace="partials/bodyHeader :: bodyHeader"/>
@@ -54,37 +67,46 @@
     <!-- LIST -->
 
     <section class="skin_care">
-        <div class="skin_top">
-            <p>
-                전체 <span id="id_color" th:text="${itemCount}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.getNumberOfElements()}"></span>]
-            </p>
-        </div>
-        <ul class="skn_list clearfix">
-            <li class="col-3" th:each="categoryItem : ${categoryItems}">
-                <div class="img-box">
-                    <a th:href="@{/item/detail(id=*{categoryItem.itemDto.id}, currentCategory=${currentCategory})}">
-                        <img th:src="@{${'/upload/' + categoryItem.itemDto.mainSrcs.get(0).s3Key}}">
-                    </a>
-                </div>
-                <h3 class="a" th:text="*{categoryItem.itemDto.nameKor}"></h3>
-                <p class="b" th:text="*{categoryItem.itemDto.description}"></p>
-                <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(categoryItem.itemDto.price, 3, 'COMMA')}"></span> 원</p>
-                <div class="cart">
-                    <img src="/image/list_img/list/cart.png">
-                </div>
-            </li>
-        </ul>
-        <div class="more">
-            <div>
-<!--                <a th:href="@{${'/item?page=0&direction=DESC&size=' + moreView}}">-->
-                <a th:if="${categoryItems.totalElements >= categoryItems.getSize()}"
-                   th:href="@{/item(page=0, direction=DESC, size=${categoryItems.size + categoryItems.size}, currentCategory=${currentCategory})}">
-                     <p>More</p>
-                     <img src="/image/list_img/list/arrow.png">
+    <div class="skin_top">
+        <p>
+            전체 <span id="id_color" th:text="${itemCount}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.getNumberOfElements()}"></span>]
+        </p>
+    </div>
+    <div class="skin_select">
+        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.likes')}">인기상품순</a>
+        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.registerAt')}">등록일순</a>
+        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.price,ASC')}">낮은가격순</a>
+        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.price,DESC')}">높은가격순</a>
+    </div>
+    <ul class="skn_list clearfix">
+        <li class="col-3 item-list" th:each="categoryItem : ${categoryItems}">
+            <div class="img-box">
+                <a th:href="@{/item/detail(id=*{categoryItem.itemDto.id}, currentCategory=${currentCategory})}">
+                    <img th:src="@{${'/upload/' + categoryItem.itemDto.mainSrcs.get(0).s3Key}}">
                 </a>
             </div>
+            <h3 class="a" th:text="*{categoryItem.itemDto.nameKor}"></h3>
+            <p class="b" th:text="*{categoryItem.itemDto.description}"></p>
+            <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(categoryItem.itemDto.price, 3, 'COMMA')}"></span> 원</p>
+            <div class="cart">
+                <img src="/image/list_img/list/cart.png">
+            </div>
+        </li>
+    </ul>
+    <div class="more">
+        <div>
+            <a th:if="${categoryItems.totalElements >= categoryItems.getSize()}"
+               th:href="@{/item(currentCategory=${currentCategory}, page=0,
+               size=${categoryItems.size + categoryItems.size},
+               sort=${#strings.replace(categoryItems.sort, ': ', ',')})}">
+
+                <p>More</p>
+                <img src="/image/list_img/list/arrow.png">
+
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- BOTTOM -->
 
@@ -98,6 +120,79 @@
     // function hover(a) {
     //     a.setAttribute('class', 'on');
     // }
+
+    function headerStyle() {
+        var headerTag = document.getElementsByClassName('head')[0];
+
+        if (window.pageYOffset == 0) {
+            headerTag.classList.remove('active');
+        }
+
+        if (window.pageYOffset > 0) {
+            headerTag.classList.add('active');
+        }
+    }
+
+    document.addEventListener('scroll', headerStyle);
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function categoryOffset() {
+        var sizeParam = getParameterByName('size');
+        var sizeNum = Number(sizeParam);
+
+        var categoryName = getParameterByName('currentCategory');
+        var sortParam = getParameterByName('sort');
+        var pageParam = getParameterByName('page');
+
+        if (sortParam != "" && pageParam == "") {
+            // alert("sortParam!!!");
+
+            var navTag = document.getElementsByClassName('category_nav')[0];
+            var navOffsetTop = navTag.offsetTop;
+
+            window.scroll(0, navOffsetTop - 80);
+
+        } else if (sizeNum != "" && sizeNum > 12) {
+            // alert("moreView");
+            // var length = document.getElementsByClassName('item-list').length;
+            var lastItemLi = document.getElementsByClassName('item-list')[sizeNum - 12];
+            var liOffsetTop = lastItemLi.offsetTop;
+            console.log('sizeParam >> ' + sizeParam);
+            console.log('sizeNum >> ' + sizeNum);
+            console.log('liOffsetTop >> ' + liOffsetTop);
+            console.log(lastItemLi);
+
+            window.scroll(0, liOffsetTop);
+        }
+
+        else if (categoryName != ""){
+            // alert("categoryName");
+            console.log('categoryName >> ' + categoryName);
+
+            // var bodyTag = document.getElementsByTagName('body')[0];
+            var bestDiv = document.getElementsByClassName('best')[0];
+
+            var bestOffset = bestDiv.offsetTop;
+            console.log('bestOffset >> ' + bestOffset);
+
+            // window.pageYOffset = bestOffset;
+            window.scroll(0, bestOffset - 40);
+
+            console.log('window offset >> ' + window.pageYOffset);
+        }
+
+
+
+    }
+
+    categoryOffset();
+
 
 </script>
 

@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
 <link rel="stylesheet" th:href="@{/css/nature_republic_detail.css}">
+<style>
+    .head {
+        box-shadow: 0 0 3px 0 #dcdcdc;
+    }
+</style>
 
     <header th:replace="partials/bodyHeader :: bodyHeader"/>
 
@@ -42,8 +47,8 @@
                     <p th:text="${item.description}"></p>
                 </div>
                 <div class="price">
-                    <p class="a">판매가</p><p><span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}"></span> 원</p><br>
-                    <p class="a">할인가</p><p><span class="won" id="id_color" th:text="${#numbers.formatInteger(item.price*0.8, 3, 'COMMA')}"></span> 원</p>
+                    <p class="a">판매가</p><p><span th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')}" class="itemPrice"></span> 원</p><br>
+                    <p class="a">할인가</p><p><span class="won discountPrice" id="id_color" th:text="${#numbers.formatInteger(item.price*0.8, 3, 'COMMA')}"></span> 원</p>
                 </div>
 
                 <div class="info">
@@ -55,8 +60,8 @@
                     </div>
                     </div>
                     <div class="number">
-                        <p>수량<span>1</span></p>
-                        <p class="a">총 상품금액:<span class="total_price" id="id_color" th:text="${item.price}"></span> 원</p>
+                        <p>수량<span class="itemCount">1</span></p>
+                        <p class="a">총 상품금액:<span class="total_price" id="id_color"></span> 원</p>
                     </div>
                     <div class="button">
                         <ul class="clearfix">
@@ -202,3 +207,27 @@
     </div>
 
 <footer th:replace="partials/footer :: footer"/>
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+    var countTag = document.getElementsByClassName('itemCount');
+    var discountTag = document.getElementsByClassName('discountPrice');
+    var countValue = Number(countTag[0].innerHTML);
+    var discountValue = discountTag[0].innerHTML;
+    var replace = discountValue.replace(',', '');
+    var replaceNum = Number(replace);
+
+    var totalTag = document.getElementsByClassName('total_price')[0];
+
+    function totalPrice(price) {
+        var total = price * countValue;
+        var format = new Intl.NumberFormat().format(total);
+        totalTag.innerHTML += format;
+
+    }
+
+    totalPrice(replaceNum);
+
+    /*]]>*/
+</script>

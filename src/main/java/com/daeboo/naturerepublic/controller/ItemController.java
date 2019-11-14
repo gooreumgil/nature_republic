@@ -11,6 +11,7 @@ import com.daeboo.naturerepublic.service.CategoryService;
 import com.daeboo.naturerepublic.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,11 +31,13 @@ public class ItemController {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final CategoryItemService categoryItemService;
-    private final CategoryItemRepository categoryItemRepository;
 
     @GetMapping
-    public String itemIndex(Model model, @PageableDefault(size = 12, page = 0, direction = Sort.Direction.DESC) Pageable pageable,
-                            String currentCategory, String soryBy) {
+    public String itemIndex(Model model, @PageableDefault(size = 12, page = 0, direction = Sort.Direction.DESC, sort = "item.likes") Pageable pageable,
+                            String currentCategory) {
+
+
+        Sort sort = pageable.getSort();
 
         // Category List
         List<Category> categories = categoryService.findAll();
@@ -46,42 +49,26 @@ public class ItemController {
             currentCategory = "ALL";
         }
 
-//        if (currentCategory.contains("<br/>")) {
-//            String replace = StringUtils.replace(currentCategory, "<br/>", " ");
-//            currentCategory = replace;
-//        }
-
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("categories", result);
 
         // Category Best
-        Page<CategoryItemDto.ListView> listViewPages = categoryItemService.findALLByCategoryName(currentCategory, PageRequest.of(0, 4), "likes");
+//        Page<CategoryItemDto.ListView> listViewPages = categoryItemService.
+//                findALLByCategoryName(currentCategory, PageRequest.of(0, 4), "price", direction);
+
+        Page<CategoryItemDto.ListView> listViewPages = categoryItemService.
+                findALLByCategoryName(currentCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likes"));
+
+
         model.addAttribute("populars", listViewPages);
 
-//        Page<Item> populars = itemService.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likes"));
-//        List<ItemDto.PopularPreview> popularPreviews = populars.stream().map(item -> {
-//            return new ItemDto.PopularPreview(item);
-//        }).collect(Collectors.toList());
-//
-        // Item List
-        if (soryBy == null) {
-            soryBy = "likes";
-        }
-
+//         Item List
         int itemCount = categoryItemService.countAllByCategoryName(currentCategory);
         model.addAttribute("itemCount", itemCount);
 
-        Page<CategoryItemDto.ListView> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable, soryBy);
-
-//        List<Item> categoryItems = itemService.findAllWithImg(pageable);
-//        List<ItemDto.CategoryList> items = categoryItems.stream().map(item -> {
-//            return new ItemDto.CategoryList(item);
-//        }).collect(Collectors.toList());
-
-//        int moreView = pageable.getPageSize() + 12;
+        Page<CategoryItemDto.ListView> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable);
 
         model.addAttribute("categoryItems", itemList);
-//        model.addAttribute("moreView", moreView);
 
         return "item/index";
 
