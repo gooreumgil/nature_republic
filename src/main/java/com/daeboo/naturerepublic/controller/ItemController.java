@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -34,10 +37,9 @@ public class ItemController {
 
     @GetMapping
     public String itemIndex(Model model, @PageableDefault(size = 12, page = 0, direction = Sort.Direction.DESC, sort = "item.likes") Pageable pageable,
-                            String currentCategory) {
+                            String currentCategory, Integer offset) {
 
-
-        Sort sort = pageable.getSort();
+        model.addAttribute("offset", offset);
 
         // Category List
         List<Category> categories = categoryService.findAll();
@@ -51,6 +53,15 @@ public class ItemController {
 
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("categories", result);
+
+        // sort List
+        LinkedHashMap<String, String> sortList = new LinkedHashMap<>();
+        sortList.put("item.likes", "인기상품순");
+        sortList.put("item.registerAt", "등록일순");
+        sortList.put("item.price,ASC", "낮은가격순");
+        sortList.put("item.price,DESC", "높은가격순");
+
+        model.addAttribute("sorts", sortList);
 
         // Category Best
 //        Page<CategoryItemDto.ListView> listViewPages = categoryItemService.

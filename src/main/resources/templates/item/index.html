@@ -58,7 +58,7 @@
                 <!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
                 <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active"
                    th:href="@{/item(currentCategory=${categoty.categoryName})}"
-                   th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}"></a>
+                   th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}" class="category-a"></a>
                 <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
             </li>
         </ul>
@@ -73,10 +73,12 @@
         </p>
     </div>
     <div class="skin_select">
-        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.likes')}">인기상품순</a>
-        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.registerAt')}">등록일순</a>
-        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.price,ASC')}">낮은가격순</a>
-        <a th:href="@{/item(currentCategory=${currentCategory}, size=${categoryItems.size}, sort='item.price,DESC')}">높은가격순</a>
+        <a th:each="sort : ${sorts}"
+           th:href="@{/item(currentCategory =${currentCategory}, size=${categoryItems.size}, sort=${sort.key})}"
+           th:text="*{sort.value}" class="sort-a">
+
+        </a>
+
     </div>
     <ul class="skn_list clearfix">
         <li class="col-3 item-list" th:each="categoryItem : ${categoryItems}">
@@ -98,7 +100,7 @@
             <a th:if="${categoryItems.totalElements >= categoryItems.getSize()}"
                th:href="@{/item(currentCategory=${currentCategory}, page=0,
                size=${categoryItems.size + categoryItems.size},
-               sort=${#strings.replace(categoryItems.sort, ': ', ',')})}">
+               sort=${#strings.replace(categoryItems.sort, ': ', ',')})}" class="moreView">
 
                 <p>More</p>
                 <img src="/image/list_img/list/arrow.png">
@@ -114,15 +116,18 @@
 
 <footer th:replace="partials/footer :: footer"/>
 
+<script th:inline="javascript" type="text/javascript">
 
-<script type="text/javascript">
-
-    // function hover(a) {
-    //     a.setAttribute('class', 'on');
-    // }
+    var urlSearchParams = URLSearchParams;
+    console.log(urlSearchParams.arguments);
+    console.log(urlSearchParams.prototype);
+    console.log(urlSearchParams.toString());
 
     function headerStyle() {
+
         var headerTag = document.getElementsByClassName('head')[0];
+
+        Object.getPrototypeOf('category');
 
         if (window.pageYOffset == 0) {
             headerTag.classList.remove('active');
@@ -142,57 +147,67 @@
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    function categoryOffset() {
-        var sizeParam = getParameterByName('size');
-        var sizeNum = Number(sizeParam);
+    function offset() {
 
-        var categoryName = getParameterByName('currentCategory');
-        var sortParam = getParameterByName('sort');
-        var pageParam = getParameterByName('page');
+        var offsetParam = getParameterByName('offset');
+        console.log('offsetParam >> ' + offsetParam);
+        var offsetNum = Number(offsetParam);
 
-        if (sortParam != "" && pageParam == "") {
-            // alert("sortParam!!!");
+        window.scroll(0, offsetNum);
+    }
 
-            var navTag = document.getElementsByClassName('category_nav')[0];
-            var navOffsetTop = navTag.offsetTop;
 
-            window.scroll(0, navOffsetTop - 80);
+    function getHref() {
+        // alert("getHref!!");
+        var sort = document.getElementsByClassName('sort-a');
+        var category = document.getElementsByClassName("category-a");
+        var moreView = document.getElementsByClassName('moreView');
 
-        } else if (sizeNum != "" && sizeNum > 12) {
-            // alert("moreView");
-            // var length = document.getElementsByClassName('item-list').length;
-            var lastItemLi = document.getElementsByClassName('item-list')[sizeNum - 12];
-            var liOffsetTop = lastItemLi.offsetTop;
-            console.log('sizeParam >> ' + sizeParam);
-            console.log('sizeNum >> ' + sizeNum);
-            console.log('liOffsetTop >> ' + liOffsetTop);
-            console.log(lastItemLi);
+        for (var i = 0; i < sort.length; i++) {
+            // console.log(i);
+            var pageYOffset = window.pageYOffset;
+            var attribute = sort[i].getAttribute('href');
 
-            window.scroll(0, liOffsetTop);
+            // console.log('attribute >> ' + attribute);
+            var strings = attribute.split('&offset=');
+            // console.log('split >> ' + strings);
+            sort[i].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
         }
 
-        else if (categoryName != ""){
-            // alert("categoryName");
-            console.log('categoryName >> ' + categoryName);
+        for (var j = 0; j < category.length; j++) {
+            console.log('category >>>>>>' + j);
+            var pageYOffset = window.pageYOffset;
+            var attribute = category[j].getAttribute('href');
+            console.log('category-a >>>>>>>>>>>>>> ' + attribute);
 
-            // var bodyTag = document.getElementsByTagName('body')[0];
-            var bestDiv = document.getElementsByClassName('best')[0];
-
-            var bestOffset = bestDiv.offsetTop;
-            console.log('bestOffset >> ' + bestOffset);
-
-            // window.pageYOffset = bestOffset;
-            window.scroll(0, bestOffset - 40);
-
-            console.log('window offset >> ' + window.pageYOffset);
+            console.log('attribute >> ' + attribute);
+            var strings = attribute.split('&offset');
+            // console.log(">>>>>>>>>>>>>>>>>> " + strings);
+            // console.log('strings >> ' + strings[0]);
+            category[j].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
         }
 
+        var moreViewOffset = window.pageYOffset;
+        var moreViewAttribute = moreView[0].getAttribute('href');
 
+        var moreViewString = moreViewAttribute.split('&offset=');
+        moreView[0].setAttribute('href', moreViewString[0] + '&offset=' + moreViewOffset);
 
     }
 
-    categoryOffset();
+    window.addEventListener('scroll', getHref);
+    window.addEventListener('load', offset);
+
+    //
+    // window.onpopstate = function(event) {
+    //     console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+    // };
+
+    // var yOffset = window.pageYOffset;
+    // window.location.search += "&offset" + yOffset;
+    //
+    // console.log(window.location.search);
+
 
 
 </script>
-
