@@ -40,6 +40,8 @@ public class ItemController {
                             String currentCategory, Integer offset) {
 
         model.addAttribute("offset", offset);
+        Sort sort = pageable.getSort();
+        String s = sort.toString();
 
         // Category List
         List<Category> categories = categoryService.findAll();
@@ -56,8 +58,8 @@ public class ItemController {
 
         // sort List
         LinkedHashMap<String, String> sortList = new LinkedHashMap<>();
-        sortList.put("item.likes", "인기상품순");
-        sortList.put("item.registerAt", "등록일순");
+        sortList.put("item.likes,DESC", "인기상품순");
+        sortList.put("item.registerAt,ASC", "등록일순");
         sortList.put("item.price,ASC", "낮은가격순");
         sortList.put("item.price,DESC", "높은가격순");
 
@@ -78,6 +80,7 @@ public class ItemController {
         model.addAttribute("itemCount", itemCount);
 
         Page<CategoryItemDto.ListView> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable);
+        Sort sort1 = pageable.getSort();
 
         model.addAttribute("categoryItems", itemList);
 

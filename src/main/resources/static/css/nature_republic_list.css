@@ -9,6 +9,7 @@
 
 a {
     text-decoration: none;
+
 }
 
 li {
@@ -270,6 +271,17 @@ nav.category_nav ul.category_wrapper li a.active {
     position: absolute;
     right: 0;
     top: -45px;
+}
+
+.skin_select a.sort-a {
+    color: #555;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.skin_select a.sort-a.active {
+    color: #333;
+    font-weight: 700;
 }
 
 .skin_select select option {

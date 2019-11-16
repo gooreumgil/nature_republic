@@ -74,9 +74,9 @@
     </div>
     <div class="skin_select">
         <a th:each="sort : ${sorts}"
+           th:classappend="${#strings.replace(categoryItems.sort, ': ', ',').equals(sort.key)} ? active"
            th:href="@{/item(currentCategory =${currentCategory}, size=${categoryItems.size}, sort=${sort.key})}"
            th:text="*{sort.value}" class="sort-a">
-
         </a>
 
     </div>
@@ -117,11 +117,6 @@
 <footer th:replace="partials/footer :: footer"/>
 
 <script th:inline="javascript" type="text/javascript">
-
-    var urlSearchParams = URLSearchParams;
-    console.log(urlSearchParams.arguments);
-    console.log(urlSearchParams.prototype);
-    console.log(urlSearchParams.toString());
 
     function headerStyle() {
 
