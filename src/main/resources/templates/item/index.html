@@ -32,7 +32,10 @@
     <section class="best">
         <div class="best_title">
             <h2 class="main_font">Category Best</h2>
-            <p class="sub_font"><span th:text="${currentCategory.equals('ALL') ? '전체' : currentCategory}"></span> 카테고리 상품입니다</p>
+            <p class="sub_font">
+<!--                <span th:text="${currentCategory.equals('ALL') ? '전체' : currentCategory}"></span> -->
+                전체 베스트 상품입니다
+            </p>
         </div>
         <ol class="best_item clearfix">
             <li class="col-3" th:each="popular : ${populars}">
@@ -145,7 +148,6 @@
     function offset() {
 
         var offsetParam = getParameterByName('offset');
-        console.log('offsetParam >> ' + offsetParam);
         var offsetNum = Number(offsetParam);
 
         window.scroll(0, offsetNum);
@@ -153,32 +155,23 @@
 
 
     function getHref() {
-        // alert("getHref!!");
         var sort = document.getElementsByClassName('sort-a');
         var category = document.getElementsByClassName("category-a");
         var moreView = document.getElementsByClassName('moreView');
 
         for (var i = 0; i < sort.length; i++) {
-            // console.log(i);
             var pageYOffset = window.pageYOffset;
             var attribute = sort[i].getAttribute('href');
-
-            // console.log('attribute >> ' + attribute);
             var strings = attribute.split('&offset=');
-            // console.log('split >> ' + strings);
+
             sort[i].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
         }
 
         for (var j = 0; j < category.length; j++) {
-            console.log('category >>>>>>' + j);
             var pageYOffset = window.pageYOffset;
             var attribute = category[j].getAttribute('href');
-            console.log('category-a >>>>>>>>>>>>>> ' + attribute);
-
-            console.log('attribute >> ' + attribute);
             var strings = attribute.split('&offset');
-            // console.log(">>>>>>>>>>>>>>>>>> " + strings);
-            // console.log('strings >> ' + strings[0]);
+
             category[j].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
         }
 
@@ -190,18 +183,34 @@
 
     }
 
+    function sortStyle() {
+        var sortATag = document.getElementsByClassName('sort-a');
+
+        for (var i = 0; i < sortATag.length; i++) {
+            console.log('!!!!!!!!!!!!');
+            var attribute = sortATag[i].getAttribute('class');
+
+            if (attribute.includes('active')) {
+                console.log('active!!');
+                var span = document.createElement('span');
+                var img = document.createElement('img');
+                img.setAttribute('src', '/image/check.svg');
+
+                span.appendChild(img);
+                sortATag[i].prepend(span);
+            } else {
+                var span = document.createElement('span');
+                span.innerHTML = '· ';
+                sortATag[i].prepend(span);
+            }
+        }
+
+    }
+
     window.addEventListener('scroll', getHref);
     window.addEventListener('load', offset);
+    window.addEventListener('load', sortStyle);
 
-    //
-    // window.onpopstate = function(event) {
-    //     console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
-    // };
-
-    // var yOffset = window.pageYOffset;
-    // window.location.search += "&offset" + yOffset;
-    //
-    // console.log(window.location.search);
 
 
 

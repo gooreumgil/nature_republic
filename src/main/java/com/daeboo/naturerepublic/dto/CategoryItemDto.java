@@ -3,10 +3,13 @@ package com.daeboo.naturerepublic.dto;
 import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.domain.CategoryItem;
 import com.daeboo.naturerepublic.domain.Item;
+import com.daeboo.naturerepublic.domain.ItemSrc;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public class CategoryItemDto {
 

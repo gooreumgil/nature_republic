@@ -184,6 +184,21 @@ thumb_wrap {
     margin-top: 26px;
 }
 
+.product_view .number span.itemCount {
+    margin-right: 10px;
+}
+
+.product_view .number button {
+    background: no-repeat;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.product_view .number button img {
+    width: 15px;
+    max-width: 100%;
+}
+
 .product_view .number p {
     font-size: 16px;
     color: #676767;

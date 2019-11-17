@@ -6,6 +6,7 @@ import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryItemService {
 
     private final CategoryItemRepository categoryItemRepository;
@@ -43,12 +45,6 @@ public class CategoryItemService {
 //        return listViews2;
 //
 //    }
-
-    private List<CategoryItemDto.ListView> getListViews(Page<CategoryItem> allByCategoryName) {
-        return allByCategoryName.stream().map(categoryItem -> {
-            return new CategoryItemDto.ListView(categoryItem);
-        }).collect(Collectors.toList());
-    }
 
     private List<CategoryItemDto.ListView> getListViews2(List<CategoryItem> allByCategoryName) {
         return allByCategoryName.stream().map(categoryItem -> {

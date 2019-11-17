@@ -60,7 +60,11 @@
                     </div>
                     </div>
                     <div class="number">
-                        <p>수량<span class="itemCount">1</span></p>
+                        <p>수량
+                            <span class="itemCount">1</span>
+                            <button><img th:src="@{/image/Orion_add.svg}" alt="" class="plus"></button>
+                            <button><img th:src="@{/image/Orion_minus.svg}" alt="" class="minus"></button>
+                        </p>
                         <p class="a">총 상품금액:<span class="total_price" id="id_color"></span> 원</p>
                     </div>
                     <div class="button">
@@ -209,11 +213,9 @@
 <footer th:replace="partials/footer :: footer"/>
 
 <script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
 
     var countTag = document.getElementsByClassName('itemCount');
     var discountTag = document.getElementsByClassName('discountPrice');
-    var countValue = Number(countTag[0].innerHTML);
     var discountValue = discountTag[0].innerHTML;
     var replace = discountValue.replace(',', '');
     var replaceNum = Number(replace);
@@ -221,13 +223,34 @@
     var totalTag = document.getElementsByClassName('total_price')[0];
 
     function totalPrice(price) {
+        var countValue = Number(countTag[0].innerHTML);
         var total = price * countValue;
         var format = new Intl.NumberFormat().format(total);
-        totalTag.innerHTML += format;
+        totalTag.innerHTML = format;
 
     }
 
     totalPrice(replaceNum);
 
-    /*]]>*/
+    var plusButton = document.getElementsByClassName('plus')[0];
+    var minusButton = document.getElementsByClassName('minus')[0];
+
+    window.onload = function () {
+
+        plusButton.onclick = function () {
+            var countValue = Number(countTag[0].innerHTML);
+            countTag[0].innerHTML = countValue + 1;
+            totalPrice(replaceNum);
+
+        };
+
+        minusButton.onclick = function () {
+            var countValue = Number(countTag[0].innerHTML);
+            countTag[0].innerHTML = countValue - 1;
+            totalPrice(replaceNum);
+
+        };
+
+    }
+
 </script>

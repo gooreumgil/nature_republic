@@ -28,10 +28,10 @@ public class Item {
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemSrc> itemSrcs;
+    private List<ItemSrc> itemSrcs = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")
     private List<ItemTags> itemTags;

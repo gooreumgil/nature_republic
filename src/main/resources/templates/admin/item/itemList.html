@@ -39,7 +39,7 @@
 <!--                <td th:text="*{item.capacity}"></td>-->
                 <td>
                     <div th:if="*{!item.mainSrcs.isEmpty()}">
-                        <img th:each="img : *{item.mainSrcs}" th:attr="src=@{${'/upload/' + img.key}}" width="50" height="50" alt="">
+                        <img th:each="img : *{item.mainSrcs}" th:attr="src=@{${'/upload/' + img.s3Key}}" width="50" height="50" alt="">
                     </div>
 <!--                    <img th:attr="src=@{/image/mainKakaoTalk_20191028_230146890.jpg}" width="50" height="50" alt="">-->
                 </td>

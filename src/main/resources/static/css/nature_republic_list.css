@@ -274,14 +274,28 @@ nav.category_nav ul.category_wrapper li a.active {
 }
 
 .skin_select a.sort-a {
+    font-size: 14px;
     color: #555;
     text-decoration: none;
-    margin-left: 10px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.skin_select a.sort-a span {
+    display: inline-block;
+    text-align: center;
+    width: 15px;
 }
 
 .skin_select a.sort-a.active {
     color: #333;
     font-weight: 700;
+}
+
+.skin_select a.sort-a.active img {
+    width: 15px;
+    max-width: 100%;
+    vertical-align: middle;
 }
 
 .skin_select select option {

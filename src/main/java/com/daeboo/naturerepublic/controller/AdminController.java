@@ -67,7 +67,7 @@ public class AdminController {
     @GetMapping("/items")
     public String itemList(Model model) {
 
-        List<ItemDto.ListView> result = itemService.findAll();
+        List<ItemDto.ListView> result = itemService.findAllWithSrc();
 
         model.addAttribute("itemDto", result);
 

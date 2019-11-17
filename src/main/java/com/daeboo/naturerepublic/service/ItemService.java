@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemService {
 
     private final ItemRepository itemRepository;
@@ -30,15 +32,11 @@ public class ItemService {
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
+    @Transactional
     public void save(ItemDto.Create itemDto) {
-
-//        Map<String, List<MultipartFile>> stringListMap = new HashMap<>();
 
         List<MultipartFile> mainImg = itemDto.getMainImg();
         List<MultipartFile> detailImg = itemDto.getDetailImg();
-
-//        stringListMap.put(ImgType.MAIN.name(), mainImg);
-//        stringListMap.put(ImgType.DETAIL.name(), detailImg);
 
         List<String> mainImgPaths = new ArrayList<>();
         List<String> detailImgPaths = new ArrayList<>();
@@ -57,29 +55,6 @@ public class ItemService {
             detailImgPaths.add(detailImgPath);
         });
 
-//        for (Map.Entry<String, List<MultipartFile>> entry : stringListMap.entrySet()) {
-//
-//            String s = entry.getKey();
-//            List<MultipartFile> multipartFiles = entry.getValue();
-//
-//            if (s.contains(ImgType.MAIN.name())) {
-//                multipartFiles.forEach(multipartFile -> {
-//                    StringBuilder fileName = new StringBuilder();
-//                    createFile(fileName, multipartFile);
-//                    String mainImgPath = fileName.toString();
-//                    mainImgPaths.add(mainImgPath);
-//                });
-//            }
-//
-//            if (s.contains(ImgType.DETAIL.name())) {
-//                multipartFiles.forEach(multipartFile -> {
-//                    StringBuilder fileName = new StringBuilder();
-//                    createFile(fileName, multipartFile);
-//                    String detailImgPath = fileName.toString();
-//                    detailImgPaths.add(detailImgPath);
-//                });
-//            }
-//        }
 
         String[] multiCategoryValues = itemDto.getMultiCategoryValues();
         List<Category> categories = new ArrayList<>();
@@ -95,6 +70,16 @@ public class ItemService {
 
         itemRepository.save(item);
 
+    }
+
+    public List<ItemDto.ListView> findAllWithSrc() {
+        List<Item> allItems = itemRepository.findAllWithSrc();
+
+        List<ItemDto.ListView> result = allItems.stream().map(item -> {
+            return new ItemDto.ListView(item);
+        }).collect(Collectors.toList());
+
+        return result;
     }
 
     public List<ItemDto.ListView> findAll() {
@@ -121,9 +106,13 @@ public class ItemService {
 
     public ItemDto.Detail findById(Long id) {
 
-        return itemRepository.findById(id).map(item -> {
+        Optional<Item> optionalItem = itemRepository.findByIdWithImg(id);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
             return new ItemDto.Detail(item);
-        }).orElseThrow(()-> new RuntimeException("존재하지 않는 아이디입니다."));
+        } else {
+            throw new RuntimeException("존재하지 않는 상품입니다.");
+        }
 
     }
 
