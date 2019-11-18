@@ -1,16 +1,11 @@
 package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.Category;
-import com.daeboo.naturerepublic.domain.CategoryItem;
-import com.daeboo.naturerepublic.domain.ImgType;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
 import com.daeboo.naturerepublic.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,26 +28,26 @@ public class ItemService {
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
     @Transactional
-    public void save(ItemDto.Create itemDto) {
+    public void save(ItemDto.CreateForm itemDto) {
 
         List<MultipartFile> mainImg = itemDto.getMainImg();
         List<MultipartFile> detailImg = itemDto.getDetailImg();
 
-        List<String> mainImgPaths = new ArrayList<>();
-        List<String> detailImgPaths = new ArrayList<>();
+//        List<String> mainImgPaths = new ArrayList<>();
+//        List<String> detailImgPaths = new ArrayList<>();
 
         mainImg.forEach(img -> {
             StringBuilder fileName = new StringBuilder();
             createFile(fileName, img);
-            String mainImgPath = fileName.toString();
-            mainImgPaths.add(mainImgPath);
+//            String mainImgPath = fileName.toString();
+//            mainImgPaths.add(mainImgPath);
         });
 
         detailImg.forEach(img -> {
             StringBuilder fileName = new StringBuilder();
             createFile(fileName, img);
-            String detailImgPath = fileName.toString();
-            detailImgPaths.add(detailImgPath);
+//            String detailImgPath = fileName.toString();
+//            detailImgPaths.add(detailImgPath);
         });
 
 
@@ -64,9 +59,7 @@ public class ItemService {
             categories.add(category);
         }
 
-        Item item = itemDto.toItemWithImg(itemDto.getNameKor(), itemDto.getNameEng(),
-                itemDto.getPrice(), itemDto.getStockQuantity(),
-                itemDto.getDescription(), itemDto.getCapacity(), categories, mainImgPaths, detailImgPaths);
+        Item item = itemDto.toItemWithImg(categories);
 
         itemRepository.save(item);
 
@@ -120,6 +113,17 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
+    public ItemDto.UpdateForm findByIdForUpdate(Long id) {
+
+        Optional<Item> optionalItem = itemRepository.findById(id);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            return new ItemDto.UpdateForm(item);
+        } else {
+            throw new RuntimeException("존재하지 않는 상품입니다.");
+        }
+
+    }
 
 
 

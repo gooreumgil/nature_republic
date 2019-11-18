@@ -425,7 +425,6 @@ body {
 }
 
 .new .clearfix img {
-    height: 100%;
     width: 100%;
 }
 
@@ -439,11 +438,15 @@ body {
 
 .new .col-3 .inner-box {
     position: relative;
+    height: 351px;
+    background-color: #f6f6f6;
 }
 
 .new .col-3 .inner-box a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
-    display: table;
 }
 .new .col-3 .inner-box:hover > a > .new_hover {
     opacity: 1;

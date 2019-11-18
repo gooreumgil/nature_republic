@@ -13,9 +13,32 @@ import java.util.stream.Collectors;
 
 public class ItemDto {
 
+//    @Getter @Setter
+//    @NoArgsConstructor
+//    public static class CreateForm {
+//
+//        private String nameKor;
+//        private String nameEng;
+//        private Integer price;
+//        private Integer stockQuantity;
+//        private String description;
+//        private Integer capacity;
+//        private String[] multiCategoryValues;
+//        private List<MultipartFile> mainImg;
+//        private List<MultipartFile> detailImg;
+//
+//        public Item toItemWithImg(
+//                String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
+//                Integer capacity, List<Category> categories, List<String> mainImgPaths, List<String> detailImgPaths) {
+//
+//            return Item.createItemWithImg(nameKor, nameEng, price, stockQuantity, description, capacity, categories, mainImgPaths, detailImgPaths);
+//        }
+//
+//    }
+
     @Getter @Setter
     @NoArgsConstructor
-    public static class Create {
+    public static class CreateForm {
 
         private String nameKor;
         private String nameEng;
@@ -27,11 +50,62 @@ public class ItemDto {
         private List<MultipartFile> mainImg;
         private List<MultipartFile> detailImg;
 
-        public Item toItemWithImg(
-                String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
-                Integer capacity, List<Category> categories, List<String> mainImgPaths, List<String> detailImgPaths) {
+        public Item toItemWithImg(List<Category> categories) {
 
-            return Item.createItemWithImg(nameKor, nameEng, price, stockQuantity, description, capacity, categories, mainImgPaths, detailImgPaths);
+            List<String> mainImgPath = new ArrayList<>();
+            List<String> detailImgPath = new ArrayList<>();
+
+            mainImg.forEach(multipartFile -> {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
+                mainImgPath.add(stringBuilder.toString());
+            });
+
+            detailImg.forEach(multipartFile -> {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
+                detailImgPath.add(stringBuilder.toString());
+            });
+
+            return Item.createItemWithImg(nameKor, nameEng, price, stockQuantity, description, capacity, categories, mainImgPath, detailImgPath);
+        }
+
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class UpdateForm {
+
+        private String nameKor;
+        private String nameEng;
+        private Integer price;
+        private Integer stockQuantity;
+        private String description;
+        private Integer capacity;
+        private List<String> multiCategoryValues = new ArrayList<>();
+        private List<ItemSrc> mainImg = new ArrayList<>();
+        private List<ItemSrc> detailImg = new ArrayList<>();
+
+        public UpdateForm(Item item) {
+            this.nameKor = item.getNameKor();
+            this.nameEng = item.getNameEng();
+            this.price = item.getPrice();
+            this.stockQuantity = item.getStockQuantity();
+            this.description = item.getDescription();
+            this.capacity = item.getCapacity();
+            List<CategoryItem> categoryItems = item.getCategoryItems();
+            for (int i = 0; i < categoryItems.size(); i++) {
+                this.multiCategoryValues.add(categoryItems.get(i).getCategoryName());
+            }
+
+            List<ItemSrc> itemSrcs = item.getItemSrcs();
+            itemSrcs.forEach(itemSrc -> {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainImg.add(itemSrc);
+                } else {
+                    detailImg.add(itemSrc);
+                }
+            });
         }
     }
 
@@ -192,4 +266,13 @@ public class ItemDto {
 
         }
     }
+
+
+
+
+
+
+
+
+
 }

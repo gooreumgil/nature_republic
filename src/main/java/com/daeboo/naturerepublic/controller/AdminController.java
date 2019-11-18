@@ -3,16 +3,16 @@ package com.daeboo.naturerepublic.controller;
 import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
+import com.daeboo.naturerepublic.dto.NewsDto;
+import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.service.CategoryService;
 import com.daeboo.naturerepublic.service.ItemService;
 import com.daeboo.naturerepublic.service.MemberService;
+import com.daeboo.naturerepublic.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ public class AdminController {
     private final MemberService memberService;
     private final ItemService itemService;
     private final CategoryService categoryService;
+    private final NewsService newsService;
 
     @GetMapping
     public String admin() {
@@ -46,7 +47,7 @@ public class AdminController {
 
     // item
     @GetMapping("/items/new")
-    public String createItemForm(@ModelAttribute("itemDto") ItemDto.Create itemDto, Model model) {
+    public String createItemForm(@ModelAttribute("itemDto") ItemDto.CreateForm itemDto, Model model) {
 
         List<Category> categoryAll = categoryService.findAll();
 
@@ -57,7 +58,7 @@ public class AdminController {
     }
 
     @PostMapping("/items/new")
-    public String createItem(@ModelAttribute("itemDto") ItemDto.Create itemDto) {
+    public String createItem(@ModelAttribute("itemDto") ItemDto.CreateForm itemDto) {
 
         itemService.save(itemDto);
 
@@ -75,11 +76,28 @@ public class AdminController {
 
     }
 
+    @GetMapping("/update/{id}")
+    public String updateItem(@PathVariable Long id, Model model) {
+        ItemDto.UpdateForm result = itemService.findByIdForUpdate(id);
+        model.addAttribute("itemDto", result);
 
+        return "admin/item/itemReg";
+    }
 
+    @GetMapping("/news/new")
+    public String createNewsForm(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto , Model model) {
 
+        model.addAttribute("newsDto", newsDto);
+        return "admin/news/newsReg";
 
+    }
 
+//    @PostMapping("/news/new")
+//    public String createNews(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto) {
+//
+//        newsService.save(newsDto);
+//
+//    }
 
 
 

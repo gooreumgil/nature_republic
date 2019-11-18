@@ -318,6 +318,14 @@ nav.category_nav ul.category_wrapper li a.active {
 
 .skin_care ul div.img-box {
     height: 347px;
+    background-color: #f6f6f6;
+}
+
+.skin_care ul div.img-box a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .skin_care li {
@@ -327,7 +335,6 @@ nav.category_nav ul.category_wrapper li a.active {
 }
 
 .skin_care li a img {
-    height: 100%;
     width: 100%;
 }
 
