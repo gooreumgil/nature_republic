@@ -87,7 +87,7 @@
             <li class="col-3" th:each="popular : ${populars}">
                 <div class="out_box">
                     <div class='inner-box'>
-                        <a href="#">
+                        <a th:href="@{/item/detail(id=*{popular.id})}">
                             <img th:src="@{${'/upload/' + popular.mainSrcs.get(0).s3Key}}">
                             <div class="best_hover"></div>
                         </a>
@@ -149,7 +149,7 @@
             <li class="col-3" th:each="latestItem : ${latestItems}">
                 <div class="out_box">
                     <div class='inner-box'>
-                        <a href="#">
+                        <a th:href="@{/item/detail(id=*{latestItem.id})}">
                             <img th:src="@{${'/upload/' + latestItem.mainSrcs.get(0).s3Key}}">
                             <div class="new_hover"></div>
                         </a>

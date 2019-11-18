@@ -23,6 +23,7 @@ public interface CategoryItemRepository extends JpaRepository<CategoryItem, Long
 //    Page<CategoryItem> findALLByCategoryNameAsc(@Param("category") String category, Pageable pageable,
 //                                                 @Param("sortBy") String sortBy);
 
+    List<CategoryItem> findByItemId(Long id);
 
     int countAllByCategoryName(String currentCategory);
 }

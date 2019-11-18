@@ -76,6 +76,7 @@ public class ItemDto {
     @NoArgsConstructor
     public static class UpdateForm {
 
+        private Long id;
         private String nameKor;
         private String nameEng;
         private Integer price;
@@ -87,6 +88,7 @@ public class ItemDto {
         private List<ItemSrc> detailImg = new ArrayList<>();
 
         public UpdateForm(Item item) {
+            this.id = item.getId();
             this.nameKor = item.getNameKor();
             this.nameEng = item.getNameEng();
             this.price = item.getPrice();

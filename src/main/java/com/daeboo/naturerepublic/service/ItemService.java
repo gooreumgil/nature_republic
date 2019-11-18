@@ -1,10 +1,13 @@
 package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.Category;
+import com.daeboo.naturerepublic.domain.CategoryItem;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
+import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
 import com.daeboo.naturerepublic.repository.ItemRepository;
+import com.daeboo.naturerepublic.repository.ItemSrcRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,14 +129,22 @@ public class ItemService {
     }
 
 
+    public void update(ItemDto.UpdateForm itemDto) {
 
+        List<String> categoryValues = itemDto.getMultiCategoryValues();
 
+        List<Category> categoryItem = null;
 
+        for (String categoryValue : categoryValues) {
+            Category category = categoryRepository.findByName(categoryValue).get();
+            categoryItem.add(category);
+        }
 
+        Item item = itemRepository.findById(itemDto.getId()).get();
 
+        Item updateItem = item.updateItem(itemDto, categoryItem);
 
+        itemRepository.save(updateItem);
 
-
-
-
+    }
 }

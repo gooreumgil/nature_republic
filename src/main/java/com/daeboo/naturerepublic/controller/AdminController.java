@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Category;
+import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
 import com.daeboo.naturerepublic.dto.NewsDto;
@@ -77,11 +78,19 @@ public class AdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateItem(@PathVariable Long id, Model model) {
-        ItemDto.UpdateForm result = itemService.findByIdForUpdate(id);
-        model.addAttribute("itemDto", result);
+    public String updateItemForm(@ModelAttribute("itemDto") ItemDto.UpdateForm result, @PathVariable Long id, @RequestParam(value = "status", defaultValue = "update") String status, Model model) {
+        result = itemService.findByIdForUpdate(id);
+        model.addAttribute("status", status);
+        model.addAttribute("updateDto", result);
 
         return "admin/item/itemReg";
+    }
+
+    @PostMapping("/update")
+    public String updateItem(@ModelAttribute("itemDto") ItemDto.UpdateForm itemDto) {
+
+        itemService.update(itemDto);
+        return "redirect:/admin";
     }
 
     @GetMapping("/news/new")

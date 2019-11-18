@@ -66,6 +66,10 @@ public class ItemController {
     @GetMapping("/detail")
     public String itemDetail(Long id, String currentCategory, Model model) {
 
+        if (currentCategory == null) {
+            currentCategory = "ALL";
+        }
+
         ItemDto.Detail findItem = itemService.findById(id);
         model.addAttribute("item", findItem);
         model.addAttribute("currentCategory", currentCategory);

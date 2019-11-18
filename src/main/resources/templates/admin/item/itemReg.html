@@ -18,10 +18,10 @@
     <div class="container__inner">
 
         <div class="title-box">
-            <h2>상품 등록</h2>
+            <h2 th:text="${status == null ? '상품등록' : '상품 수정'}">상품 등록</h2>
         </div>
 
-        <form th:action="@{/admin/items/new}" method="post" th:object="${itemDto}" enctype="multipart/form-data">
+        <form th:if="${status == null}" th:action="@{/admin/items/new}" method="post" th:object="${itemDto}" enctype="multipart/form-data">
 
             <div class="form__group">
                 <label th:for="name">이름</label><br>
@@ -58,7 +58,59 @@
 
             <div class="form__group">
                 <label th:for="mainImg">메인 이미지</label><br>
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input">
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input" >
+            </div>
+
+            <div class="form__group">
+                <label th:for="detailImg">상세 이미지</label><br>
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input">
+            </div>
+
+            <div class="form__group">
+                <input type="submit" value="상품 등록" class="submit-input"/>
+            </div>
+        </form>
+
+        <!-- 업데이트 -->
+        <form th:if="${status != null}" th:action="@{/admin/update}" method="post" th:object="${updateDto}" enctype="multipart/form-data">
+
+            <div class="form__group">
+                <label th:for="name">이름</label><br>
+                <input type="text" th:field="*{nameKor}" class="input" placeholder="제품명을 입력해 주세요(KR).">
+                <input type="text" th:field="*{nameEng}" class="input" placeholder="제품명을 입력해 주세요(EN).">
+            </div>
+
+            <div class="form__group">
+                <label th:for="price">가격</label><br>
+                <input type="number" th:field="*{price}" class="input" placeholder="제품의 가격을 입력해 주세요.">
+            </div>
+
+            <div class="form__group">
+                <label th:for="stockQuantity">재고</label><br>
+                <input type="number" th:field="*{stockQuantity}" class="input" placeholder="상품의 재고량을 입력해 주세요.">
+            </div>
+
+            <div class="form__group">
+                <label th:for="stockQuantity">제품 설명</label><br>
+                <textarea type="number" th:field="*{description}" class="input" placeholder="상품의 설명을 입력해 주세요."></textarea>
+            </div>
+
+            <div class="form__group">
+                <label th:for="capacity">용량</label><br>
+                <input type="number" th:field="*{capacity}" class="input" placeholder="제품의 용량을 입력해 주세요(ex 50ml)">
+            </div>
+
+            <div class="form__group">
+                <div class="checkbox-div" th:each="category : ${allCategories}">
+                    <input type="checkbox" th:field="*{multiCategoryValues}" th:value="${category.name}">
+                    <label th:for="${#ids.prev('multiCategoryValues')}" th:text="${category.name}"></label><br>
+                </div>
+            </div>
+
+            <div class="form__group">
+                <label th:for="mainImg">메인 이미지</label><br>
+                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="">
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input" >
             </div>
 
             <div class="form__group">
@@ -75,8 +127,5 @@
 </section>
 
 <script>
-    function submit() {
-        var form = document.getElementsByTagName("form");
-        form.
-    }
+
 </script>

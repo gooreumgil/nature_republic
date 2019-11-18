@@ -56,4 +56,10 @@ public class ItemSrc {
         this.item = item;
         item.addItemSrc(this);
     }
+
+    // 업데이트 메소드
+    public void updateItemSrc(ItemSrc itemSrc) {
+        this.s3Key = itemSrc.getS3Key();
+
+    }
 }

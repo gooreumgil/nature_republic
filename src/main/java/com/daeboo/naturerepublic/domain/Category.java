@@ -59,4 +59,8 @@ public class Category {
     public void addCategoryItem(CategoryItem categoryItem) {
         this.categoryItems.add(categoryItem);
     }
+
+    public void updateCategory(Category categoryOne) {
+        this.name = categoryOne.getName();
+    }
 }
