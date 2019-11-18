@@ -2,9 +2,12 @@ package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ItemDto;
+import com.daeboo.naturerepublic.dto.NewsDto;
 import com.daeboo.naturerepublic.repository.ItemRepository;
+import com.daeboo.naturerepublic.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class WelcomeController {
 
     private final ItemRepository itemRepository;
+    private final NewsService newsService;
 
     @GetMapping("/")
     public String welcome(Model model) {
@@ -37,8 +41,12 @@ public class WelcomeController {
             return new ItemDto.LatestPreview(item);
         }).collect(Collectors.toList());
 
+        // News
+        PageImpl<NewsDto.Home> news = newsService.findAll(PageRequest.of(0, 3, Sort.Direction.DESC, "wroteAt"));
+
         model.addAttribute("populars", popularResult);
         model.addAttribute("latestItems", latestResult);
+        model.addAttribute("news", news);
 
         return "welcome/index";
     }

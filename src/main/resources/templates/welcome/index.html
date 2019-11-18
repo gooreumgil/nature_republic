@@ -251,37 +251,37 @@
             <p class="sub_font">네이쳐리퍼블릭의 새로운 소식들입니다.</p>
         </div>
         <ul class="news_wrap clearfix">
-            <li class="col-4">
+            <li class="col-4" th:each="item : ${news}">
                 <div class="news_text_box">
                 <a href="#">
-                    <img src="/image/news/news5.png">
+                    <img th:src="@{${'/upload/' + item.imgPath }}">
                 </a>
 
-                    <p class="date">March 6, 2017</p>
-                    <h3>EXO(엑소)와 함께하는 ‘그린 네이처 2017 팬 페스티벌’ 개최</h3>
-                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>
+                    <p class="date" th:text="${#temporals.monthNameShort(item.wroteAt) + ' ' + #temporals.day(item.wroteAt) + ', ' + #temporals.year(item.wroteAt)}">March 6, 2017</p>
+                    <h3 th:text="*{item.title}">EXO(엑소)와 함께하는 ‘그린 네이처 2017 팬 페스티벌’ 개최</h3>
+                    <p th:text="*{item.content}">풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>
                 </div>
             </li>
-            <li class="col-4">
-                <div class="news_text_box">
-                <a href="#">
-                    <img src="/image/news/news6.png">
-                </a>
-                    <p class="date">March 6, 2017</p>
-                    <h3>네이처리퍼블릭, 고객 혜택을 강화한 새 멤버십 제도 론칭</h3>
-                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>
-                </div>
-            </li>
-            <li class="col-4">
-                <div class="news_text_box">
-                <a href="#">
-                    <img src="/image/news/news7.png">
-                </a>
-                    <p class="date">March 6, 2017</p>
-                    <h3>네이처리퍼블릭, 말린 장미 컬러 립 틴트 연일 품절 사태</h3>
-                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>
-                </div>
-            </li>
+<!--            <li class="col-4">-->
+<!--                <div class="news_text_box">-->
+<!--                <a href="#">-->
+<!--                    <img src="/image/news/news6.png">-->
+<!--                </a>-->
+<!--                    <p class="date">March 6, 2017</p>-->
+<!--                    <h3>네이처리퍼블릭, 고객 혜택을 강화한 새 멤버십 제도 론칭</h3>-->
+<!--                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-4">-->
+<!--                <div class="news_text_box">-->
+<!--                <a href="#">-->
+<!--                    <img src="/image/news/news7.png">-->
+<!--                </a>-->
+<!--                    <p class="date">March 6, 2017</p>-->
+<!--                    <h3>네이처리퍼블릭, 말린 장미 컬러 립 틴트 연일 품절 사태</h3>-->
+<!--                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>-->
+<!--                </div>-->
+<!--            </li>-->
         </ul>
     </section>
 

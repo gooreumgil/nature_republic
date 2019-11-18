@@ -92,12 +92,13 @@ public class AdminController {
 
     }
 
-//    @PostMapping("/news/new")
-//    public String createNews(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto) {
-//
-//        newsService.save(newsDto);
-//
-//    }
+    @PostMapping("/news/new")
+    public String createNews(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto) {
+
+        newsService.save(newsDto);
+        return "redirect:/admin";
+
+    }
 
 
 

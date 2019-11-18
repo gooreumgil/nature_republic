@@ -16,13 +16,31 @@ public class NewsDto {
     public static class CreateForm {
 
         private String title;
-        private Blob content;
+        private String content;
         private MultipartFile img;
         private LocalDateTime wroteAt;
 
-//        public News toNews() {
-//            News news = News.createNews(title, content, img, wroteAt);
-//        }
+        public News toNews() {
+            String imgPath = img.getOriginalFilename() + " ";
+            wroteAt = LocalDateTime.now();
+            return News.createNews(title, content, imgPath, wroteAt);
+        }
+
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Home {
+        private String title;
+        private String content;
+        private String imgPath;
+        private LocalDateTime wroteAt;
+
+        public Home(News news) {
+            this.title = news.getTitle();
+            this.content = news.getContent();
+            this.imgPath = news.getImgPath();
+            this.wroteAt = news.getWroteAt();
+        }
+    }
 }

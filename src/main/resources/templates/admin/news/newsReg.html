@@ -8,17 +8,17 @@
         height: 100%;
     }
 
-    body {
-        padding-top: 100px;
-        padding-bottom: 100px;
+    textarea {
+        height: auto !important;
     }
+
 </style>
 <body>
 <section class="container">
     <div class="container__inner">
 
         <div class="title-box">
-            <h2>상품 등록</h2>
+            <h2>뉴스 등록</h2>
         </div>
 
         <form th:action="@{/admin/news/new}" method="post" th:object="${newsDto}" enctype="multipart/form-data">
@@ -30,7 +30,9 @@
 
             <div class="form__group">
                 <label th:for="content">내용</label><br>
-                <textarea type="number" th:field="*{content}" class="input" placeholder="내용을 입력해 주세요.">
+                <textarea type="text" th:field="*{content}" class="input" rows="10">
+                    내용을 입력해 주세요.
+                </textarea>
             </div>
 
             <div class="form__group">
@@ -47,8 +49,5 @@
 </section>
 
 <script>
-    function submit() {
-        var form = document.getElementsByTagName("form");
-        form.
-    }
+
 </script>

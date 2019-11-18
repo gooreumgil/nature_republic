@@ -21,17 +21,18 @@ public class News {
 
     private String title;
 
-    @Lob
-    private Blob content;
+    private String content;
     private LocalDateTime wroteAt;
     private String imgPath;
 
-//    public static News createNews(String title, Blob content, MultipartFile img, LocalDateTime wroteAt) {
-//        News news = new News();
-//        news.title = title;
-//        news.content = content;
-//        news.wroteAt = wroteAt;
-//        news.imgPath = img.getOriginalFilename();
-//    }
+    public static News createNews(String title, String content, String imgPath, LocalDateTime wroteAt) {
+        News news = new News();
+        news.title = title;
+        news.content = content;
+        news.wroteAt = LocalDateTime.now();
+        news.imgPath = imgPath;
+
+        return news;
+    }
 
 }
