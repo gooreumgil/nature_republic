@@ -112,10 +112,6 @@ public class ItemService {
 
     }
 
-    public void deleteById(Long id) {
-        itemRepository.deleteById(id);
-    }
-
     public ItemDto.UpdateForm findByIdForUpdate(Long id) {
 
         Optional<Item> optionalItem = itemRepository.findById(id);
@@ -128,7 +124,7 @@ public class ItemService {
 
     }
 
-
+    @Transactional
     public void update(ItemDto.UpdateForm itemDto) {
 
         List<String> categoryValues = itemDto.getMultiCategoryValues();
@@ -146,5 +142,10 @@ public class ItemService {
 
         itemRepository.save(updateItem);
 
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        itemRepository.deleteById(id);
     }
 }

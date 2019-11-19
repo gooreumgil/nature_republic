@@ -56,9 +56,11 @@
                 </div>
             </div>
 
-            <div class="form__group">
-                <label th:for="mainImg">메인 이미지</label><br>
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input" >
+            <div class="form__group" id="img-div">
+                <label th:for="files">메인 이미지</label><br>
+                <output id="result"></output>
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input preview files" th:onchange="handleFileSelect(this)">
+                <button type="button" onclick="resetFile()">이미지 리셋</button>
             </div>
 
             <div class="form__group">
@@ -109,8 +111,8 @@
 
             <div class="form__group">
                 <label th:for="mainImg">메인 이미지</label><br>
-                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="">
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input" >
+                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="" class="preview">
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input">
             </div>
 
             <div class="form__group">
@@ -127,5 +129,91 @@
 </section>
 
 <script>
+
+    function resetFile() {
+        console.log(document.getElementById('files').value);
+        document.getElementById('files').value = "";
+
+    }
+
+    // var allFiles = [];
+    // var allPaths = [];
+
+    function handleFileSelect(elem) {
+        var files = elem.files;
+        console.log('files', files);
+
+        //Check File API support
+        if (window.File && window.FileList && window.FileReader) {
+
+            // var files = document.getElementsByClassName('files')[idx].files;
+            // var files = event.target.files; //FileList object
+            // console.log(files);
+            // console.log(idx);
+
+            var output = document.getElementById("result");
+
+            for (var i = 0; i < files.length; i++) {
+                // var file = files[i];
+
+                var file = files.item(i);
+
+                //Only pics
+                if (!file.type.match('image')) continue;
+
+                var picReader = new FileReader();
+                picReader.addEventListener("load", function (event) {
+                    var picFile = event.target;
+                    var div = document.createElement("div");
+                    div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+                    output.insertBefore(div, null);
+                });
+
+                //Read the image
+
+                picReader.readAsDataURL(file);
+                // allFiles.push(file);
+                // allPaths.push("C:\\fakepath\\" + file.name);
+
+
+                // document.getElementsByClassName('files')[idx].setAttribute('disabled');
+                elem.style.display = 'none';
+
+
+                // console.log(allFiles);
+                // console.log(allPaths);
+            }
+
+            var imgDiv = document.getElementById('img-div');
+            var divTag = document.createElement('div');
+            imgDiv.appendChild(divTag);
+            divTag.innerHTML = '<input multiple="multiple" type="file" id="mainImg" name="mainImg" onchange="handleFileSelect(this)" class="input preview files">';
+
+        } else {
+            console.log("Your browser does not support File API");
+        }
+    }
+
+    // function imgData(event) {
+    //     var files = document.getElementById('files').files;
+    //
+    //     for (var i = 0; i < allFiles.length; i++) {
+    //         alert(files[i]);
+    //         files[i] = allFiles[i];
+    //     }
+    //
+    //     event.submit;
+    // }
+
+    var fileInputs = document.getElementsByClassName('files');
+    var i = fileInputs.length - 1;
+
+    while (i--) {
+        var curFileInput = fileInputs[i];
+        // curFileInput.addEventListener('change', handleFileSelect, false);
+    }
+
+    // document.getElementsByClassName('files').addEventListener('change', handleFileSelect, false);
+    // document.getElementsByTagName('form')[0].addEventListener('submit', imgData);
 
 </script>
