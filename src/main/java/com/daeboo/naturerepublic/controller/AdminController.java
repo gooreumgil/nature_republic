@@ -11,15 +11,21 @@ import com.daeboo.naturerepublic.service.ItemService;
 import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.NewsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 
 //    public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
@@ -60,6 +66,23 @@ public class AdminController {
 
     @PostMapping("/items/new")
     public String createItem(@ModelAttribute("itemDto") ItemDto.CreateForm itemDto) {
+
+        List<MultipartFile> mainImg = itemDto.getMainImg();
+        List<MultipartFile> detailImg = itemDto.getDetailImg();
+
+        List<String> mainRemove = itemDto.getMainRemove();
+
+        mainImg.remove(mainImg.size() - 1);
+        detailImg.remove(detailImg.size() - 1);
+
+        for (int i = 0; i < mainRemove.size(); i++) {
+            String name = mainImg.get(i).getOriginalFilename();
+            log.info("mainImg " + name);
+            log.info("mainRemove " + mainRemove.get(i));
+            if (name.equals(mainRemove.get(i))) {
+                mainImg.remove(i);
+            }
+        }
 
         itemService.save(itemDto);
 

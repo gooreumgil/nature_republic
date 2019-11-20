@@ -49,6 +49,8 @@ public class ItemDto {
         private String[] multiCategoryValues;
         private List<MultipartFile> mainImg;
         private List<MultipartFile> detailImg;
+        private List<String> mainRemove;
+        private List<String> detailRemove;
 
         public Item toItemWithImg(List<Category> categories) {
 

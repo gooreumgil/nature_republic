@@ -45,6 +45,55 @@ preview {
     margin-top: 0;
 }
 
+.container .container__inner .form__group h3 {
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.container .container__inner .form__group output .preview-box {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+.container .container__inner .form__group output .preview-box.long {
+    height: 400px;
+}
+
+.container .container__inner .form__group output .preview-box button.cancel {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 23px;
+    height: 23px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, .75);
+    text-align: center;
+    color: #555;
+    font-weight: 500;
+    font-size: 14px;
+    border: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+}
+
+.container .container__inner .form__group output .preview-box img {
+    width: 100%;
+}
+
+.container .container__inner .form__group label.add-img {
+    padding: 46px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    vertical-align: middle;
+    line-height: 0;
+    margin-top: 10px;
+}
+
 .container .container__inner .form__group label {
     display: inline-block;
     margin-top: 30px;
@@ -62,6 +111,10 @@ preview {
     padding: 10px;
     margin-top: 20px;
     font-size: 15px;
+}
+
+.container .container__inner .form__group .input.files {
+    display: none;
 }
 
 .container .container__inner .form__group.phone:after {

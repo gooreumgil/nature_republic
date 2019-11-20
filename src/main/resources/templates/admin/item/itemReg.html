@@ -56,17 +56,23 @@
                 </div>
             </div>
 
+<!--            <div class="form__group">-->
+<!--                <input type="text" th:field="*{mainRemove}" hidden>-->
+<!--            </div>-->
+
             <div class="form__group" id="img-div">
-                <label th:for="main-img">메인 이미지</label><br>
+                <h3>메인 이미지</h3>
                 <output id="result"></output>
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input preview files main" th:onchange="handleFileSelect(this)">
+                <label th:for="mainImg" class="add-img">+</label><br>
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main" th:onchange="handleFileSelect(this)">
 <!--                <button type="button" onclick="resetFile()">이미지 리셋</button>-->
             </div>
 
             <div class="form__group" id="detail-img-div">
-                <label th:for="detail-img">상세 이미지</label><br>
+                <h3>상세 이미지</h3>
                 <output id="detail_result"></output>
-                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input preview files detail_input" th:onchange="handleFileSelect(this)">
+                <label th:for="detailImg" class="add-img">+</label><br>
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input" th:onchange="handleFileSelect(this)">
             </div>
 
             <div class="form__group">
@@ -140,9 +146,15 @@
     // var allFiles = [];
     // var allPaths = [];
 
+    var mainIdx = 0;
+    var detailIdx = 0;
+
     function handleFileSelect(elem) {
+
         var files = elem.files;
-        console.log('files', files);
+
+        // var files = Array.from(elem.files);
+        // console.log(newFileList);
 
         //Check File API support
         if (window.File && window.FileList && window.FileReader) {
@@ -155,24 +167,38 @@
                 output = document.getElementById('detail_result');
             }
 
+
+
             for (var i = 0; i < files.length; i++) {
 
+                // var file = files[i];
                 var file = files.item(i);
 
                 //Only pics
                 if (!file.type.match('image')) continue;
 
                 var picReader = new FileReader();
-                picReader.addEventListener("load", function (event) {
-                    var picFile = event.target;
-                    var div = document.createElement("div");
-                    div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
-                    output.insertBefore(div, null);
-                });
 
+                var obj = {
+                    i: i,
+                    output: output,
+                    file: file,
+                    elem: elem
+                };
+
+
+                picReader.addEventListener("load", loadImg.bind(obj), false);
                 picReader.readAsDataURL(file);
+
                 elem.style.display = 'none';
+
+                if (elem.classList.contains('main')) {
+                    elem.id = 'mainImg main' + mainIdx;
+                } else {
+                    elem.id = 'detailImg detail' + detailIdx;
+                }
             }
+
 
             if (elem.classList.contains('main')) {
                 var imgDiv = document.getElementById('img-div');
@@ -186,9 +212,73 @@
                 divTag.innerHTML = '<input multiple="multiple" type="file" id="detailImg" name="detailImg" onchange="handleFileSelect(this)" class="input preview files detail_input">';
             }
 
+            mainIdx++;
+            detailIdx++;
+
         } else {
             console.log("Your browser does not support File API");
         }
+    }
+
+    function loadImg() {
+        var i = this.i;
+        var output = this.output;
+        var elem = this.elem;
+        var file = this.file;
+
+        var picFile = event.target;
+        var div = document.createElement("div");
+
+        if (elem.classList.contains('detail_input')) {
+            div.classList = 'preview-box long';
+        } else {
+            div.classList = 'preview-box main';
+        }
+
+        div.style.backgroundImage = 'url(' + picFile.result + ')';
+        div.style.backgroundRepeat = 'no-repeat';
+        div.style.backgroundSize = 'cover';
+        div.style.backgroundPosition = 'center center';
+        div.style.margin = "5px 0";
+        div.style.borderRadius = "5px";
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.classList = 'cancel';
+        btn.setAttribute('onclick', "imgDelete(this)");
+        btn.innerText = 'X';
+
+        var btnInner = document.createElement('span');
+        btnInner.innerText = file.name;
+        btnInner.style.display = 'none';
+        btn.append(btnInner);
+
+        // div.innerHTML = "<button type='button' class='cancel' onclick='imgDelete(this)'>x</button>";
+        div.append(btn);
+        // div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+        output.insertBefore(div, null);
+    }
+
+    function imgDelete(elem) {
+        var children = elem.childNodes;
+        var imgName = children[1].innerText;
+        console.log(imgName);
+
+        var inputElem = document.createElement('input');
+        inputElem.type = "text";
+        inputElem.hidden = true;
+        inputElem.id = 'mainRemove';
+        inputElem.name = 'mainRemove';
+        inputElem.setAttribute('value', imgName);
+
+        console.log(inputElem);
+
+        var createForm = document.getElementsByTagName('form')[0];
+        createForm.appendChild(inputElem);
+
+        var parentDiv = elem.parentNode;
+        parentDiv.remove();
+
     }
 
 
