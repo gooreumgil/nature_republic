@@ -18,20 +18,19 @@
             <tr>
                 <th>#</th>
                 <th>제품명(KR)</th>
-                <th>제품명(EN)</th>
                 <th>가격</th>
                 <th>재고</th>
                 <th>좋아요</th>
 <!--                <th>상품 설명</th>-->
 <!--                <th>상품 용량</th>-->
                 <th>메인 이미지</th>
+                <td>수정/삭제</td>
             </tr>
         </thead>
         <tbody>
             <tr th:each="item : ${itemDto}">
                 <td th:text="*{item.id}"></td>
                 <td th:text="*{item.nameKor}"></td>
-                <td th:text="*{item.nameEng}"></td>
                 <td th:text="*{item.price}"></td>
                 <td th:text="*{item.stockQuantity}"></td>
                 <td th:text="*{item.likes}"></td>
@@ -42,6 +41,13 @@
                         <img th:each="img : *{item.mainSrcs}" th:attr="src=@{${'/upload/' + img.s3Key}}" width="50" height="50" alt="">
                     </div>
 <!--                    <img th:attr="src=@{/image/mainKakaoTalk_20191028_230146890.jpg}" width="50" height="50" alt="">-->
+                </td>
+                <td>
+                    <a th:href="@{'/admin/items/update/' + ${item.id}}">수정</a>
+                    <form th:action="@{${'/admin/items/delete/' + item.id}}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit">삭제</button>
+                    </form>
                 </td>
             </tr>
         </tbody>

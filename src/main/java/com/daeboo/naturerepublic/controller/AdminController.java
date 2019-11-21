@@ -143,6 +143,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @DeleteMapping("/items/delete/{id}")
+    public String itemDelete(@PathVariable("id") Long id) {
+        itemService.deleteById(id);
+        return "redirect:/admin/items";
+    }
+
     @GetMapping("/news/new")
     public String createNewsForm(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto , Model model) {
 
@@ -158,7 +164,6 @@ public class AdminController {
         return "redirect:/admin";
 
     }
-
 
 
 

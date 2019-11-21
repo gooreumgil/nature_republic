@@ -68,20 +68,6 @@ public class Item {
             item.categoryItems.add(categoryItem);
         }
 
-//        mainImgPaths.stream().forEach(mainPath -> {
-//            ItemSrc itemSrc = ItemSrc.createItemSrcMain(mainPath, item);
-//            item.itemSrcs.add(itemSrc);
-//        });
-//
-//        detailImgPaths.stream().forEach(detailPath -> {
-//            ItemSrc itemSrc = ItemSrc.createItemSrcDetail(detailPath, item);
-//            item.itemSrcs.add(itemSrc);
-//        });
-//
-//        for (Category category : categories) {
-//            CategoryItem categoryItem = CategoryItem.createCategoryItem(category, item);
-//            item.categoryItems.add(categoryItem);
-//        }
 
         return item;
 
@@ -113,18 +99,12 @@ public class Item {
         this.description = itemDto.getDescription();
         this.capacity = itemDto.getCapacity();
 
-//        List<ItemSrc> itemSrcs = this.itemSrcs;
         List<CategoryItem> categoryItems = this.categoryItems;
         categoryItems.clear();
 
         this.itemSrcs.clear();
         this.itemSrcs.addAll(findItemSrcs);
 
-//        List<String> originRemove = itemDto.getOriginRemove();
-//
-//        for (String s : originRemove) {
-//            this.itemSrcs.removeIf(x -> x.getS3Key().equals(s));
-//        }
 
         mainImgPath.forEach(s -> {
             ItemSrc itemSrcMain = ItemSrc.createItemSrcMain(s, this);
@@ -144,22 +124,6 @@ public class Item {
         return this;
 
     }
-
-//    public void updateItem2(List<String> mainImgPath, List<String> detailImgPath) {
-//        this.itemSrcs.clear();
-//
-//        mainImgPath.forEach(s -> {
-//            ItemSrc itemSrcMain = ItemSrc.createItemSrcMain(s, this);
-//            itemSrcs.add(itemSrcMain);
-//        });
-//
-//        detailImgPath.forEach(s -> {
-//            ItemSrc itemSrcDetail = ItemSrc.createItemSrcDetail(s, this);
-//            itemSrcs.add(itemSrcDetail);
-//        });
-//
-//    }
-
 
 
 

@@ -77,11 +77,6 @@ public class ItemController {
 
     }
 
-    @PutMapping("/delete/{id}")
-    public String itemDelete(@PathVariable("id") Long id) {
-        itemService.deleteById(id);
-        return "redirect:/admin";
-    }
 
 
 
