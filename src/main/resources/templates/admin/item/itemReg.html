@@ -80,8 +80,14 @@
             </div>
         </form>
 
+
+        <!--  ///////-->
         <!-- 업데이트 -->
-        <form th:if="${status != null}" th:action="@{/admin/update}" method="post" th:object="${updateDto}" enctype="multipart/form-data">
+        <!--  ///////-->
+
+        <form th:if="${status != null}" th:action="@{/admin/items/update}" method="post" th:object="${updateDto}" enctype="multipart/form-data">
+
+            <input type="text" th:field="*{id}" hidden>
 
             <div class="form__group">
                 <label th:for="name">이름</label><br>
@@ -116,15 +122,37 @@
                 </div>
             </div>
 
-            <div class="form__group">
-                <label th:for="mainImg">메인 이미지</label><br>
-                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="" class="preview">
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input">
+            <div class="form__group" id="img-div">
+                <h3>메인 이미지</h3>
+
+                <output id="result">
+                    <div th:each="main : *{mainSrcs}" class="preview-box main" th:style="'background-image: url(/upload/' + ${main.s3Key} + ');'">
+                        <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
+                            <span style="display: none;" th:text="${main.s3Key}"></span>
+                        </button>
+                    </div>
+                </output>
+
+                <label th:for="mainImg" class="add-img">+</label><br>
+                <!--                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="" class="preview">-->
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main" th:onchange="handleFileSelect(this)">
             </div>
 
-            <div class="form__group">
-                <label th:for="detailImg">상세 이미지</label><br>
-                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input">
+            <div class="form__group" id="detail-img-div">
+
+                <h3>상세 이미지</h3>
+
+                <output id="detail_result">
+                    <div th:each="detail : *{detailSrcs}" class="preview-box long" th:style="'background-image: url(/upload/' + ${detail.s3Key} + ');'">
+                        <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
+                            <span style="display: none;" th:text="${detail.s3Key}"></span>
+                        </button>
+                    </div>
+                </output>
+
+                <label th:for="detailImg" class="add-img">+</label><br>
+
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input" th:onchange="handleFileSelect(this)">
             </div>
 
             <div class="form__group">
@@ -137,11 +165,11 @@
 
 <script>
 
-    function resetFile() {
-        console.log(document.getElementById('files').value);
-        document.getElementById('files').value = "";
-
-    }
+    // function resetFile() {
+    //     console.log(document.getElementById('files').value);
+    //     document.getElementById('files').value = "";
+    //
+    // }
 
     // var allFiles = [];
     // var allPaths = [];
@@ -166,8 +194,6 @@
             } else {
                 output = document.getElementById('detail_result');
             }
-
-
 
             for (var i = 0; i < files.length; i++) {
 
@@ -194,8 +220,11 @@
 
                 if (elem.classList.contains('main')) {
                     elem.id = 'mainImg main' + mainIdx;
+                    mainIdx++;
+
                 } else {
                     elem.id = 'detailImg detail' + detailIdx;
+                    detailIdx++;
                 }
             }
 
@@ -211,9 +240,6 @@
                 imgDiv.appendChild(divTag);
                 divTag.innerHTML = '<input multiple="multiple" type="file" id="detailImg" name="detailImg" onchange="handleFileSelect(this)" class="input preview files detail_input">';
             }
-
-            mainIdx++;
-            detailIdx++;
 
         } else {
             console.log("Your browser does not support File API");
@@ -236,15 +262,21 @@
         }
 
         div.style.backgroundImage = 'url(' + picFile.result + ')';
-        div.style.backgroundRepeat = 'no-repeat';
-        div.style.backgroundSize = 'cover';
-        div.style.backgroundPosition = 'center center';
-        div.style.margin = "5px 0";
-        div.style.borderRadius = "5px";
+        // div.style.backgroundRepeat = 'no-repeat';
+        // div.style.backgroundSize = 'cover';
+        // div.style.backgroundPosition = 'center center';
+        // div.style.margin = "5px 0";
+        // div.style.borderRadius = "5px";
 
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.classList = 'cancel';
+
+        if (elem.classList.contains('main')) {
+            btn.classList = "cancel mainCancel";
+        } else {
+            btn.classList = "cancel detailCancel";
+        }
+
         btn.setAttribute('onclick', "imgDelete(this)");
         btn.innerText = 'X';
 
@@ -267,8 +299,18 @@
         var inputElem = document.createElement('input');
         inputElem.type = "text";
         inputElem.hidden = true;
-        inputElem.id = 'mainRemove';
-        inputElem.name = 'mainRemove';
+
+        if (elem.classList.contains('mainCancel')) {
+            inputElem.id = 'mainRemove';
+            inputElem.name = 'mainRemove';
+        } else if (elem.classList.contains('detailCancel')) {
+            inputElem.id = 'detailRemove';
+            inputElem.name = 'detailRemove';
+        } else {
+            inputElem.id = 'originRemove';
+            inputElem.name = "originRemove";
+        }
+
         inputElem.setAttribute('value', imgName);
 
         console.log(inputElem);

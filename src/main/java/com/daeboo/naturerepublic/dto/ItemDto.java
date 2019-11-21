@@ -46,30 +46,31 @@ public class ItemDto {
         private Integer stockQuantity;
         private String description;
         private Integer capacity;
-        private String[] multiCategoryValues;
-        private List<MultipartFile> mainImg;
-        private List<MultipartFile> detailImg;
-        private List<String> mainRemove;
-        private List<String> detailRemove;
+        private List<String> multiCategoryValues = new ArrayList<>();
+        private List<MultipartFile> mainImg = new ArrayList<>();
+        private List<MultipartFile> detailImg = new ArrayList<>();
+        private List<String> mainRemove = new ArrayList<>();
+        private List<String> detailRemove = new ArrayList<>();
 
-        public Item toItemWithImg(List<Category> categories) {
-
-            List<String> mainImgPath = new ArrayList<>();
-            List<String> detailImgPath = new ArrayList<>();
-
-            mainImg.forEach(multipartFile -> {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
-                mainImgPath.add(stringBuilder.toString());
-            });
-
-            detailImg.forEach(multipartFile -> {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
-                detailImgPath.add(stringBuilder.toString());
-            });
+        public Item toItemWithImg(List<Category> categories, List<String> mainImgPath, List<String> detailImgPath) {
 
             return Item.createItemWithImg(nameKor, nameEng, price, stockQuantity, description, capacity, categories, mainImgPath, detailImgPath);
+
+//            List<String> mainImgPath = new ArrayList<>();
+//            List<String> detailImgPath = new ArrayList<>();
+//
+//            mainImg.forEach(multipartFile -> {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
+//                mainImgPath.add(stringBuilder.toString());
+//            });
+//
+//            detailImg.forEach(multipartFile -> {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                stringBuilder.append(multipartFile.getOriginalFilename() + " ");
+//                detailImgPath.add(stringBuilder.toString());
+//            });
+
         }
 
     }
@@ -86,8 +87,17 @@ public class ItemDto {
         private String description;
         private Integer capacity;
         private List<String> multiCategoryValues = new ArrayList<>();
-        private List<ItemSrc> mainImg = new ArrayList<>();
-        private List<ItemSrc> detailImg = new ArrayList<>();
+
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+        private List<ItemSrc> detailSrcs = new ArrayList<>();
+
+        private List<MultipartFile> mainImg = new ArrayList<>();
+        private List<MultipartFile> detailImg = new ArrayList<>();
+
+        private List<String> mainRemove = new ArrayList<>();
+        private List<String> detailRemove = new ArrayList<>();
+        private List<String> originRemove = new ArrayList<>();
+
 
         public UpdateForm(Item item) {
             this.id = item.getId();
@@ -105,9 +115,9 @@ public class ItemDto {
             List<ItemSrc> itemSrcs = item.getItemSrcs();
             itemSrcs.forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
-                    mainImg.add(itemSrc);
+                    mainSrcs.add(itemSrc);
                 } else {
-                    detailImg.add(itemSrc);
+                    detailSrcs.add(itemSrc);
                 }
             });
         }

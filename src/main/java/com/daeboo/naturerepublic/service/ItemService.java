@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.service;
 import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.domain.CategoryItem;
 import com.daeboo.naturerepublic.domain.Item;
+import com.daeboo.naturerepublic.domain.ItemSrc;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
@@ -27,6 +28,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
+    private final ItemSrcRepository itemSrcRepository;
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
@@ -36,25 +38,33 @@ public class ItemService {
         List<MultipartFile> mainImg = itemDto.getMainImg();
         List<MultipartFile> detailImg = itemDto.getDetailImg();
 
-//        List<String> mainImgPaths = new ArrayList<>();
-//        List<String> detailImgPaths = new ArrayList<>();
+        List<String> mainImgPath = new ArrayList<>();
+        List<String> detailImgPath = new ArrayList<>();
 
         mainImg.forEach(img -> {
+
             StringBuilder fileName = new StringBuilder();
-            createFile(fileName, img);
-//            String mainImgPath = fileName.toString();
-//            mainImgPaths.add(mainImgPath);
+            fileName.append(img.getOriginalFilename() + " ");
+
+            createFile(img);
+
+            mainImgPath.add(fileName.toString());
+
         });
 
         detailImg.forEach(img -> {
+
             StringBuilder fileName = new StringBuilder();
-            createFile(fileName, img);
-//            String detailImgPath = fileName.toString();
-//            detailImgPaths.add(detailImgPath);
+
+            fileName.append(img.getOriginalFilename() + " ");
+            createFile(img);
+
+            detailImgPath.add(fileName.toString());
+
         });
 
 
-        String[] multiCategoryValues = itemDto.getMultiCategoryValues();
+        List<String> multiCategoryValues = itemDto.getMultiCategoryValues();
         List<Category> categories = new ArrayList<>();
 
         for (String multiCategoryValue : multiCategoryValues) {
@@ -62,7 +72,7 @@ public class ItemService {
             categories.add(category);
         }
 
-        Item item = itemDto.toItemWithImg(categories);
+        Item item = itemDto.toItemWithImg(categories, mainImgPath, detailImgPath);
 
         itemRepository.save(item);
 
@@ -87,17 +97,6 @@ public class ItemService {
         }).collect(Collectors.toList());
 
         return result;
-    }
-
-    private void createFile(StringBuilder fileName, MultipartFile img) {
-        Path fileNameAndPath = Paths.get(uploadDirectory, img.getOriginalFilename());
-        fileName.append(img.getOriginalFilename() + " ");
-
-        try {
-            Files.write(fileNameAndPath, img.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public ItemDto.Detail findById(Long id) {
@@ -128,18 +127,52 @@ public class ItemService {
     public void update(ItemDto.UpdateForm itemDto) {
 
         List<String> categoryValues = itemDto.getMultiCategoryValues();
+        categoryValues.add(0, "ALL");
 
-        List<Category> categoryItem = null;
+        List<Category> categories = new ArrayList<>();
 
         for (String categoryValue : categoryValues) {
             Category category = categoryRepository.findByName(categoryValue).get();
-            categoryItem.add(category);
+            categories.add(category);
         }
+
+        List<MultipartFile> mainImg = itemDto.getMainImg();
+        List<MultipartFile> detailImg = itemDto.getDetailImg();
+
+        List<String> mainImgPath = new ArrayList<>();
+        List<String> detailImgPath = new ArrayList<>();
+
+        mainImg.forEach(img -> {
+
+            StringBuilder fileName = new StringBuilder();
+            fileName.append(img.getOriginalFilename() + " ");
+
+            createFile(img);
+
+            mainImgPath.add(fileName.toString());
+        });
+
+        detailImg.forEach(img -> {
+
+            StringBuilder fileName = new StringBuilder();
+            fileName.append(img.getOriginalFilename() + " ");
+
+            createFile(img);
+
+            detailImgPath.add(fileName.toString());
+
+        });
 
         Item item = itemRepository.findById(itemDto.getId()).get();
 
-        Item updateItem = item.updateItem(itemDto, categoryItem);
+        List<String> originRemove = itemDto.getOriginRemove();
+        originRemove.forEach(s -> {
+            itemSrcRepository.deleteByItemIdAndS3Key(item.getId(), s);
+        });
 
+        List<ItemSrc> findItemSrcs = itemSrcRepository.findByItemId(item.getId());
+
+        Item updateItem = item.updateItem(itemDto, categories, findItemSrcs, mainImgPath, detailImgPath);
         itemRepository.save(updateItem);
 
     }
@@ -147,5 +180,17 @@ public class ItemService {
     @Transactional
     public void deleteById(Long id) {
         itemRepository.deleteById(id);
+    }
+
+
+    // 일반 메소드
+    private void createFile(MultipartFile img) {
+        Path fileNameAndPath = Paths.get(uploadDirectory, img.getOriginalFilename());
+
+        try {
+            Files.write(fileNameAndPath, img.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

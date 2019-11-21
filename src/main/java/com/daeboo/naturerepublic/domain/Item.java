@@ -105,7 +105,7 @@ public class Item {
     }
 
     // 업데이트 메소드
-    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories) {
+    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories, List<ItemSrc> findItemSrcs, List<String> mainImgPath, List<String> detailImgPath) {
         this.nameKor = itemDto.getNameKor();
         this.nameEng = itemDto.getNameEng();
         this.price = itemDto.getPrice();
@@ -113,67 +113,52 @@ public class Item {
         this.description = itemDto.getDescription();
         this.capacity = itemDto.getCapacity();
 
-        for (int i = 0; i < this.categoryItems.size(); i++) {
+//        List<ItemSrc> itemSrcs = this.itemSrcs;
+        List<CategoryItem> categoryItems = this.categoryItems;
+        categoryItems.clear();
 
-            for (int j = 0; j < categories.size(); j++) {
+        this.itemSrcs.clear();
+        this.itemSrcs.addAll(findItemSrcs);
 
-                CategoryItem categoryItem = categoryItems.get(i);
-                Category category = categories.get(j);
+//        List<String> originRemove = itemDto.getOriginRemove();
+//
+//        for (String s : originRemove) {
+//            this.itemSrcs.removeIf(x -> x.getS3Key().equals(s));
+//        }
 
-                if (j > i) {
+        mainImgPath.forEach(s -> {
+            ItemSrc itemSrcMain = ItemSrc.createItemSrcMain(s, this);
+            this.itemSrcs.add(itemSrcMain);
+        });
 
-                    CategoryItem newCategoryItem = CategoryItem.createCategoryItem(categories.get(j), this);
-                    this.categoryItems.add(newCategoryItem);
+        detailImgPath.forEach(s -> {
+            ItemSrc itemSrcDetail = ItemSrc.createItemSrcDetail(s, this);
+            this.itemSrcs.add(itemSrcDetail);
+        });
 
-                }
-
-                if (!categoryItems.get(i).getCategoryName().equals(categories.get(j).getName())) {
-                    Category category1 = categoryItems.get(i).getCategory();
-                    category1.updateCategory(category);
-                }
-            }
-
-        }
-
-        List<ItemSrc> itemSrcs = null;
-        itemSrcs.addAll(itemDto.getMainImg());
-        itemSrcs.addAll(itemDto.getDetailImg());
-
-        for (int i = 0; i < this.itemSrcs.size(); i++) {
-
-            for (int j = 0; j < itemSrcs.size(); j++) {
-
-                if (j > i) {
-                    if (itemSrcs.get(j).getImgType().equals(ImgType.MAIN)) {
-                        ItemSrc.createItemSrcMain(itemSrcs.get(j).getS3Key(), this);
-                    } else {
-                        ItemSrc.createItemSrcDetail(itemSrcs.get(j).getS3Key(), this);
-                    }
-                }
-
-                if (!this.itemSrcs.get(i).getS3Key().equals(itemSrcs.get(j).getS3Key())) {
-                    ItemSrc itemSrc = this.itemSrcs.get(i);
-                    itemSrc.updateItemSrc(itemSrcs.get(j));
-                }
-
-            }
-
+        for (Category category : categories) {
+            CategoryItem categoryItem = CategoryItem.createCategoryItem(category, this);
+            categoryItems.add(categoryItem);
         }
 
         return this;
 
-//        for (int i = 0; i < this.categoryItems.size(); i++) {
-//
-//            Category category = categoryItems.get(i).getCategory();
-//            for (int j = 0; j < categories.size(); j++) {
-//                if (j > i) {
-//                    CategoryItem.createCategoryItem(categories.get(i), this);
-//                } else {
-//                    category.updateCategory(categories.get(i));
-//                }
-//            }
-//        }
     }
+
+//    public void updateItem2(List<String> mainImgPath, List<String> detailImgPath) {
+//        this.itemSrcs.clear();
+//
+//        mainImgPath.forEach(s -> {
+//            ItemSrc itemSrcMain = ItemSrc.createItemSrcMain(s, this);
+//            itemSrcs.add(itemSrcMain);
+//        });
+//
+//        detailImgPath.forEach(s -> {
+//            ItemSrc itemSrcDetail = ItemSrc.createItemSrcDetail(s, this);
+//            itemSrcs.add(itemSrcDetail);
+//        });
+//
+//    }
 
 
 

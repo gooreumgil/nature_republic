@@ -54,17 +54,23 @@ preview {
     color: #333;
 }
 
-.container .container__inner .form__group output .preview-box {
+.preview-box {
     width: 200px;
     height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
     position: relative;
+    margin: 5px 0;
+    border-radius: 5px;
 }
 
-.container .container__inner .form__group output .preview-box.long {
+.preview-box.long {
+    background-position: top center;
     height: 400px;
 }
 
-.container .container__inner .form__group output .preview-box button.cancel {
+.preview-box button.cancel {
     position: absolute;
     right: 5px;
     top: 5px;
@@ -76,12 +82,12 @@ preview {
     color: #555;
     font-weight: 500;
     font-size: 14px;
-    border: 0;
     box-sizing: border-box;
     box-shadow: none;
+    border: 1px solid #eaeaea;
 }
 
-.container .container__inner .form__group output .preview-box img {
+.preview-box img {
     width: 100%;
 }
 

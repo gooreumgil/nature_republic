@@ -57,6 +57,7 @@ public class AdminController {
     public String createItemForm(@ModelAttribute("itemDto") ItemDto.CreateForm itemDto, Model model) {
 
         List<Category> categoryAll = categoryService.findAll();
+        categoryAll.removeIf(category -> category.getName().equals("ALL"));
 
         model.addAttribute("allCategories", categoryAll);
         model.addAttribute("itemDto", itemDto);
@@ -71,18 +72,21 @@ public class AdminController {
         List<MultipartFile> detailImg = itemDto.getDetailImg();
 
         List<String> mainRemove = itemDto.getMainRemove();
+        List<String> detailRemove = itemDto.getDetailRemove();
 
         mainImg.remove(mainImg.size() - 1);
         detailImg.remove(detailImg.size() - 1);
 
-        for (int i = 0; i < mainRemove.size(); i++) {
-            String name = mainImg.get(i).getOriginalFilename();
-            log.info("mainImg " + name);
-            log.info("mainRemove " + mainRemove.get(i));
-            if (name.equals(mainRemove.get(i))) {
-                mainImg.remove(i);
-            }
+        for (String s : mainRemove) {
+            mainImg.removeIf(x -> x.getOriginalFilename().equals(s));
         }
+
+        for (String s : detailRemove) {
+            detailImg.removeIf(x -> x.getOriginalFilename().equals(s));
+        }
+
+        List<String> categoryValues = itemDto.getMultiCategoryValues();
+        categoryValues.add(0, "ALL");
 
         itemService.save(itemDto);
 
@@ -100,17 +104,40 @@ public class AdminController {
 
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/items/update/{id}")
     public String updateItemForm(@ModelAttribute("itemDto") ItemDto.UpdateForm result, @PathVariable Long id, @RequestParam(value = "status", defaultValue = "update") String status, Model model) {
+
         result = itemService.findByIdForUpdate(id);
+        List<Category> allCategories = categoryService.findAll();
+
+        allCategories.removeIf(category -> category.getName().equals("ALL"));
+
         model.addAttribute("status", status);
         model.addAttribute("updateDto", result);
+        model.addAttribute("allCategories", allCategories);
 
         return "admin/item/itemReg";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/items/update")
     public String updateItem(@ModelAttribute("itemDto") ItemDto.UpdateForm itemDto) {
+
+        List<MultipartFile> mainImg = itemDto.getMainImg();
+        List<MultipartFile> detailImg = itemDto.getDetailImg();
+
+        mainImg.remove(mainImg.size() - 1);
+        detailImg.remove(detailImg.size() - 1);
+
+        List<String> mainRemove = itemDto.getMainRemove();
+        List<String> detailRemove = itemDto.getDetailRemove();
+
+        for (String s : mainRemove) {
+            mainImg.removeIf(x -> x.getOriginalFilename().equals(s));
+        }
+
+        for (String s : detailRemove) {
+            detailImg.removeIf(x -> x.getOriginalFilename().equals(s));
+        }
 
         itemService.update(itemDto);
         return "redirect:/admin";
