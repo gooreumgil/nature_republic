@@ -127,7 +127,7 @@
                 <output id="result">
                     <div th:each="main : *{mainSrcs}" class="preview-box main" th:style="'background-image: url(/upload/' + ${main.s3Key} + ');'">
                         <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
-                            <span style="display: none;" th:text="${main.s3Key}"></span>
+                            <span style="display: none;" th:text="${main.id}"></span>
                         </button>
                     </div>
                 </output>
@@ -144,7 +144,7 @@
                 <output id="detail_result">
                     <div th:each="detail : *{detailSrcs}" class="preview-box long" th:style="'background-image: url(/upload/' + ${detail.s3Key} + ');'">
                         <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
-                            <span style="display: none;" th:text="${detail.s3Key}"></span>
+                            <span style="display: none;" th:text="${detail.id}"></span>
                         </button>
                     </div>
                 </output>
@@ -292,25 +292,40 @@
 
     function imgDelete(elem) {
         var children = elem.childNodes;
-        var imgName = children[1].innerText;
-        console.log(imgName);
+        // console.log(imgName);
 
         var inputElem = document.createElement('input');
-        inputElem.type = "text";
         inputElem.hidden = true;
 
         if (elem.classList.contains('mainCancel')) {
+
+            var imgName = children[1].innerText;
+
+            inputElem.type = "text";
             inputElem.id = 'mainRemove';
             inputElem.name = 'mainRemove';
+            inputElem.setAttribute('value', imgName);
+
         } else if (elem.classList.contains('detailCancel')) {
+
+            var imgName = children[1].innerText;
+
+            inputElem.type = "text";
             inputElem.id = 'detailRemove';
             inputElem.name = 'detailRemove';
+            inputElem.setAttribute('value', imgName);
+
         } else {
+
+            var imgId = children[1].innerText;
+
+            inputElem.type = "number";
             inputElem.id = 'originRemove';
             inputElem.name = "originRemove";
+            inputElem.setAttribute('value', imgId);
+
         }
 
-        inputElem.setAttribute('value', imgName);
 
         console.log(inputElem);
 

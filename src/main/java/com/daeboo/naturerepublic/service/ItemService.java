@@ -167,7 +167,7 @@ public class ItemService {
 
         Item item = itemRepository.findById(itemDto.getId()).get();
 
-        List<String> originRemove = itemDto.getOriginRemove();
+        List<Long> originRemove = itemDto.getOriginRemove();
 
         Item updateItem = item.updateItem(itemDto, categories, originRemove, mainImgPath, detailImgPath);
         itemRepository.save(updateItem);

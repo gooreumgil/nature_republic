@@ -91,7 +91,7 @@ public class Item {
     }
 
     // 업데이트 메소드
-    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories, List<String> originRemove, List<String> mainImgPath, List<String> detailImgPath) {
+    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories, List<Long> originRemove, List<String> mainImgPath, List<String> detailImgPath) {
         this.nameKor = itemDto.getNameKor();
         this.nameEng = itemDto.getNameEng();
         this.price = itemDto.getPrice();
@@ -103,8 +103,9 @@ public class Item {
         categoryItems.clear();
 
         List<ItemSrc> itemSrcs = this.getItemSrcs();
-        for (String s : originRemove) {
-            itemSrcs.removeIf(itemSrc -> itemSrc.getS3Key().equals(s));
+
+        for (Long s : originRemove) {
+            itemSrcs.removeIf(itemSrc -> itemSrc.getId().equals(s));
         }
 
         mainImgPath.forEach(s -> {

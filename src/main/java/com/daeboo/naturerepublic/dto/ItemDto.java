@@ -96,7 +96,7 @@ public class ItemDto {
 
         private List<String> mainRemove = new ArrayList<>();
         private List<String> detailRemove = new ArrayList<>();
-        private List<String> originRemove = new ArrayList<>();
+        private List<Long> originRemove = new ArrayList<>();
 
 
         public UpdateForm(Item item) {
