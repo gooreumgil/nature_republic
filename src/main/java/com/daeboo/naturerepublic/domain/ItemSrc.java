@@ -1,9 +1,6 @@
 package com.daeboo.naturerepublic.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "item_src")
 @NoArgsConstructor @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 public class ItemSrc {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,12 +37,7 @@ public class ItemSrc {
     public static ItemSrc createItemSrcDetail(String imgPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
         itemSrc.s3Key = imgPath;
-        if (imgPath.contains("main")) {
-            itemSrc.imgType = ImgType.MAIN;
-        } else {
-            itemSrc.imgType = ImgType.DETAIL;
-        }
-
+        itemSrc.imgType = ImgType.DETAIL;
         itemSrc.item = item;
 
         return itemSrc;

@@ -25,5 +25,7 @@ public interface CategoryItemRepository extends JpaRepository<CategoryItem, Long
 
     List<CategoryItem> findByItemId(Long id);
 
+    void deleteByItemId(Long id);
+
     int countAllByCategoryName(String currentCategory);
 }

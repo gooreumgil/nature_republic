@@ -1,9 +1,6 @@
 package com.daeboo.naturerepublic.service;
 
-import com.daeboo.naturerepublic.domain.Category;
-import com.daeboo.naturerepublic.domain.CategoryItem;
-import com.daeboo.naturerepublic.domain.Item;
-import com.daeboo.naturerepublic.domain.ItemSrc;
+import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,6 +27,8 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final ItemSrcRepository itemSrcRepository;
+    private final CategoryItemRepository categoryItemRepository;
+    private final EntityManager em;
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
@@ -126,16 +126,7 @@ public class ItemService {
     @Transactional
     public void update(ItemDto.UpdateForm itemDto) {
 
-        List<String> categoryValues = itemDto.getMultiCategoryValues();
-        categoryValues.add(0, "ALL");
-
-        List<Category> categories = new ArrayList<>();
-
-        for (String categoryValue : categoryValues) {
-            Category category = categoryRepository.findByName(categoryValue).get();
-            categories.add(category);
-        }
-
+        // 파일 쓰기 //
         List<MultipartFile> mainImg = itemDto.getMainImg();
         List<MultipartFile> detailImg = itemDto.getDetailImg();
 
@@ -163,16 +154,22 @@ public class ItemService {
 
         });
 
+        // 업데이트 //
+        List<String> categoryValues = itemDto.getMultiCategoryValues();
+        categoryValues.add(0, "ALL");
+
+        List<Category> categories = new ArrayList<>();
+
+        for (String categoryValue : categoryValues) {
+            Category category = categoryRepository.findByName(categoryValue).get();
+            categories.add(category);
+        }
+
         Item item = itemRepository.findById(itemDto.getId()).get();
 
         List<String> originRemove = itemDto.getOriginRemove();
-        originRemove.forEach(s -> {
-            itemSrcRepository.deleteByItemIdAndS3Key(item.getId(), s);
-        });
 
-        List<ItemSrc> findItemSrcs = itemSrcRepository.findByItemId(item.getId());
-
-        Item updateItem = item.updateItem(itemDto, categories, findItemSrcs, mainImgPath, detailImgPath);
+        Item updateItem = item.updateItem(itemDto, categories, originRemove, mainImgPath, detailImgPath);
         itemRepository.save(updateItem);
 
     }

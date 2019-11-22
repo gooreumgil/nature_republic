@@ -1,15 +1,13 @@
 package com.daeboo.naturerepublic.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class CategoryItem {
 
     @Id @GeneratedValue

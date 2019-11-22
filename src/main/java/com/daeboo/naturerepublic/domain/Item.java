@@ -26,13 +26,13 @@ public class Item {
     private int capacity;
     private LocalDateTime registerAt;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemSrc> itemSrcs = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")
@@ -91,7 +91,7 @@ public class Item {
     }
 
     // 업데이트 메소드
-    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories, List<ItemSrc> findItemSrcs, List<String> mainImgPath, List<String> detailImgPath) {
+    public Item updateItem(ItemDto.UpdateForm itemDto, List<Category> categories, List<String> originRemove, List<String> mainImgPath, List<String> detailImgPath) {
         this.nameKor = itemDto.getNameKor();
         this.nameEng = itemDto.getNameEng();
         this.price = itemDto.getPrice();
@@ -102,9 +102,10 @@ public class Item {
         List<CategoryItem> categoryItems = this.categoryItems;
         categoryItems.clear();
 
-        this.itemSrcs.clear();
-        this.itemSrcs.addAll(findItemSrcs);
-
+        List<ItemSrc> itemSrcs = this.getItemSrcs();
+        for (String s : originRemove) {
+            itemSrcs.removeIf(itemSrc -> itemSrc.getS3Key().equals(s));
+        }
 
         mainImgPath.forEach(s -> {
             ItemSrc itemSrcMain = ItemSrc.createItemSrcMain(s, this);
