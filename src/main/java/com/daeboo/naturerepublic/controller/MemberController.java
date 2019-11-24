@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,11 +19,17 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/members/new")
+    @GetMapping("/login")
+    public String memberLogin(@ModelAttribute("memberDto") MemberDto.Login memberDto, Model model) {
+        return "/member/login";
+    }
+
+    @GetMapping("/new")
     public String memberCreateForm(@ModelAttribute("memberDto") MemberDto.SignUp memberDto, Model model) {
 
         model.addAttribute("memberDto", memberDto);
@@ -30,7 +37,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/members/new")
+    @PostMapping("/new")
     public String memberCreate(@ModelAttribute("memberDto") @Valid MemberDto.SignUp memberDto, BindingResult result) {
 
         Member member = memberDto.toMember();

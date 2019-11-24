@@ -74,4 +74,13 @@ public class MemberDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Login {
+
+        private String name;
+        private String password;
+
+    }
+
 }

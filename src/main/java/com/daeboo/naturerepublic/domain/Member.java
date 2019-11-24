@@ -6,7 +6,9 @@ import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "members")
@@ -31,6 +33,9 @@ public class Member {
 
     @Embedded
     private PhoneNumber phoneNumber;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<RoleModel> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Order> orders;

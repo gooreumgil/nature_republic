@@ -35,21 +35,8 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 public class Application {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CategoryItemService categoryItemService;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    public List<CategoryDto.NewLine> category() {
-
-        List<Category> all = categoryRepository.findAll();
-        return all.stream().map(CategoryDto.NewLine::new).collect(Collectors.toList());
-
     }
 
     @Bean

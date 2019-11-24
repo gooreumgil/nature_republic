@@ -1,5 +1,6 @@
 package com.daeboo.naturerepublic.controller;
 
+import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.dto.CategoryDto;
 import com.daeboo.naturerepublic.dto.CategoryItemDto;
 import com.daeboo.naturerepublic.dto.ItemDto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,8 +28,9 @@ public class ItemController {
 
     private final ItemService itemService;
     private final CategoryItemService categoryItemService;
-    private final List<CategoryDto.NewLine> categoryList;
+    private final CategoryService categoryService;
     private final LinkedHashMap<String, String> sortList;
+//    private final List<CategoryDto.NewLine> categoryList;
 
     @GetMapping
     public String itemIndex(Model model, @PageableDefault(size = 12, page = 0, direction = Sort.Direction.DESC, sort = "item.likes") Pageable pageable,
@@ -38,6 +41,11 @@ public class ItemController {
         if (currentCategory == null) {
             currentCategory = "ALL";
         }
+
+        List<Category> all = categoryService.findAll();
+        List<CategoryDto.NewLine> categoryList = all.stream().map(category -> {
+            return new CategoryDto.NewLine(category);
+        }).collect(Collectors.toList());
 
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("categories", categoryList);
@@ -72,6 +80,10 @@ public class ItemController {
         ItemDto.Detail findItem = itemService.findById(id);
         model.addAttribute("item", findItem);
         model.addAttribute("currentCategory", currentCategory);
+
+        String mainCategory = findItem.getMainCategory();
+        Page<CategoryItemDto.ListView> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likes"));
+        model.addAttribute("categoryBests", allByCategoryName);
 
         return "item/detail";
 
