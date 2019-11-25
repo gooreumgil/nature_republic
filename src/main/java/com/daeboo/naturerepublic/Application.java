@@ -35,6 +35,9 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 public class Application {
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -49,5 +52,25 @@ public class Application {
 
         return sortList;
     }
+
+//    @Bean
+//    public ApplicationRunner applicationRunner() {
+//        return new ApplicationRunner() {
+//            @Override
+//            public void run(ApplicationArguments args) throws Exception {
+//                Address address = new Address("seoul", "street", "12345");
+//                Birthday birthday = new Birthday(19890707);
+//                PhoneNumber phoneNumber = new PhoneNumber("010", "1111", "2222");
+//
+//                List<String> roles = new ArrayList<>();
+//                roles.add("ADMIN");
+//                roles.add("USER");
+//
+//                Member member = Member.createMember("admin", "admin", "admin@admin.com", address, birthday, phoneNumber, roles);
+//
+//                memberRepository.save(member);
+//            }
+//        };
+//    }
 
 }

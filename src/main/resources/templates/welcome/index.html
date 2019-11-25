@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/header :: header"/>
 <style>
     .head {
@@ -31,9 +31,9 @@
                     <a href="#">커뮤니티</a>
                 </li>
             </ul>
-            <ul class="icon">
+            <ul class="icon" sec:authorize="isAuthenticated()">
                 <li class="a1">
-                    <a href="#">
+                    <a href="/logout">
                         <span class="helper"></span>
                         <img src="/image/login_fullback.png">
                     </a>
@@ -54,6 +54,13 @@
                     <a href="#">
                         <span class="helper"></span>
                         <img src="/image/search_fullback.png">
+                    </a>
+                </li>
+            </ul>
+            <ul class="icon" sec:authorize="isAnonymous()">
+                <li class="a1">
+                    <a href="/login" class="login_btn_white">
+                        로그인
                     </a>
                 </li>
             </ul>

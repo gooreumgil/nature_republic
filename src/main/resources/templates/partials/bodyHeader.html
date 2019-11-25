@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="bodyHeader" class="head">
     <nav>
         <a href="/" class="logo_a">
@@ -23,9 +23,9 @@
                 <a href="#">커뮤니티</a>
             </li>
         </ul>
-        <ul class="icon">
+        <ul class="icon" sec:authorize="isAuthenticated()">
             <li class="a1">
-                <a href="#">
+                <a href="/logout">
                     <span class="helper"></span>
                     <img src="/image/top_icon1.png">
                 </a>
@@ -46,6 +46,14 @@
                 <a href="#">
                     <span class="helper"></span>
                     <img src="/image/top_icon3.png">
+                </a>
+            </li>
+
+        </ul>
+        <ul class="icon" sec:authorize="isAnonymous()">
+            <li class="a1">
+                <a href="/login" class="login_btn_gray">
+                    로그인
                 </a>
             </li>
         </ul>

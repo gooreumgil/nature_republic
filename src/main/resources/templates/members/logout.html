@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/formStyle.css}">
+<style>
+    .container {
+        margin-top: 200px;
+    }
+</style>
+
+<body>
+
+<section class="container">
+    <div class="container__inner">
+
+        <form th:action="@{/logout}" method="post">
+
+            <h2>로그아웃 하겠습니까?</h2>
+
+            <div class="form__group">
+                <input type="submit" value="로그아웃" class="submit-input"/>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+</body>
+</html>

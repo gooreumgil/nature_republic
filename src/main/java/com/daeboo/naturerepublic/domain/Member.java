@@ -5,6 +5,7 @@ import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
 import lombok.*;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -34,14 +35,14 @@ public class Member {
     @Embedded
     private PhoneNumber phoneNumber;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RoleModel> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     private List<Order> orders;
 
 
-    public static Member createMember(String name, String password, String email, Address address, Birthday birthday, PhoneNumber phoneNumber) {
+    public static Member createMember(String name, String password, String email, Address address, Birthday birthday, PhoneNumber phoneNumber, List<String> roles) {
         Member member = new Member();
         member.name = name;
         member.password = password;
@@ -49,6 +50,10 @@ public class Member {
         member.address = address;
         member.birthday = birthday;
         member.phoneNumber = phoneNumber;
+        roles.forEach(roleModel -> {
+            RoleModel createRoles = RoleModel.CreateRoles(member, roleModel);
+            member.roles.add(createRoles);
+        });
 
         return member;
     }

@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Member;
+import com.daeboo.naturerepublic.domain.RoleModel;
 import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
@@ -14,6 +15,8 @@ import org.springframework.util.StringUtils;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.Set;
 
 public class MemberDto {
 
@@ -40,12 +43,14 @@ public class MemberDto {
         private String number1;
         private String number2;
         private String number3;
+        private List<String> roles;
 
         public Member toMember() {
             return Member.createMember(name, password, email,
                     new Address(city, street, zipcode),
                     new Birthday(birthDay),
-                    new PhoneNumber(number1, number2, number3));
+                    new PhoneNumber(number1, number2, number3),
+                    roles);
 
         }
 

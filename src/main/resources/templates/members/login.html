@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/formStyle.css}">
+<style>
+    .container {
+        margin-top: 200px;
+    }
+</style>
+
+<body>
+
+<section class="container">
+    <div class="container__inner">
+
+        <form th:action="@{/login}" method="post">
+
+            <div class="form__group">
+                <label th:for="username">Username</label><br>
+                <input type="text" id="username" name="username" class="input" placeholder="Username">
+            </div>
+
+            <div class="form__group">
+                <label th:for="password">Password</label><br>
+                <input type="text" id="password" name="password" class="input" placeholder="Password">
+            </div>
+
+            <div class="form__group">
+                <input type="submit" value="회원가입" class="submit-input"/>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -24,16 +24,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/login")
-    public String memberLogin(@ModelAttribute("memberDto") MemberDto.Login memberDto, Model model) {
-        return "/member/login";
-    }
-
     @GetMapping("/new")
     public String memberCreateForm(@ModelAttribute("memberDto") MemberDto.SignUp memberDto, Model model) {
 
         model.addAttribute("memberDto", memberDto);
-        return "member/signUp";
+        return "members/signUp";
 
     }
 

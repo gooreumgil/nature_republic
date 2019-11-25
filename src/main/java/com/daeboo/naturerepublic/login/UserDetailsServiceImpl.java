@@ -25,10 +25,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Member> memberOptional = memberRepository.findByUsername(username);
+        Optional<Member> memberOptional = memberRepository.findByName(username);
         if (memberOptional.isPresent()) {
             Member member = memberOptional.get();
-            String[] roles = member.getRoles().stream().map(RoleModel::getName).toArray(String[]::new);
+            String[] roles = member.getRoles().stream().map(RoleModel::getName).map(roleEnum -> roleEnum.name()).toArray(String[]::new);
 
             return User.builder()
                     .username(member.getName())
