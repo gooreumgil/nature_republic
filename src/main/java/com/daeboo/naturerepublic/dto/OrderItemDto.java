@@ -14,10 +14,12 @@ public class OrderItemDto {
         private Long memberId;
         private Long itemId;
         private int price;
+        private int usePoints;
         private int count;
         private String addressee;
         private String phoneNumber;
-        private OrderAddress orderAddress;
+        private String mainAddress;
+        private String detailAddress;
 
 
     }

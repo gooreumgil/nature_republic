@@ -97,6 +97,73 @@ p.bold {
 
 form {
     box-sizing: border-box;
-    padding: 0 10px;
     margin-top: 60px;
+}
+
+form .form-div {
+    margin-top: 60px;
+}
+
+form .form-div h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #555;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #888;
+}
+
+form .form-div.delivery {
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+form .form-div.delivery label {
+    font-size: 12px;
+    color: #888;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+form .form-div.delivery input {
+    width: 100%;
+    height: 45px;
+    outline: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+}
+
+form .form-div.delivery input:focus {
+    border-bottom: 1px solid #71a532;
+}
+
+
+form ul.pay-wrap {
+
+}
+
+form ul.pay-wrap .title-box {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+form ul.pay-wrap h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #555;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #888;
+}
+
+form ul.pay-wrap li.pay-list {
+    float: left;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+form ul.pay-wrap li.pay-list.points {
+    width: 65%;
+}
+
+form ul.pay-wrap li.pay-list.payment {
+    width: 35%;
 }

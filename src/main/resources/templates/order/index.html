@@ -58,28 +58,60 @@
             <input type="hidden" th:field="*{memberId}" th:value="${memberDto.id}">
             <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
 
-            <h3>배송정보</h3>
-            <div class="form-div">
+            <div class="form-div delivery">
+                <h3>배송정보</h3>
+
                 <label th:for="addressee">수령인</label>
-                <input type="text" th:field="*{addressee}">
+                <input type="text" id="addressee" name="addressee" th:value="${memberDto.name}">
 
                 <label th:for="phoneNumber">연락처</label>
-                <input type="number" th:field="*{phoneNumber}">
+                <input type="number" id="phoneNumber" name="phoneNumber" th:value="${memberDto.phoneNumber.number1 + memberDto.phoneNumber.number2 + memberDto.phoneNumber.number3}">
 
-                <label th:for="orderAddress.main">기본주소</label>
-                <input type="text" th:field="*{orderAddress.main}">
+                <label th:for="mainAddress">기본주소</label>
+                <input type="text" id="mainAddress" name="mainAddress" th:value="${memberDto.address.city + ' ' + memberDto.address.street}" >
 
-                <label th:for="orderAddress.detail">상세주소</label>
-                <input type="text" th:field="*{orderAddress.detail}">
+                <label th:for="detailAddress">상세주소</label>
+                <input type="text" id="detailAddress" name="detailAddress" th:value="${memberDto.address.zipcode}">
             </div>
 
-            <div class="form-div">
-                <div class="total-price">
-                    <h4>총 결제금액</h4>
-                    <p>15,000원</p>
-                </div>
-            </div>
-            <button type="submit">주문하기</button>
+            <ul class="clearfix pay-wrap">
+
+
+
+                <li class="pay-list points">
+                    <div class="pay-inner">
+                        <div class="inner-box">
+
+                            <div class="title-box">
+                                <h3>할인 및 쿠폰</h3>
+                            </div>
+
+                            <label>보유중인 포인트</label>
+                            <p th:text="${memberDto.points}"></p>
+                        </div>
+
+                        <div class="inner-box">
+                            <label th:for="usePoints">사용할 포인트</label>
+                            <input type="number" th:field="*{usePoints}">
+                        </div>
+
+                    </div>
+                </li>
+
+                <li class="pay-list payment">
+
+                    <div class="title-box">
+                        <h3>결제정보</h3>
+                    </div>
+
+                    <div class="total-price">
+                        <h4>총 결제금액</h4>
+                        <p>15,000원</p>
+                    </div>
+                    <button type="submit">주문하기</button>
+                </li>
+            </ul>
+
         </form>
     </section>
 
