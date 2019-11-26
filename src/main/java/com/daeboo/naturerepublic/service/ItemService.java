@@ -99,12 +99,11 @@ public class ItemService {
         return result;
     }
 
-    public ItemDto.Detail findById(Long id) {
+    public Item findById(Long id) {
 
         Optional<Item> optionalItem = itemRepository.findByIdWithImg(id);
         if (optionalItem.isPresent()) {
-            Item item = optionalItem.get();
-            return new ItemDto.Detail(item);
+            return optionalItem.get();
         } else {
             throw new RuntimeException("존재하지 않는 상품입니다.");
         }

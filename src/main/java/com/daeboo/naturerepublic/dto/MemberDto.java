@@ -88,4 +88,23 @@ public class MemberDto {
 
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Order {
+
+        private Long id;
+        private String name;
+        private Address address;
+        private PhoneNumber phoneNumber;
+        private Integer points;
+
+        public Order(Member member) {
+            this.id = member.getId();
+            this.name = member.getName();
+            this.address = member.getAddress();
+            this.phoneNumber = member.getPhoneNumber();
+            this.points = member.getPoints();
+        }
+    }
+
 }

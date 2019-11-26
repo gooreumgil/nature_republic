@@ -35,8 +35,8 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemSrc> itemSrcs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
-    private List<ItemTags> itemTags;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<Likes> likesList = new ArrayList<>();
 
     // 생성 메소드
     public static Item createItemWithImg(
@@ -84,10 +84,6 @@ public class Item {
 
     public void addCategoryItem(CategoryItem categoryItem) {
         this.categoryItems.add(categoryItem);
-    }
-
-    public void addItemTags(ItemTags itemTags) {
-        this.itemTags.add(itemTags);
     }
 
     // 업데이트 메소드

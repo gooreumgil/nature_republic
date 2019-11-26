@@ -7,11 +7,14 @@ import com.daeboo.naturerepublic.exception.PasswordWrongException;
 import com.daeboo.naturerepublic.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.springframework.expression.ExpressionException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +38,12 @@ public class MemberService {
         }).collect(Collectors.toList());
 
         return result;
+    }
+
+    public Member findByName(String name) {
+//        memberRepository.findByName(name).orElseThrow(() -> throw new UsernameNotFoundException("존재하지 않다"));
+        Member member = memberRepository.findByName(name).orElseThrow(() -> new UsernameNotFoundException("no exist"));
+        return member;
     }
 
 }

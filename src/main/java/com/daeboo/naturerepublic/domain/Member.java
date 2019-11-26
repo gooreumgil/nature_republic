@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class Member {
     private String name;
     private String password;
     private String email;
+    private Integer points;
 
     @Embedded
     private Address address;
@@ -41,6 +43,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Comment comment;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes = new ArrayList<>();
 
     public static Member createMember(String name, String password, String email, Address address, Birthday birthday, PhoneNumber phoneNumber, List<String> roles) {
         Member member = new Member();

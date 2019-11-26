@@ -281,12 +281,20 @@ public class ItemDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Order {
 
+        private Long id;
+        private String itemName;
+        private int price;
+        private String s3Key;
 
-
-
-
-
-
-
+        public Order(Item item) {
+            this.id = item.getId();
+            this.itemName = item.getNameKor();
+            this.price = item.getPrice();
+            this.s3Key = item.getItemSrcs().get(0).getS3Key();
+        }
+    }
 }

@@ -20,6 +20,9 @@ public class Comment {
     private String content;
     private LocalDateTime wroteAt;
 
+    @Enumerated(EnumType.STRING)
+    private CommentType commentType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;

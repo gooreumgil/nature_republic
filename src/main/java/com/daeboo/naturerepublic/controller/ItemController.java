@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Category;
+import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.CategoryDto;
 import com.daeboo.naturerepublic.dto.CategoryItemDto;
 import com.daeboo.naturerepublic.dto.ItemDto;
@@ -77,11 +78,12 @@ public class ItemController {
             currentCategory = "ALL";
         }
 
-        ItemDto.Detail findItem = itemService.findById(id);
-        model.addAttribute("item", findItem);
+        Item findItem = itemService.findById(id);
+        ItemDto.Detail detail = new ItemDto.Detail(findItem);
+        model.addAttribute("item", detail);
         model.addAttribute("currentCategory", currentCategory);
 
-        String mainCategory = findItem.getMainCategory();
+        String mainCategory = detail.getMainCategory();
         Page<CategoryItemDto.ListView> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likes"));
         model.addAttribute("categoryBests", allByCategoryName);
 

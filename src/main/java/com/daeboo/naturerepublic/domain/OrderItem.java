@@ -1,5 +1,6 @@
 package com.daeboo.naturerepublic.domain;
 
+import com.daeboo.naturerepublic.domain.embeded.OrderAddress;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,11 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    private String addressee;
+
+    @Embedded
+    private OrderAddress orderAddress;
 
     private int orderPrice;
     private int count;

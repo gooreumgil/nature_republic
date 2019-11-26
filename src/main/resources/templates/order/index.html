@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/order.css}">
+<style>
+    header {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
+    }
+</style>
+<body>
+
+    <header th:replace="partials/bodyHeader :: bodyHeader"/>
+
+    <section class="container">
+        <div class="title-box">
+            <h2>상품 주문</h2>
+            <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
+        </div>
+
+        <ul class="item__info-wrap">
+            <li class="item__list top-line clearfix">
+                <div class="img-div"></div>
+                <div class="info-div">상품정보</div>
+                <div class="quantity-div">수량</div>
+                <div class="points-div">적립포인트</div>
+                <div class="price-div">금액</div>
+            </li>
+            <li class="item__list content clearfix" th:object="${itemDto}">
+                <div class="img-div">
+                    <div class="list__inner">
+                        <img th:src="@{${'/upload/' + itemDto.s3Key}}" alt="" class="order-item-img">
+                    </div>
+                </div>
+                <div class="info-div">
+                    <div class="list__inner">
+                        <p th:text="*{itemName}" class="bold"></p>
+                    </div>
+                </div>
+                <div class="quantity-div">
+                    <div class="list__inner">
+                        <p th:text="${count + '개'}"></p>
+                    </div>
+                </div>
+                <div class="points-div">
+                    <div class="list__inner">
+                        <p th:text="*{price * 1 / 10 + 'p'}"></p>
+                    </div>
+                </div>
+                <div class="price-div">
+                    <div class="list__inner">
+                        <p th:text="*{#numbers.formatInteger(price, 3, 'COMMA') + '원'}" class="bold"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <form th:action="@{/order}" method="post" th:object="${orderItemDto}">
+            <input type="hidden" th:field="*{memberId}" th:value="${memberDto.id}">
+            <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
+
+            <h3>배송정보</h3>
+            <div class="form-div">
+                <label th:for="addressee">수령인</label>
+                <input type="text" th:field="*{addressee}">
+
+                <label th:for="phoneNumber">연락처</label>
+                <input type="number" th:field="*{phoneNumber}">
+
+                <label th:for="orderAddress.main">기본주소</label>
+                <input type="text" th:field="*{orderAddress.main}">
+
+                <label th:for="orderAddress.detail">상세주소</label>
+                <input type="text" th:field="*{orderAddress.detail}">
+            </div>
+
+            <div class="form-div">
+                <div class="total-price">
+                    <h4>총 결제금액</h4>
+                    <p>15,000원</p>
+                </div>
+            </div>
+            <button type="submit">주문하기</button>
+        </form>
+    </section>
+
+</body>
+</html>
