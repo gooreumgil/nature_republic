@@ -26,13 +26,22 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private String addressee;
-
-    @Embedded
-    private OrderAddress orderAddress;
-
     private int orderPrice;
+    private int discount;
     private int count;
+
+    // 생성 메소드
+    public static OrderItem createOrderItem(Item item, int orderPrice, int discount, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.item = item;
+        orderItem.orderPrice = orderPrice;
+        orderItem.discount = discount;
+        orderItem.count = count;
+
+        item.removeStock(count);
+
+        return orderItem;
+    }
 
     // 연관관계 편의 메소드
     public void setOrder(Order order) {

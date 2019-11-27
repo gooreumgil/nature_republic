@@ -7,13 +7,12 @@
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
     }
 </style>
-<body>
 
     <header th:replace="partials/bodyHeader :: bodyHeader"/>
 
     <section class="container">
         <div class="title-box">
-            <h2>상품 주문</h2>
+            <h2>상품주문</h2>
             <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
         </div>
 
@@ -43,35 +42,42 @@
                 </div>
                 <div class="points-div">
                     <div class="list__inner">
-                        <p th:text="*{price * 1 / 10 + 'p'}"></p>
+                        <p th:text="${(itemDto.price * count)  * 1 / 100 + 'p'}"></p>
                     </div>
                 </div>
                 <div class="price-div">
                     <div class="list__inner">
-                        <p th:text="*{#numbers.formatInteger(price, 3, 'COMMA') + '원'}" class="bold"></p>
+                        <p th:text="${#numbers.formatInteger(itemDto.price * count, 3, 'COMMA') + '원'}" class="bold"></p>
                     </div>
                 </div>
             </li>
         </ul>
 
         <form th:action="@{/order}" method="post" th:object="${orderItemDto}">
-            <input type="hidden" th:field="*{memberId}" th:value="${memberDto.id}">
+            <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
             <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
+<!--            <input type="hidden" th:id="totalPrice" th:name="totalPrice" class="total-input">-->
+
+            <input type="hidden" th:id="price" th:name="price" th:value="${itemDto.price}">
+            <input type="hidden" th:id="discount" th:name="discount" th:value="${itemDto.discountPrice}">
+            <input type="hidden" th:field="*{count}" th:value="${count}">
+            <input type="hidden" th:field="*{usePoints}" class="usePointsInput">
 
             <div class="form-div delivery">
                 <h3>배송정보</h3>
 
-                <label th:for="addressee">수령인</label>
-                <input type="text" id="addressee" name="addressee" th:value="${memberDto.name}">
+                <label th:for="name">수령인</label>
+                <input th:type="text" th:id="name" th:name="name" th:value="${memberDto.name}">
+
 
                 <label th:for="phoneNumber">연락처</label>
-                <input type="number" id="phoneNumber" name="phoneNumber" th:value="${memberDto.phoneNumber.number1 + memberDto.phoneNumber.number2 + memberDto.phoneNumber.number3}">
+                <input type="number" th:id="phoneNumber" th:name="phoneNumber" th:value="${memberDto.phoneNumber.number1 + memberDto.phoneNumber.number2 + memberDto.phoneNumber.number3}">
 
                 <label th:for="mainAddress">기본주소</label>
-                <input type="text" id="mainAddress" name="mainAddress" th:value="${memberDto.address.city + ' ' + memberDto.address.street}" >
+                <input type="text" th:id="mainAddress" th:name="mainAddress" th:value="${memberDto.address.city + ' ' + memberDto.address.street}" >
 
                 <label th:for="detailAddress">상세주소</label>
-                <input type="text" id="detailAddress" name="detailAddress" th:value="${memberDto.address.zipcode}">
+                <input type="text" th:id="detailAddress" th:name="detailAddress" th:value="${memberDto.address.zipcode}">
             </div>
 
             <ul class="clearfix pay-wrap">
@@ -79,20 +85,21 @@
 
 
                 <li class="pay-list points">
+                    <div class="title-box">
+                        <h3>할인 및 쿠폰</h3>
+                    </div>
                     <div class="pay-inner">
                         <div class="inner-box">
-
-                            <div class="title-box">
-                                <h3>할인 및 쿠폰</h3>
-                            </div>
-
-                            <label>보유중인 포인트</label>
-                            <p th:text="${memberDto.points}"></p>
+                            <label>보유중인 포인트 <span>(포인트는 100p 이상 부터 사용할 수 있습니다.)</span></label>
+                            <p th:text="${memberDto.points == null ? '0' : memberDto.points}" id="points"></p>
                         </div>
 
                         <div class="inner-box">
                             <label th:for="usePoints">사용할 포인트</label>
-                            <input type="number" th:field="*{usePoints}">
+                            <div class="btn-div">
+                                <input type="number" th:field="*{usePoints}" class="use-points">
+                                <button type="button" id="use-points-btn" onclick="pointUseFnc()">사용</button>
+                            </div>
                         </div>
 
                     </div>
@@ -104,9 +111,38 @@
                         <h3>결제정보</h3>
                     </div>
 
-                    <div class="total-price">
+                    <div class="total-div">
                         <h4>총 결제금액</h4>
-                        <p>15,000원</p>
+                        <p class="total-price">
+                            <span th:text="${#numbers.formatInteger((itemDto.price * count) - (itemDto.discountPrice * count), 3, 'COMMA')}" class="total-span"></span>
+                            <span>원</span>
+                        </p>
+
+                        <div class="price-detail item-price">
+                            <h5>상품금액</h5>
+                            <p>
+                                <span th:text="${#numbers.formatInteger(itemDto.price, 3, 'COMMA')}"></span>
+                                <span>원</span>
+                            </p>
+                        </div>
+                        <div class="price-detail delivery-price">
+                            <h5>배송료</h5>
+                            <p>-</p>
+                        </div>
+                        <div class="price-detail discount">
+                            <h5>할인금액</h5>
+                            <p>
+                                <span th:text="${#numbers.formatInteger((itemDto.discountPrice * count), 3, 'COMMA')}"></span>
+                                <span>원 (-)</span>
+                            </p>
+                        </div>
+                        <div class="price-detail pay-points">
+                            <h5>포인트 사용</h5>
+                            <p>
+                                <span id="pay-info-points"></span>
+                                <span>p (-)</span>
+                            </p>
+                        </div>
                     </div>
                     <button type="submit">주문하기</button>
                 </li>
@@ -115,5 +151,82 @@
         </form>
     </section>
 
-</body>
-</html>
+<script>
+
+    var pointTag = document.getElementById('points');
+    var usePointTag = document.getElementsByClassName('use-points')[0];
+    var usePointBtn = document.getElementById('use-points-btn');
+
+
+    function pointUseDisable() {
+        var pointVal = pointTag.innerText;
+        var pointNum = Number(pointVal);
+
+        if (pointNum == 0 || pointNum < 100) {
+            usePointTag.setAttribute('disabled', true);
+            usePointBtn.setAttribute('disabled', true);
+        }
+    }
+
+    function pointsInsert() {
+        var usePointVal = usePointTag.value;
+        var usePointNum = Number(usePointVal);
+
+        var payInfoPoints = document.getElementById('pay-info-points');
+        payInfoPoints.innerText = usePointNum;
+    }
+
+
+    // var totalPriceInputTag = document.getElementsByClassName('total-input')[0];
+    function minusOwnPoints(points) {
+        var ownPointVal = pointTag.innerText;
+        var ownPointNum = Number(ownPointVal);
+        pointTag.innerText = ownPointNum - points;
+    }
+
+    function totalPriceCalc(points) {
+        var totalSpanTag = document.getElementsByClassName('total-span')[0];
+        var totalSpanVal = totalSpanTag.innerText;
+        var totalSpanReplace = totalSpanVal.replace(/,/gi, '');
+        var totalSpanNum = Number(totalSpanReplace);
+
+        console.log(totalSpanNum);
+
+        var totalPrice = totalSpanNum - points;
+        console.log(totalPrice);
+        totalSpanTag.innerText = totalPrice;
+
+    }
+
+    function pointUseFnc() {
+
+        var ownPointTag = document.getElementById('points');
+        var ownPointVal = ownPointTag.innerText;
+        var ownPointNum = Number(ownPointVal);
+
+        var usePointTag = document.getElementsByClassName('use-points')[0];
+        var usePointVal = usePointTag.value;
+        var usePointNum = Number(usePointVal);
+
+        var usePointsInputTag = document.getElementsByClassName('usePointsInput')[0];
+        usePointsInputTag.setAttribute('value', usePointNum);
+
+        pointsInsert();
+        minusOwnPoints(usePointNum);
+        totalPriceCalc(usePointNum);
+
+        ownPointNum.innerText = ownPointNum - usePointNum;
+
+
+    }
+
+    window.onload = function () {
+
+        pointUseDisable();
+        pointsInsert();
+        // totalPriceCalc();
+        // totalPriceInput()
+
+    }
+
+</script>

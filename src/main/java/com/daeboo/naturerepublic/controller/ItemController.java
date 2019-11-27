@@ -2,12 +2,14 @@ package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.domain.Item;
+import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.dto.CategoryDto;
 import com.daeboo.naturerepublic.dto.CategoryItemDto;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.service.CategoryItemService;
 import com.daeboo.naturerepublic.service.CategoryService;
 import com.daeboo.naturerepublic.service.ItemService;
+import com.daeboo.naturerepublic.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +34,7 @@ public class ItemController {
     private final CategoryItemService categoryItemService;
     private final CategoryService categoryService;
     private final LinkedHashMap<String, String> sortList;
+    private final MemberService memberService;
 //    private final List<CategoryDto.NewLine> categoryList;
 
     @GetMapping

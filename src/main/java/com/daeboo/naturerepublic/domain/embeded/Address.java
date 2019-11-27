@@ -1,12 +1,13 @@
 package com.daeboo.naturerepublic.domain.embeded;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
 @Embeddable
-@Getter
+@Getter @Setter
 public class Address {
 
     private String city;

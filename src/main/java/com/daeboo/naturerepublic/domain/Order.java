@@ -31,6 +31,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    // 생성 메소드
+    public static Order createOrder(Member member, Delivery delivery, OrderItem orderItem) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        order.addOrderItem(orderItem);
+
+        return order;
+    }
+
     // 연관관계 편의 메소드
     public void setMember(Member member) {
         this.member = member;

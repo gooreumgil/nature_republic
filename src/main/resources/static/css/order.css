@@ -1,6 +1,7 @@
 .container {
     max-width: 1260px;
     margin: 0 auto;
+    padding-bottom: 200px;
 }
 
 .title-box {
@@ -34,7 +35,7 @@
 
 .item__list.top-line {
     height: 50px;
-    background-color: #f6f6f6;
+    background-color: #eee;
     font-size: 14px;
 }
 
@@ -97,7 +98,7 @@ p.bold {
 
 form {
     box-sizing: border-box;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 form .form-div {
@@ -115,6 +116,7 @@ form .form-div h3 {
 form .form-div.delivery {
     box-sizing: border-box;
     padding: 0 10px;
+    margin-top: 0;
 }
 
 form .form-div.delivery label {
@@ -144,6 +146,7 @@ form ul.pay-wrap {
 form ul.pay-wrap .title-box {
     box-sizing: border-box;
     padding: 0;
+    margin-top: 40px;
 }
 
 form ul.pay-wrap h3 {
@@ -161,9 +164,120 @@ form ul.pay-wrap li.pay-list {
 }
 
 form ul.pay-wrap li.pay-list.points {
-    width: 65%;
+    width: 60%;
+    padding-right: 20px;
+}
+
+form ul.pay-wrap li.pay-list.points .pay-inner .inner-box label span {
+    font-size: 12px;
+    color: #a0a0a0;
 }
 
 form ul.pay-wrap li.pay-list.payment {
-    width: 35%;
+    width: 40%;
+    padding-left: 20px;
+}
+
+form ul.pay-wrap li.pay-list .inner-box {
+    position: relative;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+form ul.pay-wrap li.pay-list .inner-box p,
+form ul.pay-wrap li.pay-list .inner-box .btn-div {
+    position: absolute;
+    right: 0;
+    font-size: 16px;
+    text-align: right;
+    outline: none;
+}
+
+form ul.pay-wrap li.pay-list .inner-box p {
+
+}
+
+form ul.pay-wrap li.pay-list .inner-box .btn-div input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+form ul.pay-wrap li.pay-list .inner-box input {
+    text-align: right;
+    font-size: 16px;
+    outline: none;
+    width: 86px;
+    padding: 6px 10px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ddd;
+    transform: translateX(5px);
+}
+
+form ul.pay-wrap li.pay-list .inner-box .btn-div button{
+    height: 32px;
+    width: 50px;
+    transform: translateY(1px);
+    border-radius: 0 5px 5px 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.pay-list.payment .total-div {
+    background-color: #f6f6f6;
+    box-sizing: border-box;
+    padding: 35px;
+}
+
+.pay-list.payment .total-div h4 {
+    font-size: 20px;
+    font-weight: 300;
+    color: #555;
+}
+
+.pay-list.payment .total-div p.total-price {
+    margin-top: 10px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #555;
+}
+
+.pay-list.payment .total-div p.total-price span.total-span {
+    font-size: 36px;
+    font-weight: 700;
+    color: #71a532;
+    margin-left: 0;
+}
+
+.pay-list.payment .total-div p.total-price span {
+    font-size: 20px;
+    font-weight: 300;
+    color: #8f8f8f;
+    margin-left: 5px;
+}
+
+.pay-list.payment .total-div .price-detail {
+    margin-top: 25px;
+}
+
+.pay-list.payment .total-div .price-detail h5 {
+    font-size: 16px;
+}
+
+.pay-list.payment .total-div .price-detail p {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.pay-list.payment .total-div .price-detail.item-price {
+    margin-top: 35px;
+}
+
+.pay-list.payment button {
+    width: 100%;
+    height: 80px;
+    background-color: #71a532;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
 }

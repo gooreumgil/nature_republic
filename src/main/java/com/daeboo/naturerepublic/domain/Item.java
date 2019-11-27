@@ -20,6 +20,7 @@ public class Item {
     private String nameKor;
     private String nameEng;
     private int price;
+    private int discountPrice;
     private int stockQuantity;
     private int likes;
     private String description;
@@ -124,14 +125,12 @@ public class Item {
     }
 
 
+    public void removeStock(int count) {
+        int rest = this.stockQuantity - count;
+        if (rest < 0) {
+            throw new RuntimeException("need more stock");
+        }
 
-
-
-
-
-
-
-
-
-
+        this.stockQuantity -= count;
+    }
 }

@@ -75,9 +75,18 @@
                             </li>
                             <li class="col-6 buy">
                                 <div>
-                                    <a th:href="@{/order(id=*{item.id}, count=1)}">
-                                        <p>바로구매</p>
-                                    </a>
+                                    <form th:action="@{/order}" method="get">
+<!--                                        <a th:href="@{/order(id=*{item.id}, count=1)}">-->
+<!--                                            <p>바로구매</p>-->
+<!--                                        </a>-->
+                                        <input type="hidden" name="memberId" th:value="${memberId}">
+                                        <input type="hidden" name="itemId" th:value="${item.id}">
+                                        <input type="hidden" name="count" value="1" id="count">
+                                        <button type="submit">바로구매</button>
+
+<!--                                        <a href="#">-->
+<!--                                        </a>-->
+                                    </form>
                                 </div>
                             </li>
                         </ul>
@@ -212,6 +221,10 @@
 
     var totalTag = document.getElementsByClassName('total_price')[0];
 
+    var countParam = document.getElementById('count');
+    var countText = countParam.getAttribute('value');
+    var countNum = Number(countText);
+
     function totalPrice(price) {
         var countValue = Number(countTag[0].innerHTML);
         var total = price * countValue;
@@ -222,6 +235,16 @@
 
     totalPrice(replaceNum);
 
+    function plusCount() {
+        countNum++;
+        countParam.setAttribute('value', countNum);
+    }
+
+    function minusCount() {
+        countNum--;
+        countParam.setAttribute('value', countNum);
+    }
+
     var plusButton = document.getElementsByClassName('plus')[0];
     var minusButton = document.getElementsByClassName('minus')[0];
 
@@ -231,6 +254,7 @@
             var countValue = Number(countTag[0].innerHTML);
             countTag[0].innerHTML = countValue + 1;
             totalPrice(replaceNum);
+            plusCount();
 
         };
 
@@ -238,7 +262,7 @@
             var countValue = Number(countTag[0].innerHTML);
             countTag[0].innerHTML = countValue - 1;
             totalPrice(replaceNum);
-
+            minusCount();
         };
 
     }

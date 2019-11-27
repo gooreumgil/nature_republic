@@ -46,4 +46,8 @@ public class MemberService {
         return member;
     }
 
+    public Member findbyId(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
+        return member;
+    }
 }
