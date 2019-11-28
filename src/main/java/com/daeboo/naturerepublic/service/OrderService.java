@@ -28,16 +28,18 @@ public class OrderService {
         // 배송정보 생성
         Delivery delivery = Delivery.createDelivery(orderItemDto);
 
-        int orderPrice = orderItemDto.getPrice() - orderItemDto.getDiscount();
+        int orderPrice = orderItemDto.getPrice();
         int discount = orderItemDto.getDiscount();
+        int count = orderItemDto.getCount();
+        Integer usePoints = orderItemDto.getUsePoints();
 
         // 주문상품생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, orderItemDto.getCount());
+        OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, count);
 
-        int usePoints = orderItemDto.getUsePoints();
+        // 주문생성
+        Order order = Order.createOrder(member, delivery, usePoints, orderItem);
 
-        Order order = Order.createOrder(member, delivery, orderItem);
-
+        // 포인트 차감
         member.minusPoints(usePoints);
 
         return orderRepository.save(order);

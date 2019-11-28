@@ -2,10 +2,87 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
 
-    <section class="container">
+    <section class="container" th:object="${orderDto}">
 
         <div th:replace="partials/bodyHeader :: bodyHeader"/>
 
-        <h3>주문이 완료 되었습니다!</h3>
+
+        <ul class="clearfix">
+            <li class="list-box left">
+
+                <div class="title-box">
+                    <h2>주문이 완료 되었습니다!</h2>
+                    <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
+                </div>
+
+                <div class="content-box">
+                    <h4>받는 사람</h4>
+                    <p th:text="*{addressee}"></p>
+                    <h4>연락처</h4>
+                    <p th:text="*{phoneNumber}"></p>
+                    <h4>주소</h4>
+                    <p th:text="*{orderAddress.main}"></p>
+                    <h4>상세주소</h4>
+                    <p th:text="*{orderAddress.detail}"></p>
+                    <h4>배송 메모</h4>
+                    <p th:text="*{memo}"></p>
+                </div>
+
+            </li>
+            <li class="list-box right">
+
+                <div class="content-box item" th:each="orderItemDto : ${orderDto.orderItemDtos}">
+
+                    <div class="item-inner img">
+                        <img th:src="@{${'/upload/' + orderItemDto.s3Key}}" alt="">
+                    </div>
+
+                    <div class="item-inner info">
+                        <h4 th:text="${orderItemDto.itemName}"></h4>
+                        <h5 th:text="${orderItemDto.itemPrice}"></h5>
+                        <p th:text="${orderItemDto.count}"></p>
+                    </div>
+
+                </div>
+
+                <div class="content-box payment">
+                    <div class="payment-inner total-price">
+                        <h3>결제한 금액</h3>
+                        <h4>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalPrice, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </h4>
+                    </div>
+
+                    <div class="payment-inner info">
+                        <h5>상품금액</h5>
+                        <p>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalItemPrice, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h5>배송료</h5>
+                        <p>
+                            <span th:text="${#numbers.formatInteger(orderDto.deliveryPrice, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h5>할인금액</h5>
+                        <p>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalDiscountPrice, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h5>포인트 사용</h5>
+                        <p>
+                            <span th:text="${orderDto.usePoints}"></span>
+                            <span>원</span>
+                        </p>
+                    </div>
+
+                </div>
+
+            </li>
+        </ul>
 
     </section>

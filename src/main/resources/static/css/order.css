@@ -93,7 +93,7 @@ img.order-item-img {
 }
 
 p.bold {
-    font-weight: 600;
+    font-weight: 500;
 }
 
 form {
@@ -110,13 +110,14 @@ form .form-div h3 {
     font-weight: 500;
     color: #555;
     padding-bottom: 20px;
-    border-bottom: 2px solid #888;
+    border-bottom: 1px solid #888;
 }
 
 form .form-div.delivery {
     box-sizing: border-box;
     padding: 0 10px;
     margin-top: 0;
+    width: 60%;
 }
 
 form .form-div.delivery label {
@@ -131,7 +132,10 @@ form .form-div.delivery input {
     height: 45px;
     outline: none;
     border-bottom: 1px solid #ddd;
-    font-size: 18px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 400;
+    font-family: 'noto sans kr';
 }
 
 form .form-div.delivery input:focus {
@@ -140,7 +144,7 @@ form .form-div.delivery input:focus {
 
 
 form ul.pay-wrap {
-
+    height: 260px;
 }
 
 form ul.pay-wrap .title-box {
@@ -154,7 +158,7 @@ form ul.pay-wrap h3 {
     font-weight: 500;
     color: #555;
     padding-bottom: 20px;
-    border-bottom: 2px solid #888;
+    border-bottom: 1px solid #888;
 }
 
 form ul.pay-wrap li.pay-list {
@@ -176,6 +180,7 @@ form ul.pay-wrap li.pay-list.points .pay-inner .inner-box label span {
 form ul.pay-wrap li.pay-list.payment {
     width: 40%;
     padding-left: 20px;
+    transform: translateY(-563px);
 }
 
 form ul.pay-wrap li.pay-list .inner-box {
@@ -227,6 +232,7 @@ form ul.pay-wrap li.pay-list .inner-box .btn-div button{
     background-color: #f6f6f6;
     box-sizing: border-box;
     padding: 35px;
+    padding-bottom: 40px;
 }
 
 .pay-list.payment .total-div h4 {
@@ -238,7 +244,7 @@ form ul.pay-wrap li.pay-list .inner-box .btn-div button{
 .pay-list.payment .total-div p.total-price {
     margin-top: 10px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #555;
+    border-bottom: 1px solid #555;
 }
 
 .pay-list.payment .total-div p.total-price span.total-span {
@@ -256,16 +262,17 @@ form ul.pay-wrap li.pay-list .inner-box .btn-div button{
 }
 
 .pay-list.payment .total-div .price-detail {
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 .pay-list.payment .total-div .price-detail h5 {
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .pay-list.payment .total-div .price-detail p {
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
 .pay-list.payment .total-div .price-detail.item-price {
@@ -275,9 +282,9 @@ form ul.pay-wrap li.pay-list .inner-box .btn-div button{
 .pay-list.payment button {
     width: 100%;
     height: 80px;
-    background-color: #71a532;
-    font-size: 24px;
-    font-weight: 700;
+    background-color: #7ebb34;
+    font-size: 22px;
+    font-weight: 600;
     color: #fff;
     cursor: pointer;
 }

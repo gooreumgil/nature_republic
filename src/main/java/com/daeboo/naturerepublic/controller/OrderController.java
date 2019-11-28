@@ -5,6 +5,7 @@ import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Order;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
+import com.daeboo.naturerepublic.dto.OrderDto;
 import com.daeboo.naturerepublic.dto.OrderItemDto;
 import com.daeboo.naturerepublic.repository.MemberRepository;
 import com.daeboo.naturerepublic.service.ItemService;
@@ -48,9 +49,12 @@ public class OrderController {
     public String orderCreate(@ModelAttribute OrderItemDto.Create orderItemDto, Model model) {
 
         Order order = orderService.order(orderItemDto);
-        model.addAttribute("order", order);
 
-        return null;
+        OrderDto.OrderComplete orderDtoComplete = new OrderDto.OrderComplete(order);
+
+        model.addAttribute("orderDto", orderDtoComplete);
+
+        return "order/complete";
 
     }
 

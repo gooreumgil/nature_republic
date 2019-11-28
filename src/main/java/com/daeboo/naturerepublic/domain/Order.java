@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,14 +16,16 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    private Integer usePoints;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
@@ -32,11 +35,19 @@ public class Order {
     private OrderStatus orderStatus;
 
     // 생성 메소드
-    public static Order createOrder(Member member, Delivery delivery, OrderItem orderItem) {
+    public static Order createOrder(Member member, Delivery delivery, Integer usePoints, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
+
+        order.usePoints = usePoints;
         order.setDelivery(delivery);
-        order.addOrderItem(orderItem);
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.orderDateTime = LocalDateTime.now();
+        order.orderStatus = OrderStatus.ORDER;
 
         return order;
     }
@@ -55,5 +66,50 @@ public class Order {
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
+    }
+
+    // 조회 로직
+    public int totalPrice(Integer deliveryPrice, Integer usePoints) {
+
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            int price = orderItem.getTotalPrice();
+            totalPrice += price;
+        }
+
+        if (deliveryPrice != null) {
+            totalPrice += deliveryPrice;
+        }
+
+        if (usePoints != null) {
+            totalPrice -= usePoints;
+        }
+
+        return totalPrice;
+
+    }
+
+    // 순수 상품 가격조회 (할인, 포인트 제외)
+    public int totalItemPrice() {
+        int totalItemPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            int price = orderItem.getOrderPrice() * orderItem.getCount();
+            totalItemPrice += price;
+        }
+
+        return totalItemPrice;
+    }
+
+    public int totalDiscountPrice() {
+
+        int totalDiscountPrice = 0;
+
+        for (OrderItem orderItem : orderItems) {
+            int discountPrice = orderItem.getDiscount() * orderItem.getCount();
+            totalDiscountPrice += discountPrice;
+        }
+
+        return totalDiscountPrice;
+
     }
 }

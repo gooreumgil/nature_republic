@@ -47,4 +47,10 @@ public class OrderItem {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    // 로직
+    public int getTotalPrice() {
+        return this.orderPrice * this.count;
+    }
+
 }

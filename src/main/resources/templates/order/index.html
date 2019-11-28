@@ -6,6 +6,11 @@
     header {
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
     }
+
+    html {
+        height: 100vh;
+        padding-bottom: 100px;
+    }
 </style>
 
     <header th:replace="partials/bodyHeader :: bodyHeader"/>
@@ -62,6 +67,7 @@
             <input type="hidden" th:id="discount" th:name="discount" th:value="${itemDto.discountPrice}">
             <input type="hidden" th:field="*{count}" th:value="${count}">
             <input type="hidden" th:field="*{usePoints}" class="usePointsInput">
+            <input type="hidden" th:id="deliveryPrice" th:name="deliveryPrice" th:value="${(itemDto.price * count) > 30000 ? 0 : 2500}">
 
             <div class="form-div delivery">
                 <h3>배송정보</h3>
@@ -78,6 +84,9 @@
 
                 <label th:for="detailAddress">상세주소</label>
                 <input type="text" th:id="detailAddress" th:name="detailAddress" th:value="${memberDto.address.zipcode}">
+
+                <label th:for="memo">배송 요청사항</label>
+                <input type="text" th:id="memo" th:name="memo">
             </div>
 
             <ul class="clearfix pay-wrap">
@@ -127,7 +136,11 @@
                         </div>
                         <div class="price-detail delivery-price">
                             <h5>배송료</h5>
-                            <p>-</p>
+                            <p>
+                                <span id="delivery-price-p"></span>
+                                <span>원</span>
+                            </p>
+
                         </div>
                         <div class="price-detail discount">
                             <h5>할인금액</h5>
@@ -157,7 +170,6 @@
     var usePointTag = document.getElementsByClassName('use-points')[0];
     var usePointBtn = document.getElementById('use-points-btn');
 
-
     function pointUseDisable() {
         var pointVal = pointTag.innerText;
         var pointNum = Number(pointVal);
@@ -176,33 +188,45 @@
         payInfoPoints.innerText = usePointNum;
     }
 
-
+    var ownPointTag = document.getElementById('points');
+    var ownPointVal = ownPointTag.innerText;
+    var ownPointNum = Number(ownPointVal);
     // var totalPriceInputTag = document.getElementsByClassName('total-input')[0];
     function minusOwnPoints(points) {
-        var ownPointVal = pointTag.innerText;
-        var ownPointNum = Number(ownPointVal);
+
         pointTag.innerText = ownPointNum - points;
     }
 
-    function totalPriceCalc(points) {
-        var totalSpanTag = document.getElementsByClassName('total-span')[0];
-        var totalSpanVal = totalSpanTag.innerText;
-        var totalSpanReplace = totalSpanVal.replace(/,/gi, '');
-        var totalSpanNum = Number(totalSpanReplace);
+    var totalSpanTag = document.getElementsByClassName('total-span')[0];
+    var totalSpanVal = totalSpanTag.innerText;
+    var totalSpanReplace = totalSpanVal.replace(/,/gi, '');
+    var totalSpanNum = Number(totalSpanReplace);
 
-        console.log(totalSpanNum);
+    function totalPriceCalc(points) {
 
         var totalPrice = totalSpanNum - points;
-        console.log(totalPrice);
-        totalSpanTag.innerText = totalPrice;
 
+        var deliveryPriceTag = document.getElementById('delivery-price-p');
+        var deliveryPriceVal = deliveryPriceTag.innerText;
+
+        if (deliveryPriceVal) {
+            var deliveryValReplace = deliveryPriceVal.replace(/,/gi, '');
+            var deliveryNum = Number(deliveryValReplace);
+            totalPrice += deliveryNum;
+        }
+
+        var totalFormat = new Intl.NumberFormat().format(totalPrice);
+        totalSpanTag.innerText = totalFormat;
+
+    }
+    
+    function totalPriceCalcPlus(deliveryPrice) {
+        var totalPrice = totalSpanNum + deliveryPrice;
+        var totalFormat = new Intl.NumberFormat().format(totalPrice);
+        totalSpanTag.innerText = totalFormat;
     }
 
     function pointUseFnc() {
-
-        var ownPointTag = document.getElementById('points');
-        var ownPointVal = ownPointTag.innerText;
-        var ownPointNum = Number(ownPointVal);
 
         var usePointTag = document.getElementsByClassName('use-points')[0];
         var usePointVal = usePointTag.value;
@@ -215,13 +239,24 @@
         minusOwnPoints(usePointNum);
         totalPriceCalc(usePointNum);
 
-        ownPointNum.innerText = ownPointNum - usePointNum;
+        // ownPointNum.innerText = ownPointNum - usePointNum;
 
+    }
 
+    var deliveryInputTag = document.getElementById('deliveryPrice');
+    var deliveryInputVal = deliveryInputTag.value;
+    var deliveryInputNum = Number(deliveryInputVal);
+
+    function deliveryPriceInit() {
+        var deliveryPriceTag = document.getElementById('delivery-price-p');
+        deliveryPriceTag.innerText = new Intl.NumberFormat().format(deliveryInputNum);
+
+        totalPriceCalcPlus(deliveryInputNum);
     }
 
     window.onload = function () {
 
+        deliveryPriceInit();
         pointUseDisable();
         pointsInsert();
         // totalPriceCalc();

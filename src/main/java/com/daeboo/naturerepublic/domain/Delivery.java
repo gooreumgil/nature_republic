@@ -24,6 +24,12 @@ public class Delivery {
 
     private String addressee;
 
+    private int deliveryPrice;
+
+    private String phoneNumber;
+
+    private String memo;
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
@@ -32,10 +38,19 @@ public class Delivery {
 
     public static Delivery createDelivery(OrderItemDto.Create orderItemDto) {
         Delivery delivery = new Delivery();
-        delivery.address.setMain(orderItemDto.getMainAddress());
-        delivery.address.setDetail(orderItemDto.getDetailAddress());
+
+        OrderAddress orderAddress = new OrderAddress();
+
+        orderAddress.setMain(orderItemDto.getMainAddress());
+        orderAddress.setDetail(orderItemDto.getDetailAddress());
+
+        delivery.address = orderAddress;
+
         delivery.addressee = orderItemDto.getName();
+        delivery.deliveryPrice = orderItemDto.getDeliveryPrice();
+        delivery.phoneNumber = orderItemDto.getPhoneNumber();
         delivery.deliveryStatus = DeliveryStatus.READY;
+
         return delivery;
     }
 

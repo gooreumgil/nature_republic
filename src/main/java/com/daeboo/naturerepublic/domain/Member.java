@@ -65,8 +65,10 @@ public class Member {
         return member;
     }
 
-    public void minusPoints(int usePoints) {
-        this.points -= usePoints;
+    public void minusPoints(Integer usePoints) {
+        if (usePoints != null) {
+            this.points -= usePoints;
+        }
     }
 
 }
