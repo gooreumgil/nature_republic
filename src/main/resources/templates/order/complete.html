@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/orderComplete.css}">
 
     <section class="container" th:object="${orderDto}">
 
-        <div th:replace="partials/bodyHeader :: bodyHeader"/>
-
-
-        <ul class="clearfix">
+        <ul class="clearfix order-wrapper">
             <li class="list-box left">
 
                 <div class="title-box">
@@ -25,13 +23,19 @@
                     <h4>상세주소</h4>
                     <p th:text="*{orderAddress.detail}"></p>
                     <h4>배송 메모</h4>
-                    <p th:text="*{memo}"></p>
+                    <p th:if="*{memo == null || memo.isEmpty() || memo.equals('')}">-</p>
+                    <p th:if="*{memo != null}" th:text="*{memo}"></p>
+
+                    <div class="btn-box">
+                        <button type="button" class="confirm">주문 내역 확인</button>
+                        <button type="button" class="keep-going">계속 쇼핑하기</button>
+                    </div>
                 </div>
 
             </li>
             <li class="list-box right">
 
-                <div class="content-box item" th:each="orderItemDto : ${orderDto.orderItemDtos}">
+                <div class="content-box clearfix item" th:each="orderItemDto : ${orderDto.orderItemDtos}">
 
                     <div class="item-inner img">
                         <img th:src="@{${'/upload/' + orderItemDto.s3Key}}" alt="">
@@ -39,8 +43,15 @@
 
                     <div class="item-inner info">
                         <h4 th:text="${orderItemDto.itemName}"></h4>
-                        <h5 th:text="${orderItemDto.itemPrice}"></h5>
-                        <p th:text="${orderItemDto.count}"></p>
+                        <h5>
+                            <span>상품가격:</span>
+                            <span th:text="${orderItemDto.itemPrice}"></span>
+                        </h5>
+                        <p>
+                            <span>수량:</span>
+                            <span th:text="${orderItemDto.count}"></span>
+                            <span>개</span>
+                        </p>
                     </div>
 
                 </div>
@@ -49,7 +60,7 @@
                     <div class="payment-inner total-price">
                         <h3>결제한 금액</h3>
                         <h4>
-                            <span th:text="${#numbers.formatInteger(orderDto.totalPrice, 3, 'COMMA')}"></span>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalPrice, 3, 'COMMA')}" class="total-span"></span>
                             <span>원</span>
                         </h4>
                     </div>
@@ -57,26 +68,26 @@
                     <div class="payment-inner info">
                         <h5>상품금액</h5>
                         <p>
-                            <span th:text="${#numbers.formatInteger(orderDto.totalItemPrice, 3, 'COMMA')}"></span>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalItemPrice, 3, 'COMMA')}" class="bold"></span>
                             <span>원</span>
                         </p>
 
                         <h5>배송료</h5>
                         <p>
-                            <span th:text="${#numbers.formatInteger(orderDto.deliveryPrice, 3, 'COMMA')}"></span>
+                            <span th:text="${#numbers.formatInteger(orderDto.deliveryPrice, 3, 'COMMA')}" class="bold"></span>
                             <span>원</span>
                         </p>
 
                         <h5>할인금액</h5>
                         <p>
-                            <span th:text="${#numbers.formatInteger(orderDto.totalDiscountPrice, 3, 'COMMA')}"></span>
-                            <span>원</span>
+                            <span th:text="${#numbers.formatInteger(orderDto.totalDiscountPrice, 3, 'COMMA')}" class="bold"></span>
+                            <span>원 (-)</span>
                         </p>
 
                         <h5>포인트 사용</h5>
                         <p>
-                            <span th:text="${orderDto.usePoints}"></span>
-                            <span>원</span>
+                            <span th:text="${orderDto.usePoints}" class="bold"></span>
+                            <span>p (-)</span>
                         </p>
                     </div>
 

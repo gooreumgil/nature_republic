@@ -41,9 +41,9 @@ public class OrderDto {
             this.phoneNumber = order.getDelivery().getPhoneNumber();
             this.memo = order.getDelivery().getMemo();
 
-            this.totalPrice = order.totalPrice(deliveryPrice, usePoints);
-            this.totalItemPrice = order.totalItemPrice();
             this.totalDiscountPrice = order.totalDiscountPrice();
+            this.totalPrice = order.totalPrice(deliveryPrice, usePoints) - totalDiscountPrice;
+            this.totalItemPrice = order.totalItemPrice();
             this.usePoints = order.getUsePoints();
 
         }

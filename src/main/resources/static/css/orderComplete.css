@@ -1,0 +1,191 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+ul.order-wrapper {
+
+}
+
+li.list-box {
+    float: left;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+li.list-box.left {
+    width: 60%;
+}
+
+li.list-box.left .title-box {
+    box-sizing: border-box;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #71a532;
+}
+
+li.list-box.left .title-box h2 {
+    font-size: 32px;
+    font-weight: 300;
+    color: #555;
+}
+
+li.list-box.left .title-box p {
+    font-size: 16px;
+    font-weight: 300;
+    color: #a0a0a0;
+    margin-top: 10px;
+}
+
+li.list-box.left .content-box {
+
+}
+
+li.list-box.left .content-box h4 {
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+    margin-top: 35px;
+}
+
+li.list-box.left .content-box p {
+    font-size: 18px;
+    font-weight: 400;
+    color: #555;
+    margin-top: 8px;
+}
+
+li.list-box.left .content-box .btn-box {
+    margin-top: 40px;
+}
+
+li.list-box.left .content-box .btn-box button {
+    height: 50px;
+    width: 180px;
+    box-shadow: none;
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+li.list-box.left .content-box .btn-box button.confirm {
+    background-color: #7ebb34;
+    color: #fff;
+    font-weight: 600;
+}
+
+li.list-box.left .content-box .btn-box button.keep-going {
+    background-color: #f6f6f6;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+li.list-box.right {
+    width: 40%;
+    padding-top: 108px;
+}
+
+li.list-box.right .content-box {
+
+}
+
+li.list-box.right .content-box.item {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+li.list-box.right .content-box .item-inner {
+    float: left;
+    box-sizing: border-box;
+}
+
+li.list-box.right .content-box .item-inner.img {
+    width: 35%;
+    padding-right: 30px;
+}
+
+li.list-box.right .content-box .item-inner.img img {
+    width: 100%;
+}
+
+li.list-box.right .content-box .item-inner.info {
+    width: 65%;
+}
+
+li.list-box.right .content-box .item-inner.info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+}
+
+li.list-box.right .content-box .item-inner.info h5 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #888;
+    margin-top: 15px;
+}
+
+li.list-box.right .content-box .item-inner.info p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #888;
+    margin-top: 3px;
+}
+
+li.list-box.right .content-box.payment {
+    margin-top: 20px;
+    box-sizing: border-box;
+    background-color: #f6f6f6;
+    padding: 35px;
+}
+
+li.list-box.right .content-box.payment h3 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #555;
+}
+
+li.list-box.right .content-box.payment h4 {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #555;
+}
+
+li.list-box.right .content-box.payment h4 span {
+    font-size: 20px;
+    font-weight: 400;
+    color: #888;
+}
+
+li.list-box.right .content-box.payment h4 span.total-span {
+    font-size: 30px;
+    font-weight: 700;
+    color: #71a532;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+li.list-box.right .content-box.payment .payment-inner.info {
+
+}
+
+li.list-box.right .content-box.payment .payment-inner.info h5 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 30px;
+}
+
+li.list-box.right .content-box.payment .payment-inner.info p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 10px;
+}
+
+
+
+
