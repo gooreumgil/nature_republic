@@ -1,22 +1,18 @@
 package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Member;
-import com.daeboo.naturerepublic.domain.RoleModel;
+import com.daeboo.naturerepublic.domain.Order;
 import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class MemberDto {
 
@@ -106,5 +102,31 @@ public class MemberDto {
             this.points = member.getPoints();
         }
     }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class MyPageIndex {
+
+        private Long id;
+        private Integer points;
+        private List<com.daeboo.naturerepublic.domain.Order> orders = new ArrayList<>();
+
+        public MyPageIndex(Member member) {
+            this.id = member.getId();
+            this.points = member.getPoints();
+            this.orders = member.getOrders();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -22,13 +22,10 @@
                     <a href="/item">상품</a>
                 </li>
                 <li>
-                    <a href="#">이벤트</a>
-                </li>
-                <li>
                     <a href="#">뉴스</a>
                 </li>
-                <li>
-                    <a href="#">커뮤니티</a>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/myPage}">마이페이지</a>
                 </li>
             </ul>
             <ul class="icon" sec:authorize="isAuthenticated()">

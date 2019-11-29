@@ -22,9 +22,9 @@ public class OrderDto {
         private Integer deliveryPrice;
         private String phoneNumber;
         private String memo;
-        private int totalPrice;
-        private int totalItemPrice;
-        private int totalDiscountPrice;
+        private Integer totalPrice;
+        private Integer totalItemPrice;
+        private Integer totalDiscountPrice;
         private Integer usePoints;
 
         public OrderComplete(Order order) {
