@@ -46,4 +46,12 @@ public class OrderService {
 
     }
 
+    public Long onGoingCount(Long memberId) {
+        return orderRepository.countDeliveryOngoing(memberId);
+    }
+
+    public Order findById(Long id) {
+        return orderRepository.findById(id).get();
+    }
+
 }

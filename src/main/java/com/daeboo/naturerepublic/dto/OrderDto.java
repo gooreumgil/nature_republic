@@ -2,11 +2,13 @@ package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Order;
 import com.daeboo.naturerepublic.domain.OrderItem;
+import com.daeboo.naturerepublic.domain.OrderStatus;
 import com.daeboo.naturerepublic.domain.embeded.OrderAddress;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class OrderDto {
     public static class OrderComplete {
 
         private List<OrderItemDto.CompletePage> orderItemDtos = new ArrayList<>();
+
         private String addressee;
         private OrderAddress orderAddress;
         private Integer deliveryPrice;
@@ -26,7 +29,6 @@ public class OrderDto {
         private Integer totalItemPrice;
         private Integer totalDiscountPrice;
         private Integer usePoints;
-
         public OrderComplete(Order order) {
 
             List<OrderItem> orderItems = order.getOrderItems();
@@ -48,6 +50,71 @@ public class OrderDto {
 
         }
 
+
     }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Preview {
+
+        private Long id;
+
+        private int itemQuantity;
+        private LocalDateTime orderDateTime;
+        private String orderStatus;
+        private OrderItemDto.Preview orderItemDto;
+        public Preview(Order order) {
+            this.id = order.getId();
+            this.orderDateTime = order.getOrderDateTime();
+            this.orderItemDto = new OrderItemDto.Preview(order.getOrderItems().get(0));
+            this.orderStatus = order.getOrderStatus().toString();
+        }
+
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class DetailPage {
+
+        private Long id;
+        private LocalDateTime orderDateTime;
+        private List<OrderItemDto.DetailPage> orderItemDtos = new ArrayList<>();
+        private String deliveryStatus;
+
+        private String addressee;
+        private String phoneNumber;
+        private String mainAddress;
+        private String detailAddress;
+
+        private int totalPrice;
+        private int totalItemPrice;
+        private Integer totalDiscount;
+        private Integer deliveryPrice;
+        private Integer usePoints;
+
+        public DetailPage(Order order) {
+
+            this.id = order.getId();
+            this.orderDateTime = order.getOrderDateTime();
+
+            List<OrderItem> orderItems = order.getOrderItems();
+            for (OrderItem orderItem : orderItems) {
+                orderItemDtos.add(new OrderItemDto.DetailPage(orderItem));
+            }
+
+            this.deliveryStatus = order.getDelivery().getDeliveryStatus().toString();
+            this.addressee = order.getDelivery().getAddressee();
+            this.phoneNumber = order.getDelivery().getPhoneNumber();
+            this.mainAddress = order.getDelivery().getAddress().getMain();
+            this.detailAddress = order.getDelivery().getAddress().getDetail();
+            this.totalPrice = order.totalPrice(order.getDelivery().getDeliveryPrice(), order.getUsePoints());
+            this.totalItemPrice = order.totalItemPrice();
+            this.totalDiscount = order.totalDiscountPrice();
+            this.deliveryPrice = order.getDelivery().getDeliveryPrice();
+            this.usePoints = order.getUsePoints();
+
+        }
+    }
+
 
 }

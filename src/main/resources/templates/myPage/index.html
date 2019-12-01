@@ -33,17 +33,18 @@
                 <a href="#">회원정보수정</a>
             </nav>
         </li>
-        <li class="order__list right">
+
+        <li class="order__list right" th:object="${memberDto}">
             <div class="preview-box">
                 <p class="welcome">
-                    <span class="name">용길문</span><span>님 환영합니다.</span>
+                    <span class="name" th:text="*{name}"></span><span>님 환영합니다.</span>
                 </p>
                 <div class="preview__detail clearfix">
                     <div class="preview__list delivery">
                         <div class="preview__inner">
                             <h4>배송중</h4>
                             <p>
-                                <span class="bold">1</span>
+                                <span class="bold" th:text="${onGoing}"></span>
                                 <span>건</span>
                             </p>
                         </div>
@@ -54,7 +55,7 @@
                         <div class="preview__inner">
                             <h4>포인트</h4>
                             <p>
-                                <span class="bold">5000</span>
+                                <span class="bold" th:text="*{points}"></span>
                                 <span>P</span>
                             </p>
                         </div>
@@ -77,22 +78,28 @@
                             <p>상태</p>
                         </div>
                         <div class="list__inner confirm">
-                            <p>확인/신청</p>
+                            <p>확인</p>
                         </div>
                     </li>
-                    <li class="list__item content clearfix">
+                    <li class="list__item content clearfix" th:each="order : ${memberDto.orders}">
                         <div class="list__inner date">
-                            <p></p>
+                            <p th:text="${order.orderDateTime}"></p>
                         </div>
                         <div class="list__inner info">
-                            <img src="" alt="">
-                            <span></span>
+                            <a th:href="@{/myPage/detail(id=${order.id})}">
+                                <img th:src="@{${'/upload/' + order.orderItemDto.s3Key}}" alt="">
+                            </a>
+
+                            <a th:href="@{/myPage/detail(id=${order.id})}">
+                                <span th:text="${order.orderItemDto.name}"></span>
+                                <span th:if="${order.itemQuantity > 1}" th:text="${' 외' + order.itemQuantity + ' 건'}"></span>
+                            </a>
                         </div>
                         <div class="list__inner state">
-                            <p></p>
+                            <p th:text="${order.orderStatus}"></p>
                         </div>
                         <div class="list__inner confirm">
-                            <button type="button"></button>
+                            <button type="button">주문상세보기</button>
                         </div>
                     </li>
                 </ul>

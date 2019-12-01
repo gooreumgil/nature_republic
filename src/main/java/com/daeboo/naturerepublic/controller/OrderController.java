@@ -7,7 +7,6 @@ import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
 import com.daeboo.naturerepublic.dto.OrderDto;
 import com.daeboo.naturerepublic.dto.OrderItemDto;
-import com.daeboo.naturerepublic.repository.MemberRepository;
 import com.daeboo.naturerepublic.service.ItemService;
 import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.OrderService;
@@ -32,13 +31,13 @@ public class OrderController {
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
-        MemberDto.Order memberOrder = new MemberDto.Order(member);
+        MemberDto.OrderPage memberOrderPage = new MemberDto.OrderPage(member);
 
         Item item = itemService.findById(itemId);
         ItemDto.Order itemOrder = new ItemDto.Order(item);
 
         model.addAttribute("orderItemDto", orderItemDto);
-        model.addAttribute("memberDto", memberOrder);
+        model.addAttribute("memberDto", memberOrderPage);
         model.addAttribute("itemDto", itemOrder);
         model.addAttribute("count", count);
 

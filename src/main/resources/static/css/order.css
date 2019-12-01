@@ -216,11 +216,12 @@ form ul.pay-wrap li.pay-list .inner-box input {
     padding: 6px 10px;
     border-radius: 5px 0 0 5px;
     border: 1px solid #ddd;
-    transform: translateX(5px);
+    transform: translate(6px, 2px);
+    margin: 0;
 }
 
 form ul.pay-wrap li.pay-list .inner-box .btn-div button{
-    height: 32px;
+    height: 35px;
     width: 50px;
     transform: translateY(1px);
     border-radius: 0 5px 5px 0;

@@ -2,6 +2,7 @@ package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Order;
+import com.daeboo.naturerepublic.domain.OrderStatus;
 import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
@@ -13,6 +14,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MemberDto {
 
@@ -86,7 +89,7 @@ public class MemberDto {
 
     @Getter @Setter
     @NoArgsConstructor
-    public static class Order {
+    public static class OrderPage {
 
         private Long id;
         private String name;
@@ -94,7 +97,7 @@ public class MemberDto {
         private PhoneNumber phoneNumber;
         private Integer points;
 
-        public Order(Member member) {
+        public OrderPage(Member member) {
             this.id = member.getId();
             this.name = member.getName();
             this.address = member.getAddress();
@@ -108,13 +111,23 @@ public class MemberDto {
     public static class MyPageIndex {
 
         private Long id;
+        private String name;
         private Integer points;
-        private List<com.daeboo.naturerepublic.domain.Order> orders = new ArrayList<>();
+        private List<OrderDto.Preview> orders = new ArrayList<>();
+        private Integer itemQuantity;
 
         public MyPageIndex(Member member) {
             this.id = member.getId();
+            this.name = member.getName();
             this.points = member.getPoints();
-            this.orders = member.getOrders();
+
+            List<Order> orders = member.getOrders();
+
+            for (Order order : orders) {
+                OrderDto.Preview preview = new OrderDto.Preview(order);
+                this.orders.add(preview);
+            }
+
         }
     }
 

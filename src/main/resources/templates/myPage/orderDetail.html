@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/orderDetail.css}">
+<style>
+    header {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
+    }
+</style>
+
+<div th:replace="partials/bodyHeader :: bodyHeader"/>
+
+<section class="container">
+
+
+    <ul class="order-wrapper clearfix">
+
+        <li class="order__list left">
+            <div class="title-box">
+                <h2>마이페이지</h2>
+                <p>
+                    네이처 리퍼블릭은<br>
+                    자연의 완벽함을 믿습니다.
+                </p>
+            </div>
+            <nav class="order-nav">
+                <a href="#">주문 배송 조회</a><br>
+                <a href="#">취소/반품 조회</a><br>
+                <a href="#">포인트</a><br>
+                <a href="#">찜 리스트</a><br>
+                <a href="#">상품 Q&A</a><br>
+                <a href="#">구매후기</a><br>
+                <a href="#">회원정보수정</a>
+            </nav>
+        </li>
+
+        <li class="order__list right">
+
+            <div class="list-box">
+                <h3>주문 배송 조회</h3>
+
+                <ul class="list-wrap clearfix">
+                    <li class="list__item top-line clearfix">
+                        <div class="list__inner date">
+                            <p>상품번호</p>
+                        </div>
+                        <div class="list__inner info">
+                            <p>상품정보</p>
+                        </div>
+                        <div class="list__inner count">
+                            <p>수량</p>
+                        </div>
+                        <div class="list__inner price">
+                            <p>가격</p>
+                        </div>
+                    </li>
+                    <li class="list__item content clearfix" th:each="orderItemDto : ${orderDtos.orderItemDtos}">
+                        <div class="list__inner date">
+                            <p th:text="${orderItemDto.id}"></p>
+                        </div>
+                        <div class="list__inner info">
+                            <a href="#">
+                                <img th:src="@{${'/upload/' + orderItemDto.s3Key}}" alt="">
+                            </a>
+
+                            <a href="#">
+                                <span th:text="${orderItemDto.name}"></span>
+                            </a>
+                        </div>
+                        <div class="list__inner count">
+                            <p th:text="${orderItemDto.count}"></p>
+                        </div>
+                        <div class="list__inner price">
+                            <p th:text="${#numbers.formatInteger((orderItemDto.itemPrice * orderItemDto.count), 3, 'COMMA')}"></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-wrapper clearfix">
+                <div class="info__list delivery">
+                    <h3>배송정보</h3>
+                    <div class="inner__div">
+                        <h4>받는사람</h4>
+                        <p th:text="${orderDtos.addressee}"></p>
+
+                        <h4>연락처</h4>
+                        <p th:text="${orderDtos.phoneNumber}"></p>
+
+                        <h4>배송주소</h4>
+                        <p th:text="${orderDtos.mainAddress}"></p>
+
+                        <h4>우편번호</h4>
+                        <p th:text="${orderDtos.detailAddress}"></p>
+                    </div>
+                </div>
+
+                <div class="info__list pay">
+                    <h3>결제정보</h3>
+                    <div class="inner__div">
+                        <h4>총 결제금액</h4>
+                        <p>
+                            <span th:text="${orderDtos.totalPrice}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h4>상품금액</h4>
+                        <p>
+                            <span th:text="${orderDtos.totalItemPrice}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h4>할인금액</h4>
+                        <p>
+                            <span th:text="${orderDtos.totalDiscount}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h4>배송료</h4>
+                        <p>
+                            <span th:text="${orderDtos.deliveryPrice}"></span>
+                            <span>원</span>
+                        </p>
+
+                        <h4>사용포인트</h4>
+                        <p>
+                            <span th:text="${orderDtos.usePoints}"></span>
+                            <span>P</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+    </ul>
+
+
+
+</section>

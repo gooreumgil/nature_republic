@@ -65,70 +65,8 @@ li.order__list.left nav.order-nav a.active {
     font-weight: 600;
 }
 
-
-
-
 li.order__list.right {
     width: 80%;
-}
-
-li.order__list.right .preview-box {
-    padding-top: 20px;
-}
-
-li.order__list.right .preview-box p.welcome {
-    font-size: 16px;
-    color: #888;
-
-}
-
-li.order__list.right .preview-box p span.name {
-    font-weight: 600;
-    color: #333;
-}
-
-li.order__list.right .preview-box .preview__detail {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    width: 380px;
-    border-radius: 5px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-}
-
-li.order__list.right .preview-box .preview__detail .preview__list {
-    float: left;
-    box-sizing: border-box;
-    width: 50%;
-    text-align: center;
-    position: relative;
-    border-right: 1px solid #ddd;
-}
-
-li.order__list.right .preview-box .preview__detail .preview__list .preview__inner {
-    display: inline-block;
-    width: auto;
-    text-align: left;
-}
-
-li.order__list.right .preview-box .preview__detail .preview__list .preview__inner h4 {
-    font-size: 16px;
-    font-weight: 400;
-    color: #555;
-}
-
-li.order__list.right .preview-box .preview__detail .preview__list .preview__inner p {
-    font-size: 14px;
-    font-weight: 400;
-    color: #888;
-    margin-top: 5px;
-}
-
-li.order__list.right .preview-box .preview__detail .preview__list .preview__inner p span.bold {
-    font-size: 20px;
-    font-weight: 600;
-    color: #71a532;
 }
 
 li.order__list.right div.list-box {
@@ -148,6 +86,7 @@ li.order__list.right div.list-box ul.list-wrap {
 li.order__list.right div.list-box ul.list-wrap li.list__item {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #ddd;
 }
 
 li.order__list.right div.list-box ul.list-wrap li.list__item.top-line {
@@ -203,27 +142,64 @@ li.list__item div.list__inner.info span {
     margin-left: 20px;
 }
 
-li.list__item div.list__inner.state {
+li.list__item div.list__inner.count {
     width: 20%;
 }
 
-li.list__item div.list__inner.confirm {
+li.list__item div.list__inner.price {
     width: 15%;
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.content {
 
+.info-wrapper {
+    margin-top: 40px;
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner {
-
+.info-wrapper .info__list {
+    float: left;
+    box-sizing: border-box;
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner P {
-
+.info-wrapper .info__list.delivery {
+    width: 60%;
+    padding-right: 20px;
 }
 
+.info-wrapper .info__list.delivery h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
 
+.info-wrapper .info__list.delivery .inner__div {
+    margin-top: 25px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 30px;
+    padding-bottom: 40px;
+}
+
+.info-wrapper .info__list.delivery .inner__div h4 {
+    font-size: 14px;
+    color: #888;
+    font-weight: 500;
+    margin-top: 25px;
+}
+
+.info-wrapper .info__list.delivery .inner__div h4:first-child {
+    margin-top: 0;
+}
+
+.info-wrapper .info__list.delivery .inner__div p {
+    box-sizing: border-box;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 8px;
+}
 
 
 

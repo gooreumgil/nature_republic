@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,7 +27,10 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Nullable
     private int orderPrice;
+
+    @Nullable
     private int discount;
     private int count;
 
