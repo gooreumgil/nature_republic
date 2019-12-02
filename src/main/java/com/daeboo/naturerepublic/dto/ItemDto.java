@@ -132,7 +132,6 @@ public class ItemDto {
         private String nameEng;
         private int price;
         private int stockQuantity;
-        private int likes;
         private String description;
         private int capacity;
         private List<ItemSrc> mainSrcs = new ArrayList<>();
@@ -144,7 +143,6 @@ public class ItemDto {
             this.nameEng = item.getNameEng();
             this.price = item.getPrice();
             this.stockQuantity = item.getStockQuantity();
-            this.likes = item.getLikes();
             this.description = item.getDescription();
             this.capacity = item.getCapacity();
             item.getItemSrcs().stream().forEach(itemSrc -> {
@@ -166,7 +164,6 @@ public class ItemDto {
         private String nameKor;
         private int price;
         private int discountPrice;
-        private int likes;
         private List<ItemSrc> mainSrcs = new ArrayList<>();
 
         public PopularPreview(Item item) {
@@ -174,7 +171,6 @@ public class ItemDto {
             this.nameKor = item.getNameKor();
             this.price = item.getPrice();
             this.discountPrice = (int) (item.getPrice() * 0.7);
-            this.likes = item.getLikes();
             item.getItemSrcs().forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
@@ -212,7 +208,6 @@ public class ItemDto {
         private String nameKor;
         private String description;
         private int price;
-        private int likes;
         private List<ItemSrc> mainSrcs = new ArrayList<>();
 
         public CategoryList(Item item) {
@@ -220,7 +215,6 @@ public class ItemDto {
             this.nameKor = item.getNameKor();
             this.description = item.getDescription();
             this.price = item.getPrice();
-            this.likes = item.getLikes();
             item.getItemSrcs().forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
@@ -238,7 +232,6 @@ public class ItemDto {
         private String nameKor;
         private String nameEng;
         private int price;
-        private int likes;
         private String description;
         private int capacity;
         private String mainCategory;
@@ -251,7 +244,6 @@ public class ItemDto {
             this.nameKor = item.getNameKor();
             this.nameEng = item.getNameEng();
             this.price = item.getPrice();
-            this.likes = item.getLikes();
             this.description = item.getDescription();
             this.capacity = item.getCapacity();
             List<CategoryItem> categoryExcludeAll = item.getCategoryItems().stream().filter(categoryItem -> {

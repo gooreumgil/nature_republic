@@ -106,6 +106,10 @@ li.order__list.right .preview-box .preview__detail .preview__list {
     border-right: 1px solid #ddd;
 }
 
+li.order__list.right .preview-box .preview__detail .preview__list.points {
+    border-right: none;
+}
+
 li.order__list.right .preview-box .preview__detail .preview__list .preview__inner {
     display: inline-block;
     width: auto;
@@ -228,7 +232,16 @@ li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__i
 
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner P {
+li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner.state p {
+    font-size: 14px;
+}
+
+li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner.state p.active {
+    color: #71a532;
+    font-weight: 600;
+}
+
+li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner p {
 
 }
 

@@ -31,6 +31,10 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "qna_id")
+    private Qna qna;
+
     // 연관관계 편의 메소드
     public void setItem(Item item) {
         this.item = item;

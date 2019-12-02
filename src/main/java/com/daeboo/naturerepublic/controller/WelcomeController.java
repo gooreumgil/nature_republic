@@ -28,7 +28,7 @@ public class WelcomeController {
     public String welcome(Model model) {
 
         // Best Items
-        Page<Item> populars = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likes"));
+        Page<Item> populars = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likesCount"));
 
         List<ItemDto.PopularPreview> popularResult = populars.stream().map(item -> {
             return new ItemDto.PopularPreview(item);

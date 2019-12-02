@@ -298,6 +298,14 @@ thumb_wrap {
     cursor: pointer;
 }
 
+.button ul li form button.like {
+    background-color: #f3f3f3;
+}
+
+.button ul li form button.like img {
+    margin-top: 2px;
+}
+
 /*===================
     RELATED ITEM
 ===================*/

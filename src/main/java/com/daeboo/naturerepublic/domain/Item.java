@@ -22,7 +22,7 @@ public class Item {
     private int price;
     private int discountPrice;
     private int stockQuantity;
-    private int likes;
+    private int likesCount;
     private String description;
     private int capacity;
     private LocalDateTime registerAt;
@@ -39,6 +39,9 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Likes> likesList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Qna> qnaList = new ArrayList<>();
+
     // 생성 메소드
     public static Item createItemWithImg(
             String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
@@ -49,7 +52,7 @@ public class Item {
         item.nameEng = nameEng;
         item.price = price;
         item.stockQuantity = stockQuantity;
-        item.likes = 0;
+        item.likesCount = 0;
         item.description = description;
         item.capacity = capacity;
         item.registerAt = LocalDateTime.now();
@@ -124,7 +127,7 @@ public class Item {
 
     }
 
-
+    // 재고 마이너스 메소드
     public void removeStock(int count) {
         int rest = this.stockQuantity - count;
         if (rest < 0) {
@@ -132,5 +135,10 @@ public class Item {
         }
 
         this.stockQuantity -= count;
+    }
+
+    // 좋아요 수 증가 메소드
+    public void plusLikes() {
+        this.likesCount++;
     }
 }

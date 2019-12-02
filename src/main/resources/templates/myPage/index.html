@@ -83,7 +83,7 @@
                     </li>
                     <li class="list__item content clearfix" th:each="order : ${memberDto.orders}">
                         <div class="list__inner date">
-                            <p th:text="${order.orderDateTime}"></p>
+                            <p th:text="${#temporals.format(order.orderDateTime, 'yyyy-MM-dd')}"></p>
                         </div>
                         <div class="list__inner info">
                             <a th:href="@{/myPage/detail(id=${order.id})}">
@@ -96,7 +96,9 @@
                             </a>
                         </div>
                         <div class="list__inner state">
-                            <p th:text="${order.orderStatus}"></p>
+                            <p th:if="${order.deliveryStatus == 'READY'}">상품준비중</p>
+                            <p th:if="${order.deliveryStatus == 'ONGOING'}" class="active">배송중</p>
+                            <p th:if="${order.deliveryStatus == 'COMP'}">배송완료</p>
                         </div>
                         <div class="list__inner confirm">
                             <button type="button">주문상세보기</button>
@@ -109,3 +111,6 @@
     </ul>
 
 </section>
+
+<div th:replace="partials/bottom :: bottom"/>
+<footer th:replace="partials/footer :: footer"/>

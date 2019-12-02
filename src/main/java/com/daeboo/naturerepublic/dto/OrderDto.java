@@ -63,12 +63,14 @@ public class OrderDto {
         private int itemQuantity;
         private LocalDateTime orderDateTime;
         private String orderStatus;
+        private String deliveryStatus;
         private OrderItemDto.Preview orderItemDto;
         public Preview(Order order) {
             this.id = order.getId();
             this.orderDateTime = order.getOrderDateTime();
-            this.orderItemDto = new OrderItemDto.Preview(order.getOrderItems().get(0));
             this.orderStatus = order.getOrderStatus().toString();
+            this.deliveryStatus = order.getDelivery().getDeliveryStatus().toString();
+            this.orderItemDto = new OrderItemDto.Preview(order.getOrderItems().get(0));
         }
 
     }

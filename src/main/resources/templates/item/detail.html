@@ -61,9 +61,14 @@
                         <ul class="clearfix">
                             <li class="col-2 like">
                                 <div>
-                                    <a href="#">
-                                        <img src="/image/detail_img/like.png">
-                                    </a>
+                                    <form th:action="@{/item/likes}" method="post">
+                                        <input type="hidden" name="itemId" th:value="${item.id}">
+                                        <button type="submit" class="like">
+                                            <a href="#">
+                                                <img src="/image/detail_img/like.png">
+                                            </a>
+                                        </button>
+                                    </form>
                                 </div>
                             </li>
                             <li class="col-4 cart">
@@ -79,7 +84,6 @@
 <!--                                        <a th:href="@{/order(id=*{item.id}, count=1)}">-->
 <!--                                            <p>바로구매</p>-->
 <!--                                        </a>-->
-                                        <input type="hidden" name="memberId" th:value="${memberId}">
                                         <input type="hidden" name="itemId" th:value="${item.id}">
                                         <input type="hidden" name="count" value="1" id="count">
                                         <button type="submit">바로구매</button>
