@@ -25,7 +25,7 @@ public class MyPageController {
     private final OrderService orderService;
 
     @GetMapping
-    public String index(Principal principal, Model model) {
+    public String index(Principal principal, @RequestParam(defaultValue = "index") String nav, Model model) {
         Member member = memberService.findByName(principal.getName());
         MemberDto.MyPageIndex myPageIndex = new MemberDto.MyPageIndex(member);
 
@@ -33,17 +33,19 @@ public class MyPageController {
 
         model.addAttribute("memberDto", myPageIndex);
         model.addAttribute("onGoing", count);
+        model.addAttribute("nav", nav);
 
         return "myPage/index";
     }
 
     @GetMapping("/detail")
-    public String orderDetail(@RequestParam("id") Long id, Model model) {
+    public String orderDetail(@RequestParam("id") Long id, @RequestParam(defaultValue = "index") String nav, Model model) {
 
         Order order = orderService.findById(id);
         OrderDto.DetailPage orderDto = new OrderDto.DetailPage(order);
 
         model.addAttribute("orderDtos", orderDto);
+        model.addAttribute("nav", nav);
 
         return "myPage/orderDetail";
 

@@ -69,6 +69,7 @@ public class OrderItemDto {
     public static class DetailPage {
 
         private Long id;
+        private Long itemId;
         private String s3Key;
         private String name;
         private int itemPrice;
@@ -76,6 +77,7 @@ public class OrderItemDto {
 
         public DetailPage(OrderItem orderItem) {
             this.id = orderItem.getId();
+            this.itemId = orderItem.getItem().getId();
             this.s3Key = orderItem.getItem().getItemSrcs().get(0).getS3Key();
             this.name = orderItem.getItem().getNameKor();
             this.itemPrice = orderItem.getOrderPrice();

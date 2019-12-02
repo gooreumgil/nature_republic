@@ -24,7 +24,7 @@
                 </p>
             </div>
             <nav class="order-nav">
-                <a href="#">주문 배송 조회</a><br>
+                <a th:href="@{/myPage}" th:classappend="${nav == 'index' ? 'active' : ''}">주문 배송 조회</a><br>
                 <a href="#">취소/반품 조회</a><br>
                 <a href="#">포인트</a><br>
                 <a href="#">찜 리스트</a><br>
@@ -38,6 +38,28 @@
 
             <div class="list-box">
                 <h3>주문 배송 조회</h3>
+
+                <div class="status-box">
+                    <span th:if="${orderDtos.deliveryStatus == 'READY'}" class="status">· 배송준비중</span>
+                    <span th:if="${orderDtos.deliveryStatus == 'ONGOING'}" class="status">· 배송중</span>
+                    <span th:if="${orderDtos.deliveryStatus == 'COMP'}" class="status">· 배송완료</span>
+                </div>
+
+                <div th:if="${orderDtos.deliveryStatus == 'READY'}" class="top-btn-box">
+                    <button type="button" class="top-btn">주문취소</button>
+                </div>
+
+                <div th:if="${orderDtos.deliveryStatus == 'ONGOING'}" class="top-btn-box">
+                    <button type="button" class="top-btn">배송조회</button>
+                    <button type="button" class="top-btn">구매확정</button>
+                    <button type="button" class="top-btn">교환/환불신청</button>
+                </div>
+
+                <div th:if="${orderDtos.deliveryStatus == 'COMP'}" class="top-btn-box">
+                    <button type="button" class="top-btn">구매확정</button>
+                    <button type="button" class="top-btn">교환/환불신청</button>
+                </div>
+
 
                 <ul class="list-wrap clearfix">
                     <li class="list__item top-line clearfix">
@@ -59,11 +81,11 @@
                             <p th:text="${orderItemDto.id}"></p>
                         </div>
                         <div class="list__inner info">
-                            <a href="#">
+                            <a th:href="@{/item/detail(id=${orderItemDto.itemId})}">
                                 <img th:src="@{${'/upload/' + orderItemDto.s3Key}}" alt="">
                             </a>
 
-                            <a href="#">
+                            <a th:href="@{/item/detail(id=${orderItemDto.itemId})}">
                                 <span th:text="${orderItemDto.name}"></span>
                             </a>
                         </div>
@@ -74,6 +96,7 @@
                             <p th:text="${#numbers.formatInteger((orderItemDto.itemPrice * orderItemDto.count), 3, 'COMMA')}"></p>
                         </div>
                     </li>
+
                 </ul>
             </div>
 
@@ -92,40 +115,50 @@
 
                         <h4>우편번호</h4>
                         <p th:text="${orderDtos.detailAddress}"></p>
+
+                        <h4>배송메모</h4>
+                        <p th:text="${orderDtos.deliveryMemo}"></p>
                     </div>
                 </div>
 
                 <div class="info__list pay">
                     <h3>결제정보</h3>
                     <div class="inner__div">
-                        <h4>총 결제금액</h4>
-                        <p>
-                            <span th:text="${orderDtos.totalPrice}"></span>
-                            <span>원</span>
-                        </p>
+                        <div class="total">
+                            <h4>총 결제금액</h4>
+                            <p>
+                                <span th:text="${#numbers.formatInteger((orderDtos.totalPrice), 3, 'COMMA')}" class="bold"></span><span class="small">원</span>
+                            </p>
+                        </div>
 
                         <h4>상품금액</h4>
                         <p>
-                            <span th:text="${orderDtos.totalItemPrice}"></span>
-                            <span>원</span>
-                        </p>
-
-                        <h4>할인금액</h4>
-                        <p>
-                            <span th:text="${orderDtos.totalDiscount}"></span>
-                            <span>원</span>
+                            <span th:text="${#numbers.formatInteger((orderDtos.totalItemPrice), 3, 'COMMA')}"></span><span class="small">원</span>
                         </p>
 
                         <h4>배송료</h4>
                         <p>
-                            <span th:text="${orderDtos.deliveryPrice}"></span>
-                            <span>원</span>
+                            <span th:if="${orderDtos.deliveryPrice > 0}">
+                                <span th:text="${#numbers.formatInteger((orderDtos.deliveryPrice), 3, 'COMMA')}"></span><span class="small">원</span>
+                            </span>
+                            <span th:unless="${orderDtos.deliveryPrice > 0}">
+                                <span>0</span><span class="small">원</span>
+                            </span>
+                        </p>
+
+                        <h4>할인금액</h4>
+                        <p>
+                            <span th:if="${orderDtos.totalDiscount > 0}">
+                                <span th:text="${#numbers.formatInteger((orderDtos.totalDiscount), 3, 'COMMA')}"></span><span class="small">원 (-)</span>
+                            </span>
+                            <span th:unless="${orderDtos.totalDiscount > 0}">
+                                <span>0</span><span class="small">원 (-)</span>
+                            </span>
                         </p>
 
                         <h4>사용포인트</h4>
                         <p>
-                            <span th:text="${orderDtos.usePoints}"></span>
-                            <span>P</span>
+                            <span th:text="${orderDtos.usePoints == null ? 0 : orderDtos.usePoints}"></span><span class="small">P (-)</span>
                         </p>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ public class OrderService {
         Delivery delivery = Delivery.createDelivery(orderItemDto);
 
         int orderPrice = orderItemDto.getPrice();
-        int discount = orderItemDto.getDiscount();
+        Integer discount = orderItemDto.getDiscount();
         int count = orderItemDto.getCount();
         Integer usePoints = orderItemDto.getUsePoints();
 

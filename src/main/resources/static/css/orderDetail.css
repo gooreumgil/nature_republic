@@ -6,8 +6,8 @@
 }
 
 ul.order-wrapper {
-
 }
+
 
 li.order__list {
     float: left;
@@ -71,17 +71,53 @@ li.order__list.right {
 
 li.order__list.right div.list-box {
     margin-top: 40px;
+    position: relative;
 }
 
+li.order__list.right div.list-box div.status-box {
+    position: absolute;
+    left: 130px;
+    top: 2px;
+}
+
+li.order__list.right div.list-box div.status-box span {
+    color: #71a532;
+    /* background-color: #7ebb34; */
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 100px;
+    display: inline-block;
+}
+
+
 li.order__list.right div.list-box h3 {
+    margin-right: 10px;
     font-size: 18px;
     font-weight: 600;
     color: #333;
 }
 
+li.order__list.right div.list-box div.top-btn-box {
+    position: absolute;
+    right: 0;
+    top: -2px;
+}
+
+li.order__list.right div.list-box button.top-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    outline: none;
+    background-color: #f1f1f1;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
 li.order__list.right div.list-box ul.list-wrap {
     margin-top: 25px;
 }
+
 
 li.order__list.right div.list-box ul.list-wrap li.list__item {
     display: flex;
@@ -96,7 +132,7 @@ li.order__list.right div.list-box ul.list-wrap li.list__item.top-line {
     border-bottom: 1px solid #ddd;
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.top-line  .list__inner.info {
+li.order__list.right div.list-box ul.list-wrap li.list__item.top-line .list__inner.info {
     justify-content: center;
 }
 
@@ -162,7 +198,7 @@ li.list__item div.list__inner.price {
 
 .info-wrapper .info__list.delivery {
     width: 60%;
-    padding-right: 20px;
+    padding-right: 30px;
 }
 
 .info-wrapper .info__list.delivery h3 {
@@ -177,14 +213,14 @@ li.list__item div.list__inner.price {
     border: 1px solid #ddd;
     box-sizing: border-box;
     padding: 30px;
-    padding-bottom: 40px;
+    height: 501px;
 }
 
 .info-wrapper .info__list.delivery .inner__div h4 {
     font-size: 14px;
-    color: #888;
-    font-weight: 500;
-    margin-top: 25px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 30px;
 }
 
 .info-wrapper .info__list.delivery .inner__div h4:first-child {
@@ -198,8 +234,71 @@ li.list__item div.list__inner.price {
     font-size: 16px;
     font-weight: 400;
     color: #333;
-    margin-top: 8px;
+    margin-top: 10px;
 }
+
+.info-wrapper .info__list.pay {
+    width: 40%;
+}
+
+.info-wrapper .info__list.pay h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.info-wrapper .info__list.pay .inner__div {
+    margin-top: 25px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 30px;
+    padding-bottom: 40px;
+    height: 501px;
+}
+
+.info-wrapper .info__list.pay .inner__div .total {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.info-wrapper .info__list.pay .inner__div .total h4 {
+    font-size: 16px;
+    color: #555;
+    margin-top: 0;
+}
+
+.info-wrapper .info__list.pay .inner__div .total p {
+    font-size: 14px;
+    color: #555;
+}
+
+.info-wrapper .info__list.pay .inner__div .total span.bold {
+    font-size: 24px;
+    color: #71a532;
+    font-weight: 600;
+}
+
+
+.info-wrapper .info__list.pay .inner__div h4 {
+    margin-top: 35px;
+    font-size: 14px;
+    color: #333;
+}
+
+.info-wrapper .info__list.pay .inner__div p {
+    margin-top: 10px;
+}
+
+.info-wrapper .info__list.pay .inner__div p span {
+
+}
+
+.info-wrapper .info__list.pay .inner__div p span.small {
+    font-size: 14px;
+    margin-left: 2px;
+}
+
 
 
 

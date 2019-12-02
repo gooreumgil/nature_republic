@@ -211,8 +211,17 @@ li.list__item div.list__inner.confirm {
     width: 15%;
 }
 
-li.order__list.right div.list-box ul.list-wrap li.list__item.content {
+li.list__item div.list__inner.confirm button {
+    padding: 5px 12px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+}
 
+li.order__list.right div.list-box ul.list-wrap li.list__item.content {
+    border-bottom: 1px solid #ddd;
 }
 
 li.order__list.right div.list-box ul.list-wrap li.list__item.content div.list__inner {

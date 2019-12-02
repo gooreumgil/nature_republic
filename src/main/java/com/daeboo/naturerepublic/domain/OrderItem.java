@@ -31,7 +31,7 @@ public class OrderItem {
     private int orderPrice;
 
     @Nullable
-    private int discount;
+    private Integer discount;
     private int count;
 
     // 생성 메소드
@@ -54,7 +54,11 @@ public class OrderItem {
 
     // 로직
     public int getTotalPrice() {
-        return this.orderPrice * this.count;
+        if (discount != null) {
+            return (orderPrice - discount) * count;
+        } else {
+            return this.orderPrice * this.count;
+        }
     }
 
 }

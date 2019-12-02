@@ -49,6 +49,7 @@ public class Delivery {
         delivery.addressee = orderItemDto.getName();
         delivery.deliveryPrice = orderItemDto.getDeliveryPrice();
         delivery.phoneNumber = orderItemDto.getPhoneNumber();
+        delivery.memo = orderItemDto.getMemo();
         delivery.deliveryStatus = DeliveryStatus.READY;
 
         return delivery;

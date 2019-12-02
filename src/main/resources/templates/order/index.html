@@ -91,8 +91,6 @@
 
             <ul class="clearfix pay-wrap">
 
-
-
                 <li class="pay-list points">
                     <div class="title-box">
                         <h3>할인 및 쿠폰</h3>
@@ -145,8 +143,16 @@
                         <div class="price-detail discount">
                             <h5>할인금액</h5>
                             <p>
-                                <span th:text="${#numbers.formatInteger((itemDto.discountPrice * count), 3, 'COMMA')}"></span>
-                                <span>원 (-)</span>
+                                <span th:if="${itemDto.discountPrice > 0}">
+                                    <span th:text="${#numbers.formatInteger((itemDto.discountPrice * count), 3, 'COMMA')}"></span>
+                                    <span>원 (-)</span>
+                                </span>
+
+                                <span th:unless="${itemDto.discountPrice > 0}">
+                                    <span>0</span>
+                                    <span>원 (-)</span>
+                                </span>
+
                             </p>
                         </div>
                         <div class="price-detail pay-points">

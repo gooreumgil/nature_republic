@@ -35,8 +35,10 @@
 
 .item__list.top-line {
     height: 50px;
-    background-color: #eee;
+    background-color: #f6f6f6;
     font-size: 14px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .item__list.content {

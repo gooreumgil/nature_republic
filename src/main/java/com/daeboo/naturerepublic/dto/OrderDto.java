@@ -29,6 +29,7 @@ public class OrderDto {
         private Integer totalItemPrice;
         private Integer totalDiscountPrice;
         private Integer usePoints;
+
         public OrderComplete(Order order) {
 
             List<OrderItem> orderItems = order.getOrderItems();
@@ -85,6 +86,7 @@ public class OrderDto {
         private String phoneNumber;
         private String mainAddress;
         private String detailAddress;
+        private String deliveryMemo;
 
         private int totalPrice;
         private int totalItemPrice;
@@ -107,6 +109,8 @@ public class OrderDto {
             this.phoneNumber = order.getDelivery().getPhoneNumber();
             this.mainAddress = order.getDelivery().getAddress().getMain();
             this.detailAddress = order.getDelivery().getAddress().getDetail();
+            this.deliveryMemo = order.getDelivery().getMemo();
+
             this.totalPrice = order.totalPrice(order.getDelivery().getDeliveryPrice(), order.getUsePoints());
             this.totalItemPrice = order.totalItemPrice();
             this.totalDiscount = order.totalDiscountPrice();
