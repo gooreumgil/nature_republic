@@ -123,7 +123,6 @@ li {
 
 .best_item li img {
     width: 100%;
-    height: 100%;
 }
 
 .best .col-3 {
@@ -137,11 +136,15 @@ li {
 
 .best .col-3 .inner-box {
     position: relative;
+    height: 351px;
+    background-color: #f6f6f6;
 }
 
 .best .col-3 .inner-box a {
     height: 100%;
-    display: table;
+    /*display: table;*/
+    display: flex;
+    align-items: center;
 }
 .best .col-3 .inner-box:hover > a > .best_hover {
     opacity: 1;

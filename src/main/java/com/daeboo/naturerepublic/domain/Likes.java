@@ -36,10 +36,12 @@ public class Likes {
 
     // 연관관계 편의 메소드
     public void setMember(Member member) {
+        this.member = member;
         member.getLikes().add(this);
     }
 
     public void setItem(Item item) {
+        this.item = item;
         item.getLikesList().add(this);
         item.plusLikes();
     }

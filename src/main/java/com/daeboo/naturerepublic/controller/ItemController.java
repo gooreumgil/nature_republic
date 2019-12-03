@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -78,11 +79,25 @@ public class ItemController {
     }
 
     @GetMapping("/detail")
-    public String itemDetail(Long id, String currentCategory, Model model) {
+    public String itemDetail(Long id, String currentCategory, Principal principal, Model model) {
 
         if (currentCategory == null) {
             currentCategory = "ALL";
         }
+
+        boolean likeTrueOrFalse = false;
+
+        if (principal != null) {
+            Member member = memberService.findByName(principal.getName());
+            Likes likes = likesService.findByMemberIdAndItemId(member.getId(), id);
+            if (likes != null) {
+                likeTrueOrFalse = true;
+            } else {
+                likeTrueOrFalse = false;
+            }
+        }
+
+        model.addAttribute("like", likeTrueOrFalse);
 
         Item findItem = itemService.findById(id);
         ItemDto.Detail detail = new ItemDto.Detail(findItem);
@@ -98,17 +113,24 @@ public class ItemController {
     }
 
     @PostMapping("likes")
-    public String addLikes(@RequestParam("itemId") Long itemId, Principal principal, Model model) {
+    public String addLikes(@RequestParam("itemId") Long itemId, @RequestParam("type") String type, Principal principal, HttpServletRequest request) {
 
         Item item = itemService.findById(itemId);
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
 
-        likesService.addLikes(item, member);
+        if (type.equals("add")) {
+            likesService.addLikes(item, member);
+        } else if (type.equals("remove")) {
+            likesService.remove(member.getId(), item);
+            item.minusLikes();
+        }
+
+        String referer = request.getHeader("Referer");
 
         // TODO 여기서부터 해보자
-        return null;
+        return "redirect:" + referer;
 
     }
 

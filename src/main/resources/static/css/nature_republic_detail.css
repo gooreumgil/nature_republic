@@ -300,10 +300,14 @@ thumb_wrap {
 
 .button ul li form button.like {
     background-color: #f3f3f3;
+    text-align: center;
 }
 
 .button ul li form button.like img {
+    margin: 0 auto;
     margin-top: 2px;
+    max-width: 25px;
+    width: 100%;
 }
 
 /*===================

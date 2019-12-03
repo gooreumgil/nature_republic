@@ -44,6 +44,7 @@ public class Member {
     private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "comment_id")
     private Comment comment;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)

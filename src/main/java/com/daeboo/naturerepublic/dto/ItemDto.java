@@ -13,29 +13,6 @@ import java.util.stream.Collectors;
 
 public class ItemDto {
 
-//    @Getter @Setter
-//    @NoArgsConstructor
-//    public static class CreateForm {
-//
-//        private String nameKor;
-//        private String nameEng;
-//        private Integer price;
-//        private Integer stockQuantity;
-//        private String description;
-//        private Integer capacity;
-//        private String[] multiCategoryValues;
-//        private List<MultipartFile> mainImg;
-//        private List<MultipartFile> detailImg;
-//
-//        public Item toItemWithImg(
-//                String nameKor, String nameEng, Integer price, Integer stockQuantity, String description,
-//                Integer capacity, List<Category> categories, List<String> mainImgPaths, List<String> detailImgPaths) {
-//
-//            return Item.createItemWithImg(nameKor, nameEng, price, stockQuantity, description, capacity, categories, mainImgPaths, detailImgPaths);
-//        }
-//
-//    }
-
     @Getter @Setter
     @NoArgsConstructor
     public static class CreateForm {

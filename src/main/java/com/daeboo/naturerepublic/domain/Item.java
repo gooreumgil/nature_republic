@@ -141,4 +141,8 @@ public class Item {
     public void plusLikes() {
         this.likesCount++;
     }
+
+    public void minusLikes() {
+        this.likesCount--;
+    }
 }

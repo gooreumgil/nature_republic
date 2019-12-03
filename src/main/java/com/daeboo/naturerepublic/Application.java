@@ -45,7 +45,7 @@ public class Application {
     @Bean
     public LinkedHashMap<String, String> sortList() {
         LinkedHashMap<String, String> sortList = new LinkedHashMap<>();
-        sortList.put("item.likes,DESC", "인기상품순");
+        sortList.put("item.likesCount,DESC", "인기상품순");
         sortList.put("item.registerAt,ASC", "등록일순");
         sortList.put("item.price,ASC", "낮은가격순");
         sortList.put("item.price,DESC", "높은가격순");

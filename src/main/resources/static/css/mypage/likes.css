@@ -1,0 +1,159 @@
+.container {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+}
+
+ul.order-wrapper {
+
+}
+
+li.order__list {
+    float: left;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+li.order__list.left {
+    width: 20%;
+}
+
+li.order__list.left div.title-box {
+    background-color: #7ebb34;
+    box-sizing: border-box;
+    padding-top: 45px;
+    padding-left: 35px;
+    padding-bottom: 40px;
+    text-align: left;
+}
+
+li.order__list.left div.title-box h2 {
+    font-size: 26px;
+    font-weight: 500;
+    color: #fff;
+}
+
+li.order__list.left div.title-box p {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, .75);
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+li.order__list.left nav.order-nav {
+    box-sizing: border-box;
+    padding: 25px 30px 35px 35px;
+    border: 1px solid #ddd;
+}
+
+li.order__list.left nav.order-nav a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    display: inline-block;
+    margin-top: 25px;
+}
+
+li.order__list.left nav.order-nav a:first-child {
+    margin-top: 0;
+}
+
+li.order__list.left nav.order-nav a.active {
+    color: #333;
+    font-weight: 600;
+}
+
+
+
+li.order__list.right {
+    width: 80%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+li.order__list.right div.title-box {
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 30px;
+}
+
+li.order__list.right div.title-box h3 {
+    margin-right: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+li.order__list.right div.title-box p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 5px;
+}
+
+li.order__list.right .item-wrap {
+    margin-top: 20px;
+}
+
+li.order__list.right .item-wrap .item__list {
+    width: 25%;
+    height: 422px;
+    float: left;
+    box-sizing: border-box;
+    padding: 20px 10px;
+    cursor: pointer;
+}
+
+li.order__list.right .item-wrap .item__list .img-box {
+    height: 280px;
+    background-color: #f6f6f6;
+    display: flex;
+    align-items: center;
+}
+
+li.order__list.right .item-wrap .item__list .img-box img {
+    width: 100%;
+}
+
+li.order__list.right .item-wrap .item__list .item-name {
+    margin-top: 20px;
+}
+
+li.order__list.right .item-wrap .item__list .item-name p {
+    color: #555;
+    font-weight: 300;
+    font-size: 18px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+li.order__list.right .item-wrap .item__list .inner-box:hover p.item-price {
+    border-bottom: 2px solid #8bc545;
+}
+
+li.order__list.right .item-wrap .item__list p.item-price {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #efefef;
+}
+
+li.order__list.right .item-wrap .item__list p.item-price span {
+    font-size: 18px;
+    color: #888;
+    font-weight: 300;
+}
+
+li.order__list.right .item-wrap .item__list p.item-price span.bold {
+    font-size: 24px;
+    color: #7ebb34;
+    font-weight: 400;
+}
+
+
+
+

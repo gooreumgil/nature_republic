@@ -63,10 +63,10 @@
                                 <div>
                                     <form th:action="@{/item/likes}" method="post">
                                         <input type="hidden" name="itemId" th:value="${item.id}">
+                                        <input type="hidden" name="type" class="likeType">
                                         <button type="submit" class="like">
-                                            <a href="#">
-                                                <img src="/image/detail_img/like.png">
-                                            </a>
+                                            <img th:if="${like == false}" th:src="@{/image/like_empty.svg}" class="empty" id="likeImg">
+                                            <img th:if="${like == true}" th:src="@{/image/like_fill.svg}" class="fill" id="likeImg">
                                         </button>
                                     </form>
                                 </div>
@@ -180,24 +180,6 @@
                     <p th:text="*{categoryBest.itemDto.nameKor}">슈퍼 아쿠아 맥스 컴비네이션 수분 크림 [복합성용]</p>
                 </a>
             </li>
-<!--            <li class="col-3">-->
-<!--                <a href="#">-->
-<!--                    <img src="/image/detail_img/best/best_2.png">-->
-<!--                    <p>프로방스 인텐스커버 3in1 스트로빙 파운데이션</p>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="col-3">-->
-<!--                <a href="#">-->
-<!--                    <img src="/image/detail_img/best/best_3.png">-->
-<!--                    <p>슈퍼 아쿠아 맥스 수분 에멀젼</p>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="col-3">-->
-<!--                <a href="#">-->
-<!--                    <img src="/image/detail_img/best/best_4.png">-->
-<!--                    <p>스네일 솔루션 크림 + 앰플</p>-->
-<!--                </a>-->
-<!--            </li>-->
         </ul>
     </aside>
 
@@ -252,6 +234,16 @@
     var plusButton = document.getElementsByClassName('plus')[0];
     var minusButton = document.getElementsByClassName('minus')[0];
 
+    function likeTypeSet() {
+        var likeTypeTag = document.getElementsByClassName('likeType')[0];
+        var likeImgTag = document.getElementById('likeImg');
+        if (likeImgTag.classList.contains('empty')) {
+            likeTypeTag.value = 'add'
+        } else {
+            likeTypeTag.value = 'remove';
+        }
+    }
+
     window.onload = function () {
 
         plusButton.onclick = function () {
@@ -268,6 +260,8 @@
             totalPrice(replaceNum);
             minusCount();
         };
+
+        likeTypeSet();
 
     }
 

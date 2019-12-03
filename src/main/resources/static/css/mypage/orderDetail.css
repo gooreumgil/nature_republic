@@ -1,5 +1,5 @@
 .container {
-    max-width: 1280px;
+    max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 40px;
@@ -70,7 +70,7 @@ li.order__list.right {
 }
 
 li.order__list.right div.list-box {
-    margin-top: 40px;
+    margin-top: 30px;
     position: relative;
 }
 
