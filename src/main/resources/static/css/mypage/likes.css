@@ -74,6 +74,7 @@ li.order__list.right {
 }
 
 li.order__list.right div.title-box {
+    position: relative;
     box-sizing: border-box;
     padding-left: 10px;
     padding-right: 10px;
@@ -94,6 +95,25 @@ li.order__list.right div.title-box p {
     margin-top: 5px;
 }
 
+li.order__list.right div.title-box .btn-box {
+    position: absolute;
+    box-sizing: border-box;
+    padding-right: 10px;
+    right: 0;
+    bottom: 0;
+}
+
+li.order__list.right div.title-box .btn-box button {
+    padding: 5px 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+li.order__list.right div.title-box .btn-box form {
+    display: inline-block;
+}
+
 li.order__list.right .item-wrap {
     margin-top: 20px;
 }
@@ -104,6 +124,22 @@ li.order__list.right .item-wrap .item__list {
     float: left;
     box-sizing: border-box;
     padding: 20px 10px;
+    cursor: pointer;
+}
+
+li.order__list.right .item-wrap .item__list .inner-box {
+    position: relative;
+}
+
+li.order__list.right .item-wrap .item__list .inner-box .checkbox {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    left: 10px;
+    top: 10px;
     cursor: pointer;
 }
 

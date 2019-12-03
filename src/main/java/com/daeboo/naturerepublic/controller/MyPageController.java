@@ -13,9 +13,7 @@ import com.daeboo.naturerepublic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -58,7 +56,7 @@ public class MyPageController {
     }
 
     @GetMapping("/likes")
-    public String itemLikes(Principal principal, @RequestParam(defaultValue = "likes") String nav, Model model) {
+    public String itemLikes(@ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Principal principal, Model model) {
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
@@ -67,12 +65,19 @@ public class MyPageController {
         List<LikesDto.LikePage> likesDtoList = likesList.stream().map(LikesDto.LikePage::new).collect(Collectors.toList());
 
         model.addAttribute("likeDtos", likesDtoList);
-        model.addAttribute("nav", nav);
+        model.addAttribute("deleteDto", deleteDto);
+        model.addAttribute("nav", "likes");
 
         return "myPage/likes";
 
     }
 
+    @DeleteMapping("/removeLikes")
+    public String removeLikes(@ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Model model) {
+
+        return null;
+
+    }
 
 
 }

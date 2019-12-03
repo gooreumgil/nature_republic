@@ -40,14 +40,23 @@
                 <p>관심 상품 목록입니다.</p>
 
                 <div class="btn-box">
+
                     <button type="button">모두선택</button>
-                    <button type="button">삭제</button>
+                    <form th:action="@{/myPage/removeLikes}" th:object="${deleteDto}" id="likeForm">
+<!--                        <input type="hidden" th:field="*{likeIds}">-->
+                        <button type="submit">삭제</button>
+                    </form>
                 </div>
             </div>
 
             <div class="item-wrap clearfix">
                 <div class="item__list" th:each="likeDto : ${likeDtos}">
                     <div class="inner-box">
+
+                        <div class="checkbox" th:onclick="|javascript:likeCheck('${likeDto.itemId}', this)|">
+
+                        </div>
+
                         <a th:href="@{/item/detail(id=*{likeDto.itemId})}">
                             <div class="img-box">
                                 <img th:src="@{${'/upload/' + likeDto.s3Key}}" alt="">
@@ -76,6 +85,52 @@
 
 <script type="text/javascript">
 
+    var formTag = document.getElementById('likeForm');
 
+    function likeCheck(id, elem) {
+
+        var likeInputTags = document.getElementsByClassName('likeInput');
+
+        if (elem.classList.contains('checkbox') && !elem.classList.contains('removeCheck')) {
+            var inputTag = document.createElement('input');
+            inputTag.value = id;
+            inputTag.id = 'likeIds';
+            inputTag.name = 'likeIds';
+            inputTag.type = 'hidden';
+            inputTag.classList.add('likeInput');
+            formTag.prepend(inputTag);
+
+            var imgTag = document.createElement('img');
+            imgTag.src = '/image/icon/check_mark.svg';
+            imgTag.setAttribute('style', 'max-width: 40px;');
+            imgTag.setAttribute('style', 'width: 100%;');
+
+            elem.appendChild(imgTag);
+            elem.classList.add('removeCheck');
+
+        } else if (elem.classList.contains('removeCheck')) {
+
+            for (i = 0; i < likeInputTags.length; i++) {
+                if (likeInputTags[i].value == id) {
+                    likeInputTags[i].remove();
+                }
+            }
+
+            elem.classList.remove('removeCheck');
+            elem.childNodes[1].remove();
+
+        }
+
+
+
+
+    }
+
+
+    window.onload = function () {
+
+        // likeCheck(id, this);
+
+    }
 
 </script>

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LikesDto {
 
     @Getter @Setter
@@ -24,6 +27,14 @@ public class LikesDto {
             this.itemName = likes.getItem().getNameKor();
             this.itemPrice = likes.getItem().getPrice();
         }
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Delete {
+
+        private List<Long> likeIds = new ArrayList<>();
+
     }
 
 }
