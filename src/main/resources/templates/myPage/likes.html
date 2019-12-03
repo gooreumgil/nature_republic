@@ -42,8 +42,9 @@
                 <div class="btn-box">
 
                     <button type="button">모두선택</button>
-                    <form th:action="@{/myPage/removeLikes}" th:object="${deleteDto}" id="likeForm">
+                    <form th:action="@{/myPage/removeLikes}" th:object="${likeDelete}" id="likeForm" method="post">
 <!--                        <input type="hidden" th:field="*{likeIds}">-->
+                        <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>
                 </div>
@@ -53,7 +54,7 @@
                 <div class="item__list" th:each="likeDto : ${likeDtos}">
                     <div class="inner-box">
 
-                        <div class="checkbox" th:onclick="|javascript:likeCheck('${likeDto.itemId}', this)|">
+                        <div class="checkbox" th:onclick="|javascript:likeCheck('${likeDto.id}', this)|">
 
                         </div>
 
@@ -92,12 +93,14 @@
         var likeInputTags = document.getElementsByClassName('likeInput');
 
         if (elem.classList.contains('checkbox') && !elem.classList.contains('removeCheck')) {
+
             var inputTag = document.createElement('input');
             inputTag.value = id;
             inputTag.id = 'likeIds';
             inputTag.name = 'likeIds';
             inputTag.type = 'hidden';
             inputTag.classList.add('likeInput');
+
             formTag.prepend(inputTag);
 
             var imgTag = document.createElement('img');

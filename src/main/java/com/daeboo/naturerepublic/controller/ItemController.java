@@ -129,7 +129,6 @@ public class ItemController {
 
         String referer = request.getHeader("Referer");
 
-        // TODO 여기서부터 해보자
         return "redirect:" + referer;
 
     }

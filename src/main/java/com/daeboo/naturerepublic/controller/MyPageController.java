@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class MyPageController {
     private final LikesService likesService;
 
     @GetMapping
-    public String index(Principal principal, @RequestParam(defaultValue = "index") String nav, Model model) {
+    public String index(Principal principal,  Model model) {
         Member member = memberService.findByName(principal.getName());
         MemberDto.MyPageIndex myPageIndex = new MemberDto.MyPageIndex(member);
 
@@ -37,19 +38,19 @@ public class MyPageController {
 
         model.addAttribute("memberDto", myPageIndex);
         model.addAttribute("onGoing", count);
-        model.addAttribute("nav", nav);
+        model.addAttribute("nav", "index");
 
         return "myPage/index";
     }
 
     @GetMapping("/detail")
-    public String orderDetail(@RequestParam("id") Long id, @RequestParam(defaultValue = "index") String nav, Model model) {
+    public String orderDetail(@RequestParam("id") Long id,  Model model) {
 
         Order order = orderService.findById(id);
         OrderDto.DetailPage orderDto = new OrderDto.DetailPage(order);
 
         model.addAttribute("orderDtos", orderDto);
-        model.addAttribute("nav", nav);
+        model.addAttribute("nav", "index");
 
         return "myPage/orderDetail";
 
@@ -64,6 +65,7 @@ public class MyPageController {
         List<Likes> likesList = likesService.findAllByMemberId(member.getId());
         List<LikesDto.LikePage> likesDtoList = likesList.stream().map(LikesDto.LikePage::new).collect(Collectors.toList());
 
+        model.addAttribute("memberId", member.getId());
         model.addAttribute("likeDtos", likesDtoList);
         model.addAttribute("deleteDto", deleteDto);
         model.addAttribute("nav", "likes");
@@ -73,9 +75,14 @@ public class MyPageController {
     }
 
     @DeleteMapping("/removeLikes")
-    public String removeLikes(@ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Model model) {
+    public String removeLikes(@ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Model model, HttpServletRequest request) {
 
-        return null;
+        List<Long> likeIds = deleteDto.getLikeIds();
+        likesService.removeByLikeId(likeIds);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
 
     }
 

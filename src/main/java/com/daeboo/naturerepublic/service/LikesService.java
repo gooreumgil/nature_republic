@@ -3,11 +3,13 @@ package com.daeboo.naturerepublic.service;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.domain.Likes;
 import com.daeboo.naturerepublic.domain.Member;
+import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class LikesService {
 
     private final LikesRepository likesRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
     public void addLikes(Item item, Member member) {
@@ -51,4 +54,17 @@ public class LikesService {
     public List<Likes> findAllByMemberId(Long memberId) {
         return likesRepository.findAllByMemberId(memberId);
     }
+
+    @Transactional
+    public void removeByLikeId(List<Long> ids) {
+
+        for (Long id : ids) {
+            Likes likes = likesRepository.findById(id).get();
+            Item item = itemRepository.findById(likes.getItem().getId()).get();
+            item.minusLikes();
+        }
+
+        likesRepository.deleteAllByIdInQuery(ids);
+    }
+
 }

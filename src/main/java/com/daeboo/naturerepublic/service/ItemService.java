@@ -78,14 +78,11 @@ public class ItemService {
 
     }
 
-    public List<ItemDto.ListView> findAllWithSrc() {
-        List<Item> allItems = itemRepository.findAllWithSrc();
+    public List<Item> findAllWithSrc() {
+        return itemRepository.findAllWithSrc();
 
-        List<ItemDto.ListView> result = allItems.stream().map(item -> {
-            return new ItemDto.ListView(item);
-        }).collect(Collectors.toList());
 
-        return result;
+
     }
 
     public List<ItemDto.ListView> findAll() {

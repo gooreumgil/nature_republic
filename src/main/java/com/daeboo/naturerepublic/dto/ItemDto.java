@@ -110,6 +110,7 @@ public class ItemDto {
         private int price;
         private int stockQuantity;
         private String description;
+        private Integer likeCount;
         private int capacity;
         private List<ItemSrc> mainSrcs = new ArrayList<>();
         private List<ItemSrc> detailSrcs = new ArrayList<>();
@@ -121,6 +122,7 @@ public class ItemDto {
             this.price = item.getPrice();
             this.stockQuantity = item.getStockQuantity();
             this.description = item.getDescription();
+            this.likeCount = item.getLikesCount();
             this.capacity = item.getCapacity();
             item.getItemSrcs().stream().forEach(itemSrc -> {
 

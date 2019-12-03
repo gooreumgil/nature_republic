@@ -96,7 +96,11 @@ public class AdminController {
     @GetMapping("/items")
     public String itemList(Model model) {
 
-        List<ItemDto.ListView> result = itemService.findAllWithSrc();
+        List<Item> allItems = itemService.findAllWithSrc();
+
+        List<ItemDto.ListView> result = allItems.stream().map(item -> {
+            return new ItemDto.ListView(item);
+        }).collect(Collectors.toList());
 
         model.addAttribute("itemDto", result);
 
