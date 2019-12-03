@@ -109,6 +109,7 @@ li.order__list.right div.title-box .btn-box button {
     border-radius: 5px;
     border: 1px solid #ddd;
     cursor: pointer;
+    outline: none;
 }
 
 li.order__list.right div.title-box .btn-box form {
