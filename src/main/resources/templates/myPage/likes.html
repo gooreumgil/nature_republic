@@ -41,7 +41,9 @@
 
                 <div class="btn-box">
 
-                    <button type="button">모두선택</button>
+                    <input th:each="likeDto : ${likeDtos}" type="hidden" th:value="${likeDto.id}" class="allIds">
+
+                    <button type="button" onclick="selectAll()">모두선택</button>
                     <form th:action="@{/myPage/removeLikes}" th:object="${likeDelete}" id="likeForm" method="post">
 <!--                        <input type="hidden" th:field="*{likeIds}">-->
                         <input type="hidden" name="_method" value="delete">
@@ -120,12 +122,47 @@
             }
 
             elem.classList.remove('removeCheck');
+            console.log(elem.childNodes);
             elem.childNodes[1].remove();
 
         }
+    }
 
+    function selectAll() {
 
+        var allIdsTags = document.getElementsByClassName('allIds');
+        var likeInputTags = document.getElementsByClassName('likeInput');
+        var checkboxTags = document.getElementsByClassName('checkbox');
 
+        for (i = 0; i < likeInputTags.length; i++) {
+            likeInputTags[i].remove();
+        }
+
+        for (i = 0; i < allIdsTags.length; i++) {
+
+            var inputTag = document.createElement('input');
+            inputTag.value = allIdsTags[i].value;
+            inputTag.id = 'likeIds';
+            inputTag.name = 'likeIds';
+            inputTag.type = 'hidden';
+            inputTag.classList.add('likeInput');
+
+            formTag.prepend(inputTag);
+
+            var imgTag = document.createElement('img');
+            imgTag.src = '/image/icon/check_mark.svg';
+            imgTag.setAttribute('style', 'max-width: 40px;');
+            imgTag.setAttribute('style', 'width: 100%;');
+
+            if (checkboxTags[i].childNodes[1]) {
+                checkboxTags[i].childNodes[1].remove();
+            }
+
+            checkboxTags[i].classList.remove();
+            checkboxTags[i].appendChild(imgTag);
+            checkboxTags[i].classList.add('checkbox', 'removeCheck');
+
+        }
 
     }
 
