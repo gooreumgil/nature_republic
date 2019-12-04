@@ -3,13 +3,15 @@ package com.daeboo.naturerepublic.controller;
 import com.daeboo.naturerepublic.domain.Likes;
 import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Order;
+import com.daeboo.naturerepublic.domain.Qna;
 import com.daeboo.naturerepublic.dto.LikesDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
 import com.daeboo.naturerepublic.dto.OrderDto;
-import com.daeboo.naturerepublic.dto.OrderItemDto;
+import com.daeboo.naturerepublic.dto.QnaDto;
 import com.daeboo.naturerepublic.service.LikesService;
 import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.OrderService;
+import com.daeboo.naturerepublic.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ public class MyPageController {
     private final MemberService memberService;
     private final OrderService orderService;
     private final LikesService likesService;
+    private final QnaService qnaService;
 
     @GetMapping
     public String index(Principal principal,  Model model) {
@@ -85,6 +88,35 @@ public class MyPageController {
         return "redirect:" + referer;
 
     }
+
+    @GetMapping("/qna")
+    public String qna(Principal principal, Model model) {
+
+        Member member = memberService.findByName(principal.getName());
+
+        List<Qna> qnaList = qnaService.findAllByMemberId(member.getId());
+        List<QnaDto.MyPage> qnaDtos = qnaList.stream().map(QnaDto.MyPage::new).collect(Collectors.toList());
+
+        model.addAttribute("qnaDtos", qnaDtos);
+
+        return "myPage/qna";
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

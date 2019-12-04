@@ -1,0 +1,101 @@
+.container {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+}
+
+ul.order-wrapper {
+
+}
+
+li.order__list {
+    float: left;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+li.order__list.left {
+    width: 20%;
+}
+
+li.order__list.left div.title-box {
+    background-color: #7ebb34;
+    box-sizing: border-box;
+    padding-top: 45px;
+    padding-left: 35px;
+    padding-bottom: 40px;
+    text-align: left;
+}
+
+li.order__list.left div.title-box h2 {
+    font-size: 26px;
+    font-weight: 500;
+    color: #fff;
+}
+
+li.order__list.left div.title-box p {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, .75);
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+li.order__list.left nav.order-nav {
+    box-sizing: border-box;
+    padding: 25px 30px 35px 35px;
+    border: 1px solid #ddd;
+}
+
+li.order__list.left nav.order-nav a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    display: inline-block;
+    margin-top: 25px;
+}
+
+li.order__list.left nav.order-nav a:first-child {
+    margin-top: 0;
+}
+
+li.order__list.left nav.order-nav a.active {
+    color: #333;
+    font-weight: 600;
+}
+
+li.order__list.right {
+    width: 80%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+li.order__list.right div.title-box {
+    position: relative;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+li.order__list.right div.title-box h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+li.order__list.right div.title-box p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 5px;
+}
+
+li.order__list.right div.empty-box p {
+    margin-top: 30px;
+    font-size: 26px;
+    font-weight: 300;
+    color: #888;
+}
+

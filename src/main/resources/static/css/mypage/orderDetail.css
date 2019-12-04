@@ -219,7 +219,7 @@ li.list__item div.list__inner.price {
 .info-wrapper .info__list.delivery .inner__div h4 {
     font-size: 14px;
     color: #333;
-    font-weight: 600;
+    font-weight: 400;
     margin-top: 30px;
 }
 
@@ -266,6 +266,7 @@ li.list__item div.list__inner.price {
     font-size: 16px;
     color: #555;
     margin-top: 0;
+    font-weight: 600;
 }
 
 .info-wrapper .info__list.pay .inner__div .total p {
@@ -284,6 +285,7 @@ li.list__item div.list__inner.price {
     margin-top: 35px;
     font-size: 14px;
     color: #333;
+    font-weight: 400;
 }
 
 .info-wrapper .info__list.pay .inner__div p {

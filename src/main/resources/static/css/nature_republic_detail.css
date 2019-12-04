@@ -368,35 +368,42 @@ thumb_wrap {
 }
 
 .detail .detail_wrap .first{
-    background-color: #7ebb34;
+    /*background-color: #7ebb34;*/
 }
 
 .detail .detail_wrap .first a {
     color: #fff;
+    background-color: #7ebb34;
+
 }
 
 .detail .detail_wrap div {
-    background-color: #f3f3f3;
 }
 
-.detail .detail_wrap div:hover{
-    background-color: #7ebb34;
-}
-
-.detail .detail_wrap div:hover > a{
+.detail .detail_wrap a:hover {
     color: #fff;
+    background-color: #7ebb34;
+
 }
 
 .detail .detail_wrap a {
     display: inline-block;
+    background-color: #f3f3f3;
     font-size: 18px;
     color: #555;
     font-weight: 300;
     padding: 25px 0;
+    width: 100%;
+    height: 100%;
+}
+
+.detail .item-tab {
+    display: none;
 }
 
 .detail .item_info {
     margin: 90px 0;
+    display: block;
 }
 
 .detail .item_info div {
@@ -407,6 +414,172 @@ thumb_wrap {
     width: 100%;
     height: 100%;
 }
+
+.detail .item_reviews {
+    box-sizing: border-box;
+    padding: 0 10px;
+    min-height: 300px;
+}
+
+.detail .item_reviews .review__list {
+    position: relative;
+    height: 120px;
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+
+.detail .item_reviews .review__list .number-box {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    width: 100px;
+}
+
+.detail .item_reviews .review__list .number-box p {
+    padding-left: 20px;
+}
+
+.detail .item_reviews .review__list .info-box {
+    display: flex;
+    align-items: center;
+}
+
+.detail .item_reviews .review__list .info-box .info__inner {
+    text-align: left;
+}
+
+.detail .item_reviews .review__list .info-box .info__inner h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.detail .item_reviews .review__list .info-box .info__inner span {
+    margin-top: 3px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #888;
+}
+
+.detail .item_reviews .review__list svg {
+    max-width: 35px;
+    width: 100%;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.detail .item_reviews .review__list svg path {
+    stroke: #808080;
+}
+
+.detail .item_reviews .review__list svg circle {
+    stroke: #808080;
+}
+
+.detail .item_reviews .review__list svg:hover > path {
+    stroke: #71a532;
+}
+
+.detail .item_reviews .review__list svg:hover > circle {
+    stroke: #71a532;
+}
+
+.detail .item_qna {
+    text-align: left;
+    padding-top: 40px;
+}
+
+.detail .item_qna form {
+
+}
+
+.detail .item_qna form h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.detail .item_qna form h3 span {
+    font-size: 18px;
+    font-weight: 300;
+    color: #888;
+}
+
+.detail .item_qna form p {
+    font-size: 14px;
+    color: #888;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.detail .item_qna form textarea {
+    width: 50%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+    margin-top: 40px;
+    outline: none;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.detail .item_qna form div.btn-box {
+    width: 50%;
+    margin-top: 15px;
+    position: relative;
+}
+
+.detail .item_qna form div.btn-box button {
+    width: 75px;
+    height: 35px;
+    box-sizing: border-box;
+    font-size: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.detail .item_qna form div.btn-box button.submit {
+    border: none;
+    background-color: #7ebb34;
+    color: #fff;
+}
+
+.detail .item_qna form div.btn-box button.cancel {
+
+}
+
+.detail .item_qna form div.btn-box div.secret-box {
+    position: absolute;
+    right: 0;
+    top: 0;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+    display: flex;
+    align-items: center;
+}
+
+.detail .item_qna form div.btn-box div.secret-box .secret-check {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 5px;
+}
+
+.detail .item_qna form div.btn-box div.secret-box .secret-check img {
+
+}
+
+.detail .item_qna form div.btn-box div.secret-box span {
+    font-size: 14px;
+    transform: translateY(-2px);
+}
+
 
 /*===================
     CATEGORY BEST

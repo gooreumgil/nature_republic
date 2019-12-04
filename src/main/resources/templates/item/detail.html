@@ -140,31 +140,82 @@
         <div class="detail_wrap clearfix">
             <li class="col-3">
                 <div class="first">
-                    <a href="#">상품정보</a>
+                    <a href="#" onclick="itemInfoScroll(this)" class="tab-link">상품정보</a>
                 </div>
             </li>
             <li class="col-3">
                 <div>
-                    <a href="#">리뷰(12)</a>
+                    <a href="#" onclick="itemReviewScroll(this)" class="tab-link">리뷰(12)</a>
                 </div>
             </li>
             <li class="col-3">
                 <div>
-                    <a href="#">Q&amp;A(7)</a>
+                    <a href="#" onclick="itemQnaScroll(this)" class="tab-link">Q&amp;A(7)</a>
                 </div>
             </li>
             <li class="col-3">
                 <div>
-                    <a href="#">배송/교환/환불</a>
+                    <a href="#" class="tab-link">배송/교환/환불</a>
                 </div>
             </li>
         </div>
-        <div class="item_info">
+
+        <!--   tab     -->
+        <div class="item_info item-tab" id="info">
             <div>
-<!--                <img src="/image/detail_img/product_info.png">-->
                 <img th:src="@{'/upload/' + ${item.detailSrcs.get(0).s3Key}}">
             </div>
         </div>
+
+        <div class="item_reviews item-tab" id="reviews">
+            <div class="review__list">
+                <div class="number-box">
+                    <p>1</p>
+                </div>
+                <div class="info-box">
+                    <div class="info__inner">
+                        <h4>아주 거렁뱅이들이나 쓰는 제품입니다.</h4>
+                        <span class="name">yonggilmun</span>
+                        <span class="time">·2019.12.04</span>
+                    </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>Angle Down Circle</title>
+                    <desc>A line styled icon from Orion Icon Library.</desc>
+                    <path data-name="layer2"
+                          fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" d="M21.001 28l10.994 13 11.006-13"
+                          stroke-linejoin="round" stroke-linecap="round"></path>
+                    <circle data-name="layer1" cx="32" cy="32" r="30" fill="none" stroke="#202020"
+                            stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
+                </svg>
+            </div>
+
+        </div>
+
+        <div class="item_qna item-tab" id="qna">
+            <form th:action="@{/myPage/qna}" method="post" id="qna-form">
+                <h3>상품 Q&A <span>(7)</span></h3>
+                <p>
+                    위하여 석가는 품에 우리의 품고 가치를 가지에 위하여, 황금시대다.<br>
+                    새가 이상이 없으면 커다란 많이 얼음에 보이는 가슴에 곳으로 것이다. 품에 실현에 이상의 봄바람이다.
+                </p>
+                <textarea name="" id="" cols="30" rows="15"></textarea>
+
+                <div class="btn-box">
+                    <button type="submit" class="submit">등록</button>
+                    <button type="reset" class="cancel">취소</button>
+
+                    <div class="secret-box">
+                        <div class="secret-check" onclick="secretCheck(this)">
+
+                        </div>
+                        <span>비밀글</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </section>
 
     <!-- CATEGORY BEST -->
@@ -242,6 +293,80 @@
         } else {
             likeTypeTag.value = 'remove';
         }
+    }
+
+    var infoTab = document.getElementById('info');
+    var reviewTab = document.getElementById('reviews');
+    var qnaTab = document.getElementById('qna');
+
+    var tabs = document.getElementsByClassName('item-tab');
+    var tabLinks = document.getElementsByClassName('tab-link');
+
+    function displayNoneTabs() {
+        for (i = 0; i < tabs.length; i++) {
+            tabs[i].setAttribute('style', 'display: none;');
+        }
+    }
+
+    function styleReset() {
+        for (i = 0; i < tabLinks.length; i++) {
+            var tabLink = tabLinks[i];
+            tabLink.style.backgroundColor = '#f3f3f3';
+            tabLink.style.color = '#555';
+        }
+    }
+
+    function styleChange(elem) {
+        elem.style.backgroundColor = '#7ebb34';
+        elem.style.color = '#fff';
+    }
+
+    function itemInfoScroll(elem) {
+
+        displayNoneTabs();
+        styleReset();
+        styleChange(elem);
+        infoTab.setAttribute('style', 'display: block;');
+    }
+
+    function itemReviewScroll(elem) {
+
+        displayNoneTabs();
+        styleReset();
+        styleChange(elem);
+        reviewTab.setAttribute('style', 'display: block;');
+
+    }
+
+    function itemQnaScroll(elem) {
+
+        displayNoneTabs();
+        styleReset();
+        styleChange(elem);
+        qnaTab.setAttribute('style', 'display: block;');
+
+    }
+
+    var qnaFormTag = document.getElementById('qna-form');
+
+    function secretCheck(elem) {
+
+        var inputTag = document.createElement('input');
+        inputTag.value = 'true';
+        inputTag.id = 'secretVal';
+        inputTag.name = 'secretVal';
+        inputTag.type = 'hidden';
+
+        qnaFormTag.prepend(inputTag);
+
+        var imgTag = document.createElement('img');
+        imgTag.src = '/image/icon/check_mark.svg';
+        imgTag.setAttribute('style', 'max-width: 40px;');
+        imgTag.setAttribute('style', 'width: 100%;');
+
+        elem.appendChild(imgTag);
+        elem.classList.add('secretCheck');
+
     }
 
     window.onload = function () {
