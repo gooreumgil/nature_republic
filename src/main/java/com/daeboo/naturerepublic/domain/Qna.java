@@ -1,9 +1,11 @@
 package com.daeboo.naturerepublic.domain;
 
+import com.daeboo.naturerepublic.dto.QnaDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +26,24 @@ public class Qna {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private String title;
     private String content;
+    private boolean secretVal;
     private LocalDateTime wroteAt;
     private LocalDateTime modifiedAt;
 
     @OneToMany(mappedBy = "qna", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    public static Qna create(QnaDto.RequestForm qnaDto, Member member, Item item) {
+
+        Qna qna = new Qna();
+        qna.member = member;
+        qna.item = item;
+        qna.content = qnaDto.getContent();
+        qna.secretVal = qnaDto.isSecretVal();
+        qna.wroteAt = LocalDateTime.now();
+
+        return qna;
+
+    }
 }

@@ -1,12 +1,10 @@
 package com.daeboo.naturerepublic.controller;
 
-import com.daeboo.naturerepublic.domain.Category;
-import com.daeboo.naturerepublic.domain.Item;
-import com.daeboo.naturerepublic.domain.Likes;
-import com.daeboo.naturerepublic.domain.Member;
+import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.CategoryDto;
 import com.daeboo.naturerepublic.dto.CategoryItemDto;
 import com.daeboo.naturerepublic.dto.ItemDto;
+import com.daeboo.naturerepublic.dto.QnaDto;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,11 +31,13 @@ public class ItemController {
     private final ItemService itemService;
     private final CategoryItemService categoryItemService;
     private final CategoryService categoryService;
+    private final MemberService memberService;
+    private final LikesService likesService;
+    private final QnaService qnaService;
 
     // TODO 이 망할 거 바꾸어야 하는
     private final LinkedHashMap<String, String> sortList;
-    private final MemberService memberService;
-    private final LikesService likesService;
+
 //    private final List<CategoryDto.NewLine> categoryList;
 
     @GetMapping
@@ -79,7 +79,14 @@ public class ItemController {
     }
 
     @GetMapping("/detail")
-    public String itemDetail(Long id, String currentCategory, Principal principal, Model model) {
+    public String itemDetail(@ModelAttribute("qnaDto") QnaDto.RequestForm qnaDto, Long id, String currentCategory, Principal principal, Model model) {
+
+        List<Qna> qnaList = qnaService.findAllByItemId(id);
+        List<QnaDto.ItemDetail> qnaReponseDtos = qnaList.stream().map(qna -> {
+            return new QnaDto.ItemDetail(qna);
+        }).collect(Collectors.toList());
+
+        model.addAttribute("qnaReponseDtos", qnaReponseDtos);
 
         if (currentCategory == null) {
             currentCategory = "ALL";
@@ -132,7 +139,6 @@ public class ItemController {
         return "redirect:" + referer;
 
     }
-
 
 
 

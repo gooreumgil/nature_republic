@@ -19,4 +19,12 @@ public class QnaService {
         return qnaRepository.findAllByMemberId(id);
     }
 
+    public List<Qna> findAllByItemId(Long id) {
+        return qnaRepository.findAllByItemId(id);
+    }
+
+    @Transactional
+    public void save(Qna qna) {
+        qnaRepository.save(qna);
+    }
 }

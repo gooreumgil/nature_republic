@@ -8,5 +8,6 @@ import java.util.List;
 public interface QnaRepository extends JpaRepository<Qna, Long> {
 
     List<Qna> findAllByMemberId(Long memberId);
+    List<Qna> findAllByItemId(Long itemId);
 
 }

@@ -194,26 +194,36 @@
         </div>
 
         <div class="item_qna item-tab" id="qna">
-            <form th:action="@{/myPage/qna}" method="post" id="qna-form">
+            <form th:action="@{/qna}" method="post" id="qna-form" th:object="${qnaDto}">
+
+                <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
+
                 <h3>상품 Q&A <span>(7)</span></h3>
                 <p>
                     위하여 석가는 품에 우리의 품고 가치를 가지에 위하여, 황금시대다.<br>
                     새가 이상이 없으면 커다란 많이 얼음에 보이는 가슴에 곳으로 것이다. 품에 실현에 이상의 봄바람이다.
                 </p>
-                <textarea name="" id="" cols="30" rows="15"></textarea>
+
+                <textarea th:field="*{content}" cols="30" rows="20"></textarea>
 
                 <div class="btn-box">
                     <button type="submit" class="submit">등록</button>
                     <button type="reset" class="cancel">취소</button>
 
                     <div class="secret-box">
-                        <div class="secret-check" onclick="secretCheck(this)">
+                        <div class="secret-div" onclick="secretCheck(this)">
 
                         </div>
                         <span>비밀글</span>
                     </div>
                 </div>
             </form>
+
+            <div class="qna-wrap">
+                <div class="qna__list" th:each="qnaReponseDto : ${qnaReponseDtos}">
+                    <p th:text="${qnaReponseDto.content}"></p>
+                </div>
+            </div>
         </div>
 
     </section>
@@ -313,6 +323,7 @@
             var tabLink = tabLinks[i];
             tabLink.style.backgroundColor = '#f3f3f3';
             tabLink.style.color = '#555';
+
         }
     }
 
@@ -351,21 +362,32 @@
 
     function secretCheck(elem) {
 
-        var inputTag = document.createElement('input');
-        inputTag.value = 'true';
-        inputTag.id = 'secretVal';
-        inputTag.name = 'secretVal';
-        inputTag.type = 'hidden';
+        if (elem.classList.contains('secretCheck') && elem.classList.contains('secret-div')) {
+            var secretInputTag = document.getElementById('secretVal');
+            secretInputTag.remove();
 
-        qnaFormTag.prepend(inputTag);
+            elem.classList.remove('secretCheck');
+            elem.childNodes[1].remove();
 
-        var imgTag = document.createElement('img');
-        imgTag.src = '/image/icon/check_mark.svg';
-        imgTag.setAttribute('style', 'max-width: 40px;');
-        imgTag.setAttribute('style', 'width: 100%;');
+        } else if (!elem.classList.contains('secretCheck')) {
+            var inputTag = document.createElement('input');
+            inputTag.value = 'true';
+            inputTag.id = 'secretVal';
+            inputTag.name = 'secretVal';
+            inputTag.type = 'hidden';
 
-        elem.appendChild(imgTag);
-        elem.classList.add('secretCheck');
+            qnaFormTag.prepend(inputTag);
+
+            var imgTag = document.createElement('img');
+            imgTag.src = '/image/icon/check_mark.svg';
+            imgTag.setAttribute('style', 'max-width: 40px;');
+            imgTag.setAttribute('style', 'width: 100%;');
+
+            elem.appendChild(imgTag);
+            elem.classList.add('secretCheck');
+        }
+
+
 
     }
 

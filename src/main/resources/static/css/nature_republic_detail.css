@@ -380,11 +380,11 @@ thumb_wrap {
 .detail .detail_wrap div {
 }
 
-.detail .detail_wrap a:hover {
-    color: #fff;
-    background-color: #7ebb34;
+/*.detail .detail_wrap a:hover {*/
+/*    color: #fff;*/
+/*    background-color: #7ebb34;*/
 
-}
+/*}*/
 
 .detail .detail_wrap a {
     display: inline-block;
@@ -516,7 +516,7 @@ thumb_wrap {
 }
 
 .detail .item_qna form textarea {
-    width: 50%;
+    width: 60%;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f6f6f6;
@@ -527,7 +527,7 @@ thumb_wrap {
 }
 
 .detail .item_qna form div.btn-box {
-    width: 50%;
+    width: 60%;
     margin-top: 15px;
     position: relative;
 }
@@ -562,7 +562,7 @@ thumb_wrap {
     align-items: center;
 }
 
-.detail .item_qna form div.btn-box div.secret-box .secret-check {
+.detail .item_qna form div.btn-box div.secret-box .secret-div {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -571,7 +571,7 @@ thumb_wrap {
     margin-right: 5px;
 }
 
-.detail .item_qna form div.btn-box div.secret-box .secret-check img {
+.detail .item_qna form div.btn-box div.secret-box .secret-div img {
 
 }
 
