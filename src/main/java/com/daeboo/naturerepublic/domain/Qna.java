@@ -26,6 +26,9 @@ public class Qna {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Enumerated(EnumType.STRING)
+    private QnaStatus qnaStatus;
+
     private String content;
     private boolean secretVal;
     private LocalDateTime wroteAt;
@@ -39,6 +42,7 @@ public class Qna {
         Qna qna = new Qna();
         qna.member = member;
         qna.item = item;
+        qna.qnaStatus = QnaStatus.WAIT;
         qna.content = qnaDto.getContent();
         qna.secretVal = qnaDto.isSecretVal();
         qna.wroteAt = LocalDateTime.now();

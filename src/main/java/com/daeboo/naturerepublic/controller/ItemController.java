@@ -97,6 +97,10 @@ public class ItemController {
         if (principal != null) {
             Member member = memberService.findByName(principal.getName());
             Likes likes = likesService.findByMemberIdAndItemId(member.getId(), id);
+
+            Long memberId = member.getId();
+            model.addAttribute("memberId", member.getId());
+
             if (likes != null) {
                 likeTrueOrFalse = true;
             } else {
