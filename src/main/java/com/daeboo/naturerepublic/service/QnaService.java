@@ -22,6 +22,10 @@ public class QnaService {
 
     private final QnaRepository qnaRepository;
 
+    public Qna findById(Long id) {
+        return qnaRepository.findById(id).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+    }
+
     public List<Qna> findAllByMemberId(Long id) {
         return qnaRepository.findAllByMemberId(id);
     }

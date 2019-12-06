@@ -20,6 +20,7 @@ public class Comment {
     private Long id;
     private String content;
     private LocalDateTime wroteAt;
+    private LocalDateTime modifiedAt;
 
     @Enumerated(EnumType.STRING)
     private CommentType commentType;
@@ -35,6 +36,19 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qna_id")
     private Qna qna;
+
+    // 생성 메소드
+    public static Comment createComment(String content, Item item, Member member, Qna qna) {
+        Comment comment = new Comment();
+        comment.content = content;
+        comment.wroteAt = LocalDateTime.now();
+        comment.commentType = CommentType.QNA;
+        comment.item = item;
+        comment.member = member;
+        comment.qna = qna;
+
+        return comment;
+    }
 
     // 연관관계 편의 메소드
     public void setItem(Item item) {

@@ -1,5 +1,6 @@
 package com.daeboo.naturerepublic.dto;
 
+import com.daeboo.naturerepublic.domain.Comment;
 import com.daeboo.naturerepublic.domain.Qna;
 import com.daeboo.naturerepublic.domain.QnaStatus;
 import lombok.Getter;
@@ -10,8 +11,11 @@ import org.springframework.data.domain.Page;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QnaDto {
 
@@ -56,6 +60,7 @@ public class QnaDto {
         private Long memberId;
         private String memberName;
         private LocalDateTime wroteAt;
+        private List<Comment> comments = new ArrayList<>();
 
         public ItemDetail(Qna qna) {
             this.id = qna.getId();
@@ -65,6 +70,7 @@ public class QnaDto {
             this.memberId = qna.getMember().getId();
             this.memberName = qna.getMember().getName();
             this.wroteAt = qna.getWroteAt();
+            this.comments = qna.getComments();
         }
     }
 
@@ -80,8 +86,6 @@ public class QnaDto {
         private Long qnaId;
         @NotNull @NotEmpty @NotBlank
         private String content;
-        private LocalDateTime wroteAt;
-        private LocalDateTime modifiedAt;
 
     }
 

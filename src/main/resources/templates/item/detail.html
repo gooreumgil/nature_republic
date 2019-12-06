@@ -341,7 +341,7 @@
                     <div class="contet__inner">
                         <p th:text="${qnaReponseDto.content}"></p>
                     </div>
-                    <div sec:authorize="hasRole('ADMIN')" class="qna-comment-form-container">
+                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'WAIT'}" class="qna-comment-form-container">
                         <h4>답변달기</h4>
                         <form th:action="@{/comments/qna}" method="post" class="qna-comment-form" th:object="${qnaCommentDto}">
                             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
@@ -353,6 +353,11 @@
                                 <button type="reset" class="cancel">취소</button>
                             </div>
                         </form>
+                    </div>
+
+                    <div class="qna-comment-reply" th:if="${!qnaReponseDto.comments.isEmpty()}">
+                        <span class="admin-name">운영자</span>
+                        <p th:utext="${#strings.replace((qnaReponseDto.comments.get(0).content), newLineChar, '&lt;br /&gt;')}"></p>
                     </div>
                 </div>
 

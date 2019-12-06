@@ -120,6 +120,8 @@ public class ItemController {
         Page<CategoryItemDto.ListView> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likesCount"));
         model.addAttribute("categoryBests", allByCategoryName);
 
+        model.addAttribute("newLineChar", '\n');
+
         return "item/detail";
 
     }

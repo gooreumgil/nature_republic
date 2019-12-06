@@ -50,4 +50,8 @@ public class Qna {
         return qna;
 
     }
+
+    public void setStatusComp() {
+        this.qnaStatus = QnaStatus.COMP;
+    }
 }

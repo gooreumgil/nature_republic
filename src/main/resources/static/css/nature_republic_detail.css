@@ -636,7 +636,8 @@ thumb_wrap {
 }
 
 .detail .item_qna div.qna-wrap .qna__list .status p.comp {
-    color: #555;
+    color: #333;
+    font-weight: 500;
 }
 
 
@@ -654,7 +655,7 @@ thumb_wrap {
     width: auto;
     font-size: 15px;
     color: #333;
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 5px;
     margin-bottom: 3px;
 }
@@ -789,11 +790,28 @@ thumb_wrap {
     border: 1px solid #ddd;
 }
 
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply span.admin-name {
+    padding: 5px 8px;
+    border: 3px;
+    background-color: #555;
+    color: #fff;
+    font-size: 13px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply p {
+    margin-top: 15px;
+}
 
 
-/*===================
-    CATEGORY BEST
-===================*/
+
+    /*===================
+        CATEGORY BEST
+    ===================*/
 
 .category_best {
     max-width: 1260px;
