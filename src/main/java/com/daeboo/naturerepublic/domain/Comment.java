@@ -1,5 +1,6 @@
 package com.daeboo.naturerepublic.domain;
 
+import com.daeboo.naturerepublic.dto.QnaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

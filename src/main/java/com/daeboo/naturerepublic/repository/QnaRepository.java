@@ -1,6 +1,8 @@
 package com.daeboo.naturerepublic.repository;
 
 import com.daeboo.naturerepublic.domain.Qna;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -8,6 +10,6 @@ import java.util.List;
 public interface QnaRepository extends JpaRepository<Qna, Long> {
 
     List<Qna> findAllByMemberId(Long memberId);
-    List<Qna> findAllByItemId(Long itemId);
+    Page<Qna> findAllByItemId(Long itemId, Pageable pageable);
 
 }

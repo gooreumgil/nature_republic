@@ -7,10 +7,7 @@ import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.QnaDto;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,14 +76,19 @@ public class ItemController {
     }
 
     @GetMapping("/detail")
-    public String itemDetail(@ModelAttribute("qnaDto") QnaDto.RequestForm qnaDto, Long id, String currentCategory, Principal principal, Model model) {
+    public String itemDetail(@ModelAttribute("qnaDto") QnaDto.RequestForm qnaDto,
+                             @ModelAttribute("qnaCommentDto") QnaDto.RequestComment qnaCommentDto,
+                             Long id, String currentCategory,
+                             Principal principal, Model model) {
 
-        List<Qna> qnaList = qnaService.findAllByItemId(id);
+        Page<Qna> qnaList = qnaService.findAllByItemId(id, PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
         List<QnaDto.ItemDetail> qnaReponseDtos = qnaList.stream().map(qna -> {
             return new QnaDto.ItemDetail(qna);
         }).collect(Collectors.toList());
 
-        model.addAttribute("qnaReponseDtos", qnaReponseDtos);
+        Page<QnaDto.ItemDetail> itemDetails = new PageImpl<>(qnaReponseDtos, qnaList.getPageable(), qnaList.getSize());
+
+        model.addAttribute("qnaReponseDtos", itemDetails);
 
         if (currentCategory == null) {
             currentCategory = "ALL";
@@ -98,7 +100,6 @@ public class ItemController {
             Member member = memberService.findByName(principal.getName());
             Likes likes = likesService.findByMemberIdAndItemId(member.getId(), id);
 
-            Long memberId = member.getId();
             model.addAttribute("memberId", member.getId());
 
             if (likes != null) {

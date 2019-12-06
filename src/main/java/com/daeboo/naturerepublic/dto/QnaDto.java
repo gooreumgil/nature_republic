@@ -5,10 +5,12 @@ import com.daeboo.naturerepublic.domain.QnaStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 
 public class QnaDto {
@@ -64,6 +66,23 @@ public class QnaDto {
             this.memberName = qna.getMember().getName();
             this.wroteAt = qna.getWroteAt();
         }
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class RequestComment {
+
+        @NotNull
+        private Long memberId;
+        @NotNull
+        private Long itemId;
+        @NotNull
+        private Long qnaId;
+        @NotNull @NotEmpty @NotBlank
+        private String content;
+        private LocalDateTime wroteAt;
+        private LocalDateTime modifiedAt;
+
     }
 
 }

@@ -492,31 +492,31 @@ thumb_wrap {
     padding-top: 40px;
 }
 
-.detail .item_qna form {
+.detail .item_qna form.qna-form {
     box-sizing: border-box;
     padding-left: 30px;
 }
 
-.detail .item_qna form h3 {
+.detail .item_qna form.qna-form h3 {
     font-size: 24px;
     font-weight: 600;
     color: #333;
 }
 
-.detail .item_qna form h3 span {
+.detail .item_qna form.qna-form h3 span {
     font-size: 18px;
     font-weight: 300;
     color: #888;
 }
 
-.detail .item_qna form p {
+.detail .item_qna form.qna-form p {
     font-size: 14px;
     color: #888;
     font-weight: 300;
     margin-top: 10px;
 }
 
-.detail .item_qna form textarea {
+.detail .item_qna form.qna-form textarea {
     width: 60%;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -527,13 +527,13 @@ thumb_wrap {
     padding: 15px;
 }
 
-.detail .item_qna form div.btn-box {
+.detail .item_qna form.qna-form div.btn-box {
     width: 60%;
     margin-top: 15px;
     position: relative;
 }
 
-.detail .item_qna form div.btn-box button {
+.detail .item_qna form.qna-form div.btn-box button {
     width: 75px;
     height: 35px;
     box-sizing: border-box;
@@ -543,17 +543,17 @@ thumb_wrap {
     border: 1px solid #ddd;
 }
 
-.detail .item_qna form div.btn-box button.submit {
+.detail .item_qna form.qna-form div.btn-box button.submit {
     border: none;
     background-color: #7ebb34;
     color: #fff;
 }
 
-.detail .item_qna form div.btn-box button.cancel {
+.detail .item_qna form.qna-form div.btn-box button.cancel {
 
 }
 
-.detail .item_qna form div.btn-box div.secret-box {
+.detail .item_qna form.qna-form div.btn-box div.secret-box {
     position: absolute;
     right: 0;
     top: 0;
@@ -563,7 +563,7 @@ thumb_wrap {
     align-items: center;
 }
 
-.detail .item_qna form div.btn-box div.secret-box .secret-div {
+.detail .item_qna form.qna-form div.btn-box div.secret-box .secret-div {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -572,11 +572,11 @@ thumb_wrap {
     margin-right: 5px;
 }
 
-.detail .item_qna form div.btn-box div.secret-box .secret-div img {
+.detail .item_qna form.qna-form div.btn-box div.secret-box .secret-div img {
 
 }
 
-.detail .item_qna form div.btn-box div.secret-box span {
+.detail .item_qna form.qna-form div.btn-box div.secret-box span {
     font-size: 14px;
     transform: translateY(-2px);
 }
@@ -632,11 +632,11 @@ thumb_wrap {
 }
 
 .detail .item_qna div.qna-wrap .qna__list .status p.wait {
-    color: #333;
+    color: #a0a0a0;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .status p.comp {
-    color: #a0a0a0;
+    color: #555;
 }
 
 
@@ -659,13 +659,33 @@ thumb_wrap {
     margin-bottom: 3px;
 }
 
+.detail .item_qna div.qna-wrap .qna__list .title h5 span.my-qna {
+    padding: 3px 8px;
+    border-radius: 100px;
+    background-color: #f6f6f6;
+    border: 1px solid #ddd;
+    color: #555;
+    margin-left: 5px;
+    font-weight: 300;
+    font-size: 12px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
 .detail .item_qna div.qna-wrap .qna__list .title h5 span svg {
     max-width: 13px;
     width: 100%;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .title h5 span svg path {
-    fill: #888;
+    /*fill: #888;*/
+    stroke-width: 6px;
+    stroke: #555;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .title h5 span svg rect {
+    stroke-width: 6px;
+    stroke: #555;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .title span {
@@ -689,24 +709,85 @@ thumb_wrap {
 
 }
 
+.detail .item_qna div.qna-wrap .qna__list .name {
+
+}
+
+.detail .item_qna div.qna-wrap .qna__list .name span.member-name {
+    font-size: 14px;
+}
+
+
 .detail .item_qna div.qna-wrap .qna__list .date {
     position: absolute;
-    right: 0;
+    right: 20px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .date span.date-text {
+    font-size: 14px;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .qna-content {
-    background-color: #f1f1f1;
+    background-color: #f6f6f6;
     box-sizing: border-box;
-    padding: 20px 20px 40px 20px;
+    padding: 20px 20px 0px 20px;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .qna-content p {
     font-size: 14px;
     color: #555;
     font-weight: 400;
+    padding-bottom: 20px;
 }
 
+.detail .item_qna div.qna-wrap .qna__list .qna-content h4 {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #7ebb34;
+}
 
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-form-container {
+    padding-bottom: 30px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form {
+
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form textarea {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 20px;
+    outline: none;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form .btn-box button {
+    width: 65px;
+    height: 30px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 3px;
+    color: #555;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form .btn-box {
+    margin-top: 15px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form .btn-box button.submit {
+    background-color: #7ebb34;
+    color: #fff;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form .btn-box button.cancel {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
 
 
 

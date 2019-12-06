@@ -206,7 +206,7 @@
     </div>
 
     <div class="item_qna item-tab" id="qna">
-        <form th:action="@{/qna}" method="post" id="qna-form" th:object="${qnaDto}">
+        <form th:action="@{/qna}" method="post" id="qna-form" th:object="${qnaDto}" class="qna-form">
 
             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
             <input type="hidden" th:field="${qnaDto.secretVal}" value="false">
@@ -289,17 +289,29 @@
                     <div class="title qna__inner">
                         <h5>
                             <span th:if="${qnaReponseDto.secretVal == true}" class="title">비밀글입니다.</span>
+
                             <span th:unless="${qnaReponseDto.secretVal == true}"
                                   th:text="${#strings.abbreviate(qnaReponseDto.content, 30)}" class="title"></span>
+
                             <span th:if="${qnaReponseDto.secretVal == true}">
+
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <title>Lock</title>
-                                    <desc>A solid styled icon from Orion Icon Library.</desc>
-                                    <path data-name="layer1"
-                                          d="M48 28h-1V15a15 15 0 0 0-30 0v13h-1a8 8 0 0 0-8 8v20a8 8 0 0 0 8 8h32a8 8 0 0 0 8-8V36a8 8 0 0 0-8-8zM21 15a11 11 0 0 1 22 0v13H21zm13 36a2 2 0 0 1-4 0V41a2 2 0 0 1 4 0z"
-                                          fill="#202020"></path>
+                                  <title>Lock</title>
+                                  <desc>A line styled icon from Orion Icon Library.</desc>
+                                  <path data-name="layer2"
+                                        d="M19 30V15A13 13 0 0 1 32 2a13 13 0 0 1 13 13v15" fill="none" stroke="#202020"
+                                        stroke-miterlimit="10" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+                                  <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+                                        stroke-width="4" d="M32 41v10" stroke-linejoin="round" stroke-linecap="round"></path>
+                                  <rect data-name="layer1" x="10" y="30" width="44" height="32" rx="6"
+                                        ry="6" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="4"
+                                        stroke-linejoin="round" stroke-linecap="round"></rect>
                                 </svg>
+                            </span>
+
+                            <span sec:authorize="isAuthenticated()">
+                                <span th:if="${qnaReponseDto.memberId == memberId}" class="my-qna">나의글</span>
                             </span>
                         </h5>
                     </div>
@@ -310,7 +322,7 @@
                     </div>
 
                     <div class="date qna__inner">
-                        <span th:text="${#temporals.format((qnaReponseDto.wroteAt), 'yyyy-MM-dd')}"
+                        <span th:text="${#temporals.format((qnaReponseDto.wroteAt), 'yyyy-MM-dd HH:mm')}"
                               class="date-text"></span>
                     </div>
 
@@ -326,7 +338,22 @@
                 </div>
 
                 <div class="qna-content">
-                    <p th:text="${qnaReponseDto.content}"></p>
+                    <div class="contet__inner">
+                        <p th:text="${qnaReponseDto.content}"></p>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')" class="qna-comment-form-container">
+                        <h4>답변달기</h4>
+                        <form th:action="@{/comments/qna}" method="post" class="qna-comment-form" th:object="${qnaCommentDto}">
+                            <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
+                            <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
+                            <input type="hidden" th:id="qnaId" th:name="qnaId" th:value="${qnaReponseDto.id}">
+                            <textarea th:field="*{content}" cols="30" rows="10"></textarea>
+                            <div class="btn-box">
+                                <button type="submit" class="submit">입력</button>
+                                <button type="reset" class="cancel">취소</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
             </div>
