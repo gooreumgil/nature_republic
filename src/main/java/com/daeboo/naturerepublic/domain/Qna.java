@@ -54,4 +54,8 @@ public class Qna {
     public void setStatusComp() {
         this.qnaStatus = QnaStatus.COMP;
     }
+
+    public void setStatusWait() {
+        this.qnaStatus = QnaStatus.WAIT;
+    }
 }

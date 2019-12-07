@@ -821,6 +821,12 @@ thumb_wrap {
     font-size: 12px;
     color: #333;
     border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply .btn-box .comment-delete-form {
+    display: inline-block;
 }
 
 

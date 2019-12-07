@@ -12,9 +12,7 @@ import com.daeboo.naturerepublic.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -52,6 +50,15 @@ public class CommentsController {
 
         return "redirect:" + referer;
 
+    }
+
+    @DeleteMapping("/delete/qna")
+    public String deleteQnaComment(@RequestParam("commentId") Long commentId, Model model, HttpServletRequest request) {
+        commentService.deleteById(commentId);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
     }
 
 }

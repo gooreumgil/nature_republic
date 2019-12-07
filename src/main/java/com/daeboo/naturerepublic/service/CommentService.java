@@ -30,7 +30,16 @@ public class CommentService {
 
     @Transactional
     public void updateQnaComment(CommentDto.RequestCommentUpdate commentUpdateDto) {
-        Comment comment = commentRepository.findById(commentUpdateDto.getCommentId()).orElseThrow(() -> new RuntimeException("존재하지 않는 comment입니다."));
+        Comment comment = commentRepository.findById(commentUpdateDto.getCommentId()).orElseThrow(() -> new RuntimeException("존재하지 않는 comment 입니다."));
         comment.update(commentUpdateDto.getContent());
+    }
+
+    @Transactional
+    public void deleteById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new RuntimeException("존재하지 않는 comment 입니다."));
+        Qna qna = comment.getQna();
+
+        commentRepository.deleteById(commentId);
+        qna.setStatusWait();
     }
 }
