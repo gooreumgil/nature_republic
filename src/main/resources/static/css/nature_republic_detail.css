@@ -582,19 +582,17 @@ thumb_wrap {
 }
 
 .detail .item_qna div.qna-wrap {
-    border-top: 1px solid #ddd;
     margin-top: 60px;
 }
 
 .detail .item_qna div.qna-wrap .qna__list {
-    /*height: 100px;*/
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*border-bottom: 1px solid #ddd;*/
-    /*position: relative;*/
     height: 80px;
     overflow: hidden;
     border-bottom: 1px solid #ddd;
+}
+
+.detail .item_qna div.qna-wrap .qna__list:first-child {
+    border-top: 1px solid #ddd;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .qna__list-inner {
@@ -754,6 +752,11 @@ thumb_wrap {
     padding-bottom: 30px;
 }
 
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-form-update {
+    display: none;
+    padding-bottom: 20px;
+}
+
 .detail .item_qna div.qna-wrap .qna__list .qna-content form.qna-comment-form {
 
 }
@@ -792,21 +795,33 @@ thumb_wrap {
 
 .detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply {
     border-top: 1px solid #ddd;
-    padding-top: 20px;
+    padding-top: 30px;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply span.admin-name {
     padding: 5px 8px;
-    border: 3px;
+    border-radius: 3px;
     background-color: #555;
     color: #fff;
     font-size: 13px;
 }
 
 .detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply p {
-    margin-top: 15px;
+    line-height: 1.5;
+    margin-top: 20px;
 }
 
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply .btn-box {
+    padding-bottom: 20px;
+}
+
+.detail .item_qna div.qna-wrap .qna__list .qna-content .qna-comment-reply .btn-box button {
+    width: 50px;
+    height: 25px;
+    font-size: 12px;
+    color: #333;
+    border-radius: 3px;
+}
 
 
     /*===================

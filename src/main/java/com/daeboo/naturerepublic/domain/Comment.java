@@ -55,4 +55,9 @@ public class Comment {
         this.item = item;
         item.addComment(this);
     }
+
+    // update 메소드
+    public void update(String content) {
+        this.content = content;
+    }
 }

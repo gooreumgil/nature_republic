@@ -28,4 +28,13 @@ public class CommentDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class RequestCommentUpdate {
+
+        private Long commentId;
+        private String content;
+
+    }
+
 }

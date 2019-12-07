@@ -347,7 +347,7 @@
                             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
                             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
                             <input type="hidden" th:id="qnaId" th:name="qnaId" th:value="${qnaReponseDto.id}">
-                            <textarea th:field="*{content}" cols="30" rows="10"></textarea>
+                            <textarea th:field="*{content}" th:inline="text" cols="30" rows="10"></textarea>
                             <div class="btn-box">
                                 <button type="submit" class="submit">입력</button>
                                 <button type="reset" class="cancel">취소</button>
@@ -355,9 +355,30 @@
                         </form>
                     </div>
 
+                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'COMP'}" class="qna-comment-form-update">
+                        <h4>답변수정</h4>
+                        <form th:action="@{/comments/update/qna}" method="post" class="qna-comment-form" th:object="${commentUpdateDto}">
+                            <input type="hidden" id="commentId" th:name="commentId" th:value="${qnaReponseDto.comments.get(0).id}">
+                            <textarea th:id="content" th:name="content" cols="30" rows="10" th:text="${qnaReponseDto.comments.get(0).content}"></textarea>
+                            <div class="btn-box">
+                                <button type="submit" class="submit">수정</button>
+                                <button type="reset" class="cancel" onclick="updateCancel(this)">취소</button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="qna-comment-reply" th:if="${!qnaReponseDto.comments.isEmpty()}">
-                        <span class="admin-name">운영자</span>
-                        <p th:utext="${#strings.replace((qnaReponseDto.comments.get(0).content), newLineChar, '&lt;br /&gt;')}"></p>
+                        <span class="admin-name">운영자댓글</span>
+                        <p th:utext="${#strings.replace((qnaReponseDto.comments.get(0).content), newLineChar, '&lt;br /&gt;')}" id="comment-p"></p>
+
+                        <div class="btn-box" id="comment-update-box">
+                            <button sec:authorize="hasRole('ADMIN')" type="button" onclick="updateForm(this)">수정</button>
+                            <button sec:authorize="hasRole('ADMIN')" type="button" onclick="location.href='/comments/qna/delete'">삭제</button>
+                        </div>
+
+<!--                        <form th:action="@{/comments/qna/delete}" method="post" id="admin-comment-update-form">-->
+
+<!--                        </form>-->
                     </div>
                 </div>
 
@@ -585,6 +606,41 @@
         alert("작성자만 볼 수 있습니다.");
     }
 
+    // admin 댓글 업데이트
+    function updateForm(elem) {
+        var btnBoxTag = elem.parentElement;
+        var qnaCommentReplyTag = btnBoxTag.parentElement;
+        qnaCommentReplyTag.style.display = 'none';
+        var qnaContentBox = qnaCommentReplyTag.parentElement;
+
+        var childNodes = qnaContentBox.childNodes;
+        var childNode = childNodes[3];
+        childNode.style.display = 'block';
+
+    }
+
+    // admin 댓글 업데이트 취소
+    function updateCancel(elem) {
+
+        var elemVar = elem;
+
+        while (true) {
+            var parentElement = elemVar.parentElement;
+            if (parentElement.classList.contains('qna-comment-form-update')) {
+                parentElement.style.display = 'none';
+            }
+            if (parentElement.classList.contains('qna-content')) {
+               var qnaCommentReplyTag = parentElement.childNodes[5];
+               qnaCommentReplyTag.style.display = 'block';
+                break;
+            }
+            elemVar = parentElement;
+
+        }
+
+
+    }
+
     window.onload = function () {
 
         plusButton.onclick = function () {
@@ -601,13 +657,6 @@
             totalPrice(replaceNum);
             minusCount();
         };
-
-        // infoTabBtn.onclick = function (elem) {
-        //     displayNoneTabs();
-        //     styleReset();
-        //     styleChange(target);
-        //     infoTab.setAttribute('style', 'display: block;');
-        // };
 
         likeTypeSet();
 

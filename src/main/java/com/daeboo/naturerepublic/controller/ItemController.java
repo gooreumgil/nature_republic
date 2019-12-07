@@ -1,10 +1,7 @@
 package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.*;
-import com.daeboo.naturerepublic.dto.CategoryDto;
-import com.daeboo.naturerepublic.dto.CategoryItemDto;
-import com.daeboo.naturerepublic.dto.ItemDto;
-import com.daeboo.naturerepublic.dto.QnaDto;
+import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -78,6 +75,7 @@ public class ItemController {
     @GetMapping("/detail")
     public String itemDetail(@ModelAttribute("qnaDto") QnaDto.RequestForm qnaDto,
                              @ModelAttribute("qnaCommentDto") QnaDto.RequestComment qnaCommentDto,
+                             @ModelAttribute("commentUpdateDto") CommentDto.RequestCommentUpdate commentUpdateDto,
                              Long id, String currentCategory,
                              Principal principal, Model model) {
 

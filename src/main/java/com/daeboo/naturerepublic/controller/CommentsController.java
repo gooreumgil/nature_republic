@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.controller;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Qna;
+import com.daeboo.naturerepublic.dto.CommentDto;
 import com.daeboo.naturerepublic.dto.QnaDto;
 import com.daeboo.naturerepublic.service.CommentService;
 import com.daeboo.naturerepublic.service.ItemService;
@@ -40,6 +41,17 @@ public class CommentsController {
         String referer = request.getHeader("Referer");
 
         return "redirect:" + referer;
+    }
+
+    @PostMapping("/update/qna")
+    public String updateQnaComment(@ModelAttribute("commentUpdateDto") CommentDto.RequestCommentUpdate commentUpdateDto, HttpServletRequest request) {
+
+        commentService.updateQnaComment(commentUpdateDto);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
+
     }
 
 }
