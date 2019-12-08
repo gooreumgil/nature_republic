@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface QnaRepository extends JpaRepository<Qna, Long> {
 
-    List<Qna> findAllByMemberId(Long memberId);
+    Page<Qna> findAllByMemberId(Long memberId, Pageable pageable);
     Page<Qna> findAllByItemId(Long itemId, Pageable pageable);
 
 }

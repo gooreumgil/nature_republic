@@ -44,14 +44,37 @@
                 <p>문의 내역이 없습니다!</p>
             </div>
             <div th:unless="${qnaDtos.isEmpty()}" class="content-box" th:each="qnaDto : ${qnaDtos}">
-                <h4 th:text="*{qnaDto.title}"></h4>
-                <p>
-                    <span>상품명:</span>
-                    <span th:text="*{qnaDto.itemName}"></span>
-                </p>
-                <div class="img-absolute">
-                    <img th:src="@{${'/upload/' + qnaDto.s3Key}}" alt="">
+                <div class="content__inner">
+
+                    <button type="button" onclick="showContent(this)" class="show-content-btn"></button>
+
+                    <div class="info-box">
+                        <h4 th:text="*{#strings.abbreviate((qnaDto.content), 30)}"></h4>
+                        <p class="item-name">
+                            <span>상품명:</span>
+                            <span th:text="*{qnaDto.itemName}"></span>
+                        </p>
+                        <p class="date">
+                            <span>날짜:</span>
+                            <span th:text="*{#temporals.format((qnaDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>
+                        </p>
+                    </div>
+
+
+
+                    <div class="img-absolute">
+                        <img th:src="@{${'/upload/' + qnaDto.s3Key}}" alt="">
+                    </div>
                 </div>
+                <div class="reply-box">
+                    <div class="text-box" th:if="${!qnaDto.commentList.isEmpty()}">
+                        <p th:utext="${#strings.replace((qnaDto.content), newLineChar, '&lt;br /&gt;')}"></p>
+                    </div>
+                    <div th:if="${!qnaDto.commentList.isEmpty()}" class="reply">
+                        <p th:text="${qnaDto.commentList.get(0).reply}"></p>
+                    </div>
+                </div>
+
             </div>
         </li>
 

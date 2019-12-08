@@ -37,4 +37,19 @@ public class CommentDto {
 
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class MyPageQnaComment {
+
+        private Long commentId;
+        private String reply;
+        private LocalDateTime wroteAt;
+
+        public MyPageQnaComment(Comment comment) {
+            this.commentId = comment.getId();
+            this.reply = comment.getContent();
+            this.wroteAt = comment.getWroteAt();
+        }
+    }
+
 }

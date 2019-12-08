@@ -16,6 +16,7 @@ import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QnaDto {
 
@@ -25,16 +26,20 @@ public class QnaDto {
 
         private Long id;
         private String content;
+        private LocalDateTime wroteAt;
         private Long itemId;
         private String itemName;
         private String s3Key;
+        private List<CommentDto.MyPageQnaComment> commentList = new ArrayList<>();
 
         public MyPage(Qna qna) {
             this.id = qna.getId();
             this.content = qna.getContent();
+            this.wroteAt = qna.getWroteAt();
             this.itemId = qna.getItem().getId();
             this.itemName = qna.getItem().getNameKor();
             this.s3Key = qna.getItem().getItemSrcs().get(0).getS3Key();
+            this.commentList = qna.getComments().stream().map(CommentDto.MyPageQnaComment::new).collect(Collectors.toList());
         }
     }
 

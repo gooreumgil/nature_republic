@@ -13,6 +13,10 @@ import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.OrderService;
 import com.daeboo.naturerepublic.service.QnaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,10 +98,14 @@ public class MyPageController {
 
         Member member = memberService.findByName(principal.getName());
 
-        List<Qna> qnaList = qnaService.findAllByMemberId(member.getId());
-        List<QnaDto.MyPage> qnaDtos = qnaList.stream().map(QnaDto.MyPage::new).collect(Collectors.toList());
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt");
 
-        model.addAttribute("qnaDtos", qnaDtos);
+        Page<Qna> qnaList = qnaService.findAllByMemberId(member.getId(), pageRequest);
+        List<QnaDto.MyPage> qnaDtos = qnaList.stream().map(QnaDto.MyPage::new).collect(Collectors.toList());
+        Page<QnaDto.MyPage> myPages = new PageImpl<>(qnaDtos, pageRequest, qnaDtos.size());
+
+        model.addAttribute("qnaDtos", myPages);
+        model.addAttribute("newLineChar", "\n");
 
         return "myPage/qna";
 

@@ -26,8 +26,8 @@ public class QnaService {
         return qnaRepository.findById(id).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
     }
 
-    public List<Qna> findAllByMemberId(Long id) {
-        return qnaRepository.findAllByMemberId(id);
+    public Page<Qna> findAllByMemberId(Long id, Pageable pageable) {
+        return qnaRepository.findAllByMemberId(id, pageable);
     }
 
     public Page<Qna> findAllByItemId(Long id, Pageable pageable) {
