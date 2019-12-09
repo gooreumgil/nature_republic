@@ -52,6 +52,8 @@
                 </div>
             </div>
 
+            <div th:if="${likeDtos.isEmpty()}" class="divider"></div>
+
             <div class="item-wrap clearfix">
                 <div class="item__list" th:each="likeDto : ${likeDtos}">
                     <div class="inner-box">

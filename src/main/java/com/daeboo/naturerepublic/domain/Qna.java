@@ -58,4 +58,9 @@ public class Qna {
     public void setStatusWait() {
         this.qnaStatus = QnaStatus.WAIT;
     }
+
+    // update
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }

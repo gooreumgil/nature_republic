@@ -40,4 +40,16 @@ public class QnaService {
         qnaRepository.save(qna);
     }
 
+    @Transactional
+    public void deleteById(Long qnaId) {
+
+        qnaRepository.deleteById(qnaId);
+
+    }
+
+    @Transactional
+    public void update(Long id, String qnaContent) {
+        Qna qna = qnaRepository.findById(id).get();
+        qna.updateContent(qnaContent);
+    }
 }

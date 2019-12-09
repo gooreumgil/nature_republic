@@ -40,39 +40,71 @@
                 <p>상품 문의 내역입니다.</p>
 
             </div>
+
             <div class="empty-box" th:if="${qnaDtos.isEmpty()}">
                 <p>문의 내역이 없습니다!</p>
             </div>
+
             <div th:unless="${qnaDtos.isEmpty()}" class="content-box" th:each="qnaDto : ${qnaDtos}">
+
                 <div class="content__inner">
 
                     <button type="button" onclick="showContent(this)" class="show-content-btn"></button>
 
                     <div class="info-box">
-                        <h4 th:text="*{#strings.abbreviate((qnaDto.content), 30)}"></h4>
+
+                        <h4 >
+                            <span th:text="*{#strings.abbreviate((qnaDto.content), 40)}"></span>
+                            <span th:if="${!qnaDto.commentList.isEmpty()}" class="reply-complete">답변완료</span>
+                        </h4>
+
                         <p class="item-name">
                             <span>상품명:</span>
                             <span th:text="*{qnaDto.itemName}"></span>
                         </p>
+
                         <p class="date">
                             <span>날짜:</span>
                             <span th:text="*{#temporals.format((qnaDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>
                         </p>
+
                     </div>
-
-
 
                     <div class="img-absolute">
                         <img th:src="@{${'/upload/' + qnaDto.s3Key}}" alt="">
                     </div>
+
+                    <form th:action="@{/qna/delete}" method="post" class="qna-delete-form">
+                        <input type="hidden" name="qnaId" th:value="${qnaDto.id}">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="button" th:if="${qnaDto.commentList.isEmpty()}" th:onclick="|javascript:updateQna(this,'${qnaDto.id}')|">수정</button>
+                        <button type="submit">삭제</button>
+                    </form>
+
                 </div>
                 <div class="reply-box">
-                    <div class="text-box" th:if="${!qnaDto.commentList.isEmpty()}">
+
+                    <div class="text-box">
                         <p th:utext="${#strings.replace((qnaDto.content), newLineChar, '&lt;br /&gt;')}"></p>
                     </div>
+
+                    <form th:if="${qnaDto.commentList.isEmpty()}" th:action="@{/qna/update}" method="post" class="qna-update-form">
+                        <input type="hidden" name="qnaId" th:value="${qnaDto.id}">
+                        <input type="hidden" name="_method" value="patch">
+                        <textarea name="qnaContent" id="qnaContent" cols="30" rows="10" th:text="${qnaDto.content}"></textarea><br>
+                        <button type="submit">완료</button>
+                        <button type="button" class="update-cancel" onclick="updateCancel(this)">취소</button>
+                    </form>
+
+                    <div th:if="${qnaDto.commentList.isEmpty()}" class="reply-divider"></div>
+
                     <div th:if="${!qnaDto.commentList.isEmpty()}" class="reply">
-                        <p th:text="${qnaDto.commentList.get(0).reply}"></p>
+                        <div class="reply__inner">
+                            <span class="admin-name">운영자답변</span>
+                            <p th:text="${qnaDto.commentList.get(0).reply}"></p>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -84,3 +116,112 @@
 
 <div th:replace="partials/bottom :: bottom"/>
 <footer th:replace="partials/footer :: footer"/>
+
+<script type="text/javascript">
+
+    function replyBoxDisplayNone() {
+        var contentBoxTags = document.getElementsByClassName('content-box');
+        for (i = 0; i < contentBoxTags.length; i++) {
+            var contentBoxTag = contentBoxTags[i];
+            var replyBoxTag = contentBoxTag.childNodes[3];
+            replyBoxTag.style.display = 'none';
+        }
+    }
+    
+    function allShowContentBtnsRemoveClassActive() {
+        var showContentBtnTags = document.getElementsByClassName('show-content-btn');
+        for (i = 0; i < showContentBtnTags.length; i++) {
+            var showContentBtnTag = showContentBtnTags[i];
+            showContentBtnTag.classList.remove('active');
+        }
+    }
+
+    function qnaUpdateFormDisplayNone() {
+        var qnaUpdateForm = document.getElementsByClassName('qna-update-form');
+        console.log(qnaUpdateForm);
+        for (i = 0; i < qnaUpdateForm.length; i++) {
+            qnaUpdateForm[i].style.display = 'none';
+        }
+    }
+
+    // qna 보이기
+    function showContent(elem) {
+
+        replyBoxDisplayNone();
+        qnaUpdateFormDisplayNone();
+        
+        var contentInnerTag = elem.parentElement;
+        var contentBox = contentInnerTag.parentElement;
+        var replyBoxTag = contentBox.childNodes[3];
+
+
+        if (!elem.classList.contains('active')) {
+
+            var showBtnTags = document.getElementsByClassName('show-content-btn');
+            for (i = 0; i < showBtnTags.length; i++) {
+                var showBtnTag = showBtnTags[i];
+                showBtnTag.classList.remove('active');
+            }
+
+            replyBoxTag.style.display = 'block';
+            var textBox = replyBoxTag.childNodes[1];
+            textBox.style.display = 'block';
+            elem.classList.add('active');
+
+        } else {
+            replyBoxTag.style.display = 'none';
+            elem.classList.remove('active');
+        }
+    }
+    
+    // qna delete form
+    function updateQna(elem, id) {
+
+        replyBoxDisplayNone();
+        allShowContentBtnsRemoveClassActive();
+
+        var elemParent = elem.parentElement;
+
+        while (true) {
+
+            if (elemParent.classList.contains('content-box')) {
+                var replyBoxTag = elemParent.childNodes[3];
+                replyBoxTag.style.display = 'block';
+                var textBoxTag = replyBoxTag.childNodes[1];
+                textBoxTag.style.display = 'none';
+
+                var qnaUpdateFormTag = replyBoxTag.childNodes[3];
+                qnaUpdateFormTag.style.display = 'block';
+
+                break;
+            }
+
+            elemParent = elemParent.parentElement;
+
+        }
+
+        var qnaDeleteForm  = elem.parentElement;
+        var contentInner = qnaDeleteForm.parentElement;
+
+        var showContentBtn = contentInner.childNodes[1];
+        showContentBtn.classList.add('active');
+
+    }
+
+    function updateCancel(elem) {
+        var qnaUpdateForm = elem.parentElement;
+        qnaUpdateForm.style.display = 'none';
+
+        var replyBox = qnaUpdateForm.parentElement;
+        // replyBox.style.display = 'none';
+        var textBox = replyBox.childNodes[1];
+        textBox.style.display = 'block';
+        var contentBox = replyBox.parentElement;
+
+        var contentInner = contentBox.childNodes[1];
+        var showContentBtn = contentInner.childNodes[1];
+        showContentBtn.classList.remove('active');
+
+    }
+
+</script>

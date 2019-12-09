@@ -325,21 +325,11 @@
                         <span th:text="${#temporals.format((qnaReponseDto.wroteAt), 'yyyy-MM-dd HH:mm')}"
                               class="date-text"></span>
                     </div>
-
-<!--                    <div class="isSecret qna__inner">-->
-<!--                        <div th:if="${qnaReponseDto.secretVal == true}">-->
-
-<!--                        </div>-->
-
-<!--                        <div th:unless="${qnaReponseDto.secretVal == true}">-->
-
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
 
                 <div class="qna-content">
                     <div class="contet__inner">
-                        <p th:text="${qnaReponseDto.content}"></p>
+                        <p th:utext="${#strings.replace((qnaReponseDto.content), newLineChar, '&lt;br /&gt;')}"></p>
                     </div>
                     <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'WAIT'}" class="qna-comment-form-container">
                         <h4>답변달기</h4>
@@ -359,7 +349,7 @@
                         <h4>답변수정</h4>
                         <form th:action="@{/comments/update/qna}" method="post" class="qna-comment-form" th:object="${commentUpdateDto}">
                             <input type="hidden" id="commentId" th:name="commentId" th:value="${qnaReponseDto.comments.get(0).id}">
-                            <textarea th:id="content" th:name="content" cols="30" rows="10" th:text="${qnaReponseDto.comments.get(0).content}"></textarea>
+                            <textarea th:id="content" th:name="content" cols="30" rows="10" th:utext="${qnaReponseDto.comments.get(0).content}"></textarea>
                             <div class="btn-box">
                                 <button type="submit" class="submit">수정</button>
                                 <button type="reset" class="cancel" onclick="updateCancel(this)">취소</button>
@@ -379,13 +369,8 @@
                                 <button type="submit">삭제</button>
                             </form>
                         </div>
-
-<!--                        <form th:action="@{/comments/qna/delete}" method="post" id="admin-comment-update-form">-->
-
-<!--                        </form>-->
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

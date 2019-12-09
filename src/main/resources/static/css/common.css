@@ -74,6 +74,9 @@ footer {
     font-family: 'Noto Sans KR', sans-serif;
     height: 309px;
     max-width: 1260px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
     margin: auto;
     text-align: center;
 }

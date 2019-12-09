@@ -116,6 +116,14 @@ li.order__list.right div.title-box .btn-box form {
     display: inline-block;
 }
 
+li.order__list.right div.divider {
+    width: calc(100% - 20px);
+    height: 1px;
+    background-color: #ddd;
+    transform: translateX(10px);
+    margin-top: 20px;
+}
+
 li.order__list.right .item-wrap {
     margin-top: 20px;
 }

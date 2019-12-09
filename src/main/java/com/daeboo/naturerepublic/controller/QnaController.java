@@ -12,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -45,6 +43,28 @@ public class QnaController {
 
         Qna qna = Qna.create(qnaDto, member, item);
         qnaService.save(qna);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
+
+    }
+
+    @DeleteMapping("/delete")
+    public String qnaDelete(@RequestParam("qnaId") Long qnaId, HttpServletRequest request) {
+
+        qnaService.deleteById(qnaId);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
+
+    }
+
+    @PatchMapping("/update")
+    public String qnaUpdate(@RequestParam("qnaId") Long id, String qnaContent, HttpServletRequest request) {
+
+        qnaService.update(id, qnaContent);
 
         String referer = request.getHeader("Referer");
 
