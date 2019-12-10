@@ -58,4 +58,9 @@ public class Delivery {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    // 배송도착
+    public void deliveryArrived() {
+        this.deliveryStatus = DeliveryStatus.COMP;
+    }
 }

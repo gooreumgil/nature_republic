@@ -75,4 +75,7 @@ public class Member {
         }
     }
 
+    public void addPoints(Integer savePoints) {
+        this.points += savePoints;
+    }
 }

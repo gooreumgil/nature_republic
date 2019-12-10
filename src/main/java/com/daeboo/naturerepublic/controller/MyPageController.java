@@ -51,13 +51,16 @@ public class MyPageController {
     }
 
     @GetMapping("/detail")
-    public String orderDetail(@RequestParam("id") Long id,  Model model) {
+    public String orderDetail(@RequestParam("id") Long id, Principal principal,  Model model) {
 
         Order order = orderService.findById(id);
         OrderDto.DetailPage orderDto = new OrderDto.DetailPage(order);
 
+        String name = principal.getName();
+        Member member = memberService.findByName(name);
+
         model.addAttribute("orderDtos", orderDto);
-        model.addAttribute("nav", "index");
+        model.addAttribute("memberId", member.getId());
 
         return "myPage/orderDetail";
 

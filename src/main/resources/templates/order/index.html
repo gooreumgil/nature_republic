@@ -59,10 +59,10 @@
         </ul>
 
         <form th:action="@{/order}" method="post" th:object="${orderItemDto}">
+
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
             <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
-<!--            <input type="hidden" th:id="totalPrice" th:name="totalPrice" class="total-input">-->
-
+            <input type="hidden" th:id="savePoints" name="savePoints" th:value="${(itemDto.price * count) * 1 / 100}">
             <input type="hidden" th:id="price" th:name="price" th:value="${itemDto.price}">
             <input type="hidden" th:id="discount" th:name="discount" th:value="${itemDto.discountPrice}">
             <input type="hidden" th:field="*{count}" th:value="${count}">

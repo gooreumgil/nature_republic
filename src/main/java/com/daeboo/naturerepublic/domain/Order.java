@@ -18,6 +18,8 @@ public class Order {
 
     private Integer usePoints;
 
+    private Integer savePoints;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -35,10 +37,11 @@ public class Order {
     private OrderStatus orderStatus;
 
     // 생성 메소드
-    public static Order createOrder(Member member, Delivery delivery, Integer usePoints, OrderItem... orderItems) {
+    public static Order createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
 
+        order.savePoints = savePoints;
         order.usePoints = usePoints;
         order.setDelivery(delivery);
 
@@ -112,5 +115,9 @@ public class Order {
 
         return totalDiscountPrice;
 
+    }
+
+    public void orderComplete() {
+        this.orderStatus = OrderStatus.COMP;
     }
 }

@@ -51,7 +51,7 @@
 
                 <div th:if="${orderDtos.deliveryStatus == 'ONGOING'}" class="top-btn-box">
                     <button type="button" class="top-btn">배송조회</button>
-                    <button type="button" class="top-btn">구매확정</button>
+                    <button type="button" class="top-btn" id="order-confirm">구매확정</button>
                     <button type="button" class="top-btn">교환/환불신청</button>
                 </div>
 
@@ -171,3 +171,100 @@
 
 <div th:replace="partials/bottom :: bottom"/>
 <footer th:replace="partials/footer :: footer"/>
+
+<div id="order-confirm-modal" class="modal">
+    <div class="modal-content">
+        <input type="hidden" th:value="${orderDtos.id}">
+        <input type="hidden" th:value="${memberId}">
+        <span class="close">&times;</span>
+        <h2>구매확정을 하시겠습니까?</h2>
+        <h3>리뷰를 쓰시면 추가 포인트를 얻으실 수 있습니다.</h3>
+        <button type="button" class="without-review">구매확정</button>
+        <button type="button" class="review">리뷰쓰기 (추가 포인트 15P)</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var orderConfirmModal = document.getElementById('order-confirm-modal');
+
+    var orderConfirmButton = document.getElementById('order-confirm');
+
+    orderConfirmButton.onclick = function () {
+        orderConfirmModal.classList.add('active');
+    };
+
+    var modalClose = document.getElementsByClassName('close')[0];
+    modalClose.onclick = function () {
+        orderConfirmModal.classList.remove('active');
+    };
+
+    window.addEventListener('click', function (ev) {
+        if (ev.target == orderConfirmModal) {
+            orderConfirmModal.classList.remove('active');
+        }
+    });
+
+    var withoutReviewBtn = document.getElementsByClassName('without-review')[0];
+
+    withoutReviewBtn.onclick = function (event) {
+        console.log('들어왔다!!!!!');
+        var target = event.target;
+        var parentElement = target.parentElement;
+
+        var orderIdInput = parentElement.childNodes[1];
+        var orderId = orderIdInput.value;
+
+        console.log('orderId >> ' + orderId);
+        console.log('orderId type >> ' + typeof orderId);
+
+        console.log(parentElement.childNodes);
+
+        var memberIdInput = parentElement.childNodes[3];
+        var memberId = memberIdInput.value;
+
+        console.log('memberId >> ' + memberId);
+        console.log('memberId type >> ' + typeof memberId);
+
+        debugger;
+
+        var formTag = document.createElement('form');
+        formTag.method = 'post';
+        formTag.action = '/order/complete';
+        formTag.style.display = 'none';
+
+        var inputTag = document.createElement('input');
+        inputTag.type = 'hidden';
+        inputTag.name = 'orderId';
+        inputTag.value = orderId;
+
+        var reviewInputTag = document.createElement('input');
+        reviewInputTag.type = 'hidden';
+        reviewInputTag.name = 'isReview';
+        reviewInputTag.value = 'false';
+
+        var memberIdTag = document.createElement('input');
+        memberIdTag.type = 'hidden';
+        memberIdTag.name = 'memberId';
+        memberIdTag.value = memberId;
+
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'patch';
+
+        formTag.append(inputTag);
+        formTag.append(reviewInputTag);
+        formTag.append(memberIdTag);
+        formTag.append(methodInput);
+
+        document.body.append(formTag);
+
+        formTag.submit();
+
+        // window.location.href = '/order/complete?id=' + orderId + '&review=no';
+    }
+
+
+
+</script>

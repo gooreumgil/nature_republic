@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
@@ -55,6 +56,13 @@ public class OrderController {
 
         return "order/complete";
 
+    }
+
+    @PatchMapping("/complete")
+    public String orderComplete(@RequestParam Long orderId, Long memberId, boolean isReview, HttpServletRequest request) {
+
+        orderService.orderComplete(orderId, memberId, isReview);
+        return "myPage/index";
     }
 
 }

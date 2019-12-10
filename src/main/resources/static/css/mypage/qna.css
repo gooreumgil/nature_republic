@@ -263,7 +263,7 @@ li.order__list.right div.content-box .reply-box .reply .reply__inner {
     background-color: #f6f6f6;
 }
 
-li.order__list.right div.content-box .reply-box .reply .reply__inner span {
+li.order__list.right div.content-box .reply-box .reply .reply__inner span.admin-name {
     background-color: #333;
     padding: 5px 8px;
     color: #fff;
@@ -273,7 +273,15 @@ li.order__list.right div.content-box .reply-box .reply .reply__inner span {
     margin-bottom: 15px;
 }
 
+li.order__list.right div.content-box .reply-box .reply .reply__inner span.admin-reply-date {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #888;
+}
+
 li.order__list.right div.content-box .reply-box .reply .reply__inner p {
     font-size: 14px;
     color: #555;
+    line-height: 1.5;
 }

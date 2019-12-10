@@ -31,13 +31,14 @@ public class OrderService {
         int orderPrice = orderItemDto.getPrice();
         Integer discount = orderItemDto.getDiscount();
         int count = orderItemDto.getCount();
+        Integer savePoints = orderItemDto.getSavePoints();
         Integer usePoints = orderItemDto.getUsePoints();
 
         // 주문상품생성
         OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, count);
 
         // 주문생성
-        Order order = Order.createOrder(member, delivery, usePoints, orderItem);
+        Order order = Order.createOrder(member, delivery, savePoints, usePoints, orderItem);
 
         // 포인트 차감
         member.minusPoints(usePoints);
@@ -54,4 +55,26 @@ public class OrderService {
         return orderRepository.findById(id).get();
     }
 
+    @Transactional
+    public void orderComplete(Long orderId, Long memberId, boolean isReview) {
+
+
+        Order order = orderRepository.findById(orderId).get();
+        order.orderComplete();
+
+        Delivery delivery = order.getDelivery();
+        delivery.deliveryArrived();
+
+        Member member = memberRepository.findById(memberId).get();
+
+        if (isReview == false) {
+            Integer savePoints = order.getSavePoints();
+            member.addPoints(savePoints);
+        } else {
+            Integer savePoints = order.getSavePoints();
+            member.addPoints(savePoints + 15);
+        }
+
+
+    }
 }

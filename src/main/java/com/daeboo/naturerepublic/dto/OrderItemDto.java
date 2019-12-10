@@ -19,6 +19,7 @@ public class OrderItemDto {
         private int price;
         private Integer discount;
         private Integer usePoints;
+        private Integer savePoints;
         private Integer deliveryPrice;
         private int count;
         private String name;

@@ -38,7 +38,6 @@
             <div class="title-box">
                 <h3>상품 Q&A</h3>
                 <p>상품 문의 내역입니다.</p>
-
             </div>
 
             <div class="empty-box" th:if="${qnaDtos.isEmpty()}">
@@ -52,7 +51,6 @@
                     <button type="button" onclick="showContent(this)" class="show-content-btn"></button>
 
                     <div class="info-box">
-
                         <h4 >
                             <span th:text="*{#strings.abbreviate((qnaDto.content), 40)}"></span>
                             <span th:if="${!qnaDto.commentList.isEmpty()}" class="reply-complete">답변완료</span>
@@ -67,7 +65,6 @@
                             <span>날짜:</span>
                             <span th:text="*{#temporals.format((qnaDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>
                         </p>
-
                     </div>
 
                     <div class="img-absolute">
@@ -101,7 +98,8 @@
                     <div th:if="${!qnaDto.commentList.isEmpty()}" class="reply">
                         <div class="reply__inner">
                             <span class="admin-name">운영자답변</span>
-                            <p th:text="${qnaDto.commentList.get(0).reply}"></p>
+                            <p th:utext="${#strings.replace((qnaDto.commentList.get(0).reply), newLineChar, '&lt;br /&gt;')}"></p>
+                            <span th:text="${#temporals.format((qnaDto.commentList.get(0).wroteAt), 'yyyy년 MM월 dd일 HH:mm')}" class="admin-reply-date"></span>
                         </div>
                     </div>
 
