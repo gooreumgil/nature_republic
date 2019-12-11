@@ -3,10 +3,8 @@ package com.daeboo.naturerepublic.controller;
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Order;
-import com.daeboo.naturerepublic.dto.ItemDto;
-import com.daeboo.naturerepublic.dto.MemberDto;
-import com.daeboo.naturerepublic.dto.OrderDto;
-import com.daeboo.naturerepublic.dto.OrderItemDto;
+import com.daeboo.naturerepublic.domain.OrderItem;
+import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.ItemService;
 import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.OrderService;
@@ -15,8 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -59,10 +58,49 @@ public class OrderController {
     }
 
     @PatchMapping("/complete")
-    public String orderComplete(@RequestParam Long orderId, Long memberId, boolean isReview, HttpServletRequest request) {
+    public String orderComplete(@RequestParam Long orderId, Long memberId, boolean isReview) {
 
         orderService.orderComplete(orderId, memberId, isReview);
         return "myPage/index";
+    }
+
+    @GetMapping("/review")
+    public String orderReviewForm(Long orderId, Long memberId, Model model) {
+
+        Order order = orderService.findById(orderId);
+        List<OrderItem> orderItems = order.getOrderItems();
+
+        List<ItemDto.ReviewForm> itemList = new ArrayList<>();
+
+        for (OrderItem orderItem : orderItems) {
+            ItemDto.ReviewForm itemDto = new ItemDto.ReviewForm(orderItem.getItem());
+            itemList.add(itemDto);
+        }
+
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+
+        for (ItemDto.ReviewForm reviewForm : itemList) {
+            ReviewDto reviewDto = new ReviewDto();
+            reviewDto.setItemDto(reviewForm);
+            reviewDtos.add(reviewDto);
+        }
+
+//        for (int i = 0; i < itemList.size(); i++) {
+//            CommentDto.OrderReview orderReview = new CommentDto.OrderReview();
+//            reviewRequestDto.getOrderReviews().add(orderReview);
+//        }
+
+        model.addAttribute("reviewDtos", reviewDtos);
+//        model.addAttribute("itemDtos", itemList);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("memberId", memberId);
+
+        return "order/review";
+    }
+
+    @PostMapping("/review")
+    public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
+        return null;
     }
 
 }

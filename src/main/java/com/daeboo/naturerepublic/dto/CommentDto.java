@@ -1,11 +1,17 @@
 package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Comment;
+import com.daeboo.naturerepublic.domain.CommentType;
+import com.daeboo.naturerepublic.domain.ItemSrc;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentDto {
 
@@ -52,4 +58,17 @@ public class CommentDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class OrderReview {
+
+        private Long itemId;
+        private Long memberId;
+        private String content;
+        private CommentType commentType;
+        private ItemDto.ReviewForm itemDto;
+        private List<MultipartFile> itemSrcs = new ArrayList<>();
+        private int rating;
+
+    }
 }

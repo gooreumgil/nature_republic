@@ -270,4 +270,20 @@ public class ItemDto {
             this.s3Key = item.getItemSrcs().get(0).getS3Key();
         }
     }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class ReviewForm {
+
+        private Long id;
+        private String name;
+        private String s3Key;
+
+        public ReviewForm(Item item) {
+            this.id = item.getId();
+            this.name = item.getNameKor();
+            this.s3Key = item.getItemSrcs().get(0).getS3Key();
+        }
+    }
+
 }

@@ -1,0 +1,84 @@
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+}
+
+.btn-box {
+    box-sizing: border-box;
+    padding: 0 10px;
+    margin-bottom: 15px;
+    margin-top: 50px;
+}
+
+.btn-box button {
+    width: 122px;
+    height: 43px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btn-box button[type=submit] {
+    background-color: #7ebb34;
+    color: #fff;
+}
+
+.btn-box button[type=button] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+form {
+    float: left;
+    box-sizing: border-box;
+    width: 33.33%;
+    padding: 10px;
+}
+
+div.img-box {
+    text-align: center;
+    background-color: #f6f6f6;
+    box-sizing: border-box;
+    padding: 30px 30px 45px 30px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+div.img-box img.item-img {
+    max-width: 160px;
+    width: 100%;
+}
+
+div.img-box h4.item-name {
+    font-size: 16px;
+    color: #555;
+    font-weight: 400;
+}
+
+div.star-rating-box {
+    margin-top: 25px;
+}
+
+div.star-rating-box input {
+    display: none;
+}
+
+div.star-rating-box label {
+
+}
+
+div.star-rating-box label svg {
+    max-width: 30px;
+    width: 100%;
+}
+
+div.star-rating-box svg.first-star:hover > path {
+    /*stroke: #71a532;*/
+    /*fill: #71a532;*/
+}
+
+/*div.star-rating-box svg.second-star:hover > path {*/
+/*    stroke: #71a532;*/
+/*    fill: #71a532;*/
+/*}*/
+

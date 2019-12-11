@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/review.css}">
+<style>
+    header {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
+    }
+</style>
+<!--<link rel="stylesheet" th:href="@{/css/common_header.css}">-->
+
+<header th:replace="partials/bodyHeader :: bodyHeader" class="head"></header>
+
+<section class="container">
+
+    <div class="form-wrap clearfix">
+        <div class="btn-box">
+            <button type="submit">리뷰등록</button>
+            <button type="button">취소</button>
+        </div>
+
+        <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}">
+
+            <div class="form__inner">
+                <div class="img-box">
+                    <img th:src="@{'/upload/' + ${reviewDto.itemDto.s3Key}}" alt="" class="item-img">
+                    <h4 th:text="${reviewDto.itemDto.name}" class="item-name"></h4>
+                    <div class="star-rating-box">
+                        <fieldset class="rating">
+                            <input type="radio" th:name="${reviewDto.rating}" id="star5" value="5">
+                            <label th:for="star5" title="매우만족">
+                                <svg class="first-star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>
+                                </svg>
+                            </label>
+
+                            <input type="radio" th:name="${reviewDto.rating}" id="star4" value="4">
+                            <label th:for="star4" title="만족">
+                                <svg class="second-star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>
+                                </svg>
+                            </label>
+
+                            <input type="radio" th:name="${reviewDto.rating}" id="star3" value="3">
+                            <label th:for="star3" title="보통">
+                                <svg class="third-star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>
+                                </svg>
+                            </label>
+
+                            <input type="radio" th:name="${reviewDto.rating}" id="star2" value="2">
+                            <label th:for="star2" title="불만족">
+                                <svg class="fourth-star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>
+                                </svg>
+                            </label>
+
+                            <input type="radio" th:name="${reviewDto.rating}" id="star1" value="1">
+                            <label th:for="star1" title="매우불만족">
+                                <svg class="fifth-star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>
+                                </svg>
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="content-box">
+
+                    <nav class="content-tab-nav">
+                        <button type="button">글</button>
+                        <button type="button">사진</button>
+                    </nav>
+
+                    <div class="tab review-text">
+                        <textarea th:id="${reviewDto.content}" th:name="${reviewDto.content}" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="tab review-photo">
+                        <label th:for="itemSrcs" class="add-img">+</label>
+                        <input multiple="multiple" type="file" th:id="${reviewDto.srcs}" th:name="${reviewDto.srcs}">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    var firstStar = document.getElementsByClassName('first-star')[0];
+    var firstStarPath = firstStar.getElementsByTagName('path')[0];
+
+    var secondStar = document.getElementsByClassName('second-star')[0];
+    var secondStarPath = secondStar.getElementsByTagName('path')[0];
+
+    var thirdStar = document.getElementsByClassName('third-star')[0];
+    var thirdStarPath = thirdStar.getElementsByTagName('path')[0];
+
+    var fourthStar = document.getElementsByClassName('fourth-star')[0];
+    var fourthStarPath = fourthStar.getElementsByTagName('path')[0];
+
+    var fifthStar = document.getElementsByClassName('fifth-star')[0];
+    var fifthStarPath = fifthStar.getElementsByTagName('path')[0];
+
+    var svgTags = document.getElementsByTagName('svg');
+    var pathTags = document.getElementsByTagName('path');
+
+    for (i = 0; i < svgTags.length; i++) {
+        svgTags[i].addEventListener('mouseout', function (ev) {
+            for (i = 0; i < pathTags.length; i++) {
+                pathTags[i].style.fill = 'none';
+                pathTags[i].style.stroke = '#555';
+            }
+        })
+    }
+
+    window.onload = function (ev) {
+        firstStar.addEventListener('mouseover', function (evt) {
+            firstStarPath.style.fill = '#71a532';
+            firstStarPath.style.stroke = '#71a532';
+        });
+
+        // firstStar.addEventListener('mouseout', function (evt) {
+        //     firstStarPath.style.fill = 'none';
+        //     firstStarPath.style.stroke = '#555';
+        //
+        //     secondStarPath.style.fill = 'none';
+        //     secondStarPath.style.stroke = '#555';
+        //
+        //     thirdStarPath.style.fill = 'none';
+        //     thirdStarPath.style.stroke = '#555';
+        //
+        //     fourthStarPath.style.fill = 'none';
+        //     fourthStarPath.style.stroke = '#555';
+        //
+        //     fifthStarPath.style.fill = 'none';
+        //     fifthStarPath.style.stroke = '#555';
+        // });
+
+        secondStar.addEventListener('mouseover', function (evt) {
+            firstStarPath.style.fill = '#71a532';
+            firstStarPath.style.stroke = '#71a532';
+
+            secondStarPath.style.fill = '#71a532';
+            secondStarPath.style.stroke = '#71a532';
+        });
+
+        // secondStar.addEventListener('mouseout', function (evt) {
+        //     firstStarPath.style.fill = '#71a532';
+        //     firstStarPath.style.stroke = '#71a532';
+        //
+        //     secondStarPath.style.fill = 'none';
+        //     secondStarPath.style.stroke = '#555';
+        //
+        //     thirdStarPath.style.fill = 'none';
+        //     thirdStarPath.style.stroke = '#555';
+        //
+        //     fourthStarPath.style.fill = 'none';
+        //     fourthStarPath.style.stroke = '#555';
+        //
+        //     fifthStarPath.style.fill = 'none';
+        //     fifthStarPath.style.stroke = '#555';
+        // });
+
+        thirdStar.addEventListener('mouseover', function (evt) {
+            firstStarPath.style.fill = '#71a532';
+            firstStarPath.style.stroke = '#71a532';
+
+            secondStarPath.style.fill = '#71a532';
+            secondStarPath.style.stroke = '#71a532';
+
+            thirdStarPath.style.fill = '#71a532';
+            thirdStarPath.style.stroke = '#71a532';
+        });
+
+        // thirdStar.addEventListener('mouseout', function (evt) {
+        //     firstStarPath.style.fill = '#71a532';
+        //     firstStarPath.style.stroke = '#71a532';
+        //
+        //     secondStarPath.style.fill = '#71a532';
+        //     secondStarPath.style.stroke = '#71a532';
+        //
+        //     thirdStarPath.style.fill = 'none';
+        //     thirdStarPath.style.stroke = '#555';
+        //
+        //     fourthStarPath.style.fill = 'none';
+        //     fourthStarPath.style.stroke = '#555';
+        //
+        //     fifthStarPath.style.fill = 'none';
+        //     fifthStarPath.style.stroke = '#555';
+        // });
+
+        fourthStar.addEventListener('mouseover', function (evt) {
+            firstStarPath.style.fill = '#71a532';
+            firstStarPath.style.stroke = '#71a532';
+
+            secondStarPath.style.fill = '#71a532';
+            secondStarPath.style.stroke = '#71a532';
+
+            thirdStarPath.style.fill = '#71a532';
+            thirdStarPath.style.stroke = '#71a532';
+
+            fourthStarPath.style.fill = '#71a532';
+            fourthStarPath.style.stroke = '#71a532';
+        });
+
+        // fourthStar.addEventListener('mouseout', function (evt) {
+        //     firstStarPath.style.fill = '#71a532';
+        //     firstStarPath.style.stroke = '#71a532';
+        //
+        //     secondStarPath.style.fill = '#71a532';
+        //     secondStarPath.style.stroke = '#71a532';
+        //
+        //     thirdStarPath.style.fill = '#71a532';
+        //     thirdStarPath.style.stroke = '#71a532';
+        //
+        //     fourthStarPath.style.fill = 'none';
+        //     fourthStarPath.style.stroke = '#555';
+        //
+        //     fifthStarPath.style.fill = 'none';
+        //     fifthStarPath.style.stroke = '#555';
+        // });
+
+        fifthStar.addEventListener('mouseover', function (evt) {
+            firstStarPath.style.fill = '#71a532';
+            firstStarPath.style.stroke = '#71a532';
+
+            secondStarPath.style.fill = '#71a532';
+            secondStarPath.style.stroke = '#71a532';
+
+            thirdStarPath.style.fill = '#71a532';
+            thirdStarPath.style.stroke = '#71a532';
+
+            fourthStarPath.style.fill = '#71a532';
+            fourthStarPath.style.stroke = '#71a532';
+
+            fifthStarPath.style.fill = '#71a532';
+            fifthStarPath.style.stroke = '#71a532';
+        });
+
+        // fifthStar.addEventListener('mouseout', function (evt) {
+        //     firstStarPath.style.fill = '#71a532';
+        //     firstStarPath.style.stroke = '#71a532';
+        //
+        //     secondStarPath.style.fill = '#71a532';
+        //     secondStarPath.style.stroke = '#71a532';
+        //
+        //     thirdStarPath.style.fill = '#71a532';
+        //     thirdStarPath.style.stroke = '#71a532';
+        //
+        //     fourthStarPath.style.fill = '#71a532';
+        //     fourthStarPath.style.stroke = '#71a532';
+        //
+        //     fifthStarPath.style.fill = 'none';
+        //     fifthStarPath.style.stroke = '#555';
+        // })
+
+    }
+
+</script>

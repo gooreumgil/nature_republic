@@ -81,6 +81,7 @@ public class OrderDto {
 
         private Long id;
         private LocalDateTime orderDateTime;
+        private String orderStatus;
         private List<OrderItemDto.DetailPage> orderItemDtos = new ArrayList<>();
         private String deliveryStatus;
 
@@ -100,6 +101,7 @@ public class OrderDto {
 
             this.id = order.getId();
             this.orderDateTime = order.getOrderDateTime();
+            this.orderStatus = order.getOrderStatus().toString();
 
             List<OrderItem> orderItems = order.getOrderItems();
             for (OrderItem orderItem : orderItems) {

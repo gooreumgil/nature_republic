@@ -25,6 +25,10 @@ public class ItemSrc {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
     public static ItemSrc createItemSrcMain(String mainPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
         itemSrc.s3Key = mainPath;

@@ -98,7 +98,8 @@
                         <div class="list__inner state">
                             <p th:if="${order.deliveryStatus == 'READY'}">상품준비중</p>
                             <p th:if="${order.deliveryStatus == 'ONGOING'}" class="active">배송중</p>
-                            <p th:if="${order.deliveryStatus == 'COMP'}">배송완료</p>
+                            <p th:if="${order.deliveryStatus == 'COMP' && order.orderStatus != 'COMP'}">배송완료</p>
+                            <p th:if="${order.deliveryStatus == 'COMP' && order.orderStatus == 'COMP'}">주문완료</p>
                         </div>
                         <div class="list__inner confirm">
                             <button type="button">주문상세보기</button>
