@@ -21,6 +21,7 @@
 .btn-box button[type=submit] {
     background-color: #7ebb34;
     color: #fff;
+    margin-right: 5px;
 }
 
 .btn-box button[type=button] {
@@ -34,6 +35,33 @@ form {
     width: 33.33%;
     padding: 10px;
 }
+
+form div.form__inner {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+form div.form__inner div.index-circle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+form div.form__inner div.index-circle p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
 
 div.img-box {
     text-align: center;
@@ -56,7 +84,12 @@ div.img-box h4.item-name {
 }
 
 div.star-rating-box {
-    margin-top: 25px;
+    margin-top: 20px;
+}
+
+div.star-rating-box fieldset {
+    width: fit-content;
+    margin: 0 auto;
 }
 
 div.star-rating-box input {
@@ -72,10 +105,62 @@ div.star-rating-box label svg {
     width: 100%;
 }
 
-div.star-rating-box svg.first-star:hover > path {
-    /*stroke: #71a532;*/
-    /*fill: #71a532;*/
+div.content-box {
+    box-sizing: border-box;
+    padding: 20px 30px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
+
+div.content-box nav.content-tab-nav button {
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+div.content-box nav.content-tab-nav button.text-tab-btn {
+    background-color: #f1f1f1;
+}
+
+div.content-box nav.content-tab-nav button.text-tab-btn svg {
+    max-width: 14px;
+    width: 100%;
+}
+
+div.content-box nav.content-tab-nav button.photo-tab-btn {
+
+}
+
+div.content-box nav.content-tab-nav button.photo-tab-btn svg {
+    max-width: 16px;
+    width: 100%;
+}
+
+div.content-box div.tab {
+
+}
+
+div.content-box div.tab.review-text {
+    display: block;
+}
+
+div.content-box div.tab.review-text textarea {
+    outline: none;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #888;
+}
+
+div.content-box div.tab.review-photo {
+    display: none;
+}
+
+
 
 /*div.star-rating-box svg.second-star:hover > path {*/
 /*    stroke: #71a532;*/
