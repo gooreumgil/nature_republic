@@ -103,6 +103,8 @@ public class OrderController {
     public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
         List<MultipartFile> srcs = reviewDto.getSrcs();
         List<String> remove = reviewDto.getRemove();
+        Long orderId = reviewDto.getOrderId();
+        Long memberId = reviewDto.getMemberId();
 
         return "redirect:/myPage";
     }

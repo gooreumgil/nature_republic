@@ -14,6 +14,7 @@ public class ReviewDto {
 
     private Long itemId;
     private Long memberId;
+    private Long orderId;
     private ItemDto.ReviewForm itemDto;
     private List<MultipartFile> srcs = new ArrayList<>();
     private List<String> remove = new ArrayList<>();

@@ -19,7 +19,11 @@
             <button type="button" class="cancel">취소</button>
         </div>
 
+        <input type="hidden" th:id="orderId" th:value="${orderId}">
+
         <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
+
+            <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
 
             <div class="form__inner">
                 <div class="index-circle">
@@ -531,7 +535,23 @@
         var forms = document.getElementsByTagName('form');
 
         for (i = 0; i < forms.length; i++) {
+            if (i == (forms.length - 1)) {
+                var lastForm = forms[i];
+
+                var orderIdInput = document.getElementById('orderId');
+                var orderIdVal = orderIdInput.value;
+
+                var inputTag = document.createElement('input');
+                inputTag.type = 'hidden';
+                inputTag.name = 'orderId';
+                inputTag.value = orderIdVal;
+
+                lastForm.append(inputTag);
+
+                lastForm.submit();
+            }
             forms[i].submit();
+
         }
 
     }
