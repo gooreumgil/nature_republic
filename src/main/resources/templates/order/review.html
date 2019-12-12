@@ -15,11 +15,11 @@
 
     <div class="form-wrap clearfix">
         <div class="btn-box">
-            <button type="submit">리뷰등록</button>
-            <button type="button">취소</button>
+            <button type="button" onclick="allSubmit()" class="submit">리뷰등록</button>
+            <button type="button" class="cancel">취소</button>
         </div>
 
-        <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}">
+        <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
 
             <div class="form__inner">
                 <div class="index-circle">
@@ -30,8 +30,8 @@
                     <h4 th:text="${reviewDto.itemDto.name}" class="item-name"></h4>
                     <div class="star-rating-box">
                         <fieldset class="rating">
-                            <input type="radio" th:name="${reviewDto.rating}" id="star5" value="5">
-                            <label th:for="star5" title="매우만족">
+                            <input type="radio" th:name="rating" id="star1" value="1" class="rating-input">
+                            <label th:for="star1" title="매우만족">
                                 <svg class="first-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -40,8 +40,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="${reviewDto.rating}" id="star4" value="4">
-                            <label th:for="star4" title="만족">
+                            <input type="radio" th:name="rating" id="star2" value="2" class="rating-input">
+                            <label th:for="star2" title="만족">
                                 <svg class="second-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -50,7 +50,7 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="${reviewDto.rating}" id="star3" value="3">
+                            <input type="radio" th:name="rating" id="star3" value="3" class="rating-input">
                             <label th:for="star3" title="보통">
                                 <svg class="third-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -60,8 +60,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="${reviewDto.rating}" id="star2" value="2">
-                            <label th:for="star2" title="불만족">
+                            <input type="radio" th:name="rating" id="star4" value="4" class="rating-input">
+                            <label th:for="star4" title="불만족">
                                 <svg class="fourth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -70,8 +70,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="${reviewDto.rating}" id="star1" value="1">
-                            <label th:for="star1" title="매우불만족">
+                            <input type="radio" th:name="rating" id="star5" value="5" class="rating-input">
+                            <label th:for="star5" title="매우불만족">
                                 <svg class="fifth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -108,11 +108,15 @@
                     </nav>
 
                     <div class="tab review-text">
-                        <textarea th:id="${reviewDto.content}" th:name="${reviewDto.content}" cols="30" rows="10">리뷰를 작성해주세요.(300자 내외)</textarea>
+                        <textarea th:id="content" th:name="content" cols="30" rows="13" class="review-textarea" placeholder="리뷰를 작성해주세요(300자 내외)"></textarea>
                     </div>
-                    <div class="tab review-photo">
-                        <label th:for="itemSrcs" class="add-img">+</label>
-                        <input multiple="multiple" type="file" th:id="${reviewDto.srcs}" th:name="${reviewDto.srcs}">
+                    <div class="tab review-photo clearfix">
+                        <p>사진을 추가해 주세요(최대 3장)</p>
+                        <output class="output-box clearfix"></output>
+                        <label th:for="srcs" class="add-img">
+                            <span>+</span>
+                        </label>
+                        <input multiple="multiple" type="file" th:id="srcs" th:name="srcs" onchange="handleFileSelect(this)">
                     </div>
                 </div>
             </div>
@@ -128,134 +132,407 @@
 
 <script type="text/javascript">
 
+    // file
+    function handleFileSelect(elem) {
+
+        var parentElement = elem.parentElement;
+        var files = elem.files;
+
+        if (files.length > 3) {
+            alert("사진은 3장까지만 가능합니다.");
+            return;
+        }
+
+        if (window.File && window.FileList && window.FileReader) {
+
+
+            var output = parentElement.childNodes[3];
+
+            for (i = 0; i < files.length; i++) {
+
+                var file = files.item(i);
+                if (!file.type.match('image')) continue;
+
+                var picReader = new FileReader();
+
+                var obj = {
+                    i: i,
+                    output: output,
+                    file: file,
+                    elem: elem
+                };
+
+                picReader.addEventListener('load', loadImg.bind(obj), false);
+                picReader.readAsDataURL(file);
+
+
+            }
+
+            var divTag = document.createElement('div');
+            parentElement.appendChild(divTag);
+
+            divTag.innerHTML = '<input multiple="multiple" type="file" id="srcs" name="srcs" onchange="handleFileSelect(this)">';
+
+            output.style.display = 'inline-block';
+            elem.style.display = 'none';
+        }
+    }
+
+    function loadImg() {
+        var i = this.i;
+        var output = this.output;
+        var elem = this.elem;
+        var file = this.file;
+
+        var picFile = event.target;
+        var div = document.createElement('div');
+        var innerDiv = document.createElement('div');
+
+        div.classList = 'preview-box';
+        // div.style.backgroundImage = 'url(' + picFile.result + ')';
+        innerDiv.classList = 'preview-inner';
+        innerDiv.style.backgroundImage = 'url(' + picFile.result + ')';
+        innerDiv.style.borderRadius = '5px';
+        div.append(innerDiv);
+        var btn = document.createElement('button');
+
+        btn.type = 'button';
+        btn.classList = 'cancel';
+        btn.setAttribute('onclick', "imgDelete(this)");
+        btn.innerText = 'X';
+
+        var btnInner = document.createElement('span');
+        btnInner.innerText = file.name;
+        btnInner.style.display = 'none';
+
+        btn.append(btnInner);
+        div.append(btn);
+
+        output.insertBefore(div, null);
+
+        var previewBoxTags = document.getElementsByClassName('preview-box');
+        if (previewBoxTags.length >= 3) {
+            console.log('들어왔다!!!');
+            var reviewPhotoTag = elem.parentElement;
+            var childNodes = reviewPhotoTag.childNodes;
+            var addImgTag = childNodes[5];
+            addImgTag.style.display = 'none';
+        }
+
+
+    }
+
+    // 이미지 미리보기 삭제 & 삭제 될 이미지 이름 저장 (저장 후 controller에서 files for문 돌리면서 삭제)
+    function imgDelete(elem) {
+
+        var childNodes = elem.childNodes;
+
+        var inputTag = document.createElement('input');
+        inputTag.hidden = true;
+
+        var imgName = childNodes[1].innerText;
+
+        inputTag.type = 'text';
+        inputTag.id = 'remove';
+        inputTag.name = 'remove';
+        inputTag.setAttribute('value', imgName);
+
+        var parentElement = elem.parentElement;
+
+        while (true) {
+
+            if (parentElement.classList == null) {
+                continue;
+            }
+            else if (parentElement.classList.contains('review-form')) {
+                parentElement.appendChild(inputTag);
+                break;
+            }
+
+            parentElement = parentElement.parentElement;
+        }
+
+        var previewBox = elem.parentElement;
+        var outputTagForPreviewBoxFind = previewBox.parentElement;
+
+        var previewBoxs = outputTagForPreviewBoxFind.getElementsByClassName('preview-box');
+        console.log(previewBoxs);
+        if (previewBoxs.length == 1) {
+
+            var previewBoxTag = elem.parentElement;
+            var outputTag = previewBoxTag.parentElement;
+
+            outputTag.style.display = 'none';
+
+        } else if (previewBoxs.length == 3) {
+            var reviewPhotoBox = outputTagForPreviewBoxFind.parentElement;
+            var reviewPhotoBoxChild = reviewPhotoBox.childNodes;
+            var addImgTag = reviewPhotoBoxChild[5];
+            addImgTag.style.display = 'block';
+        }
+
+        previewBox.remove();
+    }
+
+
+
+    // style
     var reviewTextDiv = document.getElementsByClassName('review-text')[0];
     var reviewPhotoDiv = document.getElementsByClassName('review-photo')[0];
 
+    var textTabBtn = document.getElementsByClassName('text-tab-btn')[0];
+    var photoTabBtn = document.getElementsByClassName('photo-tab-btn')[0];
+
     function textTab() {
         reviewPhotoDiv.style.display = 'none';
+        photoTabBtn.style.backgroundColor = '#fff';
         reviewTextDiv.style.display = 'block';
+        textTabBtn.style.backgroundColor = '#f1f1f1';
     }
 
     function photoTab() {
         reviewTextDiv.style.display = 'none';
+        textTabBtn.style.backgroundColor = '#fff';
         reviewPhotoDiv.style.display = 'block';
+        photoTabBtn.style.backgroundColor = '#f1f1f1';
     }
 
-    var firstStar = document.getElementsByClassName('first-star')[0];
-    var firstStarPath = firstStar.getElementsByTagName('path')[0];
+    var firstStar = document.getElementsByClassName('first-star');
+    var secondStar = document.getElementsByClassName('second-star');
+    var thirdStar = document.getElementsByClassName('third-star');
+    var fourthStar = document.getElementsByClassName('fourth-star');
+    var fifthStar = document.getElementsByClassName('fifth-star');
 
-    var secondStar = document.getElementsByClassName('second-star')[0];
-    var secondStarPath = secondStar.getElementsByTagName('path')[0];
-
-    var thirdStar = document.getElementsByClassName('third-star')[0];
-    var thirdStarPath = thirdStar.getElementsByTagName('path')[0];
-
-    var fourthStar = document.getElementsByClassName('fourth-star')[0];
-    var fourthStarPath = fourthStar.getElementsByTagName('path')[0];
-
-    var fifthStar = document.getElementsByClassName('fifth-star')[0];
-    var fifthStarPath = fifthStar.getElementsByTagName('path')[0];
-
-    var fieldSetTag = document.getElementsByTagName('fieldset')[0];
+    var fieldSetTag = document.getElementsByTagName('fieldset');
 
     window.onload = function (ev) {
 
-        firstStar.addEventListener('mouseover', function (evt) {
-            firstStarPath.style.fill = '#7ebb34';
-            firstStarPath.style.stroke = '#7ebb34';
+        for (i = 0; i < fieldSetTag.length; i++) {
+            firstStar[i].addEventListener('mouseover', function (evt) {
 
-            secondStarPath.style.fill = 'none';
-            secondStarPath.style.stroke = '#555';
+                var target = evt.target;
+                var label = target.parentElement;
+                var fieldSet = label.parentElement;
 
-            thirdStarPath.style.fill = 'none';
-            thirdStarPath.style.stroke = '#555';
+                var firstStarPath = target.getElementsByTagName('path')[0];
+                firstStarPath.style.fill = '#7ebb34';
+                firstStarPath.style.stroke = '#7ebb34';
 
-            fourthStarPath.style.fill = 'none';
-            fourthStarPath.style.stroke = '#555';
+                var secondStarTag = fieldSet.getElementsByClassName('second-star')[0];
+                var secondStarPath = secondStarTag.getElementsByTagName('path')[0];
 
-            fifthStarPath.style.fill = 'none';
-            fifthStarPath.style.stroke = '#555';
+                secondStarPath.style.fill = 'none';
+                secondStarPath.style.stroke = '#555';
 
-        });
+                var thirdStarTag = fieldSet.getElementsByClassName('third-star')[0];
+                var thirdStarPath = thirdStarTag.getElementsByTagName('path')[0];
 
-        secondStar.addEventListener('mouseover', function (evt) {
-            firstStarPath.style.fill = '#7ebb34';
-            firstStarPath.style.stroke = '#7ebb34';
+                thirdStarPath.style.fill = 'none';
+                thirdStarPath.style.stroke = '#555';
 
-            secondStarPath.style.fill = '#7ebb34';
-            secondStarPath.style.stroke = '#7ebb34';
+                var fourthStarTag = fieldSet.getElementsByClassName('fourth-star')[0];
+                var fourthStarPath = fourthStarTag.getElementsByTagName('path')[0];
 
-            thirdStarPath.style.fill = 'none';
-            thirdStarPath.style.stroke = '#555';
+                fourthStarPath.style.fill = 'none';
+                fourthStarPath.style.stroke = '#555';
 
-            fourthStarPath.style.fill = 'none';
-            fourthStarPath.style.stroke = '#555';
+                var fifthStarTag = fieldSet.getElementsByClassName('fifth-star')[0];
+                var fifthStarPath = fifthStarTag.getElementsByTagName('path')[0];
 
-            fifthStarPath.style.fill = 'none';
-            fifthStarPath.style.stroke = '#555';
-        });
+                fifthStarPath.style.fill = 'none';
+                fifthStarPath.style.stroke = '#555';
 
-        thirdStar.addEventListener('mouseover', function (evt) {
-            firstStarPath.style.fill = '#7ebb34';
-            firstStarPath.style.stroke = '#7ebb34';
+            });
+        }
 
-            secondStarPath.style.fill = '#7ebb34';
-            secondStarPath.style.stroke = '#7ebb34';
+        for (i = 0; i < fieldSetTag.length; i++) {
+            secondStar[i].addEventListener('mouseover', function (evt) {
 
-            thirdStarPath.style.fill = '#7ebb34';
-            thirdStarPath.style.stroke = '#7ebb34';
+                var target = evt.target;
+                var label = target.parentElement;
+                var fieldSet = label.parentElement;
 
-            fourthStarPath.style.fill = 'none';
-            fourthStarPath.style.stroke = '#555';
+                var firstStarTag = fieldSet.getElementsByClassName('first-star')[0];
+                var firstStarPath = firstStarTag.getElementsByTagName('path')[0];
 
-            fifthStarPath.style.fill = 'none';
-            fifthStarPath.style.stroke = '#555';
-        });
+                firstStarPath.style.fill = '#7ebb34';
+                firstStarPath.style.stroke = '#7ebb34';
 
-        fourthStar.addEventListener('mouseover', function (evt) {
-            firstStarPath.style.fill = '#7ebb34';
-            firstStarPath.style.stroke = '#7ebb34';
+                var secondStarPath = target.getElementsByTagName('path')[0];
 
-            secondStarPath.style.fill = '#7ebb34';
-            secondStarPath.style.stroke = '#7ebb34';
+                secondStarPath.style.fill = '#7ebb34';
+                secondStarPath.style.stroke = '#7ebb34';
 
-            thirdStarPath.style.fill = '#7ebb34';
-            thirdStarPath.style.stroke = '#7ebb34';
+                var thirdStarTag = fieldSet.getElementsByClassName('third-star')[0];
+                var thirdStarPath = thirdStarTag.getElementsByTagName('path')[0];
 
-            fourthStarPath.style.fill = '#7ebb34';
-            fourthStarPath.style.stroke = '#7ebb34';
+                thirdStarPath.style.fill = 'none';
+                thirdStarPath.style.stroke = '#555';
 
-            fifthStarPath.style.fill = 'none';
-            fifthStarPath.style.stroke = '#555';
-        });
+                var fourthStarTag = fieldSet.getElementsByClassName('fourth-star')[0];
+                var fourthStarPath = fourthStarTag.getElementsByTagName('path')[0];
 
-        fifthStar.addEventListener('mouseover', function (evt) {
-            firstStarPath.style.fill = '#7ebb34';
-            firstStarPath.style.stroke = '#7ebb34';
+                fourthStarPath.style.fill = 'none';
+                fourthStarPath.style.stroke = '#555';
 
-            secondStarPath.style.fill = '#7ebb34';
-            secondStarPath.style.stroke = '#7ebb34';
+                var fifthStarTag = fieldSet.getElementsByClassName('fifth-star')[0];
+                var fifthStarPath = fifthStarTag.getElementsByTagName('path')[0];
 
-            thirdStarPath.style.fill = '#7ebb34';
-            thirdStarPath.style.stroke = '#7ebb34';
+                fifthStarPath.style.fill = 'none';
+                fifthStarPath.style.stroke = '#555';
+            });
+        }
 
-            fourthStarPath.style.fill = '#7ebb34';
-            fourthStarPath.style.stroke = '#7ebb34';
+        for (i = 0; i <fieldSetTag.length; i++) {
+            thirdStar[i].addEventListener('mouseover', function (evt) {
 
-            fifthStarPath.style.fill = '#7ebb34';
-            fifthStarPath.style.stroke = '#7ebb34';
-        });
+                var target = evt.target;
+                var label = target.parentElement;
+                var fieldSet = label.parentElement;
 
-        fieldSetTag.addEventListener('mouseleave', function (ev1) {
-            var svgs = document.getElementsByClassName('star');
+                var firstStarTag = fieldSet.getElementsByClassName('first-star')[0];
+                var firstStarPath = firstStarTag.getElementsByTagName('path')[0];
 
-            for (i = 0; i < svgs.length; i++) {
-                var pathTag = svgs[i].getElementsByTagName('path')[0];
-                pathTag.style.fill = 'none';
-                pathTag.style.stroke = '#555';
-            }
+                firstStarPath.style.fill = '#7ebb34';
+                firstStarPath.style.stroke = '#7ebb34';
 
-        });
+                var secondStarTag = fieldSet.getElementsByClassName('second-star')[0];
+                var secondStarPath = secondStarTag.getElementsByTagName('path')[0];
+
+                secondStarPath.style.fill = '#7ebb34';
+                secondStarPath.style.stroke = '#7ebb34';
+
+                var thirdStarPath = target.getElementsByTagName('path')[0];
+
+                thirdStarPath.style.fill = '#7ebb34';
+                thirdStarPath.style.stroke = '#7ebb34';
+
+                var fourthStarTag = fieldSet.getElementsByClassName('fourth-star')[0];
+                var fourthStarPath = fourthStarTag.getElementsByTagName('path')[0];
+
+                fourthStarPath.style.fill = 'none';
+                fourthStarPath.style.stroke = '#555';
+
+                var fifthStarTag = fieldSet.getElementsByClassName('fifth-star')[0];
+                var fifthStarPath = fifthStarTag.getElementsByTagName('path')[0];
+
+                fifthStarPath.style.fill = 'none';
+                fifthStarPath.style.stroke = '#555';
+
+            });
+        }
+
+        for (i = 0; i < fieldSetTag.length; i++) {
+            fourthStar[i].addEventListener('mouseover', function (evt) {
+
+                var target = evt.target;
+                var label = target.parentElement;
+                var fieldSet = label.parentElement;
+
+                var firstStarTag = fieldSet.getElementsByClassName('first-star')[0];
+                var firstStarPath = firstStarTag.getElementsByTagName('path')[0];
+
+                firstStarPath.style.fill = '#7ebb34';
+                firstStarPath.style.stroke = '#7ebb34';
+
+                var secondStarTag = fieldSet.getElementsByClassName('second-star')[0];
+                var secondStarPath = secondStarTag.getElementsByTagName('path')[0];
+
+                secondStarPath.style.fill = '#7ebb34';
+                secondStarPath.style.stroke = '#7ebb34';
+
+                var thirdStarTag = fieldSet.getElementsByClassName('third-star')[0];
+                var thirdStarPath = thirdStarTag.getElementsByTagName('path')[0];
+
+                thirdStarPath.style.fill = '#7ebb34';
+                thirdStarPath.style.stroke = '#7ebb34';
+
+                var fourthStarPath = target.getElementsByTagName('path')[0];
+
+                fourthStarPath.style.fill = '#7ebb34';
+                fourthStarPath.style.stroke = '#7ebb34';
+
+                var fifthStarTag = fieldSet.getElementsByClassName('fifth-star')[0];
+                var fifthStarPath = fifthStarTag.getElementsByTagName('path')[0];
+
+                fifthStarPath.style.fill = 'none';
+                fifthStarPath.style.stroke = '#555';
+            });
+        }
+
+        for (i = 0; i < fieldSetTag.length; i++) {
+            fifthStar[i].addEventListener('mouseover', function (evt) {
+
+                var target = evt.target;
+                var label = target.parentElement;
+                var fieldSet = label.parentElement;
+
+                var firstStarTag = fieldSet.getElementsByClassName('first-star')[0];
+                var firstStarPath = firstStarTag.getElementsByTagName('path')[0];
+
+                firstStarPath.style.fill = '#7ebb34';
+                firstStarPath.style.stroke = '#7ebb34';
+                
+                var secondStarTag = fieldSet.getElementsByClassName('second-star')[0];
+                var secondStarPath = secondStarTag.getElementsByTagName('path')[0];
+
+                secondStarPath.style.fill = '#7ebb34';
+                secondStarPath.style.stroke = '#7ebb34';
+
+                var thirdStarTag = fieldSet.getElementsByClassName('third-star')[0];
+                var thirdStarPath = thirdStarTag.getElementsByTagName('path')[0];
+
+                thirdStarPath.style.fill = '#7ebb34';
+                thirdStarPath.style.stroke = '#7ebb34';
+
+                var fourthStarTag = fieldSet.getElementsByClassName('fourth-star')[0];
+                var fourthStarPath = fourthStarTag.getElementsByTagName('path')[0];
+
+                fourthStarPath.style.fill = '#7ebb34';
+                fourthStarPath.style.stroke = '#7ebb34';
+
+                var fifthStarPath = target.getElementsByTagName('path')[0];
+
+                fifthStarPath.style.fill = '#7ebb34';
+                fifthStarPath.style.stroke = '#7ebb34';
+            });
+        }
+
+        for (i = 0; i < fieldSetTag.length; i++) {
+            fieldSetTag[i].addEventListener('mouseleave', function (ev1) {
+
+                var target = ev1.target;
+                console.log(target);
+                var ratingInputTags = target.getElementsByClassName('rating-input');
+                console.log(ratingInputTags);
+
+                for (i = 0; i < ratingInputTags.length; i++) {
+                    var ratingInputTag = ratingInputTags[i];
+                    if (ratingInputTag.checked == true) {
+                        return;
+                    }
+                }
+
+                var svgs = target.getElementsByClassName('star');
+
+                for (i = 0; i < svgs.length; i++) {
+                    var pathTag = svgs[i].getElementsByTagName('path')[0];
+                    pathTag.style.fill = 'none';
+                    pathTag.style.stroke = '#555';
+                }
+
+            });
+        }
+
+    };
+
+    function allSubmit() {
+
+        var forms = document.getElementsByTagName('form');
+
+        for (i = 0; i < forms.length; i++) {
+            forms[i].submit();
+        }
 
     }
 

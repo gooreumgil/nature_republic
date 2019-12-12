@@ -18,13 +18,13 @@
     font-weight: 500;
 }
 
-.btn-box button[type=submit] {
+.btn-box button.submit {
     background-color: #7ebb34;
     color: #fff;
     margin-right: 5px;
 }
 
-.btn-box button[type=button] {
+.btn-box button.cancel {
     background-color: #fff;
     border: 1px solid #ddd;
 }
@@ -67,7 +67,7 @@ div.img-box {
     text-align: center;
     background-color: #f6f6f6;
     box-sizing: border-box;
-    padding: 30px 30px 45px 30px;
+    padding: 30px 30px 35px 30px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -84,7 +84,7 @@ div.img-box h4.item-name {
 }
 
 div.star-rating-box {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 div.star-rating-box fieldset {
@@ -110,6 +110,7 @@ div.content-box {
     padding: 20px 30px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    height: 375px;
 }
 
 div.content-box nav.content-tab-nav button {
@@ -157,6 +158,83 @@ div.content-box div.tab.review-text textarea {
 }
 
 div.content-box div.tab.review-photo {
+    display: none;
+    width: calc(100% + 10px);
+    transform: translateX(-5px);
+}
+
+div.content-box div.tab.review-photo output {
+    width: 100%;
+    display: none;
+    /*width: calc(100% + 10px);*/
+    /*transform: translateX(-5px);*/
+}
+
+div.content-box div.tab.review-photo output div.preview-box {
+    position: relative;
+    float: left;
+    width: 33.33%;
+    /*display: inline-block;*/
+    /*margin-right: 10px;*/
+    /*width: 60px;*/
+    /*height: 60px;*/
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+div.content-box div.tab.review-photo output div.preview-box button.cancel {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    border: 1px solid #ddd;
+    right: 0;
+    font-size: 10px;
+    color: #555;
+}
+
+div.content-box div.tab.review-photo output div.preview-box .preview-inner {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 105px;
+}
+
+
+div.content-box div.tab.review-photo p {
+    font-size: 15px;
+    font-weight: 400;
+    color: #888;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+div.content-box div.tab.review-photo label {
+    float: left;
+    box-sizing: border-box;
+    padding: 5px;
+    width: 33.33%;
+}
+
+div.content-box div.tab.review-photo label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    font-size: 18px;
+    color: #555;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    height: 103px;
+}
+
+div.content-box div.tab.review-photo input {
     display: none;
 }
 

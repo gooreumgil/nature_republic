@@ -79,7 +79,7 @@
                     </li>
                     <li class="list__item content clearfix" th:each="orderItemDto : ${orderDtos.orderItemDtos}">
                         <div class="list__inner date">
-                            <p th:text="${orderItemDto.id}"></p>
+                            <p th:text="${orderItemDto.itemId}"></p>
                         </div>
                         <div class="list__inner info">
                             <a th:href="@{/item/detail(id=${orderItemDto.itemId})}">

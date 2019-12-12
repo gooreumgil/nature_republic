@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -100,7 +101,11 @@ public class OrderController {
 
     @PostMapping("/review")
     public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
-        return null;
+        List<MultipartFile> srcs = reviewDto.getSrcs();
+        List<String> remove = reviewDto.getRemove();
+
+        return "redirect:/myPage";
     }
+
 
 }

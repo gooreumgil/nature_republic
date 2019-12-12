@@ -211,7 +211,6 @@
                     elem: elem
                 };
 
-
                 picReader.addEventListener("load", loadImg.bind(obj), false);
                 picReader.readAsDataURL(file);
 
@@ -226,7 +225,6 @@
                     detailIdx++;
                 }
             }
-
 
             if (elem.classList.contains('main')) {
                 var imgDiv = document.getElementById('img-div');
@@ -291,6 +289,9 @@
     }
 
     function imgDelete(elem) {
+
+        console.log(elem);
+
         var children = elem.childNodes;
         // console.log(imgName);
 
