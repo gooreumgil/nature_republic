@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.domain;
 
 import com.daeboo.naturerepublic.dto.QnaDto;
+import com.daeboo.naturerepublic.dto.ReviewDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
     private String content;
+    private Integer rating;
     private LocalDateTime wroteAt;
     private LocalDateTime modifiedAt;
 
@@ -52,6 +54,19 @@ public class Comment {
         return comment;
     }
 
+    // 생성 메소드 type 구매후기
+    public static Comment createCommentTypeReview(ReviewDto reviewDto, Item item, Member member, int rating) {
+        Comment comment = new Comment();
+        comment.content = reviewDto.getContent();
+        comment.rating = rating;
+        comment.wroteAt = LocalDateTime.now();
+        comment.commentType = CommentType.ITEM;
+        comment.item = item;
+        comment.member = member;
+
+        return comment;
+    }
+
     // 연관관계 편의 메소드
     public void setItem(Item item) {
         this.item = item;
@@ -61,5 +76,11 @@ public class Comment {
     // update 메소드
     public void update(String content) {
         this.content = content;
+    }
+
+    // 양방향
+    public void addItemSrc(ItemSrc itemSrc) {
+        this.itemSrcs.add(itemSrc);
+        itemSrc.setComment(this);
     }
 }

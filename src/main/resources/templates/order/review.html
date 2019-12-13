@@ -24,6 +24,7 @@
         <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
 
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
+            <input type="hidden" th:id="itemId" th:name="itemId" th:value="${reviewDto.itemDto.id}">
 
             <div class="form__inner">
                 <div class="index-circle">
@@ -136,6 +137,8 @@
 
 <script type="text/javascript">
 
+    var idx = 0;
+
     // file
     function handleFileSelect(elem) {
 
@@ -149,6 +152,9 @@
 
         if (window.File && window.FileList && window.FileReader) {
 
+            if (!parentElement.classList.contains('review-photo')) {
+                parentElement = parentElement.parentElement;
+            }
 
             var output = parentElement.childNodes[3];
 
@@ -179,6 +185,7 @@
 
             output.style.display = 'inline-block';
             elem.style.display = 'none';
+            elem.id = 'srcs src' + idx;
         }
     }
 
@@ -308,6 +315,21 @@
     var fifthStar = document.getElementsByClassName('fifth-star');
 
     var fieldSetTag = document.getElementsByTagName('fieldset');
+
+    // function mouseOverTest(evt) {
+    //     var target = evt.target;
+    //     var label = target.parentElement;
+    //     var fieldSet = label.parentElement;
+    //
+    //     var inputTags = fieldSet.getElementsByTagName('input');
+    //
+    //     for (i = 0; i < inputTags.length; i++) {
+    //         var inputTag = inputTags[i];
+    //         if (inputTag.value != null) {
+    //             return;
+    //         }
+    //     }
+    // }
 
     window.onload = function (ev) {
 
@@ -506,13 +528,32 @@
             fieldSetTag[i].addEventListener('mouseleave', function (ev1) {
 
                 var target = ev1.target;
-                console.log(target);
+                var svgs = target.getElementsByTagName('svg');
+
                 var ratingInputTags = target.getElementsByClassName('rating-input');
-                console.log(ratingInputTags);
 
                 for (i = 0; i < ratingInputTags.length; i++) {
                     var ratingInputTag = ratingInputTags[i];
                     if (ratingInputTag.checked == true) {
+
+                        var value = ratingInputTag.value;
+
+                        for (i = 0; i < svgs.length; i++) {
+                            if (i < value) {
+                                var svg = svgs[i];
+                                var path = svg.getElementsByTagName('path')[0];
+
+                                path.style.fill = '#7ebb34';
+                                path.style.stroke = '#7ebb34';
+                            } else {
+                                var svg1 = svgs[i];
+                                var path1 = svg1.getElementsByTagName('path')[0];
+
+                                path1.style.fill = 'none';
+                                path1.style.stroke = '#555';
+                            }
+                        }
+
                         return;
                     }
                 }

@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -48,6 +49,16 @@ public class ItemSrc {
 
     }
 
+    public static ItemSrc createItemSrcReview(Item item, String imgPath) {
+        ItemSrc itemSrc = new ItemSrc();
+        itemSrc.s3Key = imgPath;
+        itemSrc.imgType = ImgType.REVIEW;
+        itemSrc.item = item;
+
+        return itemSrc;
+
+    }
+
     // 연관관계 편의 메소드
     public void setItem(Item item) {
         this.item = item;
@@ -58,5 +69,10 @@ public class ItemSrc {
     public void updateItemSrc(ItemSrc itemSrc) {
         this.s3Key = itemSrc.getS3Key();
 
+    }
+
+    // 양방향 (구매후기 이미지추가시)
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }

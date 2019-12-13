@@ -101,10 +101,21 @@ public class OrderController {
 
     @PostMapping("/review")
     public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
+
         List<MultipartFile> srcs = reviewDto.getSrcs();
         List<String> remove = reviewDto.getRemove();
-        Long orderId = reviewDto.getOrderId();
-        Long memberId = reviewDto.getMemberId();
+
+//        if (!srcs.isEmpty()) {
+//            srcs.remove(srcs.size() - 1);
+//        }
+//
+        if (!remove.isEmpty()) {
+            for (String s : remove) {
+                srcs.removeIf(x -> x.getOriginalFilename().equals(s));
+            }
+        }
+
+//        orderService.orderCompleteWithReview(reviewDto);
 
         return "redirect:/myPage";
     }
