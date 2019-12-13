@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.service;
 import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.OrderItemDto;
 import com.daeboo.naturerepublic.dto.ReviewDto;
+import com.daeboo.naturerepublic.dto.ReviewDtoWrapper;
 import com.daeboo.naturerepublic.repository.CommentRepository;
 import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.repository.MemberRepository;
@@ -84,63 +85,135 @@ public class OrderService {
 
     }
 
+//    @Transactional
+//    public void orderCompleteWithReview(ReviewDto reviewDto) {
+//
+//        Member member = memberRepository.findById(reviewDto.getMemberId()).get();
+//        Item item = itemRepository.findById(reviewDto.getItemId()).get();
+//
+//        List<MultipartFile> srcs = reviewDto.getSrcs();
+//        List<String> imgPath = new ArrayList<>();
+//
+//        List<ItemSrc> itemSrcReviews = new ArrayList<>();
+//
+//        Comment comment = Comment.createCommentTypeReview(reviewDto, item, member, reviewDto.getRating());
+//
+//        if (!srcs.isEmpty()) {
+//
+//            srcs.forEach(img -> {
+//
+//                StringBuilder fileName = new StringBuilder();
+//                fileName.append(img.getOriginalFilename() + " ");
+//
+//                createFile(img);
+//
+//                imgPath.add(fileName.toString());
+//            });
+//
+//            imgPath.forEach(s -> {
+//                ItemSrc itemSrcReview = ItemSrc.createItemSrcReview(item, s);
+//                itemSrcReviews.add(itemSrcReview);
+//            });
+//
+//        }
+//
+//        Comment savedComment = commentRepository.save(comment);
+//        Comment findComment = commentRepository.findById(savedComment.getId()).get();
+//
+//        if (!itemSrcReviews.isEmpty()) {
+//            itemSrcReviews.forEach(itemSrc -> {
+//                findComment.addItemSrc(itemSrc);
+//            });
+//        }
+//
+//        if (reviewDto.getOrderId() != null) {
+//            Order order = orderRepository.findById(reviewDto.getOrderId()).get();
+//            order.orderComplete();
+//
+//            Delivery delivery = order.getDelivery();
+//            delivery.deliveryArrived();
+//
+//            Integer savePoints = order.getSavePoints();
+//
+//            if (savePoints == null) {
+//                member.addPoints(15);
+//            } else {
+//                member.addPoints(order.getSavePoints() + 15);
+//            }
+//
+//        }
+//    }
+
     @Transactional
-    public void orderCompleteWithReview(ReviewDto reviewDto) {
+    public void orderCompleteWithReviewAll(ReviewDtoWrapper wrapper) {
 
-        Member member = memberRepository.findById(reviewDto.getMemberId()).get();
-        Item item = itemRepository.findById(reviewDto.getItemId()).get();
+        List<ReviewDto> reviewDtos = wrapper.getReviewDtos();
 
-        List<MultipartFile> srcs = reviewDto.getSrcs();
-        List<String> imgPath = new ArrayList<>();
+        Member member = memberRepository.findById(wrapper.getMemberId()).get();
 
-        List<ItemSrc> itemSrcReviews = new ArrayList<>();
+        for (ReviewDto reviewDto : reviewDtos) {
 
-        Comment comment = Comment.createCommentTypeReview(reviewDto, item, member, reviewDto.getRating());
+            List<MultipartFile> srcs = reviewDto.getSrcs();
+            List<String> remove = reviewDto.getRemove();
 
-        if (!srcs.isEmpty()) {
+            Item item = itemRepository.findById(reviewDto.getItemId()).get();
 
-            srcs.forEach(img -> {
+            Comment comment = Comment.createCommentTypeReview(reviewDto, item, member);
 
-                StringBuilder fileName = new StringBuilder();
-                fileName.append(img.getOriginalFilename() + " ");
-
-                createFile(img);
-
-                imgPath.add(fileName.toString());
-            });
-
-            imgPath.forEach(s -> {
-                ItemSrc itemSrcReview = ItemSrc.createItemSrcReview(item, s);
-                itemSrcReviews.add(itemSrcReview);
-            });
-
-        }
-
-        Comment savedComment = commentRepository.save(comment);
-        Comment findComment = commentRepository.findById(savedComment.getId()).get();
-
-        if (!itemSrcReviews.isEmpty()) {
-            itemSrcReviews.forEach(itemSrc -> {
-                findComment.addItemSrc(itemSrc);
-            });
-        }
-
-        if (reviewDto.getOrderId() != null) {
-            Order order = orderRepository.findById(reviewDto.getOrderId()).get();
-            order.orderComplete();
-
-            Delivery delivery = order.getDelivery();
-            delivery.deliveryArrived();
-
-            Integer savePoints = order.getSavePoints();
-
-            if (savePoints == null) {
-                member.addPoints(15);
-            } else {
-                member.addPoints(order.getSavePoints() + 15);
+            if (!srcs.isEmpty()) {
+                srcs.remove(srcs.size() - 1);
             }
 
+            if (!remove.isEmpty()) {
+                for (String s : remove) {
+                    srcs.removeIf(x -> x.getOriginalFilename().equals(s));
+                }
+            }
+
+            List<String> imgPath = new ArrayList<>();
+            List<ItemSrc> itemSrcReviews = new ArrayList<>();
+
+            if (!srcs.isEmpty()) {
+
+                srcs.forEach(img -> {
+
+                    StringBuilder fileName = new StringBuilder();
+                    fileName.append(img.getOriginalFilename() + " ");
+
+                    createFile(img);
+                    imgPath.add(fileName.toString());
+                });
+
+                imgPath.forEach(path -> {
+
+                    ItemSrc itemSrcReview = ItemSrc.createItemSrcReview(item, path);
+                    itemSrcReviews.add(itemSrcReview);
+                });
+            }
+
+            Comment savedComment = commentRepository.save(comment);
+
+            if (!itemSrcReviews.isEmpty()) {
+                itemSrcReviews.forEach(itemSrc -> {
+                    savedComment.addItemSrc(itemSrc);
+                });
+            }
         }
+
+        Order order = orderRepository.findById(wrapper.getOrderId()).get();
+        order.orderComplete();
+
+        Delivery delivery = order.getDelivery();
+        delivery.deliveryArrived();
+
+        Integer savePoints = order.getSavePoints();
+
+        if (savePoints == null) {
+            member.addPoints(15);
+        } else {
+            member.addPoints(savePoints + 15);
+        }
+
     }
 
     private void createFile(MultipartFile img) {
@@ -154,4 +227,6 @@ public class OrderService {
         }
 
     }
+
+
 }

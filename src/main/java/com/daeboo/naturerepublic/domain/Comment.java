@@ -55,10 +55,10 @@ public class Comment {
     }
 
     // 생성 메소드 type 구매후기
-    public static Comment createCommentTypeReview(ReviewDto reviewDto, Item item, Member member, int rating) {
+    public static Comment createCommentTypeReview(ReviewDto reviewDto, Item item, Member member) {
         Comment comment = new Comment();
         comment.content = reviewDto.getContent();
-        comment.rating = rating;
+        comment.rating = reviewDto.getRating();
         comment.wroteAt = LocalDateTime.now();
         comment.commentType = CommentType.ITEM;
         comment.item = item;

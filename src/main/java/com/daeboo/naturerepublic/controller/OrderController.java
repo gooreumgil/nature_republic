@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -65,6 +64,55 @@ public class OrderController {
         return "myPage/index";
     }
 
+//    @GetMapping("/review")
+//    public String orderReviewForm(Long orderId, Long memberId, Model model) {
+//
+//        Order order = orderService.findById(orderId);
+//        List<OrderItem> orderItems = order.getOrderItems();
+//
+//        List<ItemDto.ReviewForm> itemList = new ArrayList<>();
+//
+//        for (OrderItem orderItem : orderItems) {
+//            ItemDto.ReviewForm itemDto = new ItemDto.ReviewForm(orderItem.getItem());
+//            itemList.add(itemDto);
+//        }
+//
+//        List<ReviewDto> reviewDtos = new ArrayList<>();
+//
+//        for (ItemDto.ReviewForm reviewForm : itemList) {
+//            ReviewDto reviewDto = new ReviewDto();
+//            reviewDto.setItemDto(reviewForm);
+//            reviewDtos.add(reviewDto);
+//        }
+//
+//        model.addAttribute("reviewDtos", reviewDtos);
+//        model.addAttribute("orderId", orderId);
+//        model.addAttribute("memberId", memberId);
+//
+//        return "order/review";
+//    }
+
+//    @PostMapping("/review")
+//    public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
+//
+//        List<MultipartFile> srcs = reviewDto.getSrcs();
+//        List<String> remove = reviewDto.getRemove();
+//
+//        if (!srcs.isEmpty()) {
+//            srcs.remove(srcs.size() - 1);
+//        }
+//
+//        if (!remove.isEmpty()) {
+//            for (String s : remove) {
+//                srcs.removeIf(x -> x.getOriginalFilename().equals(s));
+//            }
+//        }
+//
+//        orderService.orderCompleteWithReview(reviewDto);
+//
+//        return "redirect:/myPage";
+//    }
+
     @GetMapping("/review")
     public String orderReviewForm(Long orderId, Long memberId, Model model) {
 
@@ -78,21 +126,15 @@ public class OrderController {
             itemList.add(itemDto);
         }
 
-        List<ReviewDto> reviewDtos = new ArrayList<>();
+        ReviewDtoWrapper reviewDtoWrapper = new ReviewDtoWrapper();
 
         for (ItemDto.ReviewForm reviewForm : itemList) {
             ReviewDto reviewDto = new ReviewDto();
             reviewDto.setItemDto(reviewForm);
-            reviewDtos.add(reviewDto);
+            reviewDtoWrapper.getReviewDtos().add(reviewDto);
         }
 
-//        for (int i = 0; i < itemList.size(); i++) {
-//            CommentDto.OrderReview orderReview = new CommentDto.OrderReview();
-//            reviewRequestDto.getOrderReviews().add(orderReview);
-//        }
-
-        model.addAttribute("reviewDtos", reviewDtos);
-//        model.addAttribute("itemDtos", itemList);
+        model.addAttribute("wrapper", reviewDtoWrapper);
         model.addAttribute("orderId", orderId);
         model.addAttribute("memberId", memberId);
 
@@ -100,25 +142,14 @@ public class OrderController {
     }
 
     @PostMapping("/review")
-    public String orderReview(@ModelAttribute("reviewRequest") ReviewDto reviewDto) {
+    public String orderReview(@ModelAttribute("reviewRequest") ReviewDtoWrapper reviewDto) {
 
-        List<MultipartFile> srcs = reviewDto.getSrcs();
-        List<String> remove = reviewDto.getRemove();
-
-//        if (!srcs.isEmpty()) {
-//            srcs.remove(srcs.size() - 1);
-//        }
-//
-        if (!remove.isEmpty()) {
-            for (String s : remove) {
-                srcs.removeIf(x -> x.getOriginalFilename().equals(s));
-            }
-        }
-
-//        orderService.orderCompleteWithReview(reviewDto);
+        orderService.orderCompleteWithReviewAll(reviewDto);
 
         return "redirect:/myPage";
+
     }
+
 
 
 }

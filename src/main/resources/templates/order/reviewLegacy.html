@@ -11,20 +11,20 @@
 
 <header th:replace="partials/bodyHeader :: bodyHeader" class="head"></header>
 
-<section class="container" >
+<section class="container">
 
-    <form class="form-wrap clearfix" th:action="@{/order/review}" method="post" enctype="multipart/form-data">
+    <div class="form-wrap clearfix">
         <div class="btn-box">
-            <button type="submit" class="submit">리뷰등록</button>
+            <button type="button" onclick="allSubmit()" class="submit">리뷰등록</button>
             <button type="button" class="cancel">취소</button>
         </div>
 
-        <input type="hidden" th:id="orderId" th:name="orderId" th:value="${orderId}">
-        <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
+        <input type="hidden" th:id="orderId" th:value="${orderId}">
 
-        <div th:each="reviewDto, i : ${wrapper.reviewDtos}" class="review-form">
+        <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
 
-            <input type="hidden" th:name="|reviewDtos[${i.index}].itemId|" th:value="${reviewDto.itemDto.id}">
+            <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
+            <input type="hidden" th:id="itemId" th:name="itemId" th:value="${reviewDto.itemDto.id}">
 
             <div class="form__inner">
                 <div class="index-circle">
@@ -35,7 +35,7 @@
                     <h4 th:text="${reviewDto.itemDto.name}" class="item-name"></h4>
                     <div class="star-rating-box">
                         <fieldset class="rating">
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star1" value="1" class="rating-input">
+                            <input type="radio" th:name="rating" id="star1" value="1" class="rating-input">
                             <label th:for="star1" title="매우만족">
                                 <svg class="first-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -45,7 +45,7 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star2" value="2" class="rating-input">
+                            <input type="radio" th:name="rating" id="star2" value="2" class="rating-input">
                             <label th:for="star2" title="만족">
                                 <svg class="second-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -55,7 +55,7 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star3" value="3" class="rating-input">
+                            <input type="radio" th:name="rating" id="star3" value="3" class="rating-input">
                             <label th:for="star3" title="보통">
                                 <svg class="third-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -65,7 +65,7 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star4" value="4" class="rating-input">
+                            <input type="radio" th:name="rating" id="star4" value="4" class="rating-input">
                             <label th:for="star4" title="불만족">
                                 <svg class="fourth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -75,7 +75,7 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star5" value="5" class="rating-input">
+                            <input type="radio" th:name="rating" id="star5" value="5" class="rating-input">
                             <label th:for="star5" title="매우불만족">
                                 <svg class="fifth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -113,7 +113,7 @@
                     </nav>
 
                     <div class="tab review-text">
-                        <textarea th:id="content" th:name="|reviewDtos[${i.index}].content|" cols="30" rows="13" class="review-textarea" placeholder="리뷰를 작성해주세요(300자 내외)"></textarea>
+                        <textarea th:id="content" th:name="content" cols="30" rows="13" class="review-textarea" placeholder="리뷰를 작성해주세요(300자 내외)"></textarea>
                     </div>
                     <div class="tab review-photo clearfix">
                         <p>사진을 추가해 주세요(최대 3장)</p>
@@ -121,12 +121,15 @@
                         <label th:for="srcs" class="add-img">
                             <span>+</span>
                         </label>
-                        <input multiple="multiple" type="file" th:id="srcs" th:name="|reviewDtos[${i.index}].srcs|" th:onchange="|handleFileSelect(this, ${i.index})|">
+                        <input multiple="multiple" type="file" th:id="srcs" th:name="srcs" onchange="handleFileSelect(this)">
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+
+
+
+        </form>
+    </div>
 </section>
 
 <div th:replace="partials/bottom :: bottom"/>
@@ -137,7 +140,7 @@
     var idx = 0;
 
     // file
-    function handleFileSelect(elem, index) {
+    function handleFileSelect(elem) {
 
         var parentElement = elem.parentElement;
         var files = elem.files;
@@ -164,7 +167,6 @@
 
                 var obj = {
                     i: i,
-                    index: index,
                     output: output,
                     file: file,
                     elem: elem
@@ -179,7 +181,7 @@
             var divTag = document.createElement('div');
             parentElement.appendChild(divTag);
 
-            divTag.innerHTML = '<input multiple="multiple" type="file" id="srcs" name="reviewDtos['+ index + '].srcs" onchange="handleFileSelect(this, ' + index + ')">';
+            divTag.innerHTML = '<input multiple="multiple" type="file" id="srcs" name="srcs" onchange="handleFileSelect(this)">';
 
             output.style.display = 'inline-block';
             elem.style.display = 'none';
@@ -192,7 +194,6 @@
         var output = this.output;
         var elem = this.elem;
         var file = this.file;
-        var index = this.index;
 
         var picFile = event.target;
         var div = document.createElement('div');
@@ -208,8 +209,7 @@
 
         btn.type = 'button';
         btn.classList = 'cancel';
-        console.log('index!!!!!!!!!!!!!!!!!!!!!!!');
-        btn.setAttribute('onclick', "imgDelete(this, " + index + ")");
+        btn.setAttribute('onclick', "imgDelete(this)");
         btn.innerText = 'X';
 
         var btnInner = document.createElement('span');
@@ -234,7 +234,7 @@
     }
 
     // 이미지 미리보기 삭제 & 삭제 될 이미지 이름 저장 (저장 후 controller에서 files for문 돌리면서 삭제)
-    function imgDelete(elem, index) {
+    function imgDelete(elem) {
 
         var childNodes = elem.childNodes;
 
@@ -245,7 +245,7 @@
 
         inputTag.type = 'text';
         inputTag.id = 'remove';
-        inputTag.name = 'reviewDtos['+ index +'].remove';
+        inputTag.name = 'remove';
         inputTag.setAttribute('value', imgName);
 
         var parentElement = elem.parentElement;
@@ -571,30 +571,30 @@
 
     };
 
-    // function allSubmit() {
-    //
-    //     var forms = document.getElementsByTagName('form');
-    //
-    //     for (i = 0; i < forms.length; i++) {
-    //         if (i == (forms.length - 1)) {
-    //             var lastForm = forms[i];
-    //
-    //             var orderIdInput = document.getElementById('orderId');
-    //             var orderIdVal = orderIdInput.value;
-    //
-    //             var inputTag = document.createElement('input');
-    //             inputTag.type = 'hidden';
-    //             inputTag.name = 'orderId';
-    //             inputTag.value = orderIdVal;
-    //
-    //             lastForm.append(inputTag);
-    //
-    //             lastForm.submit();
-    //         }
-    //         forms[i].submit();
-    //
-    //     }
-    //
-    // }
+    function allSubmit() {
+
+        var forms = document.getElementsByTagName('form');
+
+        for (i = 0; i < forms.length; i++) {
+            if (i == (forms.length - 1)) {
+                var lastForm = forms[i];
+
+                var orderIdInput = document.getElementById('orderId');
+                var orderIdVal = orderIdInput.value;
+
+                var inputTag = document.createElement('input');
+                inputTag.type = 'hidden';
+                inputTag.name = 'orderId';
+                inputTag.value = orderIdVal;
+
+                lastForm.append(inputTag);
+
+                lastForm.submit();
+            }
+            forms[i].submit();
+
+        }
+
+    }
 
 </script>
