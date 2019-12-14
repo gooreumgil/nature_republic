@@ -117,6 +117,21 @@
 <script type="text/javascript">
 
     // MODAL
+
+    window.onload = function (ev) {
+
+        var modal = document.getElementsByClassName('modal')[0];
+        modal.addEventListener('click', function (evt) {
+            modal.classList.remove('active');
+        });
+
+        var modalContent = document.getElementsByClassName('modal-content')[0];
+        modalContent.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+        });
+
+    };
+    
     function showModal(elem) {
 
         var imgWrap = elem.parentElement;
