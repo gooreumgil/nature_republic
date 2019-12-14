@@ -38,9 +38,6 @@ public class Comment {
     @JoinColumn(name = "qna_id")
     private Qna qna;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemSrc> itemSrcs = new ArrayList<>();
-
     // 생성 메소드
     public static Comment createComment(String content, Item item, Member member, Qna qna) {
         Comment comment = new Comment();
@@ -79,8 +76,4 @@ public class Comment {
     }
 
     // 양방향
-    public void addItemSrc(ItemSrc itemSrc) {
-        this.itemSrcs.add(itemSrc);
-        itemSrc.setComment(this);
-    }
 }

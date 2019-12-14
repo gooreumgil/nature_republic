@@ -27,8 +27,8 @@ public class ItemSrc {
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     public static ItemSrc createItemSrcMain(String mainPath, Item item) {
         ItemSrc itemSrc = new ItemSrc();
@@ -71,8 +71,8 @@ public class ItemSrc {
 
     }
 
-    // 양방향 (구매후기 이미지추가시)
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    // 양방향 ()
+    public void setReview(Review review) {
+        this.review = review;
     }
 }

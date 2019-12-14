@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/mypage/reviews.css}">
+<style>
+    header {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
+    }
+</style>
+
+
+<div th:replace="partials/bodyHeader :: bodyHeader"/>
+
+<section class="container">
+
+    <ul class="order-wrapper clearfix">
+
+        <li class="order__list left">
+            <div class="title-box">
+                <h2>마이페이지</h2>
+                <p>
+                    네이처 리퍼블릭은<br>
+                    자연의 완벽함을 믿습니다.
+                </p>
+            </div>
+            <nav class="order-nav">
+                <a th:href="@{/myPage}">주문 배송 조회</a><br>
+                <a href="#">취소/반품 조회</a><br>
+                <a href="#">포인트</a><br>
+                <a th:href="@{/myPage/likes}">찜 리스트</a><br>
+                <a th:href="@{/myPage/qna}">상품 Q&A</a><br>
+                <a th:href="@{/myPage/reviews}" class="active">구매후기</a><br>
+                <a href="#">회원정보수정</a>
+            </nav>
+        </li>
+
+        <li class="order__list right">
+            <div class="title-box">
+                <h3>구매후기</h3>
+                <p>구입한 상품들의 후기 내역입니다.</p>
+            </div>
+
+            <div class="empty-box" th:if="${reviewDtos.isEmpty()}">
+                <p>문의 내역이 없습니다!</p>
+            </div>
+
+            <div th:unless="${reviewDtos.isEmpty()}" class="content-box" th:each="reviewDto : ${reviewDtos}">
+
+                <div class="content__inner">
+
+                    <button type="button" onclick="showContent(this)" class="show-content-btn"></button>
+
+                    <div class="info-box">
+                        <h4 >
+                            <span th:text="*{#strings.abbreviate((reviewDto.content), 30)}"></span>
+                        </h4>
+
+                        <p class="item-name">
+                            <span>상품명:</span>
+                            <span th:text="*{reviewDto.itemName}"></span>
+                        </p>
+
+                        <p class="date">
+                            <span>날짜:</span>
+                            <span th:text="*{#temporals.format((reviewDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>
+                        </p>
+                    </div>
+
+                    <div class="img-absolute">
+                        <img th:src="@{${'/upload/' + reviewDto.itemSrc.s3Key}}" alt="">
+                    </div>
+
+                </div>
+
+                <div class="review-box">
+
+                    <form th:action="@{/review/delete}" method="post" class="qna-delete-form">
+                        <input type="hidden" name="reviewId" th:value="${reviewDto.reviewId}">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit">삭제</button>
+                    </form>
+
+                    <div th:if="${!reviewDto.reviewSrcs.isEmpty()}" class="img-box">
+                        <div class="img-wrap" th:each="img : ${reviewDto.reviewSrcs}" th:style="|background-image: url('/upload/${img.s3Key}')|">
+
+                        </div>
+<!--                        <img th:each="img : ${reviewDto.reviewSrcs}" th:src="@{'/upload/' + ${img.s3Key}}" alt="">-->
+                    </div>
+                    <div class="text-box">
+                        <p th:utext="${#strings.replace(reviewDto.content, newLineChar, '&lt;br /&gt;')}"></p>
+                    </div>
+                </div>
+
+            </div>
+        </li>
+
+    </ul>
+
+</section>
+
+<div th:replace="partials/bottom :: bottom"/>
+<footer th:replace="partials/footer :: footer"/>
+
+<script type="text/javascript">
+    
+    function showContent(elem) {
+
+        var contentInner = elem.parentElement;
+        var contentBox = contentInner.parentElement;
+        var reviewBox = contentBox.getElementsByClassName('review-box')[0];
+
+        if (!reviewBox.classList.contains('active')) {
+
+            var reviewBoxAll = document.getElementsByClassName('review-box');
+            for (i = 0; i < reviewBoxAll.length; i++) {
+                var reviewBoxOne = reviewBoxAll[i];
+                if (reviewBoxOne.classList.contains('active')) {
+                    reviewBoxOne.classList.remove('active');
+                }
+            }
+
+            reviewBox.classList.add('active');
+
+        } else {
+            reviewBox.classList.remove('active');
+        }
+
+
+
+    }
+
+</script>

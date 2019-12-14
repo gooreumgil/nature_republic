@@ -4,10 +4,7 @@ import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.OrderItemDto;
 import com.daeboo.naturerepublic.dto.ReviewDto;
 import com.daeboo.naturerepublic.dto.ReviewDtoWrapper;
-import com.daeboo.naturerepublic.repository.CommentRepository;
-import com.daeboo.naturerepublic.repository.ItemRepository;
-import com.daeboo.naturerepublic.repository.MemberRepository;
-import com.daeboo.naturerepublic.repository.OrderRepository;
+import com.daeboo.naturerepublic.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +26,7 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final CommentRepository commentRepository;
+    private final ReviewRepository reviewRepository;
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
@@ -81,68 +79,13 @@ public class OrderService {
         Member member = memberRepository.findById(memberId).get();
 
         Integer savePoints = order.getSavePoints();
-        member.addPoints(savePoints);
 
+        if (savePoints != null) {
+            member.addPoints(savePoints);
+        } else {
+            member.addPoints(0);
+        }
     }
-
-//    @Transactional
-//    public void orderCompleteWithReview(ReviewDto reviewDto) {
-//
-//        Member member = memberRepository.findById(reviewDto.getMemberId()).get();
-//        Item item = itemRepository.findById(reviewDto.getItemId()).get();
-//
-//        List<MultipartFile> srcs = reviewDto.getSrcs();
-//        List<String> imgPath = new ArrayList<>();
-//
-//        List<ItemSrc> itemSrcReviews = new ArrayList<>();
-//
-//        Comment comment = Comment.createCommentTypeReview(reviewDto, item, member, reviewDto.getRating());
-//
-//        if (!srcs.isEmpty()) {
-//
-//            srcs.forEach(img -> {
-//
-//                StringBuilder fileName = new StringBuilder();
-//                fileName.append(img.getOriginalFilename() + " ");
-//
-//                createFile(img);
-//
-//                imgPath.add(fileName.toString());
-//            });
-//
-//            imgPath.forEach(s -> {
-//                ItemSrc itemSrcReview = ItemSrc.createItemSrcReview(item, s);
-//                itemSrcReviews.add(itemSrcReview);
-//            });
-//
-//        }
-//
-//        Comment savedComment = commentRepository.save(comment);
-//        Comment findComment = commentRepository.findById(savedComment.getId()).get();
-//
-//        if (!itemSrcReviews.isEmpty()) {
-//            itemSrcReviews.forEach(itemSrc -> {
-//                findComment.addItemSrc(itemSrc);
-//            });
-//        }
-//
-//        if (reviewDto.getOrderId() != null) {
-//            Order order = orderRepository.findById(reviewDto.getOrderId()).get();
-//            order.orderComplete();
-//
-//            Delivery delivery = order.getDelivery();
-//            delivery.deliveryArrived();
-//
-//            Integer savePoints = order.getSavePoints();
-//
-//            if (savePoints == null) {
-//                member.addPoints(15);
-//            } else {
-//                member.addPoints(order.getSavePoints() + 15);
-//            }
-//
-//        }
-//    }
 
     @Transactional
     public void orderCompleteWithReviewAll(ReviewDtoWrapper wrapper) {
@@ -158,7 +101,8 @@ public class OrderService {
 
             Item item = itemRepository.findById(reviewDto.getItemId()).get();
 
-            Comment comment = Comment.createCommentTypeReview(reviewDto, item, member);
+            Review review = Review.createReview(reviewDto, item, member);
+//            Comment comment = Comment.createCommentTypeReview(reviewDto, item, member);
 
             if (!srcs.isEmpty()) {
                 srcs.remove(srcs.size() - 1);
@@ -191,11 +135,12 @@ public class OrderService {
                 });
             }
 
-            Comment savedComment = commentRepository.save(comment);
+//            Comment savedComment = commentRepository.save(comment);
+            Review savedReview = reviewRepository.save(review);
 
             if (!itemSrcReviews.isEmpty()) {
                 itemSrcReviews.forEach(itemSrc -> {
-                    savedComment.addItemSrc(itemSrc);
+                    savedReview.addItemSrc(itemSrc);
                 });
             }
         }
@@ -227,6 +172,4 @@ public class OrderService {
         }
 
     }
-
-
 }

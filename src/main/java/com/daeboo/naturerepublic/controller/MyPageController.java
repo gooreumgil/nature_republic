@@ -1,17 +1,8 @@
 package com.daeboo.naturerepublic.controller;
 
-import com.daeboo.naturerepublic.domain.Likes;
-import com.daeboo.naturerepublic.domain.Member;
-import com.daeboo.naturerepublic.domain.Order;
-import com.daeboo.naturerepublic.domain.Qna;
-import com.daeboo.naturerepublic.dto.LikesDto;
-import com.daeboo.naturerepublic.dto.MemberDto;
-import com.daeboo.naturerepublic.dto.OrderDto;
-import com.daeboo.naturerepublic.dto.QnaDto;
-import com.daeboo.naturerepublic.service.LikesService;
-import com.daeboo.naturerepublic.service.MemberService;
-import com.daeboo.naturerepublic.service.OrderService;
-import com.daeboo.naturerepublic.service.QnaService;
+import com.daeboo.naturerepublic.domain.*;
+import com.daeboo.naturerepublic.dto.*;
+import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,6 +26,7 @@ public class MyPageController {
     private final OrderService orderService;
     private final LikesService likesService;
     private final QnaService qnaService;
+    private final ReviewService reviewService;
 
     @GetMapping
     public String index(Principal principal,  Model model) {
@@ -111,6 +103,23 @@ public class MyPageController {
         model.addAttribute("newLineChar", "\n");
 
         return "myPage/qna";
+    }
+
+    @GetMapping("/reviews")
+    public String reviews(Principal principal, Model model) {
+
+        Member member = memberService.findByName(principal.getName());
+
+        List<Review> reviews = reviewService.findAllByMeberId(member.getId());
+
+        List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(review -> {
+            return new ReviewResponseDto(review);
+        }).collect(Collectors.toList());
+
+        model.addAttribute("newLineChar", "\n");
+        model.addAttribute("reviewDtos", reviewResponseDtos);
+
+        return "myPage/reviews";
 
     }
 

@@ -30,11 +30,14 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemSrc> itemSrcs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Likes> likesList = new ArrayList<>();
@@ -78,12 +81,12 @@ public class Item {
     }
 
     // 연관관계 편의 메소드
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
     public void addItemSrc(ItemSrc itemSrc) {
         this.itemSrcs.add(itemSrc);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
     public void addCategoryItem(CategoryItem categoryItem) {
