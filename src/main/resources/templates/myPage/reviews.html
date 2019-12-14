@@ -81,8 +81,9 @@
                     </form>
 
                     <div th:if="${!reviewDto.reviewSrcs.isEmpty()}" class="img-box">
-                        <div class="img-wrap" th:each="img : ${reviewDto.reviewSrcs}" th:style="|background-image: url('/upload/${img.s3Key}')|">
-
+                        <div class="img-wrap" th:each="img, i : ${reviewDto.reviewSrcs}" th:style="|background-image: url('/upload/${img.s3Key}')|">
+                            <button type="button" onclick="showModal(this)"></button>
+                            <input type="hidden" th:value="${img.s3Key}">
                         </div>
 <!--                        <img th:each="img : ${reviewDto.reviewSrcs}" th:src="@{'/upload/' + ${img.s3Key}}" alt="">-->
                     </div>
@@ -98,11 +99,55 @@
 
 </section>
 
+<div id="confirm-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path data-name="layer1" d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
+                fill="#ffffff"></path>
+            </svg>
+        </span>
+    </div>
+</div>
+
 <div th:replace="partials/bottom :: bottom"/>
 <footer th:replace="partials/footer :: footer"/>
 
 <script type="text/javascript">
-    
+
+    // MODAL
+    function showModal(elem) {
+
+        var imgWrap = elem.parentElement;
+        var imgNameInput = imgWrap.getElementsByTagName('input')[0];
+        var imgName = imgNameInput.value;
+
+        var modal = document.getElementsByClassName('modal')[0];
+        modal.classList.add('active');
+
+        var imgTag = document.createElement('img');
+        imgTag.src = '/upload/' + imgName;
+        imgTag.style.width = 'fit-content';
+        imgTag.style.borderRadius = '5px';
+
+        var modalContent = modal.getElementsByClassName('modal-content')[0];
+
+        var removeImg = modalContent.getElementsByTagName('img')[0];
+
+        if (removeImg != null) {
+            removeImg.remove();
+        }
+
+        modalContent.append(imgTag);
+
+    }
+
+    function closeModal() {
+        var modal = document.getElementsByClassName('modal')[0];
+        modal.classList.remove('active');
+    }
+
     function showContent(elem) {
 
         var contentInner = elem.parentElement;
