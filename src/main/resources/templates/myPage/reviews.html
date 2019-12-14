@@ -53,6 +53,16 @@
                     <div class="info-box">
                         <h4 >
                             <span th:text="*{#strings.abbreviate((reviewDto.content), 30)}"></span>
+                            <span th:if="${!reviewDto.reviewSrcs.isEmpty()}" class="if-photo-exist">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                  <circle data-name="layer2"
+                                          cx="42" cy="34" r="6" fill="#a0a0a0"></circle>
+                                  <path data-name="layer2" fill="#a0a0a0" d="M8 10h10v4H8z"></path>
+                                  <path data-name="layer1" d="M59 18h-2.4L50 10H34l-6.6 8H5a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h54a3 3 0 0 0 3-3V21a3 3 0 0 0-3-3zM12 32a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm30 16a14 14 0 1 1 14-14 14 14 0 0 1-14 14z"
+                                        fill="#a0a0a0"></path>
+                                </svg>
+                            </span>
                         </h4>
 
                         <p class="item-name">
@@ -68,6 +78,19 @@
 
                     <div class="img-absolute">
                         <img th:src="@{${'/upload/' + reviewDto.itemSrc.s3Key}}" alt="">
+                    </div>
+
+                    <div class="like-absolute">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                             aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>Heart</title>
+                            <desc>A line styled icon from Orion Icon Library.</desc>
+                            <path data-name="layer1"
+                                  d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
+                                  fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                  stroke-linecap="round"></path>
+                        </svg>
+                        <p th:text="${reviewDto.likes}"></p>
                     </div>
 
                 </div>
