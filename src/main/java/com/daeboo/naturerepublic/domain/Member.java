@@ -52,6 +52,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Qna> qnaList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<LikeReview> likeReviews = new ArrayList<>();
+
     public static Member createMember(String name, String password, String email, Address address, Birthday birthday, PhoneNumber phoneNumber, List<String> roles) {
         Member member = new Member();
         member.name = name;

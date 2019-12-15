@@ -28,6 +28,7 @@ public class ItemController {
     private final MemberService memberService;
     private final LikesService likesService;
     private final QnaService qnaService;
+    private final ReviewService reviewService;
 
     // TODO 이 망할 거 바꾸어야 하는
     private final LinkedHashMap<String, String> sortList;
@@ -79,11 +80,13 @@ public class ItemController {
                              Long id, String currentCategory,
                              Principal principal, Model model) {
 
+        // QNA
         Page<Qna> qnaList = qnaService.findAllByItemId(id, PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
         List<QnaDto.ItemDetail> qnaReponseDtos = qnaList.stream().map(qna -> {
             return new QnaDto.ItemDetail(qna);
         }).collect(Collectors.toList());
 
+        // QNA page
         Page<QnaDto.ItemDetail> itemDetails = new PageImpl<>(qnaReponseDtos, qnaList.getPageable(), qnaList.getSize());
 
         model.addAttribute("qnaReponseDtos", itemDetails);
@@ -92,6 +95,7 @@ public class ItemController {
             currentCategory = "ALL";
         }
 
+        // like 누른 상품인지 아닌지 체크
         boolean likeTrueOrFalse = false;
 
         if (principal != null) {
@@ -109,15 +113,23 @@ public class ItemController {
 
         model.addAttribute("like", likeTrueOrFalse);
 
+        // 상품정보
         Item findItem = itemService.findById(id);
         ItemDto.Detail detail = new ItemDto.Detail(findItem);
+
+        List<Review> reviewList = reviewService.findAllByItemId(findItem.getId());
+        List<ReviewResponseDto> reviewDtos = reviewList.stream().map(review -> {
+            return new ReviewResponseDto(review);
+        }).collect(Collectors.toList());
+
         model.addAttribute("item", detail);
         model.addAttribute("currentCategory", currentCategory);
+        model.addAttribute("reviewDtos", reviewDtos);
 
         String mainCategory = detail.getMainCategory();
         Page<CategoryItemDto.ListView> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likesCount"));
-        model.addAttribute("categoryBests", allByCategoryName);
 
+        model.addAttribute("categoryBests", allByCategoryName);
         model.addAttribute("newLineChar", '\n');
 
         return "item/detail";

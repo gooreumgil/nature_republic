@@ -156,12 +156,16 @@
         </li>
         <li class="col-3">
             <div>
-                <a href="#" onclick="itemReviewScroll(this)" class="tab-link">리뷰(12)</a>
+                <a href="#" onclick="itemReviewScroll(this)" class="tab-link">리뷰
+                    (<span th:text="${reviewDtos.size()}"></span>)
+                </a>
             </div>
         </li>
         <li class="col-3">
             <div>
-                <a href="#" onclick="itemQnaScroll(this)" class="tab-link">Q&amp;A(7)</a>
+                <a href="#" onclick="itemQnaScroll(this)" class="tab-link">Q&amp;A
+                    (<span th:text="${qnaReponseDtos.numberOfElements}"></span>)
+                </a>
             </div>
         </li>
         <li class="col-3">
@@ -179,28 +183,30 @@
     </div>
 
     <div class="item_reviews item-tab" id="reviews">
-        <div class="review__list">
+        <div class="review__list" th:each="review : ${reviewDtos}">
             <div class="number-box">
                 <p>1</p>
             </div>
             <div class="info-box">
                 <div class="info__inner">
-                    <h4>아주 거렁뱅이들이나 쓰는 제품입니다.</h4>
-                    <span class="name">yonggilmun</span>
-                    <span class="time">·2019.12.04</span>
+                    <h4 th:text="${#strings.abbreviate(review.content, 30)}"></h4>
+                    <span class="name" th:text="${review.writer}"></span>
+                    <span class="time" th:text="${#temporals.format(review.wroteAt, '· yyyy.MM.dd')}"></span>
+                    <br>
+                    <span class="rating">
+                        <input type="hidden" class="star-rating" th:value="${review.rating}">
+                    </span>
                 </div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
-                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>Angle Down Circle</title>
-                <desc>A line styled icon from Orion Icon Library.</desc>
-                <path data-name="layer2"
-                      fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2"
-                      d="M21.001 28l10.994 13 11.006-13"
-                      stroke-linejoin="round" stroke-linecap="round"></path>
-                <circle data-name="layer1" cx="32" cy="32" r="30" fill="none" stroke="#202020"
-                        stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
-            </svg>
+<!--            <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"-->
+<!--                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">-->
+<!--                <path data-name="layer2"-->
+<!--                      fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2"-->
+<!--                      d="M21.001 28l10.994 13 11.006-13"-->
+<!--                      stroke-linejoin="round" stroke-linecap="round"></path>-->
+<!--                <circle data-name="layer1" cx="32" cy="32" r="30" fill="none" stroke="#202020"-->
+<!--                        stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>-->
+<!--            </svg>-->
         </div>
 
     </div>
@@ -211,7 +217,7 @@
             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
             <input type="hidden" th:field="${qnaDto.secretVal}" value="false">
 
-            <h3>상품 Q&A <span>(7)</span></h3>
+            <h3>상품 Q&A <span th:text="${qnaReponseDtos.numberOfElements}"></span></h3>
             <p>
                 위하여 석가는 품에 우리의 품고 가치를 가지에 위하여, 황금시대다.<br>
                 새가 이상이 없으면 커다란 많이 얼음에 보이는 가슴에 곳으로 것이다. 품에 실현에 이상의 봄바람이다.
@@ -241,7 +247,7 @@
 
                             <div th:if="${qnaReponseDto.memberId == memberId}">
                                 <button th:if="${qnaReponseDto.secretVal == true}" type="button" onclick="allowContent(this)" class="qna-btn">
-                                    유저, 작성자 (비밀글)
+<!--                                    유저, 작성자 (비밀글)-->
                                 </button>
 <!--                                <button th:if="${qnaReponseDto.secretVal == false}" type="button" class="qna-btn">-->
 <!--                                    유저, 작성자 (공개글)-->
@@ -250,13 +256,13 @@
 
                             <div th:if="${qnaReponseDto.secretVal == false}">
                                 <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">
-                                    유저, 작성자 (공개글)
+<!--                                    유저, 작성자 (공개글)-->
                                 </button>
                             </div>
 
                             <div th:unless="${qnaReponseDto.memberId == memberId}">
                                 <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button" class="qna-btn">
-                                    유저, 작성자 아님 (비밀글)
+<!--                                    유저, 작성자 아님 (비밀글)-->
                                 </button>
 <!--                                <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">-->
 <!--                                    유저, 작성자 아님 (공개글)-->
@@ -266,7 +272,7 @@
 
                         <div sec:authorize="hasAnyRole('ADMIN')">
                             <button type="button" onclick="allowContent(this)" class="qna-btn">
-                                어드민
+<!--                                어드민-->
                             </button>
 <!--                            <button th:if="${qnaReponseDto.secretVal == false}" type="button" onclick="allowContent(this)" class="qna-btn">-->
 <!--                                어드민 (공개글)-->
@@ -275,9 +281,11 @@
                     </div>
 
                     <div sec:authorize="!isAuthenticated()">
-                        <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button" class="qna-btn">로그인 안함 (비밀글)
+                        <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button" class="qna-btn">
+<!--                            로그인 안함 (비밀글)-->
                         </button>
-                        <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">로그인 안함 (공개글)
+                        <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">
+<!--                            로그인 안함 (공개글)-->
                         </button>
                     </div>
 
@@ -412,6 +420,9 @@
 <footer th:replace="partials/footer :: footer"/>
 
 <script type="text/javascript" th:inline="javascript">
+
+
+
 
     var countTag = document.getElementsByClassName('itemCount');
     var discountTag = document.getElementsByClassName('discountPrice');
@@ -631,6 +642,37 @@
     }
 
     window.onload = function () {
+
+        // 리뷰 별점
+        var ratingSpans = document.getElementsByClassName('rating');
+
+        for (i = 0; i < ratingSpans.length; i++) {
+
+            var ratingSpan = ratingSpans[i];
+            var ratingInput = ratingSpan.getElementsByClassName('star-rating')[0];
+            var ratingInputNum = Number(ratingInput.value);
+
+            for (j = 0; j < 5; j++) {
+
+                if (j < ratingInputNum) {
+                    ratingSpan.innerHTML += '<svg class="star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"\n' +
+                        'aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">\n' +
+                        '                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"\n' +
+                        '                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#7ebb34"\n' +
+                        '                                          fill="#7ebb34" data-name="layer1" stroke-linejoin="round"></path>\n' +
+                        '                                </svg>'
+                } else {
+                    ratingSpan.innerHTML += '<svg class="star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"\n' +
+                        'aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">\n' +
+                        '                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"\n' +
+                        '                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"\n' +
+                        '                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>\n' +
+                        '                                </svg>'
+                }
+
+            }
+
+        }
 
         plusButton.onclick = function () {
             var countValue = Number(countTag[0].innerHTML);

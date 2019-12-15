@@ -19,4 +19,7 @@ public class ReviewService {
         return reviewRepository.findAllByMemberId(memberId);
     }
 
+    public List<Review> findAllByItemId(Long itemId) {
+        return reviewRepository.findAllByItemId(itemId);
+    }
 }

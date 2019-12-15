@@ -17,6 +17,8 @@ import java.util.List;
 public class ReviewResponseDto {
 
     private Long reviewId;
+    private Long writerId;
+    private String writer;
     private String content;
     private String itemName;
     private int rating;
@@ -28,6 +30,8 @@ public class ReviewResponseDto {
 
     public ReviewResponseDto(Review review) {
         this.reviewId = review.getId();
+        this.writerId = review.getMember().getId();
+        this.writer = review.getMember().getName();
         this.content = review.getContent();
         this.itemName = review.getItem().getNameKor();
         this.rating = review.getRating();

@@ -460,31 +460,44 @@ thumb_wrap {
     color: #888;
 }
 
-.detail .item_reviews .review__list svg {
-    max-width: 35px;
-    width: 100%;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+.detail .item_reviews .review__list .info-box .info__inner span.rating {
+
 }
 
-.detail .item_reviews .review__list svg path {
-    stroke: #808080;
+.detail .item_reviews .review__list .info-box .info__inner span.rating svg.star {
+    max-width: 15px;
 }
 
-.detail .item_reviews .review__list svg circle {
-    stroke: #808080;
+.detail .item_reviews .review__list .info-box .info__inner span.rating svg path {
+
 }
 
-.detail .item_reviews .review__list svg:hover > path {
-    stroke: #71a532;
-}
 
-.detail .item_reviews .review__list svg:hover > circle {
-    stroke: #71a532;
-}
+/*.detail .item_reviews .review__list svg {*/
+/*    max-width: 35px;*/
+/*    width: 100%;*/
+/*    position: absolute;*/
+/*    right: 20px;*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.detail .item_reviews .review__list svg path {*/
+/*    stroke: #808080;*/
+/*}*/
+
+/*.detail .item_reviews .review__list svg circle {*/
+/*    stroke: #808080;*/
+/*}*/
+
+/*.detail .item_reviews .review__list svg:hover > path {*/
+/*    stroke: #71a532;*/
+/*}*/
+
+/*.detail .item_reviews .review__list svg:hover > circle {*/
+/*    stroke: #71a532;*/
+/*}*/
 
 .detail .item_qna {
     text-align: left;

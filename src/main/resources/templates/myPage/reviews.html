@@ -41,7 +41,7 @@
             </div>
 
             <div class="empty-box" th:if="${reviewDtos.isEmpty()}">
-                <p>문의 내역이 없습니다!</p>
+                <p>구매후기가 없습니다!</p>
             </div>
 
             <div th:unless="${reviewDtos.isEmpty()}" class="content-box" th:each="reviewDto : ${reviewDtos}">

@@ -37,6 +37,9 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemSrc> itemSrcs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeReview> likeReviews = new ArrayList<>();
+
     public static Review createReview(ReviewDto reviewDto, Item item, Member member) {
         Review review = new Review();
         review.content = reviewDto.getContent();
