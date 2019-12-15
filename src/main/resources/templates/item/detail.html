@@ -184,19 +184,48 @@
 
     <div class="item_reviews item-tab" id="reviews">
         <div class="review__list" th:each="review : ${reviewDtos}">
-            <div class="number-box">
-                <p>1</p>
-            </div>
-            <div class="info-box">
-                <div class="info__inner">
-                    <h4 th:text="${#strings.abbreviate(review.content, 30)}"></h4>
-                    <span class="name" th:text="${review.writer}"></span>
-                    <span class="time" th:text="${#temporals.format(review.wroteAt, '· yyyy.MM.dd')}"></span>
-                    <br>
-                    <span class="rating">
+            <div class="review__inner">
+                <div class="number-box">
+                    <p>1</p>
+                </div>
+                <div class="info-box">
+                    <div class="info__inner">
+                        <h4 th:text="${#strings.abbreviate(review.content, 30)}"></h4>
+                        <span class="name" th:text="${review.writer}"></span>
+                        <span class="time" th:text="${#temporals.format(review.wroteAt, '· yyyy.MM.dd')}"></span>
+                        <br>
+                        <span class="rating">
                         <input type="hidden" class="star-rating" th:value="${review.rating}">
                     </span>
+                    </div>
                 </div>
+
+                <div class="like-box">
+                    <div class="like__inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                             aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path data-name="layer1"
+                                  d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
+                                  fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                  stroke-linecap="round"></path>
+                        </svg>
+                        <p th:text="${review.likes}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="content__inner" th:if="${!review.reviewSrcs.isEmpty()}">
+                    <div class="img-wrap" th:each="img : ${review.reviewSrcs}" th:style="|background-image: url('/upload/${img.s3Key}')|">
+                        <button onclick="showModal(this)"></button>
+                        <input type="hidden" th:value="${img.s3Key}" class="img-name">
+                    </div>
+
+                    <div class="text-div">
+                        <p th:utext="${#strings.replace(review.content, newLineChar, '&lt;br /&gt;')}"></p>
+                    </div>
+                </div>
+
             </div>
 <!--            <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"-->
 <!--                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">-->
@@ -419,10 +448,38 @@
 
 <footer th:replace="partials/footer :: footer"/>
 
+<div id="confirm-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path data-name="layer1" d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
+                    fill="#ffffff"></path>
+            </svg>
+        </span>
+    </div>
+</div>
+
 <script type="text/javascript" th:inline="javascript">
 
+    function showModal(elem) {
 
+        var imgWrap = elem.parentElement;
+        var imgNameInput = imgWrap.getElementsByClassName('img-name')[0];
+        var imgNameVal = imgNameInput.value;
 
+        var imgTag = document.createElement('img');
+        imgTag.src = '/upload/' + imgNameVal;
+        imgTag.style.width = 'fit-content';
+        imgTag.style.borderRadius = '5px';
+
+        var modal = document.getElementsByClassName('modal')[0];
+        var modalContent = modal.getElementsByClassName('modal-content')[0];
+
+        modalContent.append(imgTag);
+        modal.classList.add('active');
+
+    }
 
     var countTag = document.getElementsByClassName('itemCount');
     var discountTag = document.getElementsByClassName('discountPrice');
@@ -577,7 +634,6 @@
                     console.log('heightUp 클래스 추가');
                     break;
                 }
-
                 elem = parentElement;
             }
         } else {
@@ -592,13 +648,9 @@
                     // console.log('heightUp 클래스 제거');
                     break;
                 }
-
                 elem = parentElement;
-
             }
         }
-
-
 
     }
 
