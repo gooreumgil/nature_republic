@@ -162,17 +162,36 @@ li.order__list.right div.content-box .content__inner .info-box p.item-name {
      font-size: 13px;
      margin-top: 8px;
      color: #a0a0a0;
- }
+}
 
-li.order__list.right div.content-box .content__inner .info-box p.date {
-    margin-top: 1px;
+li.order__list.right div.content-box .content__inner .info-box p.rating {
     font-size: 13px;
     color: #a0a0a0;
+    font-weight: 400;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    line-height: 0.1;
 }
 
-li.order__list.right div.content-box .content__inner .info-box p span {
+li.order__list.right div.content-box .content__inner .info-box p.rating span {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+li.order__list.right div.content-box .content__inner .info-box p.rating span.star-rating {
 
 }
+
+li.order__list.right div.content-box .content__inner .info-box p.rating span.star-rating svg {
+    max-width: 15px;
+    width: 100%;
+}
+
+li.order__list.right div.content-box .content__inner .info-box p.rating span.star-rating svg path {
+
+}
+
 
 li.order__list.right div.content-box .img-absolute {
     position: absolute;
@@ -269,11 +288,17 @@ li.order__list.right div.content-box div.review-box .text-box {
     margin-top: 10px;
 }
 
-li.order__list.right div.content-box div.review-box .text-box p {
+li.order__list.right div.content-box div.review-box .text-box p.main {
     font-size: 14px;
     font-weight: 500;
     color: #555;
     line-height: 1.5;
+}
+
+li.order__list.right div.review-box .text-box p.date {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #a0a0a0;
 }
 
 /*===================

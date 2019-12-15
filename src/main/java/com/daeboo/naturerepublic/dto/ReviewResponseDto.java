@@ -19,6 +19,7 @@ public class ReviewResponseDto {
     private Long reviewId;
     private String content;
     private String itemName;
+    private int rating;
     private int views;
     private int likes;
     private LocalDateTime wroteAt;
@@ -29,6 +30,7 @@ public class ReviewResponseDto {
         this.reviewId = review.getId();
         this.content = review.getContent();
         this.itemName = review.getItem().getNameKor();
+        this.rating = review.getRating();
         this.views = review.getViews();
         this.likes = review.getLikes();
         this.wroteAt = review.getWroteAt();

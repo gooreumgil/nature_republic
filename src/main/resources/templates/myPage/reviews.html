@@ -70,10 +70,16 @@
                             <span th:text="*{reviewDto.itemName}"></span>
                         </p>
 
-                        <p class="date">
-                            <span>날짜:</span>
-                            <span th:text="*{#temporals.format((reviewDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>
+                        <p class="rating">
+                            <span>별점:</span>
+                            <span class="star-rating"></span>
+                            <input type="hidden" class="rating-value" th:value="${reviewDto.rating}">
                         </p>
+
+<!--                        <p class="date">-->
+<!--                            <span>날짜:</span>-->
+<!--                            <span th:text="*{#temporals.format((reviewDto.wroteAt), 'yyyy-MM-dd, HH:mm')}"></span>-->
+<!--                        </p>-->
                     </div>
 
                     <div class="img-absolute">
@@ -111,7 +117,8 @@
 <!--                        <img th:each="img : ${reviewDto.reviewSrcs}" th:src="@{'/upload/' + ${img.s3Key}}" alt="">-->
                     </div>
                     <div class="text-box">
-                        <p th:utext="${#strings.replace(reviewDto.content, newLineChar, '&lt;br /&gt;')}"></p>
+                        <p th:utext="${#strings.replace(reviewDto.content, newLineChar, '&lt;br /&gt;')}" class="main"></p>
+                        <p th:text="${#temporals.format(reviewDto.wroteAt, 'yyyy-MM-dd, HH-mm')}" class="date"></p>
                     </div>
                 </div>
 
@@ -139,10 +146,41 @@
 
 <script type="text/javascript">
 
-    // MODAL
-
     window.onload = function (ev) {
 
+        // 5 star rating
+        var starRatingSpan = document.getElementsByClassName('star-rating');
+
+        for (i = 0; i < starRatingSpan.length; i++) {
+
+            var ratingBox = starRatingSpan[i].parentElement;
+
+            var ratingVal = ratingBox.getElementsByClassName('rating-value')[0];
+            var ratingNum = ratingVal.value;
+
+            for (j = 0; j < 5; j++) {
+
+                if (j < ratingNum) {
+                    starRatingSpan[i].innerHTML += '<svg class="star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"\n' +
+                        'aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">\n' +
+                        '                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"\n' +
+                        '                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#7ebb34"\n' +
+                        '                                          fill="#7ebb34" data-name="layer1" stroke-linejoin="round"></path>\n' +
+                        '                                </svg>'
+                } else {
+                    starRatingSpan[i].innerHTML += '<svg class="star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"\n' +
+                        'aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">\n' +
+                        '                                    <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"\n' +
+                        '                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"\n' +
+                        '                                          fill="none" data-name="layer1" stroke-linejoin="round"></path>\n' +
+                        '                                </svg>'
+                }
+            }
+        }
+
+
+
+        // MODAL
         var modal = document.getElementsByClassName('modal')[0];
         modal.addEventListener('click', function (evt) {
             modal.classList.remove('active');
