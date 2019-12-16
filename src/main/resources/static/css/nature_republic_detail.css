@@ -452,13 +452,32 @@ thumb_wrap {
 }
 
 .detail .item_reviews .review__list .info-box .info__inner h4 {
+
+}
+
+.detail .item_reviews .review__list .info-box .info__inner h4 span.review-title {
     margin-bottom: 3px;
     font-size: 16px;
     font-weight: 600;
     color: #333;
 }
 
+.detail .item_reviews .review__list .info-box .info__inner h4 span.photo {
+
+}
+
+.detail .item_reviews .review__list .info-box .info__inner h4 span.photo svg {
+    max-width: 16px;
+    width: 100%;
+}
+
+.detail .item_reviews .review__list .info-box .info__inner h4 span.photo svg path {
+
+}
+
+
 .detail .item_reviews .review__list .info-box .info__inner span {
+
     margin-top: 3px;
     font-size: 15px;
     font-weight: 400;
@@ -509,7 +528,7 @@ thumb_wrap {
 .detail .item_reviews .review__list .like-box .like__inner p {
     font-size: 14px;
     font-weight: 500;
-    color: #71a532;
+    color: #555;
 }
 
 .detail .item_reviews .review__list .content-box {
