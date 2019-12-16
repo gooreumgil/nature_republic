@@ -24,4 +24,11 @@ public class LikeReview {
     private Review review;
 
 
+    public static LikeReview createLikeReview(Review review, Member member) {
+        LikeReview likeReview = new LikeReview();
+        likeReview.member = member;
+        likeReview.review = review;
+
+        return likeReview;
+    }
 }

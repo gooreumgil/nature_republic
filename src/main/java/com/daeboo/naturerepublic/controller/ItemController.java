@@ -10,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,6 +32,7 @@ public class ItemController {
     private final LikesService likesService;
     private final QnaService qnaService;
     private final ReviewService reviewService;
+    private final LikeReviewService likeReviewService;
 
     // TODO 이 망할 거 바꾸어야 하는
     private final LinkedHashMap<String, String> sortList;
@@ -77,8 +81,37 @@ public class ItemController {
     public String itemDetail(@ModelAttribute("qnaDto") QnaDto.RequestForm qnaDto,
                              @ModelAttribute("qnaCommentDto") QnaDto.RequestComment qnaCommentDto,
                              @ModelAttribute("commentUpdateDto") CommentDto.RequestCommentUpdate commentUpdateDto,
-                             Long id, String currentCategory,
+                             Long id, String currentCategory, HttpServletRequest request,
                              Principal principal, Model model) {
+
+        String tab = null;
+        int offsetY = 0;
+
+        // tab 셋팅
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+        if (inputFlashMap != null) {
+
+            Object tabName = inputFlashMap.get("tab");
+            Object yOffset = inputFlashMap.get("yOffset");
+
+            if (tabName != null) {
+                tab = tabName.toString();
+            }
+
+            if (yOffset != null) {
+                offsetY = Integer.parseInt(yOffset.toString());
+            }
+
+        }
+
+        // yOffset 셋팅
+
+        if (tab == null) {
+            tab = "info";
+        }
+
+        model.addAttribute("tab", tab);
+        model.addAttribute("yOffset", offsetY);
 
         // QNA
         Page<Qna> qnaList = qnaService.findAllByItemId(id, PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
@@ -117,10 +150,12 @@ public class ItemController {
         Item findItem = itemService.findById(id);
         ItemDto.Detail detail = new ItemDto.Detail(findItem);
 
-        List<Review> reviewList = reviewService.findAllByItemId(findItem.getId());
+        // 구매후기
+        Page<Review> reviewList = reviewService.findAllByItemId(findItem.getId(), PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
         List<ReviewResponseDto> reviewDtos = reviewList.stream().map(review -> {
             return new ReviewResponseDto(review);
         }).collect(Collectors.toList());
+        new PageImpl<>(reviewDtos, reviewList.getPageable(), reviewDtos.size());
 
         model.addAttribute("item", detail);
         model.addAttribute("currentCategory", currentCategory);

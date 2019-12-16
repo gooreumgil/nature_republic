@@ -83,7 +83,9 @@
                     </div>
 
                     <div class="img-absolute">
-                        <img th:src="@{${'/upload/' + reviewDto.itemSrc.s3Key}}" alt="">
+                        <a th:href="@{/item/detail(id = ${reviewDto.itemId})}">
+                            <img th:src="@{${'/upload/' + reviewDto.itemSrc.s3Key}}" alt="">
+                        </a>
                     </div>
 
                     <div class="like-absolute">
@@ -94,6 +96,7 @@
                                   fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
                                   stroke-linecap="round"></path>
                         </svg>
+
                         <p th:text="${reviewDto.likes}"></p>
                     </div>
 

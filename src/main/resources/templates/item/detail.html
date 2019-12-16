@@ -13,6 +13,10 @@
 <!-- PRODUCT -->
 
 <section class="product">
+
+    <input type="hidden" class="tab-setting" th:value="${tab}">
+    <input type="hidden" class="yOffset-setting" th:value="${yOffset}">
+
     <ul class="product_view clearfix">
         <li class="col-7 left">
             <!--                    <img src="/image/detail_img/detail_1.png">-->
@@ -183,6 +187,7 @@
     </div>
 
     <div class="item_reviews item-tab" id="reviews">
+
         <div class="review__list" th:each="review : ${reviewDtos}">
             <div class="review__inner">
                 <div class="number-box">
@@ -201,15 +206,33 @@
                 </div>
 
                 <div class="like-box">
+
+                    <input type="hidden" class="memberId-input" th:value="${memberId}">
+
                     <div class="like__inner">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
-                             aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path data-name="layer1"
-                                  d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
-                                  fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
-                                  stroke-linecap="round"></path>
-                        </svg>
-                        <p th:text="${review.likes}"></p>
+
+                        <div th:if="${#arrays.contains(review.likeMemberIds, memberId)}">
+                            <svg class="like-review-cancel-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path data-name="layer1"
+                                      d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
+                                      fill="#7ebb34" stroke="##7ebb34" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                      stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+
+                        <div th:unless="${#arrays.contains(review.likeMemberIds, memberId)}">
+                            <svg class="like-review-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path data-name="layer1"
+                                      d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
+                                      fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                      stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+
+                        <input type="hidden" th:value="${review.reviewId}" class="reviewId-input">
+                        <p th:text="${review.likeReviewDtos.size()}"></p>
                     </div>
                 </div>
             </div>
@@ -462,6 +485,13 @@
 
 <script type="text/javascript" th:inline="javascript">
 
+    function closeModal() {
+
+        var modal = document.getElementsByClassName('modal')[0];
+        modal.classList.remove('active');
+
+    }
+
     function showModal(elem) {
 
         var imgWrap = elem.parentElement;
@@ -475,6 +505,12 @@
 
         var modal = document.getElementsByClassName('modal')[0];
         var modalContent = modal.getElementsByClassName('modal-content')[0];
+
+        var removeImg = modalContent.getElementsByTagName('img')[0];
+
+        if (removeImg != null) {
+            removeImg.remove();
+        }
 
         modalContent.append(imgTag);
         modal.classList.add('active');
@@ -693,7 +729,186 @@
 
     }
 
+    function tabSetting() {
+        var tabSettingInput = document.getElementsByClassName('tab-setting')[0];
+        var tabVal = tabSettingInput.value;
+        var tabLinkTags = document.getElementsByClassName('tab-link');
+
+        if (tabVal == 'info') {
+
+            displayNoneTabs();
+            styleReset();
+
+            var tabLinkTag = tabLinkTags[0];
+            tabLinkTag.style.backgroundColor = '#7ebb34';
+            tabLinkTag.style.color = '#fff';
+
+            var infoTab = document.getElementById('info');
+            infoTab.style.display = 'block';
+
+        } else if (tabVal == 'reviews') {
+
+            displayNoneTabs();
+            styleReset();
+
+            var tabLinkTags = document.getElementsByClassName('tab-link');
+
+            var tabLinkTag = tabLinkTags[1];
+            tabLinkTag.style.backgroundColor = '#7ebb34';
+            tabLinkTag.style.color = '#fff';
+
+            var infoTab = document.getElementById('reviews');
+            infoTab.style.display = 'block';
+
+        } else if (tabVal == 'qna') {
+
+            displayNoneTabs();
+            styleReset();
+
+            var tabLinkTags = document.getElementsByClassName('tab-link');
+
+            var tabLinkTag = tabLinkTags[2];
+            tabLinkTag.style.backgroundColor = '#7ebb34';
+            tabLinkTag.style.color = '#fff';
+
+            var infoTab = document.getElementById('qna');
+            infoTab.style.display = 'block';
+
+        }
+    }
+
+    function yOffsetSetting(yOffsetNum) {
+        window.scroll(0, yOffsetNum);
+    }
+
     window.onload = function () {
+
+        // 로딩 했을시에 yOffset 값 있으면 세팅
+        var yOffsetSettingInput = document.getElementsByClassName('yOffset-setting')[0];
+        var yOffsetNum = Number(yOffsetSettingInput.value);
+
+        if (yOffsetNum > 0) {
+            yOffsetSetting(yOffsetNum)
+        }
+
+        // 로딩 했을시에 탭 설정
+        tabSetting();
+
+        // 구매후기 좋아요 취소
+        var likeReviewCancelBtns = document.getElementsByClassName('like-review-cancel-btn');
+
+        for (i = 0; i < likeReviewCancelBtns.length; i++) {
+
+            var likeReviewCancelBtn = likeReviewCancelBtns[i];
+
+            likeReviewCancelBtn.addEventListener('click', function (evt) {
+
+                var div = likeReviewCancelBtn.parentElement;
+                var likeInner = div.parentElement;
+
+
+                var reviewIdInput = likeInner.getElementsByTagName('input')[0];
+                var reviewIdVal = Number(reviewIdInput.value);
+
+                var memberIdInput = document.getElementsByClassName('memberId-input')[0];
+                var memberIdVal = Number(memberIdInput.value);
+
+                var formTag = document.createElement('form');
+                formTag.method = 'post';
+                formTag.action = '/likeReview/delete';
+
+                var pageYOffset = window.pageYOffset;
+
+                var inputTagPageYOffset = document.createElement('input');
+                inputTagPageYOffset.type = 'hidden';
+                inputTagPageYOffset.name = 'yOffset';
+                inputTagPageYOffset.value = pageYOffset;
+
+                var inputTagForReviewId = document.createElement('input');
+                inputTagForReviewId.type = 'hidden';
+                inputTagForReviewId.name = 'reviewId';
+                inputTagForReviewId.value = reviewIdVal;
+                
+                var inputTagForMemberId = document.createElement('input');
+                inputTagForMemberId.type = 'hidden';
+                inputTagForMemberId.name = 'memberId';
+                inputTagForMemberId.value = memberIdVal;
+
+                var methodInput = document.createElement('input');
+                methodInput.name = '_method';
+                methodInput.value = 'delete';
+
+                formTag.append(inputTagPageYOffset);
+                formTag.append(inputTagForReviewId);
+                formTag.append(inputTagForMemberId);
+                formTag.append(methodInput);
+                document.body.append(formTag);
+
+                formTag.submit();
+
+            })
+
+        }
+
+        // 구매후기 리뷰 좋아요
+        var likeReviewBtns = document.getElementsByClassName('like-review-btn');
+
+        for (i = 0; i < likeReviewBtns.length; i++) {
+
+            var likeReviewBtn = likeReviewBtns[i];
+            likeReviewBtn.addEventListener('click', function (evt) {
+
+                var div = likeReviewBtn.parentElement;
+                var likeInner = div.parentElement;
+                var reviewIdInput = likeInner.getElementsByTagName('input')[0];
+                var reviewIdVal = Number(reviewIdInput.value);
+
+                var memberIdInput = document.getElementsByClassName('memberId-input')[0];
+                var memberIdVal = Number(memberIdInput.value);
+
+                var formTag = document.createElement('form');
+                formTag.method = 'post';
+                formTag.action = '/likeReview';
+
+                var pageYOffset = window.pageYOffset;
+
+                var inputTagPageYOffset = document.createElement('input');
+                inputTagPageYOffset.type = 'hidden';
+                inputTagPageYOffset.name = 'yOffset';
+                inputTagPageYOffset.value = pageYOffset;
+
+                var inputTagForReviewId = document.createElement('input');
+                inputTagForReviewId.type = 'hidden';
+                inputTagForReviewId.name = 'reviewId';
+                inputTagForReviewId.value = reviewIdVal;
+
+                var inputTagForMemberId = document.createElement('input');
+                inputTagForMemberId.type = 'hidden';
+                inputTagForMemberId.name = 'memberId';
+                inputTagForMemberId.value = memberIdVal;
+
+                formTag.append(inputTagPageYOffset);
+                formTag.append(inputTagForReviewId);
+                formTag.append(inputTagForMemberId);
+
+                document.body.append(formTag);
+                formTag.submit();
+
+            })
+
+        }
+
+        // modal 바깥 눌렀을 때 hidden
+        var modal = document.getElementsByClassName('modal')[0];
+
+        modal.addEventListener('click', function (evt) {
+            modal.classList.remove('active');
+        });
+
+        var modalContent = modal.getElementsByClassName('modal-content')[0];
+        modalContent.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+        });
 
         // 리뷰 별점
         var ratingSpans = document.getElementsByClassName('rating');

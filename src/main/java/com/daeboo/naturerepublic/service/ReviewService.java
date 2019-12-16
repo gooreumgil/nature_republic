@@ -3,6 +3,8 @@ package com.daeboo.naturerepublic.service;
 import com.daeboo.naturerepublic.domain.Review;
 import com.daeboo.naturerepublic.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ public class ReviewService {
         return reviewRepository.findAllByMemberId(memberId);
     }
 
-    public List<Review> findAllByItemId(Long itemId) {
-        return reviewRepository.findAllByItemId(itemId);
+    public Page<Review> findAllByItemId(Long itemId, Pageable pageable) {
+        return reviewRepository.findAllByItemId(itemId, pageable);
     }
 }
