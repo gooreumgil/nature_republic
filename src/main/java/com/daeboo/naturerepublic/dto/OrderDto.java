@@ -80,6 +80,7 @@ public class OrderDto {
     public static class DetailPage {
 
         private Long id;
+        private Long memberId;
         private LocalDateTime orderDateTime;
         private String orderStatus;
         private List<OrderItemDto.DetailPage> orderItemDtos = new ArrayList<>();
@@ -100,6 +101,7 @@ public class OrderDto {
         public DetailPage(Order order) {
 
             this.id = order.getId();
+            this.memberId = order.getMember().getId();
             this.orderDateTime = order.getOrderDateTime();
             this.orderStatus = order.getOrderStatus().toString();
 

@@ -67,6 +67,10 @@ public class OrderService {
         return orderRepository.findById(id).get();
     }
 
+    public Order findByIdQuery(Long id) {
+        return orderRepository.findByIdQuery(id).orElseThrow(() -> new RuntimeException("존재하지 않는 Order입니다."));
+    }
+
     @Transactional
     public void orderComplete(Long orderId, Long memberId, boolean isReview) {
 
@@ -172,4 +176,5 @@ public class OrderService {
         }
 
     }
+
 }

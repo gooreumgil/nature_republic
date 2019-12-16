@@ -171,7 +171,7 @@ li.order__list.right .item-wrap .item__list .item-name {
 li.order__list.right .item-wrap .item__list .item-name p {
     color: #555;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 17px;
     box-sizing: border-box;
     overflow: hidden;
     white-space: nowrap;
@@ -189,13 +189,13 @@ li.order__list.right .item-wrap .item__list p.item-price {
 }
 
 li.order__list.right .item-wrap .item__list p.item-price span {
-    font-size: 18px;
+    font-size: 16px;
     color: #888;
     font-weight: 300;
 }
 
 li.order__list.right .item-wrap .item__list p.item-price span.bold {
-    font-size: 24px;
+    font-size: 22px;
     color: #7ebb34;
     font-weight: 400;
 }

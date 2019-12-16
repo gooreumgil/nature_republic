@@ -17,8 +17,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public List<Review> findAllByMeberId(Long memberId) {
-        return reviewRepository.findAllByMemberId(memberId);
+    public Page<Review> findAllByMeberId(Long memberId, Pageable pageable) {
+        return reviewRepository.findAllByMemberId(memberId, pageable);
     }
 
     public Page<Review> findAllByItemId(Long itemId, Pageable pageable) {

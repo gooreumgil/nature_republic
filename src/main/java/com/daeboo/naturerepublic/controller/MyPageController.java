@@ -45,14 +45,15 @@ public class MyPageController {
     @GetMapping("/detail")
     public String orderDetail(@RequestParam("id") Long id, Principal principal,  Model model) {
 
-        Order order = orderService.findById(id);
+//        Order order = orderService.findById(id);
+        Order order = orderService.findByIdQuery(id);
         OrderDto.DetailPage orderDto = new OrderDto.DetailPage(order);
 
         String name = principal.getName();
-        Member member = memberService.findByName(name);
+//        Member member = memberService.findByName(name);
 
         model.addAttribute("orderDtos", orderDto);
-        model.addAttribute("memberId", member.getId());
+        model.addAttribute("memberId", orderDto.getMemberId());
 
         return "myPage/orderDetail";
 
@@ -64,11 +65,13 @@ public class MyPageController {
         String name = principal.getName();
         Member member = memberService.findByName(name);
 
-        List<Likes> likesList = likesService.findAllByMemberId(member.getId());
+        Page<Likes> likesList = likesService.findAllByMemberId(member.getId(), PageRequest.of(0, 12, Sort.Direction.DESC, "likedAt"));
         List<LikesDto.LikePage> likesDtoList = likesList.stream().map(LikesDto.LikePage::new).collect(Collectors.toList());
 
+        PageImpl<LikesDto.LikePage> likeDtoPages = new PageImpl<>(likesDtoList, likesList.getPageable(), likesDtoList.size());
+
         model.addAttribute("memberId", member.getId());
-        model.addAttribute("likeDtos", likesDtoList);
+        model.addAttribute("likeDtos", likeDtoPages);
         model.addAttribute("deleteDto", deleteDto);
         model.addAttribute("nav", "likes");
 
@@ -110,14 +113,16 @@ public class MyPageController {
 
         Member member = memberService.findByName(principal.getName());
 
-        List<Review> reviews = reviewService.findAllByMeberId(member.getId());
+        Page<Review> reviews = reviewService.findAllByMeberId(member.getId(), PageRequest.of(0, 12, Sort.Direction.ASC, "wroteAt"));
 
         List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(review -> {
             return new ReviewResponseDto(review);
         }).collect(Collectors.toList());
 
+        Page<ReviewResponseDto> reviewResponseDtoPage = new PageImpl<>(reviewResponseDtos, reviews.getPageable(), reviewResponseDtos.size());
+
         model.addAttribute("newLineChar", "\n");
-        model.addAttribute("reviewDtos", reviewResponseDtos);
+        model.addAttribute("reviewDtos", reviewResponseDtoPage);
 
         return "myPage/reviews";
 

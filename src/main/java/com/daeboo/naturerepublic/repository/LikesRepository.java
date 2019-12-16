@@ -1,6 +1,8 @@
 package com.daeboo.naturerepublic.repository;
 
 import com.daeboo.naturerepublic.domain.Likes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +15,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     Optional<Likes> findByMemberIdAndItemId(Long memberId, Long itemId);
 
-    List<Likes> findAllByMemberId(Long memberId);
+    Page<Likes> findAllByMemberId(Long memberId, Pageable pageable);
 
     @Modifying
     @Query("delete from Likes li where li.id in :ids")

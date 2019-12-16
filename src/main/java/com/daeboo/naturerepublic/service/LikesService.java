@@ -6,6 +6,8 @@ import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +53,8 @@ public class LikesService {
 
     }
 
-    public List<Likes> findAllByMemberId(Long memberId) {
-        return likesRepository.findAllByMemberId(memberId);
+    public Page<Likes> findAllByMemberId(Long memberId, Pageable pageable) {
+        return likesRepository.findAllByMemberId(memberId, pageable);
     }
 
     @Transactional
