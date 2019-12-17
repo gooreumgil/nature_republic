@@ -1,16 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/shoppingCart.css}">
+
+<div th:replace="partials/bodyHeader :: header"/>
 
 <section class="container">
 
-    <div th:replace="partials/bodyHeader :: header"/>
+    <div class="title-box">
+        <h2>Shopping Cart</h2>
+        <h3>장바구니 내역입니다.</h3>
+    </div>
 
-    <div th:if="${cartItems != null}" th:each="cartItem : ${cartItems}">
-        <img th:src="@{'/upload/' + ${cartItem.itemSrcs.get(0).s3Key}}" alt="">
-        <p th:text="${cartItem.nameKor}"></p>
-        <p th:text="${cartItem.price}"></p>
-        <p th:text="${cartItem.description}"></p>
+    <div th:if="${cartItems != null}">
+
+        <ul class="cart-item-wrap">
+            <li class="cart-item-head clearfix">
+                <div class="cart-item-list delete-check">
+                    <input type="checkbox">
+                </div>
+
+                <div class="cart-item-list info">
+                    <p>상품정보</p>
+                </div>
+
+                <div class="cart-item-list quantity">
+                    <p>수량</p>
+                </div>
+
+                <div class="cart-item-list price">
+                    <p>상품금액</p>
+                </div>
+
+                <div class="cart-item-list discount">
+                    <p>할인금액</p>
+                </div>
+
+                <div class="cart-item-list result-price">
+                    <p>최종금액</p>
+                </div>
+
+                <div class="cart-item-list delete-btn">
+                    <p>삭제</p>
+                </div>
+            </li>
+
+            <li th:each="cartItem : ${cartItems}" class="cart-item-content clearfix">
+                <div class="cart-item-list delete-check">
+                    <input type="checkbox">
+                </div>
+
+                <div class="cart-item-list info">
+                    <img th:src="@{'/upload/' + ${cartItem.itemSrcs.get(0).s3Key}}" alt="">
+                    <span th:text="${cartItem.nameKor}"></span>
+                </div>
+
+                <div class="cart-item-list quantity">
+                    <p>1</p>
+                </div>
+
+                <div class="cart-item-list price">
+                    <p th:text="${cartItem.price}">상품금액</p>
+                </div>
+
+                <div class="cart-item-list discount">
+                    <p th:text="${cartItem.discountPrice}"></p>
+                </div>
+
+                <div class="cart-item-list result-price">
+                    <p th:text="${cartItem.price - cartItem.discountPrice}"></p>
+                </div>
+
+                <div class="cart-item-list delete-btn">
+                    <p>삭제</p>
+                </div>
+            </li>
+        </ul>
     </div>
 
     <div th:if="${cartItems == null || cartItems.size() == 0}">
@@ -18,3 +83,6 @@
     </div>
 
 </section>
+
+<div th:replace="partials/bottom :: bottom"/>
+<footer th:replace="partials/footer :: footer"/>
