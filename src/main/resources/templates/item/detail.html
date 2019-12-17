@@ -85,7 +85,7 @@
                     </li>
                     <li class="col-4 cart">
                         <div>
-                            <a href="#">
+                            <a href="#" th:onclick="|javascript:addCart(this, '${item.id}')|">
                                 <img src="/image/detail_img/cart.png"> &nbsp;<p>장바구니</p>
                             </a>
                         </div>
@@ -493,6 +493,25 @@
 </div>
 
 <script type="text/javascript" th:inline="javascript">
+
+    // 장바구니 추가
+    function addCart(elem, itemId) {
+
+        var formTag = document.createElement('form');
+        formTag.method = 'post';
+        formTag.action = '/shoppingCart';
+
+        var inputItemIdForAddCart = document.createElement('input');
+        inputItemIdForAddCart.type = 'hidden';
+        inputItemIdForAddCart.name = 'itemId';
+        inputItemIdForAddCart.value = itemId;
+
+        formTag.append(inputItemIdForAddCart);
+        document.body.append(formTag);
+
+        formTag.submit();
+
+    }
 
     function closeModal() {
 

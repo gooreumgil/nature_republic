@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+
+<section class="container">
+
+    <div th:replace="partials/bodyHeader :: header"/>
+
+    <div th:if="${cartItems != null}" th:each="cartItem : ${cartItems}">
+        <img th:src="@{'/upload/' + ${cartItem.itemSrcs.get(0).s3Key}}" alt="">
+        <p th:text="${cartItem.nameKor}"></p>
+        <p th:text="${cartItem.price}"></p>
+        <p th:text="${cartItem.description}"></p>
+    </div>
+
+    <div th:if="${cartItems == null || cartItems.size() == 0}">
+        <p>장바구니에 상품이 없습니다.</p>
+    </div>
+
+</section>

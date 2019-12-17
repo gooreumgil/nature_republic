@@ -4,16 +4,24 @@ import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.internal.SessionImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,7 +117,7 @@ public class MyPageController {
     }
 
     @GetMapping("/reviews")
-    public String reviews(Principal principal, Model model) {
+    public String reviews(Principal principal, Model model, HttpSession httpSession) {
 
         Member member = memberService.findByName(principal.getName());
 
