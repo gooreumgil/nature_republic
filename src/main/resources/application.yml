@@ -32,5 +32,10 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
+
 #jwt:
+server:
+  servlet:
+    session:
+      timeout: 4h
 #  secret: 12345678901234567890123456789012
