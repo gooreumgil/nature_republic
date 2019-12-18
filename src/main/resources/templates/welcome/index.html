@@ -48,7 +48,8 @@
                             </a>
                             <div class="cart_number">
                                 <img src="/image/cart_number_fullback.png">
-                                <p>0</p>
+                                <p th:if="${#httpSession.getAttribute(#authentication.name) == null}">0</p>
+                                <p th:if="${#httpSession.getAttribute(#authentication.name) != null}" th:text="${#arrays.length(#httpSession.getAttribute(#authentication.name))}"></p>
                             </div>
                         </div>
                     </a>

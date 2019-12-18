@@ -259,13 +259,15 @@ public class ItemDto {
         private Long id;
         private String itemName;
         private int price;
+        private int count;
         private int discountPrice;
         private String s3Key;
 
-        public Order(Item item) {
+        public Order(Item item, int count) {
             this.id = item.getId();
             this.itemName = item.getNameKor();
             this.price = item.getPrice();
+            this.count = count;
             this.discountPrice = item.getDiscountPrice();
             this.s3Key = item.getItemSrcs().get(0).getS3Key();
         }

@@ -91,6 +91,7 @@ ul.cart-item-wrap li .cart-item-list.info {
 ul.cart-item-wrap li .cart-item-list.info img {
     max-width: 80px;
     width: 100%;
+    margin-right: 10px;
 }
 
 ul.cart-item-wrap li .cart-item-list.quantity {
@@ -113,6 +114,12 @@ ul.cart-item-wrap li .cart-item-list.delete-btn {
     width: 8%;
 }
 
+ul.cart-item-wrap li .cart-item-list.delete-btn svg {
+    max-width: 16px;
+    width: 100%;
+    cursor: pointer;
+}
+
 ul.cart-item-wrap li.cart-item-content {
     border-bottom: 1px solid #ddd;
 }
@@ -126,4 +133,35 @@ ul.cart-item-wrap li.cart-item-content .cart-item-list {
 
 ul.cart-item-wrap li.cart-item-content .cart-item-list.info {
     justify-content: left;
+}
+
+ul.cart-item-wrap div.cart-btn-box {
+    margin-top: 30px;
+}
+
+ul.cart-item-wrap div.cart-btn-box button {
+    width: 120px;
+    height: 40px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    color: #888;
+    margin-right: 5px;
+}
+
+ul.cart-item-wrap div.cart-btn-box button.all-order {
+
+}
+
+ul.cart-item-wrap div.cart-btn-box button.select-order {
+
+}
+
+ul.cart-item-wrap div.cart-btn-box button.keep-going {
+
+}
+
+
+.empty-box {
+    margin-top: 20px;
 }

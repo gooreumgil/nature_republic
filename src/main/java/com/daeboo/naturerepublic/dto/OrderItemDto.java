@@ -14,20 +14,10 @@ public class OrderItemDto {
     @Data
     public static class Create {
 
-        private Long memberId;
         private Long itemId;
-        private int price;
+        private int orderPrice;
         private Integer discount;
-        private Integer usePoints;
-        private Integer savePoints;
-        private Integer deliveryPrice;
         private int count;
-        private String name;
-        private String phoneNumber;
-        private String mainAddress;
-        private String detailAddress;
-        private String memo;
-
 
     }
 

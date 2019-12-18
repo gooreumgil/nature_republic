@@ -32,7 +32,6 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-
 #jwt:
 server:
   servlet:

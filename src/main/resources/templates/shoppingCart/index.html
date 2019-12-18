@@ -17,7 +17,7 @@
         <ul class="cart-item-wrap">
             <li class="cart-item-head clearfix">
                 <div class="cart-item-list delete-check">
-                    <input type="checkbox">
+                    <input type="checkbox" class="all-check-input">
                 </div>
 
                 <div class="cart-item-list info">
@@ -46,8 +46,11 @@
             </li>
 
             <li th:each="cartItem : ${cartItems}" class="cart-item-content clearfix">
+
+                <input type="hidden" class="itemId-input" th:value="${cartItem.id}">
+
                 <div class="cart-item-list delete-check">
-                    <input type="checkbox">
+                    <input type="checkbox" class="check-input">
                 </div>
 
                 <div class="cart-item-list info">
@@ -56,29 +59,41 @@
                 </div>
 
                 <div class="cart-item-list quantity">
-                    <p>1</p>
+                    <p class="item-quantity">1</p>
                 </div>
 
                 <div class="cart-item-list price">
-                    <p th:text="${cartItem.price}">상품금액</p>
+                    <p th:text="${#numbers.formatInteger(cartItem.price, 3, 'COMMA')}">상품금액</p>
                 </div>
 
                 <div class="cart-item-list discount">
-                    <p th:text="${cartItem.discountPrice}"></p>
+                    <p th:if="${cartItem.discountPrice >= 100}" th:text="${#numbers.formatInteger(cartItem.discountPrice, 3, 'COMMA')}"></p>
+                    <p th:if="${cartItem.discountPrice < 100}" th:text="${cartItem.discountPrice}"></p>
                 </div>
 
                 <div class="cart-item-list result-price">
-                    <p th:text="${cartItem.price - cartItem.discountPrice}"></p>
+                    <p th:text="${#numbers.formatInteger((cartItem.price - cartItem.discountPrice), 3, 'COMMA')}"></p>
                 </div>
 
                 <div class="cart-item-list delete-btn">
-                    <p>삭제</p>
+                    <svg class="cart-item-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                         aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path data-name="layer1"
+                              d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
+                              fill="#888888"></path>
+                    </svg>
                 </div>
             </li>
+
+            <div class="cart-btn-box" th:if="${cartItems.size() > 0}">
+                <button type="button" class="all-order">전체상품주문</button>
+                <button type="button" class="select-order">선택상품주문</button>
+                <button type="button" class="keep-going">계속쇼핑하기</button>
+            </div>
         </ul>
     </div>
 
-    <div th:if="${cartItems == null || cartItems.size() == 0}">
+    <div th:if="${cartItems == null || cartItems.size() == 0}" class="empty-box">
         <p>장바구니에 상품이 없습니다.</p>
     </div>
 
@@ -86,3 +101,177 @@
 
 <div th:replace="partials/bottom :: bottom"/>
 <footer th:replace="partials/footer :: footer"/>
+
+<script type="text/javascript">
+
+    window.onload = function (ev) {
+
+        // 전체 상품 주문
+        var allOrder = document.getElementsByClassName('all-order')[0];
+        allOrder.addEventListener('click', function (evt) {
+
+            var formTag = document.createElement('form');
+            formTag.action = '/order';
+            formTag.method = 'get';
+
+            var checkInputs = document.getElementsByClassName('check-input');
+
+            for (i = 0; i < checkInputs.length; i++) {
+
+                var checkInput = checkInputs[i];
+                var div = checkInput.parentElement;
+                var li = div.parentElement;
+
+                var itemIdInput = li.getElementsByClassName('itemId-input')[0];
+                var itemIdVal = Number(itemIdInput.value);
+
+                var inputForItemId = document.createElement('input');
+                inputForItemId.type = 'hidden';
+                inputForItemId.name = 'shoppingCartDtos['+ i + '].itemId';
+                inputForItemId.value = itemIdVal;
+
+                var itemQuantityTag = li.getElementsByClassName('item-quantity')[0];
+                var itemQuantityVal = Number(itemQuantityTag.innerText);
+
+                var inputForItemQuantity = document.createElement('input');
+                inputForItemQuantity.type = 'hidden';
+                inputForItemQuantity.name = 'shoppingCartDtos[' + i + '].count';
+                inputForItemQuantity.value = itemQuantityVal;
+
+                formTag.append(inputForItemId);
+                formTag.append(itemQuantityVal);
+            }
+
+            document.body.append(formTag);
+            formTag.submit();
+        });
+
+
+        // 선택 상품 주문
+        var selectedOrder = document.getElementsByClassName('select-order')[0];
+        selectedOrder.addEventListener('click', function (evt) {
+
+            var formTag = document.createElement('form');
+            formTag.action = '/order';
+            formTag.method = 'get';
+
+            var checkInputs = document.getElementsByClassName('check-input');
+
+            for (i = 0; i < checkInputs.length; i++) {
+
+                var checkInput = checkInputs[i];
+                var div = checkInput.parentElement;
+                var li = div.parentElement;
+
+                var attribute = checkInput.getAttribute('checked');
+
+                if (attribute == 'true') {
+                    var itemIdInput = li.getElementsByClassName('itemId-input')[0];
+                    var itemIdVal = Number(itemIdInput.value);
+
+                    var inputForItemId = document.createElement('input');
+                    inputForItemId.type = 'hidden';
+                    inputForItemId.name = 'shoppingWrapper.shoppingCartDtos['+ i + '].itemId';
+                    inputForItemId.value = itemIdVal;
+
+                    var itemQuantityTag = li.getElementsByClassName('item-quantity')[0];
+                    var itemQuantityVal = Number(itemQuantityTag.value);
+
+                    var inputForItemQuantity = document.createElement('input');
+                    inputForItemQuantity.type = 'hidden';
+                    inputForItemQuantity.name = 'shoppingWrapper.shoppingCartDtos[' + i + '].count';
+                    inputForItemQuantity.value = itemQuantityVal;
+
+                    formTag.append(inputForItemId);
+                    formTag.append(inputForItemQuantity);
+                }
+            }
+
+            document.body.append(formTag);
+            formTag.submit();
+
+        });
+
+        // 장바구니 상품 삭제
+        var cartItemDeleteBtns = document.getElementsByClassName('cart-item-delete');
+
+        for (i = 0; i < cartItemDeleteBtns.length; i++) {
+
+            var cartItemDeleteBtn = cartItemDeleteBtns[i];
+
+            cartItemDeleteBtn.addEventListener('click', function (evt) {
+
+                var target = evt.target;
+                var svgOuter = target.parentElement;
+                var cartItemLi = svgOuter.parentElement;
+
+                var itemIdInputTag = cartItemLi.getElementsByClassName('itemId-input')[0];
+                var itemIdVal = Number(itemIdInputTag.value);
+
+                var formTag = document.createElement('form');
+                formTag.action = '/shoppingCart/delete';
+                formTag.method = 'post';
+                
+                var inputTagForItemId = document.createElement('input');
+                inputTagForItemId.type = 'hidden';
+                inputTagForItemId.name = 'itemId';
+                inputTagForItemId.value = itemIdVal;
+
+                formTag.append(inputTagForItemId);
+                document.body.append(formTag);
+
+                formTag.submit();
+            })
+        }
+
+        var allCheckInput = document.getElementsByClassName('all-check-input')[0];
+        var checkInputs = document.getElementsByClassName('check-input');
+
+        for (i = 0; i < checkInputs.length; i++) {
+
+            checkInputs[i].addEventListener('click', function (evt1) {
+
+                var target1 = evt1.target;
+                var attribute = target1.getAttribute('checked');
+
+                if (attribute == 'true') {
+                    target1.removeAttribute('checked');
+                } else if (attribute == 'false' || attribute == null) {
+                    target1.setAttribute('checked', 'true');
+                }
+            })
+        }
+
+        // 망할 전체 선택 & 전체 선택 해제
+        allCheckInput.addEventListener('change', function (evt) {
+
+            var target = evt.target;
+
+            if (target.classList.contains('active')) {
+
+                target.classList.remove('active');
+
+                for (i = 0; i < checkInputs.length; i++) {
+
+                    var checkInput = checkInputs[i];
+                    if (checkInput.getAttribute('checked') != null) {
+                        checkInput.click();
+                    }
+                }
+
+            } else {
+
+                target.classList.add('active');
+
+                for (i = 0; i < checkInputs.length; i++) {
+
+                    var checkInput = checkInputs[i];
+                    if (checkInput.getAttribute('checked') == null) {
+                        checkInput.click();
+                    }
+                }
+            }
+        })
+    }
+
+</script>

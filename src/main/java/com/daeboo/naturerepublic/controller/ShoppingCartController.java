@@ -1,14 +1,12 @@
 package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Item;
+import com.daeboo.naturerepublic.dto.ShoppingCartWrapper;
 import com.daeboo.naturerepublic.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,7 +24,7 @@ public class ShoppingCartController {
     private final ItemService itemService;
 
     @GetMapping
-    public String cart(Principal principal, HttpSession httpSession, Model model) {
+    public String cart(@ModelAttribute("shoppingWrapper") ShoppingCartWrapper shoppingWrapper, Principal principal, HttpSession httpSession, Model model) {
 
         String name = principal.getName();
         List<Item> cartItems = new ArrayList<>();
@@ -63,14 +61,17 @@ public class ShoppingCartController {
         return "redirect:" + referer;
     }
 
-    @GetMapping("/delete")
-    public String deleteAttribute(Principal principal, HttpSession httpSession, HttpServletRequest request) {
+    @PostMapping("/delete")
+    public String deleteAttribute(@RequestParam("itemId") Long itemId, Principal principal, HttpSession httpSession, HttpServletRequest request) {
 
         String name = principal.getName();
-        httpSession.removeAttribute(name);
+
+        List<Item> cartItems = (List<Item>) httpSession.getAttribute(name);
+        cartItems.removeIf(item -> item.getId().equals(itemId));
+
+        httpSession.setAttribute(name, cartItems);
 
         String referer = request.getHeader("Referer");
-
         return "redirect:" + referer;
 
     }

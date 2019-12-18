@@ -2,6 +2,7 @@ package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.OrderItemDto;
+import com.daeboo.naturerepublic.dto.OrderItemDtoWrapper;
 import com.daeboo.naturerepublic.dto.ReviewDto;
 import com.daeboo.naturerepublic.dto.ReviewDtoWrapper;
 import com.daeboo.naturerepublic.repository.*;
@@ -30,32 +31,64 @@ public class OrderService {
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
 
+//    @Transactional
+//    public Order order(OrderItemDto.Create orderItemDto) {
+//
+//        // 엔티티 조회
+//        Member member = memberRepository.findById(orderItemDto.getMemberId()).get();
+//        Item item = itemRepository.findById(orderItemDto.getItemId()).get();
+//
+//        // 배송정보 생성
+//        Delivery delivery = Delivery.createDelivery(orderItemDto);
+//
+//        int orderPrice = orderItemDto.getPrice();
+//        Integer discount = orderItemDto.getDiscount();
+//        int count = orderItemDto.getCount();
+//        Integer savePoints = orderItemDto.getSavePoints();
+//        Integer usePoints = orderItemDto.getUsePoints();
+//
+//        // 주문상품생성
+//        OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, count);
+//
+//        // 주문생성
+//        Order order = Order.createOrder(member, delivery, savePoints, usePoints, orderItem);
+//
+//        // 포인트 차감
+//        member.minusPoints(usePoints);
+//
+//        return orderRepository.save(order);
+//
+//    }
+
     @Transactional
-    public Order order(OrderItemDto.Create orderItemDto) {
+    public Order order(OrderItemDtoWrapper orderWrapper) {
 
-        // 엔티티 조회
-        Member member = memberRepository.findById(orderItemDto.getMemberId()).get();
-        Item item = itemRepository.findById(orderItemDto.getItemId()).get();
+        Member member = memberRepository.findById(orderWrapper.getMemberId()).get();
+        Delivery delivery = Delivery.createDelivery(orderWrapper);
 
-        // 배송정보 생성
-        Delivery delivery = Delivery.createDelivery(orderItemDto);
+        int savePoints = orderWrapper.getSavePoints();
+        Integer usePoints = orderWrapper.getUsePoints();
 
-        int orderPrice = orderItemDto.getPrice();
-        Integer discount = orderItemDto.getDiscount();
-        int count = orderItemDto.getCount();
-        Integer savePoints = orderItemDto.getSavePoints();
-        Integer usePoints = orderItemDto.getUsePoints();
+        List<OrderItem> orderItems = new ArrayList<>();
 
-        // 주문상품생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, count);
+        orderWrapper.getOrderItemDtos().forEach(create -> {
 
-        // 주문생성
-        Order order = Order.createOrder(member, delivery, savePoints, usePoints, orderItem);
+            Item item = itemRepository.findById(create.getItemId()).get();
+            int orderPrice = create.getOrderPrice();
+            Integer discount = create.getDiscount();
+            int count = create.getCount();
 
-        // 포인트 차감
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderPrice, discount, count);
+            orderItems.add(orderItem);
+
+        });
+
+        Order order = Order.createOrder(member, delivery, savePoints, usePoints, orderItems);
+
         member.minusPoints(usePoints);
 
         return orderRepository.save(order);
+
 
     }
 
@@ -176,5 +209,6 @@ public class OrderService {
         }
 
     }
+
 
 }

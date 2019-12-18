@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,32 +27,102 @@ public class OrderController {
     private final ItemService itemService;
     private final OrderService orderService;
 
+//    @GetMapping
+//    public String orderForm(@RequestParam("itemId") Long itemId, int count, @ModelAttribute("orderItemDto") OrderItemDto.Create orderItemDto, Principal principal, Model model) {
+//
+//        String name = principal.getName();
+//        Member member = memberService.findByName(name);
+//        MemberDto.OrderPage memberOrderPage = new MemberDto.OrderPage(member);
+//
+//        Item item = itemService.findById(itemId);
+//        ItemDto.Order itemOrder = new ItemDto.Order(item);
+//
+//        model.addAttribute("orderItemDto", orderItemDto);
+//        model.addAttribute("memberDto", memberOrderPage);
+//        model.addAttribute("itemDto", itemOrder);
+//        model.addAttribute("count", count);
+//
+//        return "order/index";
+//    }
+
     @GetMapping
-    public String orderForm(@RequestParam("itemId") Long itemId, int count, @ModelAttribute("orderItemDto") OrderItemDto.Create orderItemDto, Principal principal, Model model) {
+    public String orderForm(@ModelAttribute("shoppingWrapper") ShoppingCartWrapper shoppingWrapper, @ModelAttribute("orderWrapper") OrderItemDtoWrapper orderWrapper, Principal principal, Model model) {
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
         MemberDto.OrderPage memberOrderPage = new MemberDto.OrderPage(member);
 
-        Item item = itemService.findById(itemId);
-        ItemDto.Order itemOrder = new ItemDto.Order(item);
+        List<Item> itemList = new ArrayList<>();
 
-        model.addAttribute("orderItemDto", orderItemDto);
+        int savePoints = 0;
+        int totalPrice = 0;
+        int totalDiscount = 0;
+
+        List<ShoppingCartDto> shoppingCartDtos = shoppingWrapper.getShoppingCartDtos();
+
+        for (ShoppingCartDto shoppingCartDto : shoppingCartDtos) {
+
+            Item item = itemService.findById(shoppingCartDto.getItemId());
+            itemList.add(item);
+
+            int price = item.getPrice();
+            int count = shoppingCartDto.getCount();
+            int itemPriceMultiplyQuantity = price * count;
+
+            totalPrice += itemPriceMultiplyQuantity;
+
+            int savePoint = itemPriceMultiplyQuantity * (1 / 100);
+
+            savePoints += savePoint;
+
+            int discountPrice = item.getDiscountPrice();
+            totalDiscount += discountPrice * count;
+
+        }
+
+        List<ItemDto.Order> itemOrders = itemList.stream().map(item -> {
+            int count = 0;
+            for (ShoppingCartDto shoppingCartDto : shoppingCartDtos) {
+                count = shoppingCartDto.getCount();
+            }
+            return new ItemDto.Order(item, count);
+        }).collect(Collectors.toList());
+
+
+//        model.addAttribute("orderItemDto", orderItemDtoWrapper.getOrderItemDtos().get(0));
+        model.addAttribute("savePoints", savePoints);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalDiscount", totalDiscount);
         model.addAttribute("memberDto", memberOrderPage);
-        model.addAttribute("itemDto", itemOrder);
-        model.addAttribute("count", count);
+        model.addAttribute("itemOrders", itemOrders);
 
         return "order/index";
     }
 
+
+//    @PostMapping
+//    public String orderCreate(@ModelAttribute OrderItemDto.Create orderItemDto, Model model) {
+//
+//        Order order = orderService.order(orderItemDto);
+//
+//        OrderDto.OrderComplete orderDtoComplete = new OrderDto.OrderComplete(order);
+//
+//        model.addAttribute("orderDto", orderDtoComplete);
+//
+//        return "order/complete";
+//
+//    }
+
     @PostMapping
-    public String orderCreate(@ModelAttribute OrderItemDto.Create orderItemDto, Model model) {
+    public String orderCreate(@ModelAttribute("orderWrapper") OrderItemDtoWrapper orderWrapper, Model model) {
 
-        Order order = orderService.order(orderItemDto);
+        List<OrderItemDto.Create> orderItemDtos = orderWrapper.getOrderItemDtos();
 
-        OrderDto.OrderComplete orderDtoComplete = new OrderDto.OrderComplete(order);
+        Order order = orderService.order(orderWrapper);
 
-        model.addAttribute("orderDto", orderDtoComplete);
+        OrderDto.OrderComplete orderComplete = new OrderDto.OrderComplete(order);
+
+        model.addAttribute("orderDto", orderComplete);
 
         return "order/complete";
 

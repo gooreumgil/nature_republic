@@ -37,7 +37,25 @@ public class Order {
     private OrderStatus orderStatus;
 
     // 생성 메소드
-    public static Order createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, OrderItem... orderItems) {
+//    public static Order createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, OrderItem... orderItems) {
+//        Order order = new Order();
+//        order.setMember(member);
+//
+//        order.savePoints = savePoints;
+//        order.usePoints = usePoints;
+//        order.setDelivery(delivery);
+//
+//        for (OrderItem orderItem : orderItems) {
+//            order.addOrderItem(orderItem);
+//        }
+//
+//        order.orderDateTime = LocalDateTime.now();
+//        order.orderStatus = OrderStatus.ORDER;
+//
+//        return order;
+//    }
+
+    public static Order createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, List<OrderItem> orderItems) {
         Order order = new Order();
         order.setMember(member);
 
