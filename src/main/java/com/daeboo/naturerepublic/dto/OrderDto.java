@@ -67,6 +67,7 @@ public class OrderDto {
 
         public Preview(Orders orders) {
             this.id = orders.getId();
+            this.itemQuantity = orders.getOrderItems().size();
             this.orderDateTime = orders.getOrderDateTime();
             this.orderStatus = orders.getOrderStatus().toString();
             this.deliveryStatus = orders.getDelivery().getDeliveryStatus().toString();

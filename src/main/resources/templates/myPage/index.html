@@ -92,7 +92,7 @@
 
                             <a th:href="@{/myPage/detail(id=${orderPage.id})}">
                                 <span th:text="${orderPage.orderItemDto.name}"></span>
-                                <span th:if="${orderPage.itemQuantity > 1}" th:text="${' 외' + orderPage.itemQuantity + ' 건'}"></span>
+                                <span th:if="${orderPage.itemQuantity > 1}" th:text="${' 외 ' + (orderPage.itemQuantity - 1) + '건'}" class="if-more"></span>
                             </a>
                         </div>
                         <div class="list__inner state">

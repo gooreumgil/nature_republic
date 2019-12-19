@@ -109,8 +109,6 @@ public class MemberDto {
         private Long id;
         private String name;
         private Integer points;
-        private List<OrderDto.Preview> orders = new ArrayList<>();
-        private Integer itemQuantity;
 
         public MyPageIndex(Member member) {
             this.id = member.getId();

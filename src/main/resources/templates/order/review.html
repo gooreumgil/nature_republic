@@ -35,8 +35,8 @@
                     <h4 th:text="${reviewDto.itemDto.name}" class="item-name"></h4>
                     <div class="star-rating-box">
                         <fieldset class="rating">
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star1" value="1" class="rating-input">
-                            <label th:for="star1" title="매우만족">
+                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" th:id="${'star1' + i.index}" value="1" class="rating-input">
+                            <label th:for="${'star1' + i.index}" title="매우만족">
                                 <svg class="first-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -45,8 +45,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star2" value="2" class="rating-input">
-                            <label th:for="star2" title="만족">
+                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" th:id="${'star2' + i.index}" value="2" class="rating-input">
+                            <label th:for="${'star2' + i.index}" title="만족">
                                 <svg class="second-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -55,8 +55,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star3" value="3" class="rating-input">
-                            <label th:for="star3" title="보통">
+                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" th:id="${'star3' + i.index}" value="3" class="rating-input">
+                            <label th:for="${'star3' + i.index}" title="보통">
                                 <svg class="third-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -65,8 +65,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star4" value="4" class="rating-input">
-                            <label th:for="star4" title="불만족">
+                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" th:id="${'star4' + i.index}" value="4" class="rating-input">
+                            <label th:for="${'star4' + i.index}" title="불만족">
                                 <svg class="fourth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -75,8 +75,8 @@
                                 </svg>
                             </label>
 
-                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" id="star5" value="5" class="rating-input">
-                            <label th:for="star5" title="매우불만족">
+                            <input type="radio" th:name="|reviewDtos[${i.index}].rating|" th:id="${'star5' + i.index}" value="5" class="rating-input">
+                            <label th:for="${'star5' + i.index}" title="매우불만족">
                                 <svg class="fifth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
@@ -118,10 +118,10 @@
                     <div class="tab review-photo clearfix">
                         <p>사진을 추가해 주세요(최대 3장)</p>
                         <output class="output-box clearfix"></output>
-                        <label th:for="srcs" class="add-img">
+                        <label th:for="${'srcs' + i.index}" class="add-img">
                             <span>+</span>
                         </label>
-                        <input multiple="multiple" type="file" th:id="srcs" th:name="|reviewDtos[${i.index}].srcs|" th:onchange="|handleFileSelect(this, ${i.index})|">
+                        <input multiple="multiple" type="file" th:id="${'srcs' + i.index}" th:name="|reviewDtos[${i.index}].srcs|" th:onchange="|handleFileSelect(this, ${i.index})|">
                     </div>
                 </div>
             </div>
@@ -138,6 +138,7 @@
 
     // file
     function handleFileSelect(elem, index) {
+
 
         var parentElement = elem.parentElement;
         var files = elem.files;
@@ -172,19 +173,20 @@
 
                 picReader.addEventListener('load', loadImg.bind(obj), false);
                 picReader.readAsDataURL(file);
-
-
             }
 
             var divTag = document.createElement('div');
             parentElement.appendChild(divTag);
 
-            divTag.innerHTML = '<input multiple="multiple" type="file" id="srcs" name="reviewDtos['+ index + '].srcs" onchange="handleFileSelect(this, ' + index + ')">';
+            divTag.innerHTML = '<input multiple="multiple" type="file" id="srcs' + index + '" name="reviewDtos['+ index + '].srcs" onchange="handleFileSelect(this, ' + index + ')">';
 
             output.style.display = 'inline-block';
             elem.style.display = 'none';
-            elem.id = 'srcs src' + idx;
+            elem.id = 'srcs' + index + '-' + idx;
+            idx++;
         }
+
+
     }
 
     function loadImg() {
@@ -224,9 +226,9 @@
         var previewBoxTags = output.getElementsByClassName('preview-box');
         if (previewBoxTags.length >= 3) {
             console.log('들어왔다!!!');
-            var reviewPhotoTag = elem.parentElement;
-            var childNodes = reviewPhotoTag.childNodes;
-            var addImgTag = childNodes[5];
+            var div = elem.parentElement;
+            var reviewPhotoTag = div.parentElement;
+            var addImgTag = reviewPhotoTag.getElementsByClassName('add-img')[0];
             addImgTag.style.display = 'none';
         }
 

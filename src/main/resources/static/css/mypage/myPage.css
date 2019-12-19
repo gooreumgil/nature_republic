@@ -205,6 +205,10 @@ li.list__item div.list__inner.info span {
     margin-left: 20px;
 }
 
+li.list__item div.list__inner.info span.if-more {
+    margin-left: 0;
+}
+
 li.list__item div.list__inner.state {
     width: 20%;
 }

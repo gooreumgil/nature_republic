@@ -34,8 +34,11 @@ public class MyPageController {
 
         Member member = memberService.findByName(principal.getName());
         MemberDto.MyPageIndex myPageIndex = new MemberDto.MyPageIndex(member);
+
+        int itemCount = 0;
 //
         Page<Orders> orders = orderService.findByMemberId(member.getId(), PageRequest.of(0, 10, Sort.Direction.DESC, "orderDateTime"));
+
         List<OrderDto.Preview> collect = orders.stream().map(OrderDto.Preview::new).collect(Collectors.toList());
         Page<OrderDto.Preview> orderPages = new PageImpl<>(collect, orders.getPageable(), collect.size());
 //
@@ -44,6 +47,7 @@ public class MyPageController {
         model.addAttribute("memberDto", myPageIndex);
         model.addAttribute("orderPages", orderPages);
         model.addAttribute("onGoing", count);
+        model.addAttribute("itemCount", itemCount);
         model.addAttribute("nav", "index");
 
         return "myPage/index";
