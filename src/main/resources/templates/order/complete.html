@@ -45,7 +45,7 @@
                         <h4 th:text="${orderItemDto.itemName}"></h4>
                         <h5>
                             <span>상품가격:</span>
-                            <span th:text="${orderItemDto.itemPrice}"></span>
+                            <span th:text="${#numbers.formatInteger(orderItemDto.itemPrice, 3, 'COMMA')}"></span>
                         </h5>
                         <p>
                             <span>수량:</span>
@@ -74,13 +74,15 @@
 
                         <h5>배송료</h5>
                         <p>
-                            <span th:text="${#numbers.formatInteger(orderDto.deliveryPrice, 3, 'COMMA')}" class="bold"></span>
+                            <span th:if="${orderDto.deliveryPrice < 100}" th:text="${orderDto.deliveryPrice}" class="bold"></span>
+                            <span th:if="${orderDto.deliveryPrice >= 100}" th:text="${#numbers.formatInteger(orderDto.deliveryPrice, 3, 'COMMA')}" class="bold"></span>
                             <span>원</span>
                         </p>
 
                         <h5>할인금액</h5>
                         <p>
-                            <span th:text="${#numbers.formatInteger(orderDto.totalDiscountPrice, 3, 'COMMA')}" class="bold"></span>
+                            <span th:if="${orderDto.totalDiscountPrice < 100}" th:text="${orderDto.totalDiscountPrice}" class="bold"></span>
+                            <span th:if="${orderDto.totalDiscountPrice >= 100}" th:text="${#numbers.formatInteger(orderDto.totalDiscountPrice, 3, 'COMMA')}" class="bold"></span>
                             <span>원 (-)</span>
                         </p>
 

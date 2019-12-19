@@ -94,6 +94,7 @@ li.list-box.right .content-box {
 li.list-box.right .content-box.item {
     display: flex;
     align-items: center;
+    padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }

@@ -63,10 +63,10 @@
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
 
             <div th:each="itemOrder, i : ${itemOrders}">
-                <input type="hidden" th:name="|orderItemDto[${i.index}].itemId|" th:value="${itemOrder.id}">
-                <input type="hidden" th:id="price" th:name="|orderItemDto[${i.index}].orderPrice|" th:value="${itemOrder.price}">
-                <input type="hidden" th:id="discount" th:name="|orderItemDto[${i.index}].discount|" th:value="${itemOrder.discountPrice}">
-                <input type="hidden" th:name="|orderItemDto[${i.index}].count|" th:value="${itemOrder.count}">
+                <input type="hidden" th:name="|orderItemDtos[${i.index}].itemId|" th:value="${itemOrder.id}">
+                <input type="hidden" th:id="price" th:name="|orderItemDtos[${i.index}].orderPrice|" th:value="${itemOrder.price}">
+                <input type="hidden" th:id="discount" th:name="|orderItemDtos[${i.index}].discount|" th:value="${itemOrder.discountPrice}">
+                <input type="hidden" th:name="|orderItemDtos[${i.index}].count|" th:value="${itemOrder.count}">
             </div>
 
             <input type="hidden" th:id="savePoints" th:name="savePoints" th:value="${savePoints}">
