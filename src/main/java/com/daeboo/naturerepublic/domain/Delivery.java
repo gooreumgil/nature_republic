@@ -1,8 +1,6 @@
 package com.daeboo.naturerepublic.domain;
 
-import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.OrderAddress;
-import com.daeboo.naturerepublic.dto.OrderItemDto;
 import com.daeboo.naturerepublic.dto.OrderItemDtoWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,7 +65,7 @@ public class Delivery {
 
         delivery.address = orderAddress;
 
-        delivery.addressee = orderWrapper.getName();
+        delivery.addressee = orderWrapper.getAddressee();
         delivery.deliveryPrice = orderWrapper.getDeliveryPrice();
         delivery.phoneNumber = orderWrapper.getPhoneNumber();
         delivery.memo = orderWrapper.getMemo();

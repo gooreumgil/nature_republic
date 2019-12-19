@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="cart-item-list info">
-                    <img th:src="@{'/upload/' + ${cartItem.itemSrcs.get(0).s3Key}}" alt="">
+                    <img th:src="@{'/upload/' + ${cartItem.s3Key}}" alt="">
                     <span th:text="${cartItem.nameKor}"></span>
                 </div>
 
@@ -139,10 +139,11 @@
                 inputForItemQuantity.value = itemQuantityVal;
 
                 formTag.append(inputForItemId);
-                formTag.append(itemQuantityVal);
+                formTag.append(inputForItemQuantity);
             }
 
             document.body.append(formTag);
+            debugger;
             formTag.submit();
         });
 
@@ -171,15 +172,15 @@
 
                     var inputForItemId = document.createElement('input');
                     inputForItemId.type = 'hidden';
-                    inputForItemId.name = 'shoppingWrapper.shoppingCartDtos['+ i + '].itemId';
+                    inputForItemId.name = 'shoppingCartDtos['+ i + '].itemId';
                     inputForItemId.value = itemIdVal;
 
                     var itemQuantityTag = li.getElementsByClassName('item-quantity')[0];
-                    var itemQuantityVal = Number(itemQuantityTag.value);
+                    var itemQuantityVal = Number(itemQuantityTag.innerText);
 
                     var inputForItemQuantity = document.createElement('input');
                     inputForItemQuantity.type = 'hidden';
-                    inputForItemQuantity.name = 'shoppingWrapper.shoppingCartDtos[' + i + '].count';
+                    inputForItemQuantity.name = 'shoppingCartDtos[' + i + '].count';
                     inputForItemQuantity.value = itemQuantityVal;
 
                     formTag.append(inputForItemId);
@@ -188,6 +189,7 @@
             }
 
             document.body.append(formTag);
+            debugger;
             formTag.submit();
 
         });

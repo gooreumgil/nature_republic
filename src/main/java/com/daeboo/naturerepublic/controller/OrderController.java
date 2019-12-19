@@ -80,13 +80,28 @@ public class OrderController {
 
         }
 
-        List<ItemDto.Order> itemOrders = itemList.stream().map(item -> {
-            int count = 0;
-            for (ShoppingCartDto shoppingCartDto : shoppingCartDtos) {
-                count = shoppingCartDto.getCount();
-            }
-            return new ItemDto.Order(item, count);
-        }).collect(Collectors.toList());
+        List<ItemDto.Order> itemOrders = new ArrayList<>();
+
+        for(int i = 0; i < itemList.size(); i++) {
+
+            Item item = itemList.get(i);
+
+            ShoppingCartDto shoppingCartDto = shoppingCartDtos.get(i);
+            int count = shoppingCartDto.getCount();
+
+            ItemDto.Order order = new ItemDto.Order(item, count);
+            itemOrders.add(order);
+
+        }
+
+
+//        List<ItemDto.Order> itemOrders = itemList.stream().map(item -> {
+//            int count = 0;
+//            for (ShoppingCartDto shoppingCartDto : shoppingCartDtos) {
+//                count = shoppingCartDto.getCount();
+//            }
+//            return new ItemDto.Order(item, count);
+//        }).collect(Collectors.toList());
 
 
 //        model.addAttribute("orderItemDto", orderItemDtoWrapper.getOrderItemDtos().get(0));

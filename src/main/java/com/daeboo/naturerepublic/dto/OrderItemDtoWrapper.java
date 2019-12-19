@@ -15,7 +15,7 @@ public class OrderItemDtoWrapper {
     private Integer usePoints;
     private Integer deliveryPrice;
     private int savePoints;
-    private String name;
+    private String addressee;
     private String phoneNumber;
     private String mainAddress;
     private String detailAddress;

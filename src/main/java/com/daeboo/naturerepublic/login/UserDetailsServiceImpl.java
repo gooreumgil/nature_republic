@@ -1,6 +1,7 @@
 package com.daeboo.naturerepublic.login;
 
 import com.daeboo.naturerepublic.domain.Member;
+import com.daeboo.naturerepublic.domain.RoleEnum;
 import com.daeboo.naturerepublic.domain.RoleModel;
 import com.daeboo.naturerepublic.repository.MemberRepository;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +31,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<Member> memberOptional = memberRepository.findByName(username);
         if (memberOptional.isPresent()) {
             Member member = memberOptional.get();
-            String[] roles = member.getRoles().stream().map(RoleModel::getName).map(roleEnum -> roleEnum.name()).toArray(String[]::new);
+            List<String> list = new ArrayList<>();
+            for (RoleModel roleModel : member.getRoles()) {
+                RoleEnum roleEnum = roleModel.getName();
+                String name = roleEnum.name();
+                list.add(name);
+            }
+            String[] roles = list.toArray(new String[0]);
 
             return User.builder()
                     .username(member.getName())

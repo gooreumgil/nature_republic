@@ -65,6 +65,7 @@ public class OrderDto {
         private String orderStatus;
         private String deliveryStatus;
         private OrderItemDto.Preview orderItemDto;
+
         public Preview(Order order) {
             this.id = order.getId();
             this.orderDateTime = order.getOrderDateTime();

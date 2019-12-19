@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,6 +41,16 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+        ClassLoader platformClassLoader = ClassLoader.getPlatformClassLoader();
+        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+        InputStream bootstrap = ClassLoader.getSystemResourceAsStream("bootstrap");
+
+        System.out.println("bootstrap");
+        System.out.println(bootstrap);
+        System.out.println("systemClassLoader");
+        System.out.println(systemClassLoader);
+        System.out.println("platformClassLoader");
+        System.out.println(platformClassLoader);
     }
 
     @Bean

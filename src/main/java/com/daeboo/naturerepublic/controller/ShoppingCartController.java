@@ -2,14 +2,17 @@ package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.dto.ShoppingCartWrapper;
+import com.daeboo.naturerepublic.serializable.ItemSerializable;
 import com.daeboo.naturerepublic.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.SessionCookieConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,13 +30,14 @@ public class ShoppingCartController {
     public String cart(@ModelAttribute("shoppingWrapper") ShoppingCartWrapper shoppingWrapper, Principal principal, HttpSession httpSession, Model model) {
 
         String name = principal.getName();
-        List<Item> cartItems = new ArrayList<>();
-        List<Item> attributes = (List<Item>) httpSession.getAttribute(name);
+        List<ItemSerializable> cartItems = new ArrayList<>();
+        Object attributes = httpSession.getAttribute(name);
 
         if (attributes != null) {
-            cartItems = attributes;
-        }
+            cartItems = (List<ItemSerializable>) attributes;
 
+        }
+//
         model.addAttribute("cartItems", cartItems);
         return "shoppingCart/index";
 
@@ -44,16 +48,17 @@ public class ShoppingCartController {
 
         String name = principal.getName();
 
-        List<Item> cartItems = new ArrayList<>();
+        List<ItemSerializable> cartItems = new ArrayList<>();
 
-        List<Item> attribute = (List<Item>) httpSession.getAttribute(name);
+        Object attribute = httpSession.getAttribute(name);
 
         if (attribute != null) {
-            cartItems = attribute;
+            cartItems = (List<ItemSerializable>) attribute;
         }
 
         Item item = itemService.findById(itemId);
-        cartItems.add(item);
+        ItemSerializable itemSerializable = new ItemSerializable(item);
+        cartItems.add(itemSerializable);
 
         httpSession.setAttribute(name, cartItems);
 
@@ -66,7 +71,14 @@ public class ShoppingCartController {
 
         String name = principal.getName();
 
-        List<Item> cartItems = (List<Item>) httpSession.getAttribute(name);
+        List<ItemSerializable> cartItems = new ArrayList<>();
+
+        Object attribute = httpSession.getAttribute(name);
+
+        if (attribute != null) {
+            cartItems = (List<ItemSerializable>) attribute;
+        }
+
         cartItems.removeIf(item -> item.getId().equals(itemId));
 
         httpSession.setAttribute(name, cartItems);

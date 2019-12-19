@@ -81,7 +81,7 @@
                             <p>확인</p>
                         </div>
                     </li>
-                    <li class="list__item content clearfix" th:each="order : ${memberDto.orders}">
+                    <li class="list__item content clearfix" th:if="${memberDto != null}" th:each="order : ${memberDto.orders}">
                         <div class="list__inner date">
                             <p th:text="${#temporals.format(order.orderDateTime, 'yyyy-MM-dd')}"></p>
                         </div>
