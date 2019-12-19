@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/header :: header"/>
-<link rel="stylesheet" th:href="@{/css/order.css}">
+<link rel="stylesheet" th:href="@{/css/orders.css}">
 <style>
     header {
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15) !important;
@@ -32,7 +32,7 @@
             <li class="item__list content clearfix" th:object="${itemDto}">
                 <div class="img-div">
                     <div class="list__inner">
-                        <img th:src="@{${'/upload/' + itemDto.s3Key}}" alt="" class="order-item-img">
+                        <img th:src="@{${'/upload/' + itemDto.s3Key}}" alt="" class="orders-item-img">
                     </div>
                 </div>
                 <div class="info-div">
@@ -58,7 +58,7 @@
             </li>
         </ul>
 
-        <form th:action="@{/order}" method="post" th:object="${orderItemDto}">
+        <form th:action="@{/orders}" method="post" th:object="${orderItemDto}">
 
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
             <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">

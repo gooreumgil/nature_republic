@@ -13,7 +13,7 @@
 <section class="container">
 
 
-    <ul class="order-wrapper clearfix">
+    <ul class="orders-wrapper clearfix">
 
         <li class="order__list left">
             <div class="title-box">
@@ -23,7 +23,7 @@
                     자연의 완벽함을 믿습니다.
                 </p>
             </div>
-            <nav class="order-nav">
+            <nav class="orders-nav">
                 <a th:href="@{/myPage}" class="active">주문 배송 조회</a><br>
                 <a href="#">취소/반품 조회</a><br>
                 <a href="#">포인트</a><br>
@@ -52,7 +52,7 @@
 
                 <div th:if="${orderDtos.deliveryStatus == 'ONGOING'}" class="top-btn-box">
                     <button type="button" class="top-btn">배송조회</button>
-                    <button type="button" class="top-btn" id="order-confirm">구매확정</button>
+                    <button type="button" class="top-btn" id="orders-confirm">구매확정</button>
                     <button type="button" class="top-btn">교환/환불신청</button>
                 </div>
 
@@ -173,7 +173,7 @@
 <div th:replace="partials/bottom :: bottom"/>
 <footer th:replace="partials/footer :: footer"/>
 
-<div id="order-confirm-modal" class="modal">
+<div id="orders-confirm-modal" class="modal">
     <div class="modal-content">
         <input type="hidden" th:value="${orderDtos.id}">
         <input type="hidden" th:value="${memberId}">
@@ -181,15 +181,15 @@
         <h2>구매확정을 하시겠습니까?</h2>
         <h3>리뷰를 쓰시면 추가 포인트를 얻으실 수 있습니다.</h3>
         <button type="button" class="without-review">구매확정</button>
-        <button type="button" class="review" th:onclick="|window.location.href='@{/order/review(orderId=${orderDtos.id}, memberId=${memberId})}'|">리뷰쓰기 (추가 포인트 15P)</button>
+        <button type="button" class="review" th:onclick="|window.location.href='@{/orders/review(orderId=${orderDtos.id}, memberId=${memberId})}'|">리뷰쓰기 (추가 포인트 15P)</button>
     </div>
 </div>
 
 <script type="text/javascript">
 
-    var orderConfirmModal = document.getElementById('order-confirm-modal');
+    var orderConfirmModal = document.getElementById('orders-confirm-modal');
 
-    var orderConfirmButton = document.getElementById('order-confirm');
+    var orderConfirmButton = document.getElementById('orders-confirm');
 
     orderConfirmButton.onclick = function () {
         orderConfirmModal.classList.add('active');
@@ -231,7 +231,7 @@
 
         var formTag = document.createElement('form');
         formTag.method = 'post';
-        formTag.action = '/order/complete';
+        formTag.action = '/orders/complete';
         formTag.style.display = 'none';
 
         var inputTag = document.createElement('input');
@@ -263,7 +263,7 @@
 
         formTag.submit();
 
-        // window.location.href = '/order/complete?id=' + orderId + '&review=no';
+        // window.location.href = '/orders/complete?id=' + orderId + '&review=no';
     }
 
 

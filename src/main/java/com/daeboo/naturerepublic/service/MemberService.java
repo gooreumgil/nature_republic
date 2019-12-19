@@ -6,6 +6,10 @@ import com.daeboo.naturerepublic.exception.EmailNotExistedException;
 import com.daeboo.naturerepublic.exception.PasswordWrongException;
 import com.daeboo.naturerepublic.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,4 +54,6 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
         return member;
     }
+
+
 }

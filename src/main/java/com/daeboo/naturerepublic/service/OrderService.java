@@ -1,12 +1,13 @@
 package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.*;
-import com.daeboo.naturerepublic.dto.OrderItemDto;
 import com.daeboo.naturerepublic.dto.OrderItemDtoWrapper;
 import com.daeboo.naturerepublic.dto.ReviewDto;
 import com.daeboo.naturerepublic.dto.ReviewDtoWrapper;
 import com.daeboo.naturerepublic.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,7 +62,7 @@ public class OrderService {
 //    }
 
     @Transactional
-    public Order order(OrderItemDtoWrapper orderWrapper) {
+    public Orders order(OrderItemDtoWrapper orderWrapper) {
 
         Member member = memberRepository.findById(orderWrapper.getMemberId()).get();
         Delivery delivery = Delivery.createDelivery(orderWrapper);
@@ -83,11 +84,11 @@ public class OrderService {
 
         });
 
-        Order order = Order.createOrder(member, delivery, savePoints, usePoints, orderItems);
+        Orders orders = Orders.createOrder(member, delivery, savePoints, usePoints, orderItems);
 
         member.minusPoints(usePoints);
 
-        return orderRepository.save(order);
+        return orderRepository.save(orders);
 
 
     }
@@ -96,26 +97,26 @@ public class OrderService {
         return orderRepository.countDeliveryOngoing(memberId);
     }
 
-    public Order findById(Long id) {
+    public Orders findById(Long id) {
         return orderRepository.findById(id).get();
     }
 
-    public Order findByIdQuery(Long id) {
+    public Orders findByIdQuery(Long id) {
         return orderRepository.findByIdQuery(id).orElseThrow(() -> new RuntimeException("존재하지 않는 Order입니다."));
     }
 
     @Transactional
     public void orderComplete(Long orderId, Long memberId, boolean isReview) {
 
-        Order order = orderRepository.findById(orderId).get();
-        order.orderComplete();
+        Orders orders = orderRepository.findById(orderId).get();
+        orders.orderComplete();
 
-        Delivery delivery = order.getDelivery();
+        Delivery delivery = orders.getDelivery();
         delivery.deliveryArrived();
 
         Member member = memberRepository.findById(memberId).get();
 
-        Integer savePoints = order.getSavePoints();
+        Integer savePoints = orders.getSavePoints();
 
         if (savePoints != null) {
             member.addPoints(savePoints);
@@ -182,13 +183,13 @@ public class OrderService {
             }
         }
 
-        Order order = orderRepository.findById(wrapper.getOrderId()).get();
-        order.orderComplete();
+        Orders orders = orderRepository.findById(wrapper.getOrderId()).get();
+        orders.orderComplete();
 
-        Delivery delivery = order.getDelivery();
+        Delivery delivery = orders.getDelivery();
         delivery.deliveryArrived();
 
-        Integer savePoints = order.getSavePoints();
+        Integer savePoints = orders.getSavePoints();
 
         if (savePoints == null) {
             member.addPoints(15);
@@ -196,6 +197,11 @@ public class OrderService {
             member.addPoints(savePoints + 15);
         }
 
+    }
+
+    public Page<Orders> findByMemberId(Long id, Pageable pageable) {
+        Page<Orders> orders = orderRepository.findAllByMemberId(id, pageable);
+        return orders;
     }
 
     private void createFile(MultipartFile img) {
@@ -209,6 +215,7 @@ public class OrderService {
         }
 
     }
+
 
 
 }

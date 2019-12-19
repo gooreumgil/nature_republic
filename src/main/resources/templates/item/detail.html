@@ -92,8 +92,8 @@
                     </li>
                     <li class="col-6 buy">
                         <div>
-                            <form th:action="@{/order}" method="get">
-                                <!--                                        <a th:href="@{/order(id=*{item.id}, count=1)}">-->
+                            <form th:action="@{/orders}" method="get">
+                                <!--                                        <a th:href="@{/orders(id=*{item.id}, count=1)}">-->
                                 <!--                                            <p>바로구매</p>-->
                                 <!--                                        </a>-->
                                 <input type="hidden" name="itemId" th:value="${item.id}">

@@ -2,7 +2,7 @@ package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Item;
 import com.daeboo.naturerepublic.domain.Member;
-import com.daeboo.naturerepublic.domain.Order;
+import com.daeboo.naturerepublic.domain.Orders;
 import com.daeboo.naturerepublic.domain.OrderItem;
 import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.ItemService;
@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final MemberService memberService;
@@ -133,9 +132,9 @@ public class OrderController {
 
         List<OrderItemDto.Create> orderItemDtos = orderWrapper.getOrderItemDtos();
 
-        Order order = orderService.order(orderWrapper);
+        Orders orders = orderService.order(orderWrapper);
 
-        OrderDto.OrderComplete orderComplete = new OrderDto.OrderComplete(order);
+        OrderDto.OrderComplete orderComplete = new OrderDto.OrderComplete(orders);
 
         model.addAttribute("orderDto", orderComplete);
 
@@ -153,8 +152,8 @@ public class OrderController {
     @GetMapping("/review")
     public String orderReviewForm(Long orderId, Long memberId, Model model) {
 
-        Order order = orderService.findById(orderId);
-        List<OrderItem> orderItems = order.getOrderItems();
+        Orders orders = orderService.findById(orderId);
+        List<OrderItem> orderItems = orders.getOrderItems();
 
         List<ItemDto.ReviewForm> itemList = new ArrayList<>();
 

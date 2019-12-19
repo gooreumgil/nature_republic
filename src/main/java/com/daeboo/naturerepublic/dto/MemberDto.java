@@ -1,8 +1,6 @@
 package com.daeboo.naturerepublic.dto;
 
 import com.daeboo.naturerepublic.domain.Member;
-import com.daeboo.naturerepublic.domain.Order;
-import com.daeboo.naturerepublic.domain.OrderStatus;
 import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
@@ -14,8 +12,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MemberDto {
 
@@ -121,12 +117,12 @@ public class MemberDto {
             this.name = member.getName();
             this.points = member.getPoints();
 
-            List<Order> orders = member.getOrders();
-
-            for (Order order : orders) {
-                OrderDto.Preview preview = new OrderDto.Preview(order);
-                this.orders.add(preview);
-            }
+//            List<Order> orders = member.getOrders();
+//
+//            for (Order order : orders) {
+//                OrderDto.Preview preview = new OrderDto.Preview(order);
+//                this.orders.add(preview);
+//            }
 
         }
     }

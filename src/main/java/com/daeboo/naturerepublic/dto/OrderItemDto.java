@@ -1,6 +1,5 @@
 package com.daeboo.naturerepublic.dto;
 
-import com.daeboo.naturerepublic.domain.Order;
 import com.daeboo.naturerepublic.domain.OrderItem;
 import lombok.Data;
 import lombok.Getter;

@@ -1,8 +1,7 @@
 package com.daeboo.naturerepublic.dto;
 
-import com.daeboo.naturerepublic.domain.Order;
+import com.daeboo.naturerepublic.domain.Orders;
 import com.daeboo.naturerepublic.domain.OrderItem;
-import com.daeboo.naturerepublic.domain.OrderStatus;
 import com.daeboo.naturerepublic.domain.embeded.OrderAddress;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,24 +29,24 @@ public class OrderDto {
         private Integer totalDiscountPrice;
         private Integer usePoints;
 
-        public OrderComplete(Order order) {
+        public OrderComplete(Orders orders) {
 
-            List<OrderItem> orderItems = order.getOrderItems();
+            List<OrderItem> orderItems = orders.getOrderItems();
             for (OrderItem orderItem : orderItems) {
                 OrderItemDto.CompletePage completePage = new OrderItemDto.CompletePage(orderItem);
                 this.orderItemDtos.add(completePage);
             }
 
-            this.addressee = order.getDelivery().getAddressee();
-            this.orderAddress = order.getDelivery().getAddress();
-            this.deliveryPrice = order.getDelivery().getDeliveryPrice();
-            this.phoneNumber = order.getDelivery().getPhoneNumber();
-            this.memo = order.getDelivery().getMemo();
+            this.addressee = orders.getDelivery().getAddressee();
+            this.orderAddress = orders.getDelivery().getAddress();
+            this.deliveryPrice = orders.getDelivery().getDeliveryPrice();
+            this.phoneNumber = orders.getDelivery().getPhoneNumber();
+            this.memo = orders.getDelivery().getMemo();
 
-            this.totalDiscountPrice = order.totalDiscountPrice();
-            this.totalPrice = order.totalPrice(deliveryPrice, usePoints);
-            this.totalItemPrice = order.totalItemPrice();
-            this.usePoints = order.getUsePoints();
+            this.totalDiscountPrice = orders.totalDiscountPrice();
+            this.totalPrice = orders.totalPrice(deliveryPrice, usePoints);
+            this.totalItemPrice = orders.totalItemPrice();
+            this.usePoints = orders.getUsePoints();
 
         }
 
@@ -66,12 +65,12 @@ public class OrderDto {
         private String deliveryStatus;
         private OrderItemDto.Preview orderItemDto;
 
-        public Preview(Order order) {
-            this.id = order.getId();
-            this.orderDateTime = order.getOrderDateTime();
-            this.orderStatus = order.getOrderStatus().toString();
-            this.deliveryStatus = order.getDelivery().getDeliveryStatus().toString();
-            this.orderItemDto = new OrderItemDto.Preview(order.getOrderItems().get(0));
+        public Preview(Orders orders) {
+            this.id = orders.getId();
+            this.orderDateTime = orders.getOrderDateTime();
+            this.orderStatus = orders.getOrderStatus().toString();
+            this.deliveryStatus = orders.getDelivery().getDeliveryStatus().toString();
+            this.orderItemDto = new OrderItemDto.Preview(orders.getOrderItems().get(0));
         }
 
     }
@@ -99,30 +98,30 @@ public class OrderDto {
         private Integer deliveryPrice;
         private Integer usePoints;
 
-        public DetailPage(Order order) {
+        public DetailPage(Orders orders) {
 
-            this.id = order.getId();
-            this.memberId = order.getMember().getId();
-            this.orderDateTime = order.getOrderDateTime();
-            this.orderStatus = order.getOrderStatus().toString();
+            this.id = orders.getId();
+            this.memberId = orders.getMember().getId();
+            this.orderDateTime = orders.getOrderDateTime();
+            this.orderStatus = orders.getOrderStatus().toString();
 
-            List<OrderItem> orderItems = order.getOrderItems();
+            List<OrderItem> orderItems = orders.getOrderItems();
             for (OrderItem orderItem : orderItems) {
                 orderItemDtos.add(new OrderItemDto.DetailPage(orderItem));
             }
 
-            this.deliveryStatus = order.getDelivery().getDeliveryStatus().toString();
-            this.addressee = order.getDelivery().getAddressee();
-            this.phoneNumber = order.getDelivery().getPhoneNumber();
-            this.mainAddress = order.getDelivery().getAddress().getMain();
-            this.detailAddress = order.getDelivery().getAddress().getDetail();
-            this.deliveryMemo = order.getDelivery().getMemo();
+            this.deliveryStatus = orders.getDelivery().getDeliveryStatus().toString();
+            this.addressee = orders.getDelivery().getAddressee();
+            this.phoneNumber = orders.getDelivery().getPhoneNumber();
+            this.mainAddress = orders.getDelivery().getAddress().getMain();
+            this.detailAddress = orders.getDelivery().getAddress().getDetail();
+            this.deliveryMemo = orders.getDelivery().getMemo();
 
-            this.totalPrice = order.totalPrice(order.getDelivery().getDeliveryPrice(), order.getUsePoints());
-            this.totalItemPrice = order.totalItemPrice();
-            this.totalDiscount = order.totalDiscountPrice();
-            this.deliveryPrice = order.getDelivery().getDeliveryPrice();
-            this.usePoints = order.getUsePoints();
+            this.totalPrice = orders.totalPrice(orders.getDelivery().getDeliveryPrice(), orders.getUsePoints());
+            this.totalItemPrice = orders.totalItemPrice();
+            this.totalDiscount = orders.totalDiscountPrice();
+            this.deliveryPrice = orders.getDelivery().getDeliveryPrice();
+            this.usePoints = orders.getUsePoints();
 
         }
     }

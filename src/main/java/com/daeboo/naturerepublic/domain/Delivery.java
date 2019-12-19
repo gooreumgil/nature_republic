@@ -33,7 +33,7 @@ public class Delivery {
     private DeliveryStatus deliveryStatus;
 
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
-    private Order order;
+    private Orders orders;
 
 //    public static Delivery createDelivery(OrderItemDto.Create orderItemDto) {
 //        Delivery delivery = new Delivery();
@@ -75,8 +75,8 @@ public class Delivery {
 
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
     // 배송도착

@@ -5,7 +5,7 @@
     padding-top: 40px;
 }
 
-ul.order-wrapper {
+ul.orders-wrapper {
 }
 
 
@@ -42,13 +42,13 @@ li.order__list.left div.title-box p {
     line-height: 1.6;
 }
 
-li.order__list.left nav.order-nav {
+li.order__list.left nav.orders-nav {
     box-sizing: border-box;
     padding: 25px 30px 35px 35px;
     border: 1px solid #ddd;
 }
 
-li.order__list.left nav.order-nav a {
+li.order__list.left nav.orders-nav a {
     font-size: 14px;
     font-weight: 400;
     color: #888;
@@ -56,11 +56,11 @@ li.order__list.left nav.order-nav a {
     margin-top: 25px;
 }
 
-li.order__list.left nav.order-nav a:first-child {
+li.order__list.left nav.orders-nav a:first-child {
     margin-top: 0;
 }
 
-li.order__list.left nav.order-nav a.active {
+li.order__list.left nav.orders-nav a.active {
     color: #333;
     font-weight: 600;
 }

@@ -86,8 +86,8 @@
             </li>
 
             <div class="cart-btn-box" th:if="${cartItems.size() > 0}">
-                <button type="button" class="all-order">전체상품주문</button>
-                <button type="button" class="select-order">선택상품주문</button>
+                <button type="button" class="all-orders">전체상품주문</button>
+                <button type="button" class="select-orders">선택상품주문</button>
                 <button type="button" class="keep-going">계속쇼핑하기</button>
             </div>
         </ul>
@@ -107,11 +107,11 @@
     window.onload = function (ev) {
 
         // 전체 상품 주문
-        var allOrder = document.getElementsByClassName('all-order')[0];
+        var allOrder = document.getElementsByClassName('all-orders')[0];
         allOrder.addEventListener('click', function (evt) {
 
             var formTag = document.createElement('form');
-            formTag.action = '/order';
+            formTag.action = '/orders';
             formTag.method = 'get';
 
             var checkInputs = document.getElementsByClassName('check-input');
@@ -149,11 +149,11 @@
 
 
         // 선택 상품 주문
-        var selectedOrder = document.getElementsByClassName('select-order')[0];
+        var selectedOrder = document.getElementsByClassName('select-orders')[0];
         selectedOrder.addEventListener('click', function (evt) {
 
             var formTag = document.createElement('form');
-            formTag.action = '/order';
+            formTag.action = '/orders';
             formTag.method = 'get';
 
             var checkInputs = document.getElementsByClassName('check-input');

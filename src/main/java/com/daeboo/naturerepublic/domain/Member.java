@@ -5,7 +5,6 @@ import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
 import lombok.*;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +40,7 @@ public class Member {
     private Set<RoleModel> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Order> orders;
+    private List<Orders> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();

@@ -13,7 +13,7 @@
 
 <section class="container" >
 
-    <form class="form-wrap clearfix" th:action="@{/order/review}" method="post" enctype="multipart/form-data">
+    <form class="form-wrap clearfix" th:action="@{/orders/review}" method="post" enctype="multipart/form-data">
         <div class="btn-box">
             <button type="submit" class="submit">리뷰등록</button>
             <button type="button" class="cancel">취소</button>
@@ -91,7 +91,7 @@
                 <div class="content-box">
 
                     <nav class="content-tab-nav">
-                        <button type="button" onclick="textTab()" class="text-tab-btn">
+                        <button type="button" onclick="textTab(this)" class="text-tab-btn">
                             <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
                                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M10.239 42.86L45.812 7.328l10.848 10.86L21.086 53.72z"
@@ -102,7 +102,7 @@
                                       fill="#a0a0a0" data-name="layer1"></path>
                             </svg>
                         </button>
-                        <button type="button" onclick="photoTab()" class="photo-tab-btn">
+                        <button type="button" onclick="photoTab(this)" class="photo-tab-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path data-name="layer1"
@@ -288,20 +288,34 @@
 
 
     // style
-    var reviewTextDiv = document.getElementsByClassName('review-text')[0];
-    var reviewPhotoDiv = document.getElementsByClassName('review-photo')[0];
+    function textTab(elem) {
 
-    var textTabBtn = document.getElementsByClassName('text-tab-btn')[0];
-    var photoTabBtn = document.getElementsByClassName('photo-tab-btn')[0];
+        var nav = elem.parentElement;
+        var contentBox = nav.parentElement;
 
-    function textTab() {
+        var reviewTextDiv = contentBox.getElementsByClassName('review-text')[0];
+        var reviewPhotoDiv = contentBox.getElementsByClassName('review-photo')[0];
+
+        var textTabBtn = contentBox.getElementsByClassName('text-tab-btn')[0];
+        var photoTabBtn = contentBox.getElementsByClassName('photo-tab-btn')[0];
+
         reviewPhotoDiv.style.display = 'none';
         photoTabBtn.style.backgroundColor = '#fff';
         reviewTextDiv.style.display = 'block';
         textTabBtn.style.backgroundColor = '#f1f1f1';
     }
 
-    function photoTab() {
+    function photoTab(elem) {
+
+        var nav = elem.parentElement;
+        var contentBox = nav.parentElement;
+
+        var reviewTextDiv = contentBox.getElementsByClassName('review-text')[0];
+        var reviewPhotoDiv = contentBox.getElementsByClassName('review-photo')[0];
+
+        var textTabBtn = contentBox.getElementsByClassName('text-tab-btn')[0];
+        var photoTabBtn = contentBox.getElementsByClassName('photo-tab-btn')[0];
+
         reviewTextDiv.style.display = 'none';
         textTabBtn.style.backgroundColor = '#fff';
         reviewPhotoDiv.style.display = 'block';

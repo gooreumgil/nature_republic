@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter @NoArgsConstructor
-public class Order {
+public class Orders {
 
     @Id @GeneratedValue
     @Column(name = "order_id")
@@ -24,7 +24,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,22 +55,22 @@ public class Order {
 //        return order;
 //    }
 
-    public static Order createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, List<OrderItem> orderItems) {
-        Order order = new Order();
-        order.setMember(member);
+    public static Orders createOrder(Member member, Delivery delivery, Integer savePoints, Integer usePoints, List<OrderItem> orderItems) {
+        Orders orders = new Orders();
+        orders.setMember(member);
 
-        order.savePoints = savePoints;
-        order.usePoints = usePoints;
-        order.setDelivery(delivery);
+        orders.savePoints = savePoints;
+        orders.usePoints = usePoints;
+        orders.setDelivery(delivery);
 
         for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
+            orders.addOrderItem(orderItem);
         }
 
-        order.orderDateTime = LocalDateTime.now();
-        order.orderStatus = OrderStatus.ORDER;
+        orders.orderDateTime = LocalDateTime.now();
+        orders.orderStatus = OrderStatus.ORDER;
 
-        return order;
+        return orders;
     }
 
     // 연관관계 편의 메소드
@@ -81,12 +81,12 @@ public class Order {
 
     public void addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
-        orderItem.setOrder(this);
+        orderItem.setOrders(this);
     }
 
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
-        delivery.setOrder(this);
+        delivery.setOrders(this);
     }
 
     // 조회 로직

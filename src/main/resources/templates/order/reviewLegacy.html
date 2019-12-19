@@ -21,7 +21,7 @@
 
         <input type="hidden" th:id="orderId" th:value="${orderId}">
 
-        <form th:action="@{/order/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
+        <form th:action="@{/orders/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
 
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${reviewDto.itemDto.id}">

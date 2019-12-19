@@ -4,16 +4,10 @@ import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.internal.SessionImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,12 +31,18 @@ public class MyPageController {
 
     @GetMapping
     public String index(Principal principal,  Model model) {
+
         Member member = memberService.findByName(principal.getName());
         MemberDto.MyPageIndex myPageIndex = new MemberDto.MyPageIndex(member);
-
+//
+        Page<Orders> orders = orderService.findByMemberId(member.getId(), PageRequest.of(0, 10, Sort.Direction.DESC, "orderDateTime"));
+        List<OrderDto.Preview> collect = orders.stream().map(OrderDto.Preview::new).collect(Collectors.toList());
+        Page<OrderDto.Preview> orderPages = new PageImpl<>(collect, orders.getPageable(), collect.size());
+//
         Long count = orderService.onGoingCount(member.getId());
 
         model.addAttribute("memberDto", myPageIndex);
+        model.addAttribute("orderPages", orderPages);
         model.addAttribute("onGoing", count);
         model.addAttribute("nav", "index");
 
@@ -54,8 +53,8 @@ public class MyPageController {
     public String orderDetail(@RequestParam("id") Long id, Principal principal,  Model model) {
 
 //        Order order = orderService.findById(id);
-        Order order = orderService.findByIdQuery(id);
-        OrderDto.DetailPage orderDto = new OrderDto.DetailPage(order);
+        Orders orders = orderService.findByIdQuery(id);
+        OrderDto.DetailPage orderDto = new OrderDto.DetailPage(orders);
 
         String name = principal.getName();
 //        Member member = memberService.findByName(name);
