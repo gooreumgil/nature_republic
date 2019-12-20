@@ -29,24 +29,18 @@ public class WelcomeController {
 
         // Best Items
         Page<Item> populars = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "likesCount"));
-
-        List<ItemDto.PopularPreview> popularResult = populars.stream().map(item -> {
-            return new ItemDto.PopularPreview(item);
-        }).collect(Collectors.toList());
+        Page<ItemDto.PopularPreview> popularResult = populars.map(ItemDto.PopularPreview::new);
 
         // Latest Items
         Page<Item> latestItems = itemRepository.findAll(PageRequest.of(0, 4, Sort.Direction.DESC, "registerAt"));
-
-        List<ItemDto.LatestPreview> latestResult = latestItems.stream().map(item -> {
-            return new ItemDto.LatestPreview(item);
-        }).collect(Collectors.toList());
+        Page<ItemDto.LatestPreview> latestResult = latestItems.map(ItemDto.LatestPreview::new);
 
         // News
-        PageImpl<NewsDto.Home> news = newsService.findAll(PageRequest.of(0, 3, Sort.Direction.DESC, "wroteAt"));
+//        PageImpl<NewsDto.Home> news = newsService.findAll(PageRequest.of(0, 3, Sort.Direction.DESC, "wroteAt"));
 
         model.addAttribute("populars", popularResult);
         model.addAttribute("latestItems", latestResult);
-        model.addAttribute("news", news);
+//        model.addAttribute("news", news);
 
         return "welcome/index";
     }

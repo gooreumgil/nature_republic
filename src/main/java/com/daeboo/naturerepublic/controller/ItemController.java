@@ -61,8 +61,10 @@ public class ItemController {
         model.addAttribute("sorts", sortList);
 
         //  Best Items
-        Page<CategoryItemDto.ListView> topBest = categoryItemService
+        Page<CategoryItem> bestItems = categoryItemService
                 .findALLByCategoryName("ALL", PageRequest.of(0, 4, Sort.Direction.DESC, "item.likesCount"));
+        Page<CategoryItemDto.ListView> topBest = bestItems.map(CategoryItemDto.ListView::new);
+
         model.addAttribute("populars", topBest);
 
         // Item Count
@@ -70,8 +72,9 @@ public class ItemController {
         model.addAttribute("itemCount", itemCount);
 
         // Item List
-        Page<CategoryItemDto.ListView> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable);
-        model.addAttribute("categoryItems", itemList);
+        Page<CategoryItem> itemList = categoryItemService.findALLByCategoryName(currentCategory, pageable);
+        Page<CategoryItemDto.ListView> itemPages = itemList.map(CategoryItemDto.ListView::new);
+        model.addAttribute("categoryItems", itemPages);
 
         return "item/index";
 
@@ -115,12 +118,7 @@ public class ItemController {
 
         // QNA
         Page<Qna> qnaList = qnaService.findAllByItemId(id, PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
-        List<QnaDto.ItemDetail> qnaReponseDtos = qnaList.stream().map(qna -> {
-            return new QnaDto.ItemDetail(qna);
-        }).collect(Collectors.toList());
-
-        // QNA page
-        Page<QnaDto.ItemDetail> itemDetails = new PageImpl<>(qnaReponseDtos, qnaList.getPageable(), qnaList.getSize());
+        Page<QnaDto.ItemDetail> itemDetails = qnaList.map(QnaDto.ItemDetail::new);
 
         model.addAttribute("qnaReponseDtos", itemDetails);
 
@@ -152,19 +150,17 @@ public class ItemController {
 
         // 구매후기
         Page<Review> reviewList = reviewService.findAllByItemId(findItem.getId(), PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt"));
-        List<ReviewResponseDto> reviewDtos = reviewList.stream().map(review -> {
-            return new ReviewResponseDto(review);
-        }).collect(Collectors.toList());
-        new PageImpl<>(reviewDtos, reviewList.getPageable(), reviewDtos.size());
+        Page<ReviewResponseDto> reviewDtos = reviewList.map(ReviewResponseDto::new);
 
         model.addAttribute("item", detail);
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("reviewDtos", reviewDtos);
 
         String mainCategory = detail.getMainCategory();
-        Page<CategoryItemDto.ListView> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likesCount"));
+        Page<CategoryItem> allByCategoryName = categoryItemService.findALLByCategoryName(mainCategory, PageRequest.of(0, 4, Sort.Direction.DESC, "item.likesCount"));
+        Page<CategoryItemDto.ListView> allByCategoryNamePages = allByCategoryName.map(CategoryItemDto.ListView::new);
 
-        model.addAttribute("categoryBests", allByCategoryName);
+        model.addAttribute("categoryBests", allByCategoryNamePages);
         model.addAttribute("newLineChar", '\n');
 
         return "item/detail";

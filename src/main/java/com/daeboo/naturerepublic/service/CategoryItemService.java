@@ -23,12 +23,14 @@ public class CategoryItemService {
     @PersistenceContext
     private EntityManager em;
 
-    public Page<CategoryItemDto.ListView> findALLByCategoryName(String currentCategory, Pageable pageable) {
+    public Page<CategoryItem> findALLByCategoryName(String currentCategory, Pageable pageable) {
 
-        List<CategoryItem> allByCategoryName = categoryItemRepository.findALLByCategoryName(currentCategory, pageable);
-        List<CategoryItemDto.ListView> popularPreviews = getListViews2(allByCategoryName);
+        Page<CategoryItem> allByCategoryName = categoryItemRepository.findALLByCategoryName(currentCategory, pageable);
 
-        return new PageImpl<>(popularPreviews, pageable, popularPreviews.size());
+//        List<CategoryItemDto.ListView> popularPreviews = getListViews2(allByCategoryName);
+//        return new PageImpl<>(popularPreviews, pageable, popularPreviews.size());
+
+        return allByCategoryName;
 
     }
 

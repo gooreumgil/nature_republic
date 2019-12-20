@@ -103,14 +103,7 @@ public class AdminController {
 
 //        List<Item> allItems = itemService.findAllWithSrc();
         Page<Item> allItems = itemService.findAllPage(pageable);
-
         Page<ItemDto.ListView> listViews = allItems.map(ItemDto.ListView::new);
-
-        int size = listViews.getSize();
-        long totalElements = listViews.getTotalElements();
-        int totalPages = listViews.getTotalPages();
-        int number = listViews.getNumber();
-        int numberOfElements = listViews.getNumberOfElements();
 
         model.addAttribute("itemDto", listViews);
 
@@ -121,13 +114,14 @@ public class AdminController {
     @GetMapping("/items/update/{id}")
     public String updateItemForm(@ModelAttribute("itemDto") ItemDto.UpdateForm result, @PathVariable Long id, @RequestParam(value = "status", defaultValue = "update") String status, Model model) {
 
-        result = itemService.findByIdForUpdate(id);
-        List<Category> allCategories = categoryService.findAll();
+        Item item = itemService.findByIdForUpdate(id);
+        ItemDto.UpdateForm updateForm = new ItemDto.UpdateForm(item);
 
+        List<Category> allCategories = categoryService.findAll();
         allCategories.removeIf(category -> category.getName().equals("ALL"));
 
         model.addAttribute("status", status);
-        model.addAttribute("updateDto", result);
+        model.addAttribute("updateDto", updateForm);
         model.addAttribute("allCategories", allCategories);
 
         return "admin/item/itemReg";

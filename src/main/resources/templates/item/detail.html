@@ -161,14 +161,14 @@
         <li class="col-3">
             <div>
                 <a href="#" onclick="itemReviewScroll(this)" class="tab-link">리뷰
-                    (<span th:text="${reviewDtos.size()}"></span>)
+                    (<span th:text="${reviewDtos.totalElements}"></span>)
                 </a>
             </div>
         </li>
         <li class="col-3">
             <div>
                 <a href="#" onclick="itemQnaScroll(this)" class="tab-link">Q&amp;A
-                    (<span th:text="${qnaReponseDtos.numberOfElements}"></span>)
+                    (<span th:text="${qnaReponseDtos.totalElements}"></span>)
                 </a>
             </div>
         </li>

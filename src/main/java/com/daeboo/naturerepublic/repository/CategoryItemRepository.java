@@ -16,7 +16,7 @@ public interface CategoryItemRepository extends JpaRepository<CategoryItem, Long
 
     @Query(value = "select ci from CategoryItem ci join fetch ci.item i where ci.categoryName = :category",
         countQuery = "select count(i) from Item i")
-    List<CategoryItem> findALLByCategoryName(@Param("category") String category, Pageable pageable);
+    Page<CategoryItem> findALLByCategoryName(@Param("category") String category, Pageable pageable);
 
 //    @Query(value = "select ci from CategoryItem ci join fetch ci.item i where ci.categoryName = :category order by :sortBy asc",
 //            countQuery = "select count(i) from Item i")

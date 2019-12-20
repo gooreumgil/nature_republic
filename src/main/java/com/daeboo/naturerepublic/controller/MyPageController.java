@@ -4,10 +4,8 @@ import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.*;
 import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,18 +28,16 @@ public class MyPageController {
     private final ReviewService reviewService;
 
     @GetMapping
-    public String index(Principal principal,  Model model) {
+    public String index0(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "orderDateTime") Pageable pageable, Principal principal, Model model) {
 
         Member member = memberService.findByName(principal.getName());
         MemberDto.MyPageIndex myPageIndex = new MemberDto.MyPageIndex(member);
 
         int itemCount = 0;
-//
-        Page<Orders> orders = orderService.findByMemberId(member.getId(), PageRequest.of(0, 10, Sort.Direction.DESC, "orderDateTime"));
 
-        List<OrderDto.Preview> collect = orders.stream().map(OrderDto.Preview::new).collect(Collectors.toList());
-        Page<OrderDto.Preview> orderPages = new PageImpl<>(collect, orders.getPageable(), collect.size());
-//
+        Page<Orders> orders = orderService.findByMemberId(member.getId(), pageable);
+        Page<OrderDto.Preview> orderPages = orders.map(OrderDto.Preview::new);
+
         Long count = orderService.onGoingCount(member.getId());
 
         model.addAttribute("memberDto", myPageIndex);
@@ -71,15 +67,14 @@ public class MyPageController {
     }
 
     @GetMapping("/likes")
-    public String itemLikes(@ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Principal principal, Model model) {
+    public String itemLikes(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC, sort = "likedAt") Pageable pageable,
+                                @ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Principal principal, Model model) {
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
 
-        Page<Likes> likesList = likesService.findAllByMemberId(member.getId(), PageRequest.of(0, 12, Sort.Direction.DESC, "likedAt"));
-        List<LikesDto.LikePage> likesDtoList = likesList.stream().map(LikesDto.LikePage::new).collect(Collectors.toList());
-
-        PageImpl<LikesDto.LikePage> likeDtoPages = new PageImpl<>(likesDtoList, likesList.getPageable(), likesDtoList.size());
+        Page<Likes> likesList = likesService.findAllByMemberId(member.getId(), pageable);
+        Page<LikesDto.LikePage> likeDtoPages = likesList.map(LikesDto.LikePage::new);
 
         model.addAttribute("memberId", member.getId());
         model.addAttribute("likeDtos", likeDtoPages);
@@ -103,15 +98,12 @@ public class MyPageController {
     }
 
     @GetMapping("/qna")
-    public String qna(Principal principal, Model model) {
+    public String qna(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "wroteAt") Pageable pageable, Principal principal, Model model) {
 
         Member member = memberService.findByName(principal.getName());
 
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.Direction.DESC, "wroteAt");
-
-        Page<Qna> qnaList = qnaService.findAllByMemberId(member.getId(), pageRequest);
-        List<QnaDto.MyPage> qnaDtos = qnaList.stream().map(QnaDto.MyPage::new).collect(Collectors.toList());
-        Page<QnaDto.MyPage> myPages = new PageImpl<>(qnaDtos, pageRequest, qnaDtos.size());
+        Page<Qna> qnaList = qnaService.findAllByMemberId(member.getId(), pageable);
+        Page<QnaDto.MyPage> myPages = qnaList.map(QnaDto.MyPage::new);
 
         model.addAttribute("qnaDtos", myPages);
         model.addAttribute("newLineChar", "\n");
@@ -120,17 +112,12 @@ public class MyPageController {
     }
 
     @GetMapping("/reviews")
-    public String reviews(Principal principal, Model model, HttpSession httpSession) {
+    public String reviews(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "wroteAt") Pageable pageable, Principal principal, Model model, HttpSession httpSession) {
 
         Member member = memberService.findByName(principal.getName());
 
-        Page<Review> reviews = reviewService.findAllByMeberId(member.getId(), PageRequest.of(0, 12, Sort.Direction.ASC, "wroteAt"));
-
-        List<ReviewResponseDto> reviewResponseDtos = reviews.stream().map(review -> {
-            return new ReviewResponseDto(review);
-        }).collect(Collectors.toList());
-
-        Page<ReviewResponseDto> reviewResponseDtoPage = new PageImpl<>(reviewResponseDtos, reviews.getPageable(), reviewResponseDtos.size());
+        Page<Review> reviews = reviewService.findAllByMeberId(member.getId(), pageable);
+        Page<ReviewResponseDto> reviewResponseDtoPage = reviews.map(ReviewResponseDto::new);
 
         model.addAttribute("newLineChar", "\n");
         model.addAttribute("reviewDtos", reviewResponseDtoPage);

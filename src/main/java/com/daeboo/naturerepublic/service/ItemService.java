@@ -112,15 +112,10 @@ public class ItemService {
 
     }
 
-    public ItemDto.UpdateForm findByIdForUpdate(Long id) {
+    public Item findByIdForUpdate(Long id) {
 
-        Optional<Item> optionalItem = itemRepository.findById(id);
-        if (optionalItem.isPresent()) {
-            Item item = optionalItem.get();
-            return new ItemDto.UpdateForm(item);
-        } else {
-            throw new RuntimeException("존재하지 않는 상품입니다.");
-        }
+        return itemRepository.findById(id).orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다"));
+
 
     }
 

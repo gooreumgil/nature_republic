@@ -93,7 +93,7 @@ public class ItemDto {
             itemSrcs.forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
-                } else {
+                } else if (itemSrc.getImgType().equals(ImgType.DETAIL)){
                     detailSrcs.add(itemSrc);
                 }
             });
