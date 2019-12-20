@@ -7,6 +7,8 @@ import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.thymeleaf.util.NumberUtils;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +16,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberDto {
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Update {
+
+        private Long id;
+        private String name;
+        private String passwordConfirm;
+        private String email;
+
+        private String city;
+        private String street;
+        private String zipcode;
+
+        private int birthday;
+        private String birthdayResponse;
+
+        private String number1;
+        private String number2;
+        private String number3;
+
+        public Update(Member member) {
+            this.id = member.getId();
+            this.name = member.getName();
+            this.email = member.getEmail();
+            this.city = member.getAddress().getCity();
+            this.street = member.getAddress().getStreet();
+            this.zipcode = member.getAddress().getZipcode();
+
+            Birthday birthday = member.getBirthday();
+            String year = String.valueOf(birthday.getYear());
+            String month = String.valueOf(birthday.getMonth());
+            String day = String.valueOf(birthday.getDay());
+
+            if (Integer.parseInt(month) < 10) {
+                month = "0" + month;
+            }
+
+            if (Integer.parseInt(day) < 10) {
+                day = "0" + day;
+            }
+
+            this.birthdayResponse = year + month + day;
+
+            this.number1 = member.getPhoneNumber().getNumber1();
+            this.number2 = member.getPhoneNumber().getNumber2();
+            this.number3 = member.getPhoneNumber().getNumber3();
+        }
+    }
 
     @Getter @Setter
     @NoArgsConstructor

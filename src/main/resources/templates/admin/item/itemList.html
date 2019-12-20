@@ -53,4 +53,24 @@
         </tbody>
     </table>
 
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation example" th:if="${itemDto.totalPages > 0}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${itemDto.first ? 'disabled' : ''}">
+                        <a class="page-link" th:href="@{/admin/items(page=${itemDto.number - 1}, size=${itemDto.size}, sort='registerAt,desc')}" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"
+                        th:each="item, stat : ${ #numbers.sequence(0, itemDto.totalPages - 1)}"
+                        th:classappend="${item == itemDto.number ? 'active':''}">
+                        <a class="page-link" th:href="@{/admin/items(page=${item}, size=${itemDto.size}, sort='registerAt,desc')}" th:text="${stat.count}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${itemDto.last ? 'disabled' : ''}">
+                        <a class="page-link" th:href="@{/admin/items(page=${itemDto.number + 1}, size=${itemDto.size}, sort='registerAt,desc')}" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
 </div>

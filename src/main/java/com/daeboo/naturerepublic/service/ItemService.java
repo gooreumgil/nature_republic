@@ -7,6 +7,8 @@ import com.daeboo.naturerepublic.repository.CategoryRepository;
 import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.repository.ItemSrcRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,10 +80,13 @@ public class ItemService {
 
     }
 
-    public List<Item> findAllWithSrc() {
-        return itemRepository.findAllWithSrc();
+//    public List<Item> findAllWithSrc() {
+//        return itemRepository.findAllWithSrc();
+//
+//    }
 
-
+    public Page<Item> findAllPage(Pageable pageable) {
+        return itemRepository.findAllPage(pageable);
 
     }
 

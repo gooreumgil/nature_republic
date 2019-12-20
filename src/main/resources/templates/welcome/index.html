@@ -25,20 +25,24 @@
                 <li>
                     <a href="/item">상품</a>
                 </li>
-                <li>
-                    <a href="#">뉴스</a>
-                </li>
+<!--                <li>-->
+<!--                    <a href="#">뉴스</a>-->
+<!--                </li>-->
                 <li sec:authorize="isAuthenticated()">
                     <a th:href="@{/myPage}">마이페이지</a>
                 </li>
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin}">관리자페이지</a>
+                </li>
             </ul>
             <ul class="icon" sec:authorize="isAuthenticated()">
-                <li class="a1">
-                    <a href="/logout">
+                <li class="a3">
+                    <a href="#">
                         <span class="helper"></span>
-                        <img src="/image/login_fullback.png">
+                        <img src="/image/search_fullback.png">
                     </a>
                 </li>
+
                 <li class="a2">
                     <a href="#">
                         <div class="cart_inner">
@@ -54,10 +58,11 @@
                         </div>
                     </a>
                 </li>
-                <li class="a3">
-                    <a href="#">
+
+                <li class="a1">
+                    <a href="/logout">
                         <span class="helper"></span>
-                        <img src="/image/search_fullback.png">
+                        <img src="/image/login_fullback.png">
                     </a>
                 </li>
             </ul>
@@ -143,103 +148,83 @@
 
     <!-- MOVIE -->
 
-    <aside class="play_movie">
-        <a href="#">
-            <img src="/image/play_movie/play_button_hover03.png" class="play_hover">
-            <img src="/image/play_movie/play_button03.png" class="play_button">
-        </a>
-        <h2>Coummunity</h2>
-        <p>네이처리퍼블릭은 우리의 고객 그리고 파트너들과 늘 대화 하기를<br>
-        즐기고 이들과 즐거움과 이로움을 함께 나누기 위해 제품과<br>
-        매장에서의 경험을 끊임없이 개선합니다.</p>
-    </aside>
+<!--    <aside class="play_movie">-->
+<!--        <a href="#">-->
+<!--            <img src="/image/play_movie/play_button_hover03.png" class="play_hover">-->
+<!--            <img src="/image/play_movie/play_button03.png" class="play_button">-->
+<!--        </a>-->
+<!--        <h2>Coummunity</h2>-->
+<!--        <p>네이처리퍼블릭은 우리의 고객 그리고 파트너들과 늘 대화 하기를<br>-->
+<!--        즐기고 이들과 즐거움과 이로움을 함께 나누기 위해 제품과<br>-->
+<!--        매장에서의 경험을 끊임없이 개선합니다.</p>-->
+<!--    </aside>-->
 
     <!-- EVENT -->
 
-    <section class="event">
-        <div class="event_title">
-            <h2 class="main_font">Our Blog Column</h2>
-            <p class="sub_font">네이쳐리퍼블릭의 다양한 이야기를 들어보세요.</p>
-        </div>
-        <ul class="event_wrap clearfix">
-            <li class="col-6 movie">
-                <div class="movie_box">
-                    <img src="/image/event/1.png">
-                </div>
-                <div class="text_box">
-                    <h3>자연을 담은 화장품</h3>
-                    <p>새가 동산에는 인류의 고동을 싸인 것이다. 꽃이 시들어 불어 피고, 심장의 것은 그러므로 봄바람을 끓는 봄바람이다. 가지에 내려온 가는 얼마나 대고, 것이다. 찾아다녀도, 능히 돋고, 하는 너의 하는 이것이다. 길을 이성은 하였으며, 생의 풀밭에 옷을 때문이다. 청춘의 품고 속잎나고, 같지 지혜는 할지니, 가는 꾸며 풀이 듣는다.</p>
-                    <a href="#">Read More</a>
-                </div>
-            </li>
-            <li class="col-6 movie">
-                <div class="movie_box">
-                    <img src="/image/event/2.png">
-                </div>
-                <div class="text_box">
-                    <h3>계절을 닮은 화장품</h3>
-                    <p>새가 동산에는 인류의 고동을 싸인 것이다. 꽃이 시들어 불어 피고, 심장의 것은 그러므로 봄바람을 끓는 봄바람이다. 가지에 내려온 가는 얼마나 대고, 것이다. 찾아다녀도, 능히 돋고, 하는 너의 하는 이것이다. 길을 이성은 하였으며, 생의 풀밭에 옷을 때문이다. 청춘의 품고 속잎나고, 같지 지혜는 할지니, 가는 꾸며 풀이 듣는다.</p>
-                    <div class="button">
-                        <a href="#">Read More</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-     </section>
+<!--    <section class="event">-->
+<!--        <div class="event_title">-->
+<!--            <h2 class="main_font">Our Blog Column</h2>-->
+<!--            <p class="sub_font">네이쳐리퍼블릭의 다양한 이야기를 들어보세요.</p>-->
+<!--        </div>-->
+<!--        <ul class="event_wrap clearfix">-->
+<!--            <li class="col-6 movie">-->
+<!--                <div class="movie_box">-->
+<!--                    <img src="/image/event/1.png">-->
+<!--                </div>-->
+<!--                <div class="text_box">-->
+<!--                    <h3>자연을 담은 화장품</h3>-->
+<!--                    <p>새가 동산에는 인류의 고동을 싸인 것이다. 꽃이 시들어 불어 피고, 심장의 것은 그러므로 봄바람을 끓는 봄바람이다. 가지에 내려온 가는 얼마나 대고, 것이다. 찾아다녀도, 능히 돋고, 하는 너의 하는 이것이다. 길을 이성은 하였으며, 생의 풀밭에 옷을 때문이다. 청춘의 품고 속잎나고, 같지 지혜는 할지니, 가는 꾸며 풀이 듣는다.</p>-->
+<!--                    <a href="#">Read More</a>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="col-6 movie">-->
+<!--                <div class="movie_box">-->
+<!--                    <img src="/image/event/2.png">-->
+<!--                </div>-->
+<!--                <div class="text_box">-->
+<!--                    <h3>계절을 닮은 화장품</h3>-->
+<!--                    <p>새가 동산에는 인류의 고동을 싸인 것이다. 꽃이 시들어 불어 피고, 심장의 것은 그러므로 봄바람을 끓는 봄바람이다. 가지에 내려온 가는 얼마나 대고, 것이다. 찾아다녀도, 능히 돋고, 하는 너의 하는 이것이다. 길을 이성은 하였으며, 생의 풀밭에 옷을 때문이다. 청춘의 품고 속잎나고, 같지 지혜는 할지니, 가는 꾸며 풀이 듣는다.</p>-->
+<!--                    <div class="button">-->
+<!--                        <a href="#">Read More</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--     </section>-->
 
     <!-- NEWS -->
 
-    <section class="news">
-        <div class="news_title">
-            <h2 class="main_font">Latest News</h2>
-            <p class="sub_font">네이쳐리퍼블릭의 새로운 소식들입니다.</p>
-        </div>
-        <ul class="news_wrap clearfix">
-            <li class="col-4" th:each="item : ${news}">
-                <div class="news_text_box">
-                <a href="#">
-                    <img th:src="@{${'/upload/' + item.imgPath }}">
-                </a>
-
-                    <p class="date" th:text="${#temporals.monthNameShort(item.wroteAt) + ' ' + #temporals.day(item.wroteAt) + ', ' + #temporals.year(item.wroteAt)}">March 6, 2017</p>
-                    <h3 th:text="*{item.title}">EXO(엑소)와 함께하는 ‘그린 네이처 2017 팬 페스티벌’ 개최</h3>
-                    <p th:text="*{item.content}">풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>
-                </div>
-            </li>
-<!--            <li class="col-4">-->
+<!--    <section class="news">-->
+<!--        <div class="news_title">-->
+<!--            <h2 class="main_font">Latest News</h2>-->
+<!--            <p class="sub_font">네이쳐리퍼블릭의 새로운 소식들입니다.</p>-->
+<!--        </div>-->
+<!--        <ul class="news_wrap clearfix">-->
+<!--            <li class="col-4" th:each="item : ${news}">-->
 <!--                <div class="news_text_box">-->
 <!--                <a href="#">-->
-<!--                    <img src="/image/news/news6.png">-->
+<!--                    <img th:src="@{${'/upload/' + item.imgPath }}">-->
 <!--                </a>-->
-<!--                    <p class="date">March 6, 2017</p>-->
-<!--                    <h3>네이처리퍼블릭, 고객 혜택을 강화한 새 멤버십 제도 론칭</h3>-->
-<!--                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>-->
+
+<!--                    <p class="date" th:text="${#temporals.monthNameShort(item.wroteAt) + ' ' + #temporals.day(item.wroteAt) + ', ' + #temporals.year(item.wroteAt)}">March 6, 2017</p>-->
+<!--                    <h3 th:text="*{item.title}">EXO(엑소)와 함께하는 ‘그린 네이처 2017 팬 페스티벌’ 개최</h3>-->
+<!--                    <p th:text="*{item.content}">풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>-->
 <!--                </div>-->
 <!--            </li>-->
-<!--            <li class="col-4">-->
-<!--                <div class="news_text_box">-->
-<!--                <a href="#">-->
-<!--                    <img src="/image/news/news7.png">-->
-<!--                </a>-->
-<!--                    <p class="date">March 6, 2017</p>-->
-<!--                    <h3>네이처리퍼블릭, 말린 장미 컬러 립 틴트 연일 품절 사태</h3>-->
-<!--                    <p>풍부하게 청춘 바이며, 천하를 봄바람이다. 이상, 전인 이상의 쓸쓸한 놀이 이 인간의 너의 이것이다. 노년에게서 착목한는 얼음이 못하다 우는 역사를 황금시대를 그들의 시들어 때문이다. 풀이 크고 품으며, 그들은 영원히 돋고, 황금시대다.</p>-->
-<!--                </div>-->
-<!--            </li>-->
-        </ul>
-    </section>
+<!--        </ul>-->
+<!--    </section>-->
 
-    <section class="news_letter">
-        <div class="news_letter_box">
-            <h2>Subscribe Our Newsletter</h2>
-            <p class="h2_sub">네이처리퍼블릭의 소식을 이메일로 받아보세요.</p>
-            <div class="email_box">
-                <input class='email' type='email' placeholder="Your email address">
-            </div>
-            <a href="#" class="subscribe">구독하기</a>
-        </div>
+<!--    <section class="news_letter">-->
+<!--        <div class="news_letter_box">-->
+<!--            <h2>Subscribe Our Newsletter</h2>-->
+<!--            <p class="h2_sub">네이처리퍼블릭의 소식을 이메일로 받아보세요.</p>-->
+<!--            <div class="email_box">-->
+<!--                <input class='email' type='email' placeholder="Your email address">-->
+<!--            </div>-->
+<!--            <a href="#" class="subscribe">구독하기</a>-->
+<!--        </div>-->
 
-    </section>
+<!--    </section>-->
 
     <!-- BOTTOM -->
 

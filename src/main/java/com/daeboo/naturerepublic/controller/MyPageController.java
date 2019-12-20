@@ -139,6 +139,29 @@ public class MyPageController {
 
     }
 
+    @GetMapping("/update")
+    public String memberUpdateForm(Principal principal, Model model) {
+
+        String name = principal.getName();
+
+        Member member = memberService.findByName(name);
+        MemberDto.Update memberDto = new MemberDto.Update(member);
+
+        model.addAttribute("memberDto", memberDto);
+
+        return "myPage/update";
+
+    }
+
+    @PostMapping("/update")
+    public String memberUpdate(@ModelAttribute("memberDto") MemberDto.Update memberDto) {
+
+        memberService.update(memberDto);
+
+        return "redirect:/myPage";
+
+    }
+
 
 
 

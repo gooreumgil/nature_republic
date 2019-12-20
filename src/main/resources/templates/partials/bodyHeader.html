@@ -13,18 +13,21 @@
             <li>
                 <a href="/item">상품</a>
             </li>
-            <li>
-                <a href="#">뉴스</a>
-            </li>
+<!--            <li>-->
+<!--                <a href="#">뉴스</a>-->
+<!--            </li>-->
             <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/myPage}">마이페이지</a>
             </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin}">관리자페이지</a>
+            </li>
         </ul>
         <ul class="icon" sec:authorize="isAuthenticated()">
-            <li class="a1">
-                <a href="/logout">
+            <li class="a3">
+                <a href="#">
                     <span class="helper"></span>
-                    <img src="/image/top_icon1.png">
+                    <img src="/image/top_icon3.png">
                 </a>
             </li>
             <li class="a2">
@@ -42,13 +45,12 @@
                     </div>
                 </a>
             </li>
-            <li class="a3">
-                <a href="#">
+            <li class="a1">
+                <a href="/logout">
                     <span class="helper"></span>
-                    <img src="/image/top_icon3.png">
+                    <img src="/image/top_icon1.png">
                 </a>
             </li>
-
         </ul>
         <ul class="icon" sec:authorize="isAnonymous()">
             <li class="a3">

@@ -3,6 +3,7 @@ package com.daeboo.naturerepublic.domain;
 import com.daeboo.naturerepublic.domain.embeded.Address;
 import com.daeboo.naturerepublic.domain.embeded.Birthday;
 import com.daeboo.naturerepublic.domain.embeded.PhoneNumber;
+import com.daeboo.naturerepublic.dto.MemberDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -70,6 +71,16 @@ public class Member {
         return member;
     }
 
+    // 회원정보 수정
+    public void update(MemberDto.Update memberDto) {
+
+        this.email = memberDto.getEmail();
+        this.address = new Address(memberDto.getCity(), memberDto.getStreet(), memberDto.getZipcode());
+        this.birthday = new Birthday(memberDto.getBirthday());
+        this.phoneNumber = new PhoneNumber(memberDto.getNumber1(), memberDto.getNumber2(), memberDto.getNumber3());
+
+    }
+
     public void minusPoints(Integer usePoints) {
         if (usePoints != null) {
             this.points -= usePoints;
@@ -79,4 +90,6 @@ public class Member {
     public void addPoints(Integer savePoints) {
         this.points += savePoints;
     }
+
+
 }

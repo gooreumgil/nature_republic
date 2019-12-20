@@ -28,21 +28,34 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void save(Member member) {
         memberRepository.save(member);
+    }
 
+    @Transactional
+    public void update(MemberDto.Update memberDto) {
+        Member member = memberRepository.findById(memberDto.getId()).get();
+
+        String password = member.getPassword();
+        String passwordConfirm = memberDto.getPasswordConfirm();
+
+        if (!password.equals(passwordConfirm)) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        }
+
+        member.update(memberDto);
     }
 
     public List<MemberDto.ListView> findAll() {
 
         List<Member> memberAll = memberRepository.findAll();
-
-        List<MemberDto.ListView> result = memberAll.stream().map(member -> {
-            return new MemberDto.ListView(member);
-        }).collect(Collectors.toList());
+        List<MemberDto.ListView> result = memberAll.stream().map(MemberDto.ListView::new).collect(Collectors.toList());
 
         return result;
     }
+
+
 
     public Member findByName(String name) {
 //        memberRepository.findByName(name).orElseThrow(() -> throw new UsernameNotFoundException("존재하지 않다"));
@@ -54,6 +67,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
         return member;
     }
+
 
 
 }

@@ -16,17 +16,17 @@
         <form th:action="@{/login}" method="post">
 
             <div class="form__group">
-                <label th:for="username">Username</label><br>
+                <label th:for="username">아이디</label><br>
                 <input type="text" id="username" name="username" class="input" placeholder="Username">
             </div>
 
             <div class="form__group">
-                <label th:for="password">Password</label><br>
-                <input type="text" id="password" name="password" class="input" placeholder="Password">
+                <label th:for="password">비밀번호</label><br>
+                <input type="password" id="password" name="password" class="input" placeholder="Password">
             </div>
 
             <div class="form__group">
-                <input type="submit" value="회원가입" class="submit-input"/>
+                <input type="submit" value="로그인" class="submit-input"/>
             </div>
         </form>
     </div>

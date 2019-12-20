@@ -12,6 +12,11 @@ import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,15 +99,20 @@ public class AdminController {
     }
 
     @GetMapping("/items")
-    public String itemList(Model model) {
+    public String itemList(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "registerAt") Pageable pageable, Model model) {
 
-        List<Item> allItems = itemService.findAllWithSrc();
+//        List<Item> allItems = itemService.findAllWithSrc();
+        Page<Item> allItems = itemService.findAllPage(pageable);
 
-        List<ItemDto.ListView> result = allItems.stream().map(item -> {
-            return new ItemDto.ListView(item);
-        }).collect(Collectors.toList());
+        Page<ItemDto.ListView> listViews = allItems.map(ItemDto.ListView::new);
 
-        model.addAttribute("itemDto", result);
+        int size = listViews.getSize();
+        long totalElements = listViews.getTotalElements();
+        int totalPages = listViews.getTotalPages();
+        int number = listViews.getNumber();
+        int numberOfElements = listViews.getNumberOfElements();
+
+        model.addAttribute("itemDto", listViews);
 
         return "admin/item/itemList";
 

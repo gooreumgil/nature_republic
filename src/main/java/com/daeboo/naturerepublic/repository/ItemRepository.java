@@ -22,4 +22,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("select i from Item i join fetch i.itemSrcs src where i.id = :id")
     Optional<Item> findByIdWithImg(@Param("id") Long id);
 
+    @Query(value = "select distinct i from  Item i join fetch i.itemSrcs", countQuery = "select count(i) from Item i")
+    Page<Item> findAllPage(Pageable pageable);
 }
