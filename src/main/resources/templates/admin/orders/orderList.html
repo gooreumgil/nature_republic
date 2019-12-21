@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/adminHeader :: adminHeader"/>
+<style>
+    body {
+        padding-top: 40px;
+    }
+
+    img {
+        max-width: 80px;
+        margin-right: 10px;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    a.item-href {
+        color: #333;
+    }
+</style>
+
+<div class="container">
+
+    <div th:replace="partials/adminBodyHeader :: adminBodyHeader"/>
+
+    <h1>Item List</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>주문날짜</th>
+                <th>상품정보</th>
+                <th>결제금액</th>
+                <th>주문상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="orderPage : ${orderPages}">
+                <td th:text="*{#temporals.format(orderPage.orderDateTime, 'yyyy-MM-dd, HH:mm')}"></td>
+                <td>
+                    <a th:href="@{/admin/orders/detail(id = ${orderPage.id})}" class="item-href">
+                        <img th:src="@{'/upload/' + ${orderPage.orderItemDtos.get(0).s3Key}}" alt="">
+                        <span th:text="${orderPage.orderItemDtos.get(0).itemName}"></span>
+                    </a>
+                </td>
+                <td th:text="*{#numbers.formatInteger(orderPage.totalPrice, 3, 'COMMA')}"></td>
+                <td th:text="*{orderPage.orderStatus}"></td>
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation example" th:if="${orderPages.totalPages > 0}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${orderPages.first ? 'disabled' : ''}">
+                        <a class="page-link" th:href="@{/admin/orders(page=${orderPages.number - 1}, size=${orderPages.size}, sort='registerAt,desc')}" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"
+                        th:each="item, stat : ${ #numbers.sequence(0, orderPages.totalPages - 1)}"
+                        th:classappend="${item == orderPages.number ? 'active':''}">
+                        <a class="page-link" th:href="@{/admin/orders(page=${item}, size=${orderPages.size}, sort='registerAt,desc')}" th:text="${stat.count}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${orderPages.last ? 'disabled' : ''}">
+                        <a class="page-link" th:href="@{/admin/orders(page=${orderPages.number + 1}, size=${orderPages.size}, sort='registerAt,desc')}" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

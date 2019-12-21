@@ -2,14 +2,13 @@ package com.daeboo.naturerepublic.controller;
 
 import com.daeboo.naturerepublic.domain.Category;
 import com.daeboo.naturerepublic.domain.Item;
+import com.daeboo.naturerepublic.domain.Orders;
 import com.daeboo.naturerepublic.dto.ItemDto;
 import com.daeboo.naturerepublic.dto.MemberDto;
 import com.daeboo.naturerepublic.dto.NewsDto;
+import com.daeboo.naturerepublic.dto.OrderDto;
 import com.daeboo.naturerepublic.repository.ItemRepository;
-import com.daeboo.naturerepublic.service.CategoryService;
-import com.daeboo.naturerepublic.service.ItemService;
-import com.daeboo.naturerepublic.service.MemberService;
-import com.daeboo.naturerepublic.service.NewsService;
+import com.daeboo.naturerepublic.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,6 +37,7 @@ public class AdminController {
     private final MemberService memberService;
     private final ItemService itemService;
     private final CategoryService categoryService;
+    private final OrderService orderService;
     private final NewsService newsService;
 
     @GetMapping
@@ -157,21 +157,45 @@ public class AdminController {
         return "redirect:/admin/items";
     }
 
-    @GetMapping("/news/new")
-    public String createNewsForm(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto , Model model) {
+    @GetMapping("/orders")
+    public String orderList(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "orderDateTime") Pageable pageable, Model model) {
 
-        model.addAttribute("newsDto", newsDto);
-        return "admin/news/newsReg";
+        Page<Orders> orders = orderService.findAllPages(pageable);
+        Page<OrderDto.AdminPage> orderPages = orders.map(OrderDto.AdminPage::new);
+
+        model.addAttribute("orderPages", orderPages);
+
+        return "admin/orders/orderList";
+
+    }
+
+    @GetMapping("/orders/detail")
+    public String orderDetail(@RequestParam("id") Long id, Model model) {
+
+        Orders order = orderService.findById(id);
+        OrderDto.AdminDetailPage orderDto = new OrderDto.AdminDetailPage(order);
+
+        model.addAttribute("orderDto", orderDto);
+
+        return "admin/orders/orderDetail";
 
     }
 
-    @PostMapping("/news/new")
-    public String createNews(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto) {
-
-        newsService.save(newsDto);
-        return "redirect:/admin";
-
-    }
+//    @GetMapping("/news/new")
+//    public String createNewsForm(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto , Model model) {
+//
+//        model.addAttribute("newsDto", newsDto);
+//        return "admin/news/newsReg";
+//
+//    }
+//
+//    @PostMapping("/news/new")
+//    public String createNews(@ModelAttribute("newsDto") NewsDto.CreateForm newsDto) {
+//
+//        newsService.save(newsDto);
+//        return "redirect:/admin";
+//
+//    }
 
 
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.swing.*;
+
 public class OrderItemDto {
 
     @Getter @Setter
@@ -72,6 +74,23 @@ public class OrderItemDto {
             this.name = orderItem.getItem().getNameKor();
             this.itemPrice = orderItem.getOrderPrice();
             this.count = orderItem.getCount();
+        }
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class AdminPage {
+
+        private Long id;
+        private Long itemId;
+        private String itemName;
+        private String s3Key;
+
+        public AdminPage(OrderItem orderItem) {
+            this.id = orderItem.getId();
+            this.itemId = orderItem.getItem().getId();
+            this.itemName = orderItem.getItem().getNameKor();
+            this.s3Key = orderItem.getItem().getItemSrcs().get(0).getS3Key();
         }
     }
 

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<link rel="stylesheet" th:href="@{/css/mypage/orderDetail.css}">
+<style>
+    * {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
+    }
+    .container {
+        max-width: 1100px;
+    }
+
+    li.order__list {
+        padding: 0;
+    }
+
+    li.order__list.right {
+        width: 100%;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+    h1 {
+        font-size: 40px;
+        font-weight: 500;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    li.order__list.right div.list-box h3 {
+        margin-top: 50px;
+    }
+
+    h3 {
+        font-weight: 500 !important;
+    }
+
+</style>
+
+<section class="container">
+
+    <div th:replace="partials/adminBodyHeader :: adminBodyHeader"/>
+
+    <h1>Item Detail</h1>
+
+
+    <ul class="orders-wrapper clearfix">
+
+<!--        <li class="order__list left">-->
+<!--            <div class="title-box">-->
+<!--                <h2>마이페이지</h2>-->
+<!--                <p>-->
+<!--                    네이처 리퍼블릭은<br>-->
+<!--                    자연의 완벽함을 믿습니다.-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <nav class="orders-nav">-->
+<!--                <a th:href="@{/myPage}" class="active">주문 배송 조회</a><br>-->
+<!--                <a th:href="@{/myPage/likes}">찜 리스트</a><br>-->
+<!--                <a th:href="@{/myPage/qna}">상품 Q&A</a><br>-->
+<!--                <a th:href="@{/myPage/reviews}">구매후기</a><br>-->
+<!--                <a href="#">회원정보수정</a>-->
+<!--            </nav>-->
+<!--        </li>-->
+
+        <li class="order__list right">
+
+            <div class="list-box">
+                <h3>주문 배송 조회</h3>
+
+                <div class="status-box">
+                    <span th:if="${orderDto.deliveryStatus == 'READY'}" class="status">· 배송준비중</span>
+                    <span th:if="${orderDto.deliveryStatus == 'ONGOING'}" class="status">· 배송중</span>
+                    <span th:if="${orderDto.deliveryStatus == 'COMP' && orderDto.orderStatus != 'COMP'}" class="status">· 배송완료</span>
+                    <span th:if="${orderDto.deliveryStatus == 'COMP' && orderDto.orderStatus == 'COMP'}" class="status">· 주문완료</span>
+                </div>
+
+                <div th:if="${orderDto.deliveryStatus == 'READY'}" class="top-btn-box">
+                    <button type="button" class="top-btn">주문취소</button>
+                </div>
+
+                <div th:if="${orderDto.deliveryStatus == 'ONGOING'}" class="top-btn-box">
+                    <button type="button" class="top-btn">배송조회</button>
+                    <button type="button" class="top-btn" id="orders-confirm">구매확정</button>
+                    <button type="button" class="top-btn">교환/환불신청</button>
+                </div>
+
+                <div th:if="${orderDto.deliveryStatus == 'COMP' && orderDto.orderStatus != 'COMP'}" class="top-btn-box">
+                    <button type="button" class="top-btn">구매확정</button>
+                    <button type="button" class="top-btn">교환/환불신청</button>
+                </div>
+
+
+                <ul class="list-wrap clearfix">
+                    <li class="list__item top-line clearfix">
+                        <div class="list__inner date">
+                            <p>상품번호</p>
+                        </div>
+                        <div class="list__inner info">
+                            <p>상품정보</p>
+                        </div>
+                        <div class="list__inner count">
+                            <p>수량</p>
+                        </div>
+                        <div class="list__inner price">
+                            <p>가격</p>
+                        </div>
+                    </li>
+                    <li class="list__item content clearfix" th:each="orderItemDto : ${orderDto.orderItemDtos}">
+                        <div class="list__inner date">
+                            <p th:text="${orderItemDto.itemId}"></p>
+                        </div>
+                        <div class="list__inner info">
+                            <a th:href="@{/item/detail(id=${orderItemDto.itemId})}">
+                                <img th:src="@{${'/upload/' + orderItemDto.s3Key}}" alt="">
+                            </a>
+
+                            <a th:href="@{/item/detail(id=${orderItemDto.itemId})}">
+                                <span th:text="${orderItemDto.name}"></span>
+                            </a>
+                        </div>
+                        <div class="list__inner count">
+                            <p th:text="${orderItemDto.count}"></p>
+                        </div>
+                        <div class="list__inner price">
+                            <p th:text="${#numbers.formatInteger((orderItemDto.itemPrice * orderItemDto.count), 3, 'COMMA')}"></p>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="info-wrapper clearfix">
+                <div class="info__list delivery">
+                    <h3>배송정보</h3>
+                    <div class="inner__div">
+                        <h4>받는사람</h4>
+                        <p th:text="${orderDto.addressee}"></p>
+
+                        <h4>연락처</h4>
+                        <p th:text="${orderDto.phoneNumber}"></p>
+
+                        <h4>배송주소</h4>
+                        <p th:text="${orderDto.mainAddress}"></p>
+
+                        <h4>우편번호</h4>
+                        <p th:text="${orderDto.detailAddress}"></p>
+
+                        <h4>배송메모</h4>
+                        <p th:text="${orderDto.memo}"></p>
+                    </div>
+                </div>
+
+                <div class="info__list pay">
+                    <h3>결제정보</h3>
+                    <div class="inner__div">
+                        <div class="total">
+                            <h4>총 결제금액</h4>
+                            <p>
+                                <span th:text="${#numbers.formatInteger((orderDto.totalPayPrice), 3, 'COMMA')}" class="bold"></span><span class="small">원</span>
+                            </p>
+                        </div>
+
+                        <h4>상품금액</h4>
+                        <p>
+                            <span th:text="${#numbers.formatInteger((orderDto.totalItemPrice), 3, 'COMMA')}"></span><span class="small">원</span>
+                        </p>
+
+                        <h4>배송료</h4>
+                        <p>
+                            <span th:if="${orderDto.deliveryPrice > 0}">
+                                <span th:text="${#numbers.formatInteger((orderDto.deliveryPrice), 3, 'COMMA')}"></span><span class="small">원</span>
+                            </span>
+                            <span th:unless="${orderDto.deliveryPrice > 0}">
+                                <span>0</span><span class="small">원</span>
+                            </span>
+                        </p>
+
+                        <h4>할인금액</h4>
+                        <p>
+                            <span th:if="${orderDto.totalDiscountPrice > 0}">
+                                <span th:text="${#numbers.formatInteger((orderDto.totalDiscountPrice), 3, 'COMMA')}"></span><span class="small">원 (-)</span>
+                            </span>
+                            <span th:unless="${orderDto.totalDiscountPrice > 0}">
+                                <span>0</span><span class="small">원 (-)</span>
+                            </span>
+                        </p>
+
+                        <h4>사용포인트</h4>
+                        <p>
+                            <span th:text="${orderDto.usePoints == null ? 0 : orderDto.usePoints}"></span><span class="small">P (-)</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+    </ul>
+
+</section>

@@ -204,6 +204,10 @@ public class OrderService {
         return orders;
     }
 
+    public Page<Orders> findAllPages(Pageable pageable) {
+        return orderRepository.findAll(pageable);
+    }
+
     private void createFile(MultipartFile img) {
 
         Path fileNameAndPath = Paths.get(uploadDirectory, img.getOriginalFilename());

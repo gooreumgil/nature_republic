@@ -127,5 +127,74 @@ public class OrderDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class AdminPage {
 
+        private Long id;
+        private int totalPrice;
+        private String orderStatus;
+        private LocalDateTime orderDateTime;
+        private List<OrderItemDto.AdminPage> orderItemDtos = new ArrayList<>();
+
+        public AdminPage(Orders orders) {
+            this.id = orders.getId();
+            this.totalPrice = orders.totalPrice(orders.getDelivery().getDeliveryPrice(), orders.getUsePoints());
+            this.orderStatus = orders.getOrderStatus().toString();
+            this.orderDateTime = orders.getOrderDateTime();
+
+            List<OrderItem> orderItems = orders.getOrderItems();
+            for (OrderItem orderItem : orderItems) {
+                OrderItemDto.AdminPage adminPage = new OrderItemDto.AdminPage(orderItem);
+                orderItemDtos.add(adminPage);
+            }
+
+        }
+    }
+
+
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class AdminDetailPage {
+
+        private String orderStatus;
+        private String deliveryStatus;
+        private String phoneNumber;
+        private int totalPayPrice;
+        private int totalItemPrice;
+        private int deliveryPrice;
+        private int totalDiscountPrice;
+        private int usePoints;
+        private String addressee;
+        private String mainAddress;
+        private String detailAddress;
+        private String memo;
+        private List<OrderItemDto.DetailPage> orderItemDtos = new ArrayList<>();
+
+        public AdminDetailPage(Orders order) {
+            this.orderStatus = order.getOrderStatus().toString();
+            this.deliveryStatus = order.getDelivery().getDeliveryStatus().toString();
+            this.phoneNumber = order.getDelivery().getPhoneNumber();
+            this.totalPayPrice = order.totalPrice(order.getDelivery().getDeliveryPrice(), order.getUsePoints());
+            this.totalItemPrice = order.totalItemPrice();
+            this.deliveryPrice = order.getDelivery().getDeliveryPrice();
+            this.totalDiscountPrice = order.totalDiscountPrice();
+            if (order.getUsePoints() == null) {
+                this.usePoints = 0;
+            } else {
+                this.usePoints = order.getUsePoints();
+            }
+            this.addressee = order.getDelivery().getAddressee();
+            this.mainAddress = order.getDelivery().getAddress().getMain();
+            this.detailAddress = order.getDelivery().getAddress().getDetail();
+            this.memo = order.getDelivery().getMemo();
+
+            List<OrderItem> orderItems = order.getOrderItems();
+            for (OrderItem orderItem : orderItems) {
+                OrderItemDto.DetailPage detailPage = new OrderItemDto.DetailPage(orderItem);
+                orderItemDtos.add(detailPage);
+            }
+
+        }
+    }
 }
