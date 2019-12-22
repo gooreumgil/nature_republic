@@ -1,6 +1,4 @@
-
-window.onload = function (ev) {
-
+function search () {
     var searchImgTag = document.getElementsByClassName('search-submit')[0];
 
     searchImgTag.addEventListener('click', function (evt) {
@@ -9,4 +7,4 @@ window.onload = function (ev) {
         console.log(formTag);
         formTag.submit();
     });
-};
+}
