@@ -25,6 +25,10 @@
         </ul>
         <ul class="icon" sec:authorize="isAuthenticated()">
             <li class="a3">
+                <form th:action="@{/item/search}" method="get">
+                    <input type="text" th:name="name">
+                    <button type="submit">검색</button>
+                </form>
                 <a href="#">
                     <span class="helper"></span>
                     <img src="/image/top_icon3.png">

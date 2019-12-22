@@ -2,11 +2,14 @@ package com.daeboo.naturerepublic.service;
 
 import com.daeboo.naturerepublic.domain.*;
 import com.daeboo.naturerepublic.dto.ItemDto;
+import com.daeboo.naturerepublic.dto.ItemSearchDto;
 import com.daeboo.naturerepublic.repository.CategoryItemRepository;
 import com.daeboo.naturerepublic.repository.CategoryRepository;
 import com.daeboo.naturerepublic.repository.ItemRepository;
 import com.daeboo.naturerepublic.repository.ItemSrcRepository;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.daeboo.naturerepublic.domain.QItem.item;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -33,6 +38,17 @@ public class ItemService {
     private final EntityManager em;
 
     public static String uploadDirectory = "C:\\Users\\hunte\\dev\\nature_republic\\src\\main\\resources\\static\\upload";
+
+    // 검색
+    public Page<ItemDto.Search> itemSearch(Pageable pageable, ItemSearchDto itemSearchDto) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if (Strings.isNotEmpty(itemSearchDto.getName())) builder.and(item.nameKor.like("%" + itemSearchDto.getName() + "%"));
+
+        Page<Item> itemPage = itemRepository.findItem(itemSearchDto, pageable);
+        return itemPage.map(ItemDto.Search::new);
+
+    }
 
     @Transactional
     public void save(ItemDto.CreateForm itemDto) {
@@ -186,4 +202,6 @@ public class ItemService {
             e.printStackTrace();
         }
     }
+
+
 }

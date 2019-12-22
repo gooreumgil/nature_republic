@@ -288,4 +288,28 @@ public class ItemDto {
         }
     }
 
+    @Getter @Setter
+    @NoArgsConstructor
+    public static class Search {
+
+        private Long id;
+        private String nameKor;
+        private String description;
+        private int price;
+        private List<ItemSrc> mainSrcs = new ArrayList<>();
+
+        public Search(Item item) {
+            this.id = item.getId();
+            this.nameKor = item.getNameKor();
+            this.description = item.getDescription();
+            this.price = item.getPrice();
+            item.getItemSrcs().forEach(itemSrc -> {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
+                    mainSrcs.add(itemSrc);
+                }
+            });
+
+        }
+    }
+
 }

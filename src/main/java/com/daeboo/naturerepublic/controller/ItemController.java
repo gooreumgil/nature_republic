@@ -39,6 +39,16 @@ public class ItemController {
 
 //    private final List<CategoryDto.NewLine> categoryList;
 
+    @GetMapping("/search")
+    public String itemSearch(@PageableDefault(size = 12, direction = Sort.Direction.DESC, sort = "nameKor") Pageable pageable, ItemSearchDto itemSearchDto, Model model) {
+
+        Page<ItemDto.Search> searches = itemService.itemSearch(pageable, itemSearchDto);
+
+        model.addAttribute("itemSearchDtos", searches);
+        return "item/search";
+
+    }
+
     @GetMapping
     public String itemIndex(Model model, @PageableDefault(size = 12, page = 0, direction = Sort.Direction.DESC, sort = "item.likesCount") Pageable pageable,
                             String currentCategory, Integer offset) {

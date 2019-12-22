@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/header :: header"/>
+<style>
+    .head {
+        position: fixed !important;
+    }
+
+    .head.active {
+        box-shadow: 0 0 5px 0 #dcdcdc;
+    }
+
+    .top {
+        padding-top: 180px !important;
+    }
+</style>
+<link rel="stylesheet" th:href="@{/css/nature_republic_list.css}">
+
+    <header th:replace="partials/bodyHeader :: bodyHeader"/>
+
+    <section class="skin_care">
+        <ul class="skn_list clearfix">
+            <li class="col-3 item-list" th:each="itemSearchDto : ${itemSearchDtos}">
+                <div class="img-box">
+                    <a th:href="@{/item/detail(id=*{itemSearchDto.id})}">
+                        <img th:src="@{${'/upload/' + itemSearchDto.mainSrcs.get(0).s3Key}}">
+                    </a>
+                </div>
+                <h3 class="a" th:text="*{itemSearchDto.nameKor}"></h3>
+                <p class="b" th:text="*{itemSearchDto.description}"></p>
+                <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(itemSearchDto.price, 3, 'COMMA')}"></span> 원</p>
+                <div class="cart">
+                    <img src="/image/list_img/list/cart.png">
+                </div>
+            </li>
+        </ul>
+        <div class="more">
+            <div>
+                <a th:if="${itemSearchDtos.totalElements >= itemSearchDtos.getSize()}"
+                   th:href="@{/item(page=0,
+               size=${itemSearchDtos.size + itemSearchDtos.size},
+               sort=${#strings.replace(itemSearchDtos.sort, ': ', ',')})}" class="moreView">
+
+                    <p>More</p>
+                    <img src="/image/list_img/list/arrow.png">
+
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+</section>
+
+    <!-- BOTTOM -->
+
+    <div th:replace="partials/bottom :: bottom"/>
+
+<footer th:replace="partials/footer :: footer"/>
+
+<script th:inline="javascript" type="text/javascript">
+
+    function headerStyle() {
+
+        var headerTag = document.getElementsByClassName('head')[0];
+
+        Object.getPrototypeOf('category');
+
+        if (window.pageYOffset == 0) {
+            headerTag.classList.remove('active');
+        }
+
+        if (window.pageYOffset > 0) {
+            headerTag.classList.add('active');
+        }
+    }
+
+    document.addEventListener('scroll', headerStyle);
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function offset() {
+
+        var offsetParam = getParameterByName('offset');
+        var offsetNum = Number(offsetParam);
+
+        window.scroll(0, offsetNum);
+    }
+
+
+    function getHref() {
+        var sort = document.getElementsByClassName('sort-a');
+        var category = document.getElementsByClassName("category-a");
+        var moreView = document.getElementsByClassName('moreView');
+
+        for (var i = 0; i < sort.length; i++) {
+            var pageYOffset = window.pageYOffset;
+            var attribute = sort[i].getAttribute('href');
+            var strings = attribute.split('&offset=');
+
+            sort[i].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
+        }
+
+        for (var j = 0; j < category.length; j++) {
+            var pageYOffset = window.pageYOffset;
+            var attribute = category[j].getAttribute('href');
+            var strings = attribute.split('&offset');
+
+            category[j].setAttribute('href', strings[0] + '&offset=' + pageYOffset);
+        }
+
+        var moreViewOffset = window.pageYOffset;
+        var moreViewAttribute = moreView[0].getAttribute('href');
+
+        var moreViewString = moreViewAttribute.split('&offset=');
+        moreView[0].setAttribute('href', moreViewString[0] + '&offset=' + moreViewOffset);
+
+    }
+
+    function sortStyle() {
+        var sortATag = document.getElementsByClassName('sort-a');
+
+        for (var i = 0; i < sortATag.length; i++) {
+            var attribute = sortATag[i].getAttribute('class');
+
+            if (attribute.includes('active')) {
+                console.log('active!!');
+                var span = document.createElement('span');
+                var img = document.createElement('img');
+                img.setAttribute('src', '/image/check.svg');
+
+                span.appendChild(img);
+                sortATag[i].prepend(span);
+            } else {
+                var span = document.createElement('span');
+                span.innerHTML = '· ';
+                sortATag[i].prepend(span);
+            }
+        }
+
+    }
+
+    window.addEventListener('scroll', getHref);
+    window.addEventListener('load', offset);
+    window.addEventListener('load', sortStyle);
+
+
+
+
+</script>
