@@ -45,6 +45,7 @@ public class ItemController {
         Page<ItemDto.Search> searches = itemService.itemSearch(pageable, itemSearchDto);
 
         model.addAttribute("itemSearchDtos", searches);
+        model.addAttribute("word", itemSearchDto.getName());
         return "item/search";
 
     }

@@ -4,6 +4,7 @@
 <style>
     .head {
         position: fixed !important;
+        box-shadow: 0 0 5px 0 #dcdcdc;
     }
 
     .head.active {
@@ -13,13 +14,52 @@
     .top {
         padding-top: 180px !important;
     }
+
+    .skin_care {
+        padding-top: 160px;
+    }
+
+    h1 {
+        box-sizing: border-box;
+        padding: 0 10px;
+        font-weight: 500;
+    }
+
+    h1 span {
+        font-weight: 400;
+        color: #888;
+    }
+
+    h1 span.word {
+        color: #333;
+        font-weight: 600;
+    }
+
+    ul.skn_list {
+        border-top: none !important;
+    }
+
+    ul div.divider {
+        width: calc(100% - 20px);
+        height: 1px;
+        background-color: #ddd;
+        transform: translateX(10px);
+    }
+
 </style>
 <link rel="stylesheet" th:href="@{/css/nature_republic_list.css}">
 
     <header th:replace="partials/bodyHeader :: bodyHeader"/>
 
     <section class="skin_care">
+
+        <h1>
+            <span>검색어:</span>
+            <span th:text="${word}" class="word"></span>
+        </h1>
+
         <ul class="skn_list clearfix">
+            <div class="divider"></div>
             <li class="col-3 item-list" th:each="itemSearchDto : ${itemSearchDtos}">
                 <div class="img-box">
                     <a th:href="@{/item/detail(id=*{itemSearchDto.id})}">
@@ -37,7 +77,7 @@
         <div class="more">
             <div>
                 <a th:if="${itemSearchDtos.totalElements >= itemSearchDtos.getSize()}"
-                   th:href="@{/item(page=0,
+                   th:href="@{/item/search(page=0,
                size=${itemSearchDtos.size + itemSearchDtos.size},
                sort=${#strings.replace(itemSearchDtos.sort, ': ', ',')})}" class="moreView">
 
