@@ -37,9 +37,12 @@
             </ul>
             <ul class="icon" sec:authorize="isAuthenticated()">
                 <li class="a3">
-                    <a href="#">
-                        <span class="helper"></span>
-                        <img src="/image/search_fullback.png">
+                    <a href="#" class="search-href">
+                        <form th:action="@{/item/search}" method="get">
+                            <input type="text" th:name="name">
+                            <span class="helper"></span>
+                            <img src="/image/search_fullback.png" class="search-submit">
+                        </form>
                     </a>
                 </li>
 
@@ -67,6 +70,13 @@
                 </li>
             </ul>
             <ul class="icon" sec:authorize="isAnonymous()">
+                <a href="#" class="search-href">
+                    <form th:action="@{/item/search}" method="get">
+                        <input type="text" th:name="name">
+                        <span class="helper"></span>
+                        <img src="/image/search_fullback.png" class="search-submit">
+                    </form>
+                </a>
                 <li class="a3">
                     <a href="#">
                         <span class="helper"></span>

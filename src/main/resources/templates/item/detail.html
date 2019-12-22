@@ -97,8 +97,8 @@
                                 <!--                                        <a th:href="@{/orders(id=*{item.id}, count=1)}">-->
                                 <!--                                            <p>바로구매</p>-->
                                 <!--                                        </a>-->
-                                <input type="hidden" name="itemId" th:value="${item.id}">
-                                <input type="hidden" name="count" value="1" id="count">
+                                <input type="hidden" name="shoppingCartDtos[0].itemId" th:value="${item.id}">
+                                <input type="hidden" name="shoppingCartDtos[0].count" value="1" id="count">
                                 <button type="submit">바로구매</button>
 
                                 <!--                                        <a href="#">-->
