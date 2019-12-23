@@ -99,3 +99,21 @@
         </ul>
 
     </section>
+
+<script type="text/javascript">
+
+    window.onload = function (ev) {
+
+        var orderConfirm = document.getElementsByClassName('confirm')[0];
+        orderConfirm.addEventListener('click', function (evt) {
+            window.location.href = '/myPage';
+        });
+
+        var keepGoing = document.getElementsByClassName('keep-going')[0];
+        keepGoing.addEventListener('click', function (evt) {
+           window.location.href = '/item';
+        });
+
+    }
+
+</script>
