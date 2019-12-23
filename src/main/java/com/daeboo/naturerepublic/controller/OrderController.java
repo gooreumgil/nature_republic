@@ -5,6 +5,7 @@ import com.daeboo.naturerepublic.domain.Member;
 import com.daeboo.naturerepublic.domain.Orders;
 import com.daeboo.naturerepublic.domain.OrderItem;
 import com.daeboo.naturerepublic.dto.*;
+import com.daeboo.naturerepublic.serializable.ItemSerializable;
 import com.daeboo.naturerepublic.service.ItemService;
 import com.daeboo.naturerepublic.service.MemberService;
 import com.daeboo.naturerepublic.service.OrderService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +87,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public String orderCreate(@ModelAttribute("orderWrapper") OrderItemDtoWrapper orderWrapper, Model model) {
+    public String orderCreate(@ModelAttribute("orderWrapper") OrderItemDtoWrapper orderWrapper, Principal principal, HttpSession httpSession, Model model) {
 
         List<OrderItemDto.Create> orderItemDtos = orderWrapper.getOrderItemDtos();
 
@@ -93,7 +95,23 @@ public class OrderController {
 
         OrderDto.OrderComplete orderComplete = new OrderDto.OrderComplete(orders);
 
+        List<ItemSerializable> cartItems = new ArrayList<>();
+        Object attribute = httpSession.getAttribute(principal.getName());
+
+        if (attribute != null) {
+            cartItems = (List<ItemSerializable>) attribute;
+        }
+
         model.addAttribute("orderDto", orderComplete);
+
+        // 주문 후 장바구니에서 삭제
+        for (OrderItemDto.Create orderItemDto : orderItemDtos) {
+            Long itemId = orderItemDto.getItemId();
+            if (attribute != null) {
+                cartItems.removeIf(itemSerializable -> itemSerializable.getId().equals(itemId));
+                httpSession.setAttribute(principal.getName(), cartItems);
+            }
+        }
 
         return "order/complete";
 
