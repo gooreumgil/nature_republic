@@ -98,6 +98,17 @@ ul.cart-item-wrap li .cart-item-list.quantity {
     width: 15%;
 }
 
+ul.cart-item-wrap li .cart-item-list.quantity svg {
+    max-width: 19px;
+    width: 100%;
+    pointer-events: none;
+}
+
+ul.cart-item-wrap li .cart-item-list.quantity p.item-quantity {
+    width: 40px;
+    text-align: center;
+}
+
 ul.cart-item-wrap li .cart-item-list.price {
     width: 15%;
 }

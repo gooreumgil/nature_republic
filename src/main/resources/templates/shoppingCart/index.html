@@ -45,7 +45,7 @@
                 </div>
             </li>
 
-            <li th:each="cartItem : ${cartItems}" class="cart-item-content clearfix">
+            <li th:each="cartItem, i : ${cartItems}" class="cart-item-content clearfix">
 
                 <input type="hidden" class="itemId-input" th:value="${cartItem.id}">
 
@@ -59,20 +59,43 @@
                 </div>
 
                 <div class="cart-item-list quantity">
+                    <a href="#" class="plus-svg">
+                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                             aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <circle data-name="layer2"
+                                    cx="32" cy="32" r="30" fill="none" stroke="#202020" stroke-miterlimit="10"
+                                    stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
+                            <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+                                  stroke-width="2" d="M32 16v32m16-16H16" stroke-linejoin="round" stroke-linecap="round"></path>
+                        </svg>
+                    </a>
+
                     <p class="item-quantity">1</p>
+
+                    <a href="#" class="minus-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                             aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <circle data-name="layer2"
+                                    cx="32" cy="32" r="30" fill="none" stroke="#202020" stroke-miterlimit="10"
+                                    stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
+                            <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
+                                  stroke-width="2" d="M48 32H16" stroke-linejoin="round" stroke-linecap="round"></path>
+                        </svg>
+                    </a>
+
                 </div>
 
                 <div class="cart-item-list price">
-                    <p th:text="${#numbers.formatInteger(cartItem.price, 3, 'COMMA')}">상품금액</p>
+                    <p th:text="${#numbers.formatInteger(cartItem.price, 3, 'COMMA')}" class="price-text">상품금액</p>
                 </div>
 
                 <div class="cart-item-list discount">
-                    <p th:if="${cartItem.discountPrice >= 100}" th:text="${#numbers.formatInteger(cartItem.discountPrice, 3, 'COMMA')}"></p>
-                    <p th:if="${cartItem.discountPrice < 100}" th:text="${cartItem.discountPrice}"></p>
+                    <p th:if="${cartItem.discountPrice >= 100}" th:text="${#numbers.formatInteger(cartItem.discountPrice, 3, 'COMMA')}" class="discount-text"></p>
+                    <p th:if="${cartItem.discountPrice < 100}" th:text="${cartItem.discountPrice}" class="discount-text"></p>
                 </div>
 
                 <div class="cart-item-list result-price">
-                    <p th:text="${#numbers.formatInteger((cartItem.price - cartItem.discountPrice), 3, 'COMMA')}"></p>
+                    <p th:text="${#numbers.formatInteger((cartItem.price - cartItem.discountPrice), 3, 'COMMA')}" class="result-text"></p>
                 </div>
 
                 <div class="cart-item-list delete-btn">
@@ -105,6 +128,9 @@
 <script type="text/javascript">
 
     window.onload = function (ev) {
+
+        plusFunc();
+        minusFunc();
 
         // 전체 상품 주문
         var allOrder = document.getElementsByClassName('all-orders')[0];
@@ -212,7 +238,7 @@
                 var formTag = document.createElement('form');
                 formTag.action = '/shoppingCart/delete';
                 formTag.method = 'post';
-                
+
                 var inputTagForItemId = document.createElement('input');
                 inputTagForItemId.type = 'hidden';
                 inputTagForItemId.name = 'itemId';
@@ -273,6 +299,104 @@
                 }
             }
         })
+    };
+
+    function totalPrice(quantity, div, priceOriginal, discountOriginal) {
+
+        var li = div.parentElement;
+
+        var itemPriceTag = li.getElementsByClassName('price-text')[0];
+        var itemPriceResult = priceOriginal * quantity;
+
+        itemPriceTag.innerText = Intl.NumberFormat().format(itemPriceResult);
+
+        var discountTag = li.getElementsByClassName('discount-text')[0];
+        var discountResult = quantity * discountOriginal;
+
+        discountTag.innerText = Intl.NumberFormat().format(discountResult);
+
+        var resultTag = li.getElementsByClassName('result-text')[0];
+        resultTag.innerText = itemPriceResult - discountResult;
+
     }
 
+    function itemPlus(plusBtn, priceOriginal, discountOriginal) {
+        plusBtn.addEventListener('click', function (evt) {
+
+            var target = evt.target;
+            var div = target.parentElement;
+
+            var itemQuantityTag = div.getElementsByClassName('item-quantity')[0];
+            var itemQuantityVal = Number(itemQuantityTag.innerText);
+            itemQuantityVal++;
+            totalPrice(itemQuantityVal, div, priceOriginal, discountOriginal);
+            itemQuantityTag.innerText = itemQuantityVal;
+
+        })
+    }
+
+    function itemMinus(minusBtn, priceOriginal, discountOriginal) {
+
+        minusBtn.addEventListener('click', function (evt) {
+
+            var target = evt.target;
+            var div = target.parentElement;
+
+            var itemQuantityTag = div.getElementsByClassName('item-quantity')[0];
+            var itemQuantityVal = Number(itemQuantityTag.innerText);
+
+            if (itemQuantityVal == 1) {
+                alert("상품 수량은 한 개 이상만 가능합니다");
+                return
+            } else if (itemQuantityVal > 1) {
+                itemQuantityVal--;
+                itemQuantityTag.innerText = itemQuantityVal;
+                totalPrice(itemQuantityVal, div, priceOriginal, discountOriginal);
+            }
+
+        })
+
+    }
+
+    var plusBtns = document.getElementsByClassName('plus-svg');
+    var minusBtns = document.getElementsByClassName('minus-svg');
+
+    var priceTextTags = document.getElementsByClassName('price-text');
+    var discountTextTags = document.getElementsByClassName('discount-text');
+
+    function plusFunc() {
+
+        for (var i = 0; i < plusBtns.length; i++) {
+
+            var priceTextTag = priceTextTags[i];
+            var priceText = priceTextTag.innerText;
+            var priceOriginal = priceText.replace(/,/gi, '');
+
+            var discountTextTag = discountTextTags[i];
+            var discountText = discountTextTag.innerText;
+            var discountOriginal = discountText.replace(/,/gi, '');
+
+            var plusBtn = plusBtns[i];
+
+            itemPlus(plusBtn, priceOriginal, discountOriginal);
+        }
+    }
+
+    function minusFunc() {
+
+        for (var i = 0; i < minusBtns.length; i++) {
+
+            var priceTextTag = priceTextTags[i];
+            var priceText = priceTextTag.innerText;
+            var priceOriginal = priceText.replace(/,/gi, '');
+
+            var discountTextTag = discountTextTags[i];
+            var discountText = discountTextTag.innerText;
+            var discountOriginal = discountText.replace(/,/gi, '');
+
+            var minusBtn = minusBtns[i];
+
+            itemMinus(minusBtn, priceOriginal, discountOriginal);
+        }
+    }
 </script>

@@ -75,9 +75,9 @@
                         <div class="list__inner state">
                             <p>상태</p>
                         </div>
-                        <div class="list__inner confirm">
-                            <p>확인</p>
-                        </div>
+<!--                        <div class="list__inner confirm">-->
+<!--                            <p>확인</p>-->
+<!--                        </div>-->
                     </li>
                     <li class="list__item content clearfix" th:if="${memberDto != null}" th:each="orderPage : ${orderPages}">
                         <div class="list__inner date">
@@ -99,9 +99,9 @@
                             <p th:if="${orderPage.deliveryStatus == 'COMP' && orderPage.orderStatus != 'COMP'}">배송완료</p>
                             <p th:if="${orderPage.deliveryStatus == 'COMP' && orderPage.orderStatus == 'COMP'}">주문완료</p>
                         </div>
-                        <div class="list__inner confirm">
-                            <button type="button">주문상세보기</button>
-                        </div>
+<!--                        <div class="list__inner confirm">-->
+<!--                            <button type="button">주문상세보기</button>-->
+<!--                        </div>-->
                     </li>
                 </ul>
             </div>
