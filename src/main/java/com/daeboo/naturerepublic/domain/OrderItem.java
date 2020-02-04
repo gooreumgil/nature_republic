@@ -9,11 +9,14 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 
 @Entity
-@Getter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItem {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "order_item_id")
     private Long id;
 

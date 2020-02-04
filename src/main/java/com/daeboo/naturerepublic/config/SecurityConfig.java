@@ -21,25 +21,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/myPage/**", "/shoppingCart").hasAnyRole("ADMIN", "USER")
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/")
-                    .failureUrl("/login?error")
-                    .permitAll()
-                .and()
-                .logout().permitAll()
-                    .logoutUrl("/logout")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.POST.name()))
-                    .logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID")
-                .and()
-                .csrf().disable()
-                .headers().frameOptions().disable();
+        http.authorizeRequests().antMatchers("**").permitAll();
+
+//
+//        http.authorizeRequests()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/myPage/**", "/shoppingCart").hasAnyRole("ADMIN", "USER")
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/")
+//                .failureUrl("/login?error")
+//                .permitAll()
+//                .and()
+//                .logout().permitAll()
+//                .logoutUrl("/logout")
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.POST.name()))
+//                .logoutSuccessUrl("/")
+//                .deleteCookies("JSESSIONID")
+//                .and()
+//                .csrf().disable()
+//                .headers().frameOptions().disable();
 
     }
 

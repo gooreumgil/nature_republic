@@ -12,64 +12,31 @@
 </style>
 <link rel="stylesheet" th:href="@{/css/index.css}">
 
-    <header class="head">
-        <nav>
-            <a href="/" class="logo_a">
-                <span class="logo_helper"></span>
-                <img src="/image/NATURE%20REPUBLIC_fullback.png" class="logo">
-            </a>
-            <ul class="menu">
-                <li>
-                    <a href="/brand">브랜드</a>
-                </li>
-                <li>
-                    <a href="/item">상품</a>
-                </li>
-<!--                <li>-->
-<!--                    <a href="#">뉴스</a>-->
-<!--                </li>-->
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/myPage}">마이페이지</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin}">관리자페이지</a>
-                </li>
-            </ul>
-            <ul class="icon" sec:authorize="isAuthenticated()">
-                <li class="a3">
-                    <a href="#" class="search-href">
-                        <form th:action="@{/item/search}" method="get">
-                            <input type="text" th:name="name">
-                            <span class="helper"></span>
-                            <img src="/image/search_fullback.png" class="search-submit">
-                        </form>
-                    </a>
-                </li>
-
-                <li class="a2">
-                    <a href="#">
-                        <div class="cart_inner">
-                            <span class="helper"></span>
-                            <a th:href="@{/shoppingCart}">
-                                <img src="/image/cart_fullback.png">
-                            </a>
-                            <div class="cart_number">
-                                <img src="/image/cart_number_fullback.png">
-                                <p th:if="${#httpSession.getAttribute(#authentication.name) == null}">0</p>
-                                <p th:if="${#httpSession.getAttribute(#authentication.name) != null}" th:text="${#arrays.length(#httpSession.getAttribute(#authentication.name))}"></p>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-
-                <li class="a1">
-                    <a href="/logout">
-                        <span class="helper"></span>
-                        <img src="/image/login_fullback.png">
-                    </a>
-                </li>
-            </ul>
-            <ul class="icon" sec:authorize="isAnonymous()">
+<header class="head">
+    <nav>
+        <a href="/" class="logo_a">
+            <span class="logo_helper"></span>
+            <img src="/image/NATURE%20REPUBLIC_fullback.png" class="logo">
+        </a>
+        <ul class="menu">
+            <li>
+                <a href="/brand">브랜드</a>
+            </li>
+            <li>
+                <a href="/item">상품</a>
+            </li>
+            <!--                <li>-->
+            <!--                    <a href="#">뉴스</a>-->
+            <!--                </li>-->
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/myPage}">마이페이지</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin}">관리자페이지</a>
+            </li>
+        </ul>
+        <ul class="icon" sec:authorize="isAuthenticated()">
+            <li class="a3">
                 <a href="#" class="search-href">
                     <form th:action="@{/item/search}" method="get">
                         <input type="text" th:name="name">
@@ -77,86 +44,122 @@
                         <img src="/image/search_fullback.png" class="search-submit">
                     </form>
                 </a>
-                <li class="a3">
-                    <a href="#">
+            </li>
+
+            <li class="a2">
+                <a href="#">
+                    <div class="cart_inner">
                         <span class="helper"></span>
-                        <img src="/image/search_fullback.png">
-                    </a>
-                </li>
-                <li class="a1">
-                    <a href="/login" class="login_btn_white">
-                        로그인
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+                        <a th:href="@{/shoppingCart}">
+                            <img src="/image/cart_fullback.png">
+                        </a>
+                        <div class="cart_number">
+                            <img src="/image/cart_number_fullback.png">
+                            <p th:if="${#httpSession.getAttribute(#authentication.name) == null}">0</p>
+                            <p th:if="${#httpSession.getAttribute(#authentication.name) != null}"
+                               th:text="${#arrays.length(#httpSession.getAttribute(#authentication.name))}"></p>
+                        </div>
+                    </div>
+                </a>
+            </li>
 
-    <!-- BANNER -->
+            <li class="a1">
+                <a href="/logout">
+                    <span class="helper"></span>
+                    <img src="/image/login_fullback.png">
+                </a>
+            </li>
+        </ul>
+        <ul class="icon" sec:authorize="isAnonymous()">
+            <a href="#" class="search-href">
+                <form th:action="@{/item/search}" method="get">
+                    <input type="text" th:name="name">
+                    <span class="helper"></span>
+                    <img src="/image/search_fullback.png" class="search-submit">
+                </form>
+            </a>
+            <li class="a3">
+                <a href="#">
+                    <span class="helper"></span>
+                    <img src="/image/search_fullback.png">
+                </a>
+            </li>
+            <li class="a1">
+                <a href="/login" class="login_btn_white">
+                    로그인
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-    <aside class="banner">
-        <div class='wrapper-arrow'>
-           <div class="banner_top_box"></div>
-            <h1><span>네이처리퍼블릭</span>은<br> 자연의 완벽함을 믿습니다.</h1>
-            <a href="/brand">BRAND STORY</a>
-            <div class="arrow">
-                <img class='arrow-left' src="/image/arrow2.png">
-                <img class='arrow-right' src="/image/arrow1.png">
+<!-- BANNER -->
+
+<aside class="banner">
+    <div class='wrapper-arrow'>
+        <div class="banner_top_box"></div>
+        <h1><span>네이처리퍼블릭</span>은<br> 자연의 완벽함을 믿습니다.</h1>
+        <a href="/brand">BRAND STORY</a>
+        <div class="arrow">
+            <img class='arrow-left' src="/image/arrow2.png">
+            <img class='arrow-right' src="/image/arrow1.png">
+        </div>
+    </div>
+</aside>
+
+
+<!-- MOST POPULAR -->
+
+<section class="best">
+    <div class="best_title">
+        <h2 class="main_font">Most Popular</h2>
+        <p class="sub_font">네이처리퍼블릭에서 가장 사랑받는 제품들을 소개합니다.</p>
+    </div>
+    <ol class="clearfix">
+        <li class="col-3" th:each="popular : ${populars}">
+            <div class="out_box">
+                <div class='inner-box'>
+                    <a th:href="@{/item/detail(id=*{popular.id})}">
+                        <img th:src="@{${'/upload/' + popular.mainSrcs.get(0).s3Key}}">
+                        <div class="best_hover"></div>
+                    </a>
+                </div>
+                <h3 th:text="*{popular.nameKor}"></h3>
+                <p><span class="won" th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}"></span>&nbsp;
+                    <span id=id_color th:text="${#numbers.formatInteger(popular.discountPrice, 3, 'COMMA')}"></span> 원
+                </p>
             </div>
-        </div>
-    </aside>
+        </li>
+    </ol>
+</section>
 
+<!-- NEW ARRIVAL -->
 
+<section class="new">
+    <div class="new_title">
+        <h2 class="main_font">Latest Product</h2>
+        <p class="sub_font">네이처리퍼블릭에서 새로나온 제품들을 소개합니다.</p>
+    </div>
 
-    <!-- MOST POPULAR -->
-
-    <section class="best">
-        <div class="best_title">
-            <h2 class="main_font">Most Popular</h2>
-            <p class="sub_font">네이처리퍼블릭에서 가장 사랑받는 제품들을 소개합니다.</p>
-        </div>
-        <ol class="clearfix">
-            <li class="col-3" th:each="popular : ${populars}">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a th:href="@{/item/detail(id=*{popular.id})}">
-                            <img th:src="@{${'/upload/' + popular.mainSrcs.get(0).s3Key}}">
-                            <div class="best_hover"></div>
-                        </a>
-                    </div>
-                    <h3 th:text="*{popular.nameKor}"></h3>
-                    <p><span class="won" th:text="${#numbers.formatInteger(popular.price, 3, 'COMMA')}"></span>&nbsp;
-                        <span id=id_color th:text="${#numbers.formatInteger(popular.discountPrice, 3, 'COMMA')}"></span> 원</p>
+    <ol class="clearfix">
+        <li class="col-3" th:each="latestItem : ${latestItems}">
+            <div class="out_box">
+                <div class='inner-box'>
+                    <a th:href="@{/item/detail(id=*{latestItem.id})}">
+                        <img th:src="@{${'/upload/' + latestItem.mainSrcs.get(0).s3Key}}">
+                        <div class="new_hover"></div>
+                    </a>
                 </div>
-            </li>
-        </ol>
-    </section>
+                <h3 th:text="*{latestItem.nameKor}"></h3>
+                <p><span class="won"></span><span id=id_color
+                                                  th:text="${#numbers.formatInteger(latestItem.price, 3, 'COMMA')}"></span>
+                    원</p>
+            </div>
+        </li>
+    </ol>
+</section>
 
-    <!-- NEW ARRIVAL -->
-
-    <section class="new">
-        <div class="new_title">
-            <h2 class="main_font">Latest Product</h2>
-            <p class="sub_font">네이처리퍼블릭에서 새로나온 제품들을 소개합니다.</p>
-        </div>
-
-        <ol class="clearfix">
-            <li class="col-3" th:each="latestItem : ${latestItems}">
-                <div class="out_box">
-                    <div class='inner-box'>
-                        <a th:href="@{/item/detail(id=*{latestItem.id})}">
-                            <img th:src="@{${'/upload/' + latestItem.mainSrcs.get(0).s3Key}}">
-                            <div class="new_hover"></div>
-                        </a>
-                    </div>
-                    <h3 th:text="*{latestItem.nameKor}"></h3>
-                    <p><span class="won"></span><span id=id_color th:text="${#numbers.formatInteger(latestItem.price, 3, 'COMMA')}"></span> 원</p>
-                </div>
-            </li>
-        </ol>
-    </section>
-
-    <!-- MOVIE -->
+<!-- MOVIE -->
 
 <!--    <aside class="play_movie">-->
 <!--        <a href="#">-->
@@ -169,7 +172,7 @@
 <!--        매장에서의 경험을 끊임없이 개선합니다.</p>-->
 <!--    </aside>-->
 
-    <!-- EVENT -->
+<!-- EVENT -->
 
 <!--    <section class="event">-->
 <!--        <div class="event_title">-->
@@ -202,7 +205,7 @@
 <!--        </ul>-->
 <!--     </section>-->
 
-    <!-- NEWS -->
+<!-- NEWS -->
 
 <!--    <section class="news">-->
 <!--        <div class="news_title">-->
@@ -236,9 +239,9 @@
 
 <!--    </section>-->
 
-    <!-- BOTTOM -->
+<!-- BOTTOM -->
 
-    <div th:replace="partials/bottom :: bottom"/>
+<div th:replace="partials/bottom :: bottom"/>
 
 
 <footer th:replace="partials/footer :: footer"/>

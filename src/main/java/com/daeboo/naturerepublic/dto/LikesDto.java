@@ -10,7 +10,8 @@ import java.util.List;
 
 public class LikesDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class LikePage {
 
@@ -29,7 +30,8 @@ public class LikesDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Delete {
 

@@ -10,11 +10,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Getter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "category_id")
     private Long id;
 
@@ -48,8 +51,7 @@ public class Category {
 
             newCategory.name = replace;
 
-        }
-        else {
+        } else {
             newCategory.name = categoryName;
         }
         return newCategory;

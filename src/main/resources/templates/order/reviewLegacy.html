@@ -21,7 +21,8 @@
 
         <input type="hidden" th:id="orderId" th:value="${orderId}">
 
-        <form th:action="@{/orders/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form" enctype="multipart/form-data">
+        <form th:action="@{/orders/review}" method="post" th:each="reviewDto, i : ${reviewDtos}" class="review-form"
+              enctype="multipart/form-data">
 
             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${reviewDto.itemDto.id}">
@@ -37,50 +38,60 @@
                         <fieldset class="rating">
                             <input type="radio" th:name="rating" id="star1" value="1" class="rating-input">
                             <label th:for="star1" title="매우만족">
-                                <svg class="first-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                <svg class="first-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                                     aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
-                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"
+                                          stroke="#555555"
                                           fill="none" data-name="layer1" stroke-linejoin="round"></path>
                                 </svg>
                             </label>
 
                             <input type="radio" th:name="rating" id="star2" value="2" class="rating-input">
                             <label th:for="star2" title="만족">
-                                <svg class="second-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                <svg class="second-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                                     aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
-                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"
+                                          stroke="#555555"
                                           fill="none" data-name="layer1" stroke-linejoin="round"></path>
                                 </svg>
                             </label>
 
                             <input type="radio" th:name="rating" id="star3" value="3" class="rating-input">
                             <label th:for="star3" title="보통">
-                                <svg class="third-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                <svg class="third-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                                     aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
-                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"
+                                          stroke="#555555"
                                           fill="none" data-name="layer1" stroke-linejoin="round"></path>
                                 </svg>
                             </label>
 
                             <input type="radio" th:name="rating" id="star4" value="4" class="rating-input">
                             <label th:for="star4" title="불만족">
-                                <svg class="fourth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                <svg class="fourth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                                     aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
-                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"
+                                          stroke="#555555"
                                           fill="none" data-name="layer1" stroke-linejoin="round"></path>
                                 </svg>
                             </label>
 
                             <input type="radio" th:name="rating" id="star5" value="5" class="rating-input">
                             <label th:for="star5" title="매우불만족">
-                                <svg class="fifth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title"
+                                <svg class="fifth-star star" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                                     aria-labelledby="title"
                                      aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <path d="M32 48L15 58l4-19L5 26l19-2 8-18 8 18 19 2-14 13 4 19-17-10z"
-                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke="#555555"
+                                          stroke-width="2" stroke-miterlimit="10" stroke-linecap="round"
+                                          stroke="#555555"
                                           fill="none" data-name="layer1" stroke-linejoin="round"></path>
                                 </svg>
                             </label>
@@ -96,7 +107,8 @@
                                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path d="M10.239 42.86L45.812 7.328l10.848 10.86L21.086 53.72z"
                                       fill="#a0a0a0" data-name="layer1"></path>
-                                <path fill="#a0a0a0" d="M59.492 15.358l2.259-2.258A7.674 7.674 0 1 0 50.9 2.248L48.639 4.5z"
+                                <path fill="#a0a0a0"
+                                      d="M59.492 15.358l2.259-2.258A7.674 7.674 0 1 0 50.9 2.248L48.639 4.5z"
                                       data-name="layer2"></path>
                                 <path d="M7.851 46.135L-.073 64.024 17.816 56.1l-9.965-9.965z"
                                       fill="#a0a0a0" data-name="layer1"></path>
@@ -113,7 +125,8 @@
                     </nav>
 
                     <div class="tab review-text">
-                        <textarea th:id="content" th:name="content" cols="30" rows="13" class="review-textarea" placeholder="리뷰를 작성해주세요(300자 내외)"></textarea>
+                        <textarea th:id="content" th:name="content" cols="30" rows="13" class="review-textarea"
+                                  placeholder="리뷰를 작성해주세요(300자 내외)"></textarea>
                     </div>
                     <div class="tab review-photo clearfix">
                         <p>사진을 추가해 주세요(최대 3장)</p>
@@ -121,11 +134,11 @@
                         <label th:for="srcs" class="add-img">
                             <span>+</span>
                         </label>
-                        <input multiple="multiple" type="file" th:id="srcs" th:name="srcs" onchange="handleFileSelect(this)">
+                        <input multiple="multiple" type="file" th:id="srcs" th:name="srcs"
+                               onchange="handleFileSelect(this)">
                     </div>
                 </div>
             </div>
-
 
 
         </form>
@@ -254,8 +267,7 @@
 
             if (parentElement.classList == null) {
                 continue;
-            }
-            else if (parentElement.classList.contains('review-form')) {
+            } else if (parentElement.classList.contains('review-form')) {
                 parentElement.appendChild(inputTag);
                 break;
             }
@@ -284,7 +296,6 @@
 
         previewBox.remove();
     }
-
 
 
     // style
@@ -409,7 +420,7 @@
             });
         }
 
-        for (i = 0; i <fieldSetTag.length; i++) {
+        for (i = 0; i < fieldSetTag.length; i++) {
             thirdStar[i].addEventListener('mouseover', function (evt) {
 
                 var target = evt.target;
@@ -498,7 +509,7 @@
 
                 firstStarPath.style.fill = '#7ebb34';
                 firstStarPath.style.stroke = '#7ebb34';
-                
+
                 var secondStarTag = fieldSet.getElementsByClassName('second-star')[0];
                 var secondStarPath = secondStarTag.getElementsByTagName('path')[0];
 

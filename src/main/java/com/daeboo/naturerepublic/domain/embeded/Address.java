@@ -7,7 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
 @Embeddable
-@Getter @Setter
+@Getter
+@Setter
 public class Address {
 
     private String city;

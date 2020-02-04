@@ -10,7 +10,8 @@ import javax.swing.*;
 
 public class OrderItemDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     @Data
     public static class Create {
@@ -22,7 +23,8 @@ public class OrderItemDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class CompletePage {
 
@@ -41,7 +43,8 @@ public class OrderItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Preview {
 
@@ -56,7 +59,8 @@ public class OrderItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class DetailPage {
 
@@ -77,7 +81,8 @@ public class OrderItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class AdminPage {
 

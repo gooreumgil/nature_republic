@@ -58,12 +58,13 @@ thumb_wrap {
     text-align: center;
 }
 
-.col-7 .thumbnail{
+.col-7 .thumbnail {
     left: 0px;
     bottom: 0px;
     position: absolute;
     width: 100%;
 }
+
 .col-7 .thumbnail a {
     display: block;
     height: 80px;
@@ -366,7 +367,7 @@ thumb_wrap {
     padding: 0 4px;
 }
 
-.detail .detail_wrap .first{
+.detail .detail_wrap .first {
     /*background-color: #7ebb34;*/
 }
 
@@ -574,9 +575,7 @@ thumb_wrap {
 }
 
 
-
-
-    /*.detail .item_reviews .review__list svg {*/
+/*.detail .item_reviews .review__list svg {*/
 /*    max-width: 35px;*/
 /*    width: 100%;*/
 /*    position: absolute;*/
@@ -945,9 +944,9 @@ thumb_wrap {
 }
 
 
-    /*===================
-        CATEGORY BEST
-    ===================*/
+/*===================
+    CATEGORY BEST
+===================*/
 
 .category_best {
     max-width: 1260px;
@@ -999,8 +998,8 @@ thumb_wrap {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 .modal.active {

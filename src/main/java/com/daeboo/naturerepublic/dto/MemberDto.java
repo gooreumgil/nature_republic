@@ -17,7 +17,8 @@ import java.util.List;
 
 public class MemberDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Update {
 
@@ -66,7 +67,8 @@ public class MemberDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class SignUp {
 
@@ -102,7 +104,8 @@ public class MemberDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ListView {
 
@@ -125,7 +128,8 @@ public class MemberDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Login {
 
@@ -134,7 +138,8 @@ public class MemberDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class OrderPage {
 
@@ -153,7 +158,8 @@ public class MemberDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class MyPageIndex {
 
@@ -175,16 +181,6 @@ public class MemberDto {
 
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

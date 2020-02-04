@@ -43,7 +43,8 @@ public class ItemService {
     public Page<ItemDto.Search> itemSearch(Pageable pageable, ItemSearchDto itemSearchDto) {
 
         BooleanBuilder builder = new BooleanBuilder();
-        if (Strings.isNotEmpty(itemSearchDto.getName())) builder.and(item.nameKor.like("%" + itemSearchDto.getName() + "%"));
+        if (Strings.isNotEmpty(itemSearchDto.getName()))
+            builder.and(item.nameKor.like("%" + itemSearchDto.getName() + "%"));
 
         Page<Item> itemPage = itemRepository.findItem(itemSearchDto, pageable);
         return itemPage.map(ItemDto.Search::new);

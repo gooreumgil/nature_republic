@@ -13,162 +13,166 @@
     }
 </style>
 
-    <header th:replace="partials/bodyHeader :: bodyHeader"/>
+<header th:replace="partials/bodyHeader :: bodyHeader"/>
 
-    <section class="container">
-        <div class="title-box">
-            <h2>상품주문</h2>
-            <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
+<section class="container">
+    <div class="title-box">
+        <h2>상품주문</h2>
+        <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.</p>
+    </div>
+
+    <ul class="item__info-wrap">
+        <li class="item__list top-line clearfix">
+            <div class="img-div"></div>
+            <div class="info-div">상품정보</div>
+            <div class="quantity-div">수량</div>
+            <div class="points-div">적립포인트</div>
+            <div class="price-div">금액</div>
+        </li>
+        <li class="item__list content clearfix" th:object="${itemDto}">
+            <div class="img-div">
+                <div class="list__inner">
+                    <img th:src="@{${'/upload/' + itemDto.s3Key}}" alt="" class="orders-item-img">
+                </div>
+            </div>
+            <div class="info-div">
+                <div class="list__inner">
+                    <p th:text="*{itemName}" class="bold"></p>
+                </div>
+            </div>
+            <div class="quantity-div">
+                <div class="list__inner">
+                    <p th:text="${count + '개'}"></p>
+                </div>
+            </div>
+            <div class="points-div">
+                <div class="list__inner">
+                    <p th:text="${(itemDto.price * count)  * 1 / 100 + 'p'}"></p>
+                </div>
+            </div>
+            <div class="price-div">
+                <div class="list__inner">
+                    <p th:text="${#numbers.formatInteger(itemDto.price * count, 3, 'COMMA') + '원'}" class="bold"></p>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <form th:action="@{/orders}" method="post" th:object="${orderItemDto}">
+
+        <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
+        <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
+        <input type="hidden" th:id="savePoints" name="savePoints" th:value="${(itemDto.price * count) * 1 / 100}">
+        <input type="hidden" th:id="price" th:name="price" th:value="${itemDto.price}">
+        <input type="hidden" th:id="discount" th:name="discount" th:value="${itemDto.discountPrice}">
+        <input type="hidden" th:field="*{count}" th:value="${count}">
+        <input type="hidden" th:field="*{usePoints}" class="usePointsInput">
+        <input type="hidden" th:id="deliveryPrice" th:name="deliveryPrice"
+               th:value="${(itemDto.price * count) > 30000 ? 0 : 2500}">
+
+        <div class="form-div delivery">
+            <h3>배송정보</h3>
+
+            <label th:for="name">수령인</label>
+            <input th:type="text" th:id="name" th:name="name" th:value="${memberDto.name}">
+
+
+            <label th:for="phoneNumber">연락처</label>
+            <input type="number" th:id="phoneNumber" th:name="phoneNumber"
+                   th:value="${memberDto.phoneNumber.number1 + memberDto.phoneNumber.number2 + memberDto.phoneNumber.number3}">
+
+            <label th:for="mainAddress">기본주소</label>
+            <input type="text" th:id="mainAddress" th:name="mainAddress"
+                   th:value="${memberDto.address.city + ' ' + memberDto.address.street}">
+
+            <label th:for="detailAddress">상세주소</label>
+            <input type="text" th:id="detailAddress" th:name="detailAddress" th:value="${memberDto.address.zipcode}">
+
+            <label th:for="memo">배송 요청사항</label>
+            <input type="text" th:id="memo" th:name="memo">
         </div>
 
-        <ul class="item__info-wrap">
-            <li class="item__list top-line clearfix">
-                <div class="img-div"></div>
-                <div class="info-div">상품정보</div>
-                <div class="quantity-div">수량</div>
-                <div class="points-div">적립포인트</div>
-                <div class="price-div">금액</div>
-            </li>
-            <li class="item__list content clearfix" th:object="${itemDto}">
-                <div class="img-div">
-                    <div class="list__inner">
-                        <img th:src="@{${'/upload/' + itemDto.s3Key}}" alt="" class="orders-item-img">
-                    </div>
+        <ul class="clearfix pay-wrap">
+
+            <li class="pay-list points">
+                <div class="title-box">
+                    <h3>할인 및 쿠폰</h3>
                 </div>
-                <div class="info-div">
-                    <div class="list__inner">
-                        <p th:text="*{itemName}" class="bold"></p>
+                <div class="pay-inner">
+                    <div class="inner-box">
+                        <label>보유중인 포인트 <span>(포인트는 100p 이상 부터 사용할 수 있습니다.)</span></label>
+                        <p th:text="${memberDto.points == null ? '0' : memberDto.points}" id="points"></p>
                     </div>
-                </div>
-                <div class="quantity-div">
-                    <div class="list__inner">
-                        <p th:text="${count + '개'}"></p>
+
+                    <div class="inner-box">
+                        <label th:for="usePoints">사용할 포인트</label>
+                        <div class="btn-div">
+                            <input type="number" th:field="*{usePoints}" class="use-points">
+                            <button type="button" id="use-points-btn" onclick="pointUseFnc()">사용</button>
+                        </div>
                     </div>
-                </div>
-                <div class="points-div">
-                    <div class="list__inner">
-                        <p th:text="${(itemDto.price * count)  * 1 / 100 + 'p'}"></p>
-                    </div>
-                </div>
-                <div class="price-div">
-                    <div class="list__inner">
-                        <p th:text="${#numbers.formatInteger(itemDto.price * count, 3, 'COMMA') + '원'}" class="bold"></p>
-                    </div>
+
                 </div>
             </li>
-        </ul>
 
-        <form th:action="@{/orders}" method="post" th:object="${orderItemDto}">
+            <li class="pay-list payment">
 
-            <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberDto.id}">
-            <input type="hidden" th:field="*{itemId}" th:value="${itemDto.id}">
-            <input type="hidden" th:id="savePoints" name="savePoints" th:value="${(itemDto.price * count) * 1 / 100}">
-            <input type="hidden" th:id="price" th:name="price" th:value="${itemDto.price}">
-            <input type="hidden" th:id="discount" th:name="discount" th:value="${itemDto.discountPrice}">
-            <input type="hidden" th:field="*{count}" th:value="${count}">
-            <input type="hidden" th:field="*{usePoints}" class="usePointsInput">
-            <input type="hidden" th:id="deliveryPrice" th:name="deliveryPrice" th:value="${(itemDto.price * count) > 30000 ? 0 : 2500}">
+                <div class="title-box">
+                    <h3>결제정보</h3>
+                </div>
 
-            <div class="form-div delivery">
-                <h3>배송정보</h3>
+                <div class="total-div">
+                    <h4>총 결제금액</h4>
+                    <p class="total-price">
+                        <span th:text="${#numbers.formatInteger((itemDto.price * count) - (itemDto.discountPrice * count), 3, 'COMMA')}"
+                              class="total-span"></span>
+                        <span>원</span>
+                    </p>
 
-                <label th:for="name">수령인</label>
-                <input th:type="text" th:id="name" th:name="name" th:value="${memberDto.name}">
-
-
-                <label th:for="phoneNumber">연락처</label>
-                <input type="number" th:id="phoneNumber" th:name="phoneNumber" th:value="${memberDto.phoneNumber.number1 + memberDto.phoneNumber.number2 + memberDto.phoneNumber.number3}">
-
-                <label th:for="mainAddress">기본주소</label>
-                <input type="text" th:id="mainAddress" th:name="mainAddress" th:value="${memberDto.address.city + ' ' + memberDto.address.street}" >
-
-                <label th:for="detailAddress">상세주소</label>
-                <input type="text" th:id="detailAddress" th:name="detailAddress" th:value="${memberDto.address.zipcode}">
-
-                <label th:for="memo">배송 요청사항</label>
-                <input type="text" th:id="memo" th:name="memo">
-            </div>
-
-            <ul class="clearfix pay-wrap">
-
-                <li class="pay-list points">
-                    <div class="title-box">
-                        <h3>할인 및 쿠폰</h3>
+                    <div class="price-detail item-price">
+                        <h5>상품금액</h5>
+                        <p>
+                            <span th:text="${#numbers.formatInteger(itemDto.price, 3, 'COMMA')}"></span>
+                            <span>원</span>
+                        </p>
                     </div>
-                    <div class="pay-inner">
-                        <div class="inner-box">
-                            <label>보유중인 포인트 <span>(포인트는 100p 이상 부터 사용할 수 있습니다.)</span></label>
-                            <p th:text="${memberDto.points == null ? '0' : memberDto.points}" id="points"></p>
-                        </div>
-
-                        <div class="inner-box">
-                            <label th:for="usePoints">사용할 포인트</label>
-                            <div class="btn-div">
-                                <input type="number" th:field="*{usePoints}" class="use-points">
-                                <button type="button" id="use-points-btn" onclick="pointUseFnc()">사용</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </li>
-
-                <li class="pay-list payment">
-
-                    <div class="title-box">
-                        <h3>결제정보</h3>
-                    </div>
-
-                    <div class="total-div">
-                        <h4>총 결제금액</h4>
-                        <p class="total-price">
-                            <span th:text="${#numbers.formatInteger((itemDto.price * count) - (itemDto.discountPrice * count), 3, 'COMMA')}" class="total-span"></span>
+                    <div class="price-detail delivery-price">
+                        <h5>배송료</h5>
+                        <p>
+                            <span id="delivery-price-p"></span>
                             <span>원</span>
                         </p>
 
-                        <div class="price-detail item-price">
-                            <h5>상품금액</h5>
-                            <p>
-                                <span th:text="${#numbers.formatInteger(itemDto.price, 3, 'COMMA')}"></span>
-                                <span>원</span>
-                            </p>
-                        </div>
-                        <div class="price-detail delivery-price">
-                            <h5>배송료</h5>
-                            <p>
-                                <span id="delivery-price-p"></span>
-                                <span>원</span>
-                            </p>
-
-                        </div>
-                        <div class="price-detail discount">
-                            <h5>할인금액</h5>
-                            <p>
+                    </div>
+                    <div class="price-detail discount">
+                        <h5>할인금액</h5>
+                        <p>
                                 <span th:if="${itemDto.discountPrice > 0}">
                                     <span th:text="${#numbers.formatInteger((itemDto.discountPrice * count), 3, 'COMMA')}"></span>
                                     <span>원 (-)</span>
                                 </span>
 
-                                <span th:unless="${itemDto.discountPrice > 0}">
+                            <span th:unless="${itemDto.discountPrice > 0}">
                                     <span>0</span>
                                     <span>원 (-)</span>
                                 </span>
 
-                            </p>
-                        </div>
-                        <div class="price-detail pay-points">
-                            <h5>포인트 사용</h5>
-                            <p>
-                                <span id="pay-info-points"></span>
-                                <span>p (-)</span>
-                            </p>
-                        </div>
+                        </p>
                     </div>
-                    <button type="submit">주문하기</button>
-                </li>
-            </ul>
+                    <div class="price-detail pay-points">
+                        <h5>포인트 사용</h5>
+                        <p>
+                            <span id="pay-info-points"></span>
+                            <span>p (-)</span>
+                        </p>
+                    </div>
+                </div>
+                <button type="submit">주문하기</button>
+            </li>
+        </ul>
 
-        </form>
-    </section>
+    </form>
+</section>
 
 <script>
 
@@ -197,6 +201,7 @@
     var ownPointTag = document.getElementById('points');
     var ownPointVal = ownPointTag.innerText;
     var ownPointNum = Number(ownPointVal);
+
     // var totalPriceInputTag = document.getElementsByClassName('total-input')[0];
     function minusOwnPoints(points) {
 
@@ -225,7 +230,7 @@
         totalSpanTag.innerText = totalFormat;
 
     }
-    
+
     function totalPriceCalcPlus(deliveryPrice) {
         var totalPrice = totalSpanNum + deliveryPrice;
         var totalFormat = new Intl.NumberFormat().format(totalPrice);

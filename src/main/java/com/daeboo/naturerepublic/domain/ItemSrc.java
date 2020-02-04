@@ -8,12 +8,14 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "item_src")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
 public class ItemSrc {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "item_src_id")
     private Long id;
 

@@ -13,7 +13,8 @@ import java.util.List;
 
 public class CategoryItemDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ListView {
         private Long id;

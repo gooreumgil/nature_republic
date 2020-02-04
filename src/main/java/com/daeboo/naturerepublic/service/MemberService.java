@@ -56,7 +56,6 @@ public class MemberService {
     }
 
 
-
     public Member findByName(String name) {
 //        memberRepository.findByName(name).orElseThrow(() -> throw new UsernameNotFoundException("존재하지 않다"));
         Member member = memberRepository.findByName(name).orElseThrow(() -> new UsernameNotFoundException("no exist"));
@@ -67,7 +66,6 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
         return member;
     }
-
 
 
 }

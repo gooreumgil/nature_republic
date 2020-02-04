@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Review {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "review_id")
     private Long id;
 

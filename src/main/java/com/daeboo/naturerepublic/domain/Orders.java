@@ -9,10 +9,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter @NoArgsConstructor
+@Getter
+@NoArgsConstructor
 public class Orders {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "order_id")
     private Long id;
 

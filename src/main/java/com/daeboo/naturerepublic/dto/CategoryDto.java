@@ -8,7 +8,8 @@ import org.springframework.util.StringUtils;
 
 public class CategoryDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class NewLine {
         String categoryName;

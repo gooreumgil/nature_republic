@@ -26,14 +26,11 @@ li {
     height: 454px;
     font-family: 'Noto Sans KR', sans-serif;
     text-align: center;
-    background:
-            /* top, transparent red, faked with gradient */
-    linear-gradient(
-     rgba(124, 124, 124, .4),
-     rgba(124, 124, 124, .4)
+    background: /* top, transparent red, faked with gradient */ linear-gradient(
+            rgba(124, 124, 124, .4),
+            rgba(124, 124, 124, .4)
     ),
-    /* bottom, image */
-    url(../image/list_img/list_banner_bg.png);
+        /* bottom, image */ url(../image/list_img/list_banner_bg.png);
     /*background-image: url(../list_img/list_banner_bg2.png);*/
     background-size: cover;
     background-position: center;
@@ -56,7 +53,7 @@ li {
 .top_name p {
     font-size: 16px;
     padding: 0 10px;
-    color: rgba(255, 255, 255,.8);
+    color: rgba(255, 255, 255, .8);
     font-weight: 300;
     line-height: 1.5;
     font-weight: 100;
@@ -146,6 +143,7 @@ li {
     display: flex;
     align-items: center;
 }
+
 .best .col-3 .inner-box:hover > a > .best_hover {
     opacity: 1;
     vertical-align: middle;
@@ -159,7 +157,7 @@ li {
     width: 100%;
     top: 0px;
     text-align: center;
-    background-color: rgba(255,255,255,.2);
+    background-color: rgba(255, 255, 255, .2);
     transition: all .2s ease-in-out;
 }
 
@@ -363,7 +361,7 @@ nav.category_nav ul.category_wrapper li a.active {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    height: calc(12px*1.5*2);
+    height: calc(12px * 1.5 * 2);
 }
 
 .skin_care .col-3 .c {

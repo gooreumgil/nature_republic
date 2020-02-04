@@ -145,10 +145,10 @@ li.order__list.right div.content-box .content__inner .info-box h4 span.reply-com
 }
 
 li.order__list.right div.content-box .content__inner .info-box p.item-name {
-     font-size: 13px;
-     margin-top: 8px;
-     color: #a0a0a0;
- }
+    font-size: 13px;
+    margin-top: 8px;
+    color: #a0a0a0;
+}
 
 li.order__list.right div.content-box .content__inner .info-box p.date {
     margin-top: 1px;
@@ -191,7 +191,6 @@ li.order__list.right div.content-box form.qna-delete-form button {
     cursor: pointer;
     outline: none;
 }
-
 
 
 li.order__list.right div.content-box .reply-box {
@@ -250,7 +249,7 @@ li.order__list.right div.content-box .reply-box .reply-divider {
     background-color: #ddd;
 }
 
-li.order__list.right div.content-box .reply-box .reply  {
+li.order__list.right div.content-box .reply-box .reply {
     box-sizing: border-box;
     padding-bottom: 30px;
     border-bottom: 1px solid #ddd;

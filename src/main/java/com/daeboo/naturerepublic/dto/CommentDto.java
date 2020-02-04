@@ -15,7 +15,8 @@ import java.util.List;
 
 public class CommentDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ItemReview {
 
@@ -34,7 +35,8 @@ public class CommentDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class RequestCommentUpdate {
 
@@ -43,7 +45,8 @@ public class CommentDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class MyPageQnaComment {
 
@@ -58,7 +61,8 @@ public class CommentDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class OrderReview {
 

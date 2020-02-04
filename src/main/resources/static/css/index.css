@@ -91,7 +91,7 @@ li {
 }
 
 .menu li a:hover {
-    color: rgba(255,255,255,.7);
+    color: rgba(255, 255, 255, .7);
 }
 
 .icon {
@@ -156,7 +156,6 @@ li {
 .icon .a3 {
     margin: 0px 10px 0px 14px;
 }
-
 
 
 /*===================
@@ -356,6 +355,7 @@ body {
     display: flex;
     align-items: center;
 }
+
 .best .col-3 .inner-box:hover > a > .best_hover {
     opacity: 1;
     vertical-align: middle;
@@ -369,7 +369,7 @@ body {
     width: 100%;
     top: 0px;
     text-align: center;
-    background-color: rgba(255,255,255,.2);
+    background-color: rgba(255, 255, 255, .2);
     transition: all .2s ease-in-out;
 }
 
@@ -453,6 +453,7 @@ body {
     justify-content: center;
     height: 100%;
 }
+
 .new .col-3 .inner-box:hover > a > .new_hover {
     opacity: 1;
     vertical-align: middle;
@@ -466,7 +467,7 @@ body {
     width: 100%;
     top: 0px;
     text-align: center;
-    background-color: rgba(255,255,255,.3);
+    background-color: rgba(255, 255, 255, .3);
     transition: all .2s ease-in-out;
 }
 
@@ -563,7 +564,7 @@ body {
 
 .play_movie p {
     font-size: 16px;
-    color: rgba(255,255,255,.9);
+    color: rgba(255, 255, 255, .9);
     font-weight: 300;
     margin-top: 20px;
     line-height: 1.8;
@@ -640,7 +641,7 @@ body {
 
 .news_title h2 {
     font-size: 32px;
-    padding:  0px 0 13px 10px;
+    padding: 0px 0 13px 10px;
 }
 
 .news_title p {
@@ -707,7 +708,7 @@ body {
 
 .event_title h2 {
     font-size: 32px;
-    padding:  0px 0 13px 10px;
+    padding: 0px 0 13px 10px;
 
 }
 
@@ -742,7 +743,7 @@ body {
 }
 
 .event_wrap .movie_box:hover img {
-    transform: scale3d(1.03,1.03,1);
+    transform: scale3d(1.03, 1.03, 1);
     transition: all .3s ease-in-out;
 }
 
@@ -846,8 +847,7 @@ body {
 
 .news_letter_box .email:hover,
 .news_letter_box .email:focus,
-.news_letter_box .email:active
-{
+.news_letter_box .email:active {
     outline: none;
 }
 

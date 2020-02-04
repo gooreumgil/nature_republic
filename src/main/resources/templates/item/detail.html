@@ -199,10 +199,13 @@
                         <h4>
                             <span th:text="${#strings.abbreviate(review.content, 30)}" class="review-title"></span>
                             <span th:if="${!review.reviewSrcs.isEmpty()}" class="photo">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                                     aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                   <circle data-name="layer2" cx="42" cy="34" r="6" fill="#a0a0a0"></circle>
                                   <path data-name="layer2" fill="#a0a0a0" d="M8 10h10v4H8z"></path>
-                                  <path data-name="layer1" d="M59 18h-2.4L50 10H34l-6.6 8H5a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h54a3 3 0 0 0 3-3V21a3 3 0 0 0-3-3zM12 32a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm30 16a14 14 0 1 1 14-14 14 14 0 0 1-14 14z" fill="#a0a0a0"></path>
+                                  <path data-name="layer1"
+                                        d="M59 18h-2.4L50 10H34l-6.6 8H5a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h54a3 3 0 0 0 3-3V21a3 3 0 0 0-3-3zM12 32a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm30 16a14 14 0 1 1 14-14 14 14 0 0 1-14 14z"
+                                        fill="#a0a0a0"></path>
                                 </svg>
                             </span>
                         </h4>
@@ -222,21 +225,25 @@
                     <div class="like__inner">
 
                         <div th:if="${#arrays.contains(review.likeMemberIds, memberId)}">
-                            <svg class="like-review-cancel-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                            <svg class="like-review-cancel-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                                 aria-labelledby="title"
                                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path data-name="layer1"
                                       d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
-                                      fill="#ff2957" stroke="##ff2957" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                      fill="#ff2957" stroke="##ff2957" stroke-miterlimit="10" stroke-width="2"
+                                      stroke-linejoin="round"
                                       stroke-linecap="round"></path>
                             </svg>
                         </div>
 
                         <div th:unless="${#arrays.contains(review.likeMemberIds, memberId)}">
-                            <svg class="like-review-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                            <svg class="like-review-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                                 aria-labelledby="title"
                                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <path data-name="layer1"
                                       d="M47 5c-6.5 0-12.9 4.2-15 10-2.1-5.8-8.5-10-15-10A15 15 0 0 0 2 20c0 13 11 26 30 39 19-13 30-26 30-39A15 15 0 0 0 47 5z"
-                                      fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round"
+                                      fill="none" stroke="#555555" stroke-miterlimit="10" stroke-width="2"
+                                      stroke-linejoin="round"
                                       stroke-linecap="round"></path>
                             </svg>
                         </div>
@@ -249,7 +256,8 @@
 
             <div class="content-box">
                 <div class="content__inner" th:if="${!review.reviewSrcs.isEmpty()}">
-                    <div class="img-wrap" th:each="img : ${review.reviewSrcs}" th:style="|background-image: url('/upload/${img.s3Key}')|">
+                    <div class="img-wrap" th:each="img : ${review.reviewSrcs}"
+                         th:style="|background-image: url('/upload/${img.s3Key}')|">
                         <button onclick="showModal(this)"></button>
                         <input type="hidden" th:value="${img.s3Key}" class="img-name">
                     </div>
@@ -260,15 +268,15 @@
                 </div>
 
             </div>
-<!--            <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"-->
-<!--                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">-->
-<!--                <path data-name="layer2"-->
-<!--                      fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2"-->
-<!--                      d="M21.001 28l10.994 13 11.006-13"-->
-<!--                      stroke-linejoin="round" stroke-linecap="round"></path>-->
-<!--                <circle data-name="layer1" cx="32" cy="32" r="30" fill="none" stroke="#202020"-->
-<!--                        stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>-->
-<!--            </svg>-->
+            <!--            <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"-->
+            <!--                 aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">-->
+            <!--                <path data-name="layer2"-->
+            <!--                      fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2"-->
+            <!--                      d="M21.001 28l10.994 13 11.006-13"-->
+            <!--                      stroke-linejoin="round" stroke-linecap="round"></path>-->
+            <!--                <circle data-name="layer1" cx="32" cy="32" r="30" fill="none" stroke="#202020"-->
+            <!--                        stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>-->
+            <!--            </svg>-->
         </div>
 
     </div>
@@ -308,46 +316,51 @@
                         <div sec:authorize="!hasRole('ADMIN')">
 
                             <div th:if="${qnaReponseDto.memberId == memberId}">
-                                <button th:if="${qnaReponseDto.secretVal == true}" type="button" onclick="allowContent(this)" class="qna-btn">
-<!--                                    유저, 작성자 (비밀글)-->
+                                <button th:if="${qnaReponseDto.secretVal == true}" type="button"
+                                        onclick="allowContent(this)" class="qna-btn">
+                                    <!--                                    유저, 작성자 (비밀글)-->
                                 </button>
-<!--                                <button th:if="${qnaReponseDto.secretVal == false}" type="button" class="qna-btn">-->
-<!--                                    유저, 작성자 (공개글)-->
-<!--                                </button>-->
+                                <!--                                <button th:if="${qnaReponseDto.secretVal == false}" type="button" class="qna-btn">-->
+                                <!--                                    유저, 작성자 (공개글)-->
+                                <!--                                </button>-->
                             </div>
 
                             <div th:if="${qnaReponseDto.secretVal == false}">
-                                <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">
-<!--                                    유저, 작성자 (공개글)-->
+                                <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)"
+                                        type="button" class="qna-btn">
+                                    <!--                                    유저, 작성자 (공개글)-->
                                 </button>
                             </div>
 
                             <div th:unless="${qnaReponseDto.memberId == memberId}">
-                                <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button" class="qna-btn">
-<!--                                    유저, 작성자 아님 (비밀글)-->
+                                <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()"
+                                        type="button" class="qna-btn">
+                                    <!--                                    유저, 작성자 아님 (비밀글)-->
                                 </button>
-<!--                                <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">-->
-<!--                                    유저, 작성자 아님 (공개글)-->
-<!--                                </button>-->
+                                <!--                                <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">-->
+                                <!--                                    유저, 작성자 아님 (공개글)-->
+                                <!--                                </button>-->
                             </div>
                         </div>
 
                         <div sec:authorize="hasAnyRole('ADMIN')">
                             <button type="button" onclick="allowContent(this)" class="qna-btn">
-<!--                                어드민-->
+                                <!--                                어드민-->
                             </button>
-<!--                            <button th:if="${qnaReponseDto.secretVal == false}" type="button" onclick="allowContent(this)" class="qna-btn">-->
-<!--                                어드민 (공개글)-->
-<!--                            </button>-->
+                            <!--                            <button th:if="${qnaReponseDto.secretVal == false}" type="button" onclick="allowContent(this)" class="qna-btn">-->
+                            <!--                                어드민 (공개글)-->
+                            <!--                            </button>-->
                         </div>
                     </div>
 
                     <div sec:authorize="!isAuthenticated()">
-                        <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button" class="qna-btn">
-<!--                            로그인 안함 (비밀글)-->
+                        <button th:if="${qnaReponseDto.secretVal == true}" onclick="deniedContent()" type="button"
+                                class="qna-btn">
+                            <!--                            로그인 안함 (비밀글)-->
                         </button>
-                        <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button" class="qna-btn">
-<!--                            로그인 안함 (공개글)-->
+                        <button th:if="${qnaReponseDto.secretVal == false}" onclick="allowContent(this)" type="button"
+                                class="qna-btn">
+                            <!--                            로그인 안함 (공개글)-->
                         </button>
                     </div>
 
@@ -371,9 +384,11 @@
                                   <desc>A line styled icon from Orion Icon Library.</desc>
                                   <path data-name="layer2"
                                         d="M19 30V15A13 13 0 0 1 32 2a13 13 0 0 1 13 13v15" fill="none" stroke="#202020"
-                                        stroke-miterlimit="10" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"></path>
+                                        stroke-miterlimit="10" stroke-width="4" stroke-linejoin="round"
+                                        stroke-linecap="round"></path>
                                   <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
-                                        stroke-width="4" d="M32 41v10" stroke-linejoin="round" stroke-linecap="round"></path>
+                                        stroke-width="4" d="M32 41v10" stroke-linejoin="round"
+                                        stroke-linecap="round"></path>
                                   <rect data-name="layer1" x="10" y="30" width="44" height="32" rx="6"
                                         ry="6" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="4"
                                         stroke-linejoin="round" stroke-linecap="round"></rect>
@@ -401,9 +416,11 @@
                     <div class="contet__inner">
                         <p th:utext="${#strings.replace((qnaReponseDto.content), newLineChar, '&lt;br /&gt;')}"></p>
                     </div>
-                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'WAIT'}" class="qna-comment-form-container">
+                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'WAIT'}"
+                         class="qna-comment-form-container">
                         <h4>답변달기</h4>
-                        <form th:action="@{/comments/qna}" method="post" class="qna-comment-form" th:object="${qnaCommentDto}">
+                        <form th:action="@{/comments/qna}" method="post" class="qna-comment-form"
+                              th:object="${qnaCommentDto}">
                             <input type="hidden" th:id="memberId" th:name="memberId" th:value="${memberId}">
                             <input type="hidden" th:id="itemId" th:name="itemId" th:value="${item.id}">
                             <input type="hidden" th:id="qnaId" th:name="qnaId" th:value="${qnaReponseDto.id}">
@@ -415,11 +432,15 @@
                         </form>
                     </div>
 
-                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'COMP'}" class="qna-comment-form-update">
+                    <div sec:authorize="hasRole('ADMIN')" th:if="${qnaReponseDto.qnaStatus == 'COMP'}"
+                         class="qna-comment-form-update">
                         <h4>답변수정</h4>
-                        <form th:action="@{/comments/update/qna}" method="post" class="qna-comment-form" th:object="${commentUpdateDto}">
-                            <input type="hidden" id="commentId" th:name="commentId" th:value="${qnaReponseDto.comments.get(0).id}">
-                            <textarea th:id="content" th:name="content" cols="30" rows="10" th:utext="${qnaReponseDto.comments.get(0).content}"></textarea>
+                        <form th:action="@{/comments/update/qna}" method="post" class="qna-comment-form"
+                              th:object="${commentUpdateDto}">
+                            <input type="hidden" id="commentId" th:name="commentId"
+                                   th:value="${qnaReponseDto.comments.get(0).id}">
+                            <textarea th:id="content" th:name="content" cols="30" rows="10"
+                                      th:utext="${qnaReponseDto.comments.get(0).content}"></textarea>
                             <div class="btn-box">
                                 <button type="submit" class="submit">수정</button>
                                 <button type="reset" class="cancel" onclick="updateCancel(this)">취소</button>
@@ -429,11 +450,14 @@
 
                     <div class="qna-comment-reply" th:if="${!qnaReponseDto.comments.isEmpty()}">
                         <span class="admin-name">운영자댓글</span>
-                        <p th:utext="${#strings.replace((qnaReponseDto.comments.get(0).content), newLineChar, '&lt;br /&gt;')}" id="comment-p"></p>
+                        <p th:utext="${#strings.replace((qnaReponseDto.comments.get(0).content), newLineChar, '&lt;br /&gt;')}"
+                           id="comment-p"></p>
 
                         <div class="btn-box" id="comment-update-box">
-                            <button sec:authorize="hasRole('ADMIN')" type="button" onclick="updateForm(this)">수정</button>
-                            <form sec:authorize="hasRole('ADMIN')" th:action="@{/comments/delete/qna}" method="post" class="comment-delete-form">
+                            <button sec:authorize="hasRole('ADMIN')" type="button" onclick="updateForm(this)">수정
+                            </button>
+                            <form sec:authorize="hasRole('ADMIN')" th:action="@{/comments/delete/qna}" method="post"
+                                  class="comment-delete-form">
                                 <input type="hidden" th:name="commentId" th:value="${qnaReponseDto.comments.get(0).id}">
                                 <input type="hidden" name="_method" value="delete">
                                 <button type="submit">삭제</button>
@@ -486,7 +510,8 @@
         <span class="close" onclick="closeModal()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                  aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <path data-name="layer1" d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
+              <path data-name="layer1"
+                    d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
                     fill="#ffffff"></path>
             </svg>
         </span>

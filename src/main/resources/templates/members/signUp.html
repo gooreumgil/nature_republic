@@ -4,82 +4,82 @@
 <link rel="stylesheet" th:href="@{/css/formStyle.css}">
 <body>
 
-    <section class="container">
-        <div class="container__inner">
+<section class="container">
+    <div class="container__inner">
 
-            <form th:action="@{/members/new}" method="post" th:object="${memberDto}">
+        <form th:action="@{/members/new}" method="post" th:object="${memberDto}">
 
-                <div class="form__group">
-                    <label th:for="name">Name</label><br>
-                    <input type="text" th:field="*{name}" class="input" placeholder="이름을 입력해 주세요.">
+            <div class="form__group">
+                <label th:for="name">Name</label><br>
+                <input type="text" th:field="*{name}" class="input" placeholder="이름을 입력해 주세요.">
+            </div>
+
+            <div class="form__group">
+                <label th:for="password">Password</label><br>
+                <input type="password" th:field="*{password}" class="input" placeholder="패스워드를 입력해 주세요.">
+                <input type="password" class="input" placeholder="패스워드 확인">
+
+            </div>
+
+            <div class="form__group">
+                <label th:for="email">Email</label><br>
+                <input type="text" th:field="*{email}" class="input" placeholder="이메일을 입력해 주세요.">
+            </div>
+
+            <div class="form__group">
+
+                <label th:for="address">Address</label><br>
+                <input type="text" th:field="*{city}" class="input" placeholder="도시명을 입력해 주세요."><br>
+                <input type="text" th:field="*{street}" class="input" placeholder="거리명을 입력해 주세요."><br>
+                <input type="text" th:field="*{zipcode}" class="input" placeholder="우편번호를 입력해 주세요.">
+
+            </div>
+
+            <div class="form__group birth">
+
+                <label th:for="birthDay">Birth</label><br>
+                <input type="number" th:field="*{birthDay}" class="input">
+
+                <!--                    <div class="dash"></div>-->
+
+                <!--                    <input type="number" th:field="*{month}" class="input">-->
+
+                <!--                    <div class="dash"></div>-->
+
+                <!--                    <input type="number" th:field="*{day}" class="input">-->
+
+            </div>
+
+            <div class="form__group phone">
+
+                <label th:for="phoneNumber">Phone Number</label><br>
+
+                <select th:field="*{number1}" class="input">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                </select>
+
+                <div class="dash">
+                    <p>-</p>
                 </div>
 
-                <div class="form__group">
-                    <label th:for="password">Password</label><br>
-                    <input type="password" th:field="*{password}" class="input" placeholder="패스워드를 입력해 주세요.">
-                    <input type="password" class="input" placeholder="패스워드 확인">
+                <input type="number" th:field="*{number2}" class="input">
 
+                <div class="dash">
+                    <p>-</p>
                 </div>
 
-                <div class="form__group">
-                    <label th:for="email">Email</label><br>
-                    <input type="text" th:field="*{email}" class="input" placeholder="이메일을 입력해 주세요.">
-                </div>
+                <input type="number" th:field="*{number3}" class="input">
 
-                <div class="form__group">
+            </div>
 
-                    <label th:for="address">Address</label><br>
-                    <input type="text" th:field="*{city}" class="input" placeholder="도시명을 입력해 주세요."><br>
-                    <input type="text" th:field="*{street}" class="input" placeholder="거리명을 입력해 주세요."><br>
-                    <input type="text" th:field="*{zipcode}" class="input" placeholder="우편번호를 입력해 주세요.">
+            <div class="form__group">
+                <input type="submit" value="회원가입" class="submit-input"/>
+            </div>
+        </form>
+    </div>
 
-                </div>
-
-                <div class="form__group birth">
-
-                    <label th:for="birthDay">Birth</label><br>
-                    <input type="number" th:field="*{birthDay}" class="input">
-
-<!--                    <div class="dash"></div>-->
-
-<!--                    <input type="number" th:field="*{month}" class="input">-->
-
-<!--                    <div class="dash"></div>-->
-
-<!--                    <input type="number" th:field="*{day}" class="input">-->
-
-                </div>
-
-                <div class="form__group phone">
-
-                    <label th:for="phoneNumber">Phone Number</label><br>
-
-                    <select th:field="*{number1}" class="input">
-                        <option value="010">010</option>
-                        <option value="011">011</option>
-                    </select>
-
-                    <div class="dash">
-                        <p>-</p>
-                    </div>
-
-                    <input type="number" th:field="*{number2}" class="input">
-
-                    <div class="dash">
-                        <p>-</p>
-                    </div>
-
-                    <input type="number" th:field="*{number3}" class="input">
-
-                </div>
-
-                <div class="form__group">
-                    <input type="submit" value="회원가입" class="submit-input"/>
-                </div>
-            </form>
-        </div>
-
-    </section>
+</section>
 
 </body>
 </html>

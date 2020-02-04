@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 
 public class NewsDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class CreateForm {
 
@@ -28,7 +29,8 @@ public class NewsDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Home {
         private String title;

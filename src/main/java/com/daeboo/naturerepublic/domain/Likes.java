@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Likes {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "likes_id")
     private Long id;
 

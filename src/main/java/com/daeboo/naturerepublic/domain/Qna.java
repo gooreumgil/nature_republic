@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Qna {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -13,9 +13,9 @@
             <li>
                 <a href="/item">상품</a>
             </li>
-<!--            <li>-->
-<!--                <a href="#">뉴스</a>-->
-<!--            </li>-->
+            <!--            <li>-->
+            <!--                <a href="#">뉴스</a>-->
+            <!--            </li>-->
             <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/myPage}">마이페이지</a>
             </li>
@@ -44,7 +44,8 @@
                         <div class="cart_number">
                             <img src="/image/cart_number.png">
                             <p th:if="${#httpSession.getAttribute(#authentication.name) == null}">0</p>
-                            <p th:if="${#httpSession.getAttribute(#authentication.name) != null}" th:text="${#arrays.length(#httpSession.getAttribute(#authentication.name))}"></p>
+                            <p th:if="${#httpSession.getAttribute(#authentication.name) != null}"
+                               th:text="${#arrays.length(#httpSession.getAttribute(#authentication.name))}"></p>
                         </div>
                     </div>
                 </a>

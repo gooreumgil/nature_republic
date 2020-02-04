@@ -14,7 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Item {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "item_id")
     private Long id;
     private String nameKor;

@@ -60,13 +60,14 @@
 
                 <div class="cart-item-list quantity">
                     <a href="#" class="plus-svg">
-                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                              aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <circle data-name="layer2"
                                     cx="32" cy="32" r="30" fill="none" stroke="#202020" stroke-miterlimit="10"
                                     stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
                             <path data-name="layer1" fill="none" stroke="#202020" stroke-miterlimit="10"
-                                  stroke-width="2" d="M32 16v32m16-16H16" stroke-linejoin="round" stroke-linecap="round"></path>
+                                  stroke-width="2" d="M32 16v32m16-16H16" stroke-linejoin="round"
+                                  stroke-linecap="round"></path>
                         </svg>
                     </a>
 
@@ -90,16 +91,21 @@
                 </div>
 
                 <div class="cart-item-list discount">
-                    <p th:if="${cartItem.discountPrice >= 100}" th:text="${#numbers.formatInteger(cartItem.discountPrice, 3, 'COMMA')}" class="discount-text"></p>
-                    <p th:if="${cartItem.discountPrice < 100}" th:text="${cartItem.discountPrice}" class="discount-text"></p>
+                    <p th:if="${cartItem.discountPrice >= 100}"
+                       th:text="${#numbers.formatInteger(cartItem.discountPrice, 3, 'COMMA')}"
+                       class="discount-text"></p>
+                    <p th:if="${cartItem.discountPrice < 100}" th:text="${cartItem.discountPrice}"
+                       class="discount-text"></p>
                 </div>
 
                 <div class="cart-item-list result-price">
-                    <p th:text="${#numbers.formatInteger((cartItem.price - cartItem.discountPrice), 3, 'COMMA')}" class="result-text"></p>
+                    <p th:text="${#numbers.formatInteger((cartItem.price - cartItem.discountPrice), 3, 'COMMA')}"
+                       class="result-text"></p>
                 </div>
 
                 <div class="cart-item-list delete-btn">
-                    <svg class="cart-item-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+                    <svg class="cart-item-delete" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
+                         aria-labelledby="title"
                          aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <path data-name="layer1"
                               d="M53.122 48.88L36.243 32l16.878-16.878a3 3 0 0 0-4.242-4.242L32 27.758l-16.878-16.88a3 3 0 0 0-4.243 4.243l16.878 16.88-16.88 16.88a3 3 0 0 0 4.243 4.241L32 36.243l16.878 16.88a3 3 0 0 0 4.244-4.243z"
@@ -153,7 +159,7 @@
 
                 var inputForItemId = document.createElement('input');
                 inputForItemId.type = 'hidden';
-                inputForItemId.name = 'shoppingCartDtos['+ i + '].itemId';
+                inputForItemId.name = 'shoppingCartDtos[' + i + '].itemId';
                 inputForItemId.value = itemIdVal;
 
                 var itemQuantityTag = li.getElementsByClassName('item-quantity')[0];
@@ -197,7 +203,7 @@
 
                     var inputForItemId = document.createElement('input');
                     inputForItemId.type = 'hidden';
-                    inputForItemId.name = 'shoppingCartDtos['+ i + '].itemId';
+                    inputForItemId.name = 'shoppingCartDtos[' + i + '].itemId';
                     inputForItemId.value = itemIdVal;
 
                     var itemQuantityTag = li.getElementsByClassName('item-quantity')[0];

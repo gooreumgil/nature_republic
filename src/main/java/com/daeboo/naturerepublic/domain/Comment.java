@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Comment {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "comment_id")
     private Long id;
     private String content;

@@ -21,9 +21,9 @@ var changeImg = {
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     var header = $('header');
-    $("a").click(function(e) {
+    $("a").click(function (e) {
         var href = $(this).attr('href');
         if (href === '#') {
             e.preventDefault();
@@ -31,7 +31,7 @@ $(document).ready(function() {
     });
 
     return;
-    window.addEventListener('scroll', function(e){
+    window.addEventListener('scroll', function (e) {
         var scollY = window.scrollY;
         if (scrollY > 50) {
             headerSetOverScroll(header);
@@ -42,13 +42,13 @@ $(document).ready(function() {
 })
 
 /**
-* 원래 위치로 스크롤 했을 때 header 스타일 셋
-* @param  {jquery dom} header
-*/
-function headerSetDefault (header) {
+ * 원래 위치로 스크롤 했을 때 header 스타일 셋
+ * @param  {jquery dom} header
+ */
+function headerSetDefault(header) {
     header.css('background-color', 'transparent');
     header.find('li a').css('color', '#fff');
-    header.find('img.logo').attr('src',changeImg.logo.origin);
+    header.find('img.logo').attr('src', changeImg.logo.origin);
     header.find('.a1 img').attr('src', changeImg.login.origin);
     header.find('.a2 .cart-img').attr('src', changeImg.cart.origin);
     header.find('.a2 .cart-number').attr('src', changeImg.cart_number.origin);
@@ -59,15 +59,15 @@ function headerSetDefault (header) {
 }
 
 /**
-* 스크롤이 아래로 내려갔을 때 header 스타일 셋
-* @param  {jquery dom} header
-*/
-function headerSetOverScroll (header) {
+ * 스크롤이 아래로 내려갔을 때 header 스타일 셋
+ * @param  {jquery dom} header
+ */
+function headerSetOverScroll(header) {
     header.css('background-color', 'white');
     header.find('li a').css('color', '#555');
-    header.find('img.logo').attr('src',changeImg.logo.over);
+    header.find('img.logo').attr('src', changeImg.logo.over);
     header.find('.a1 img').attr('src', changeImg.login.over);
-    header.find('.a2 .cart_inner .cart-img').attr('src','/static/imgs/top_icon2.png');
+    header.find('.a2 .cart_inner .cart-img').attr('src', '/static/imgs/top_icon2.png');
     header.find('.a2 .cart_inner .cart-number').attr('src', changeImg.cart_number.over);
     header.find('.icon .a2 div .cart_number p').css('color', 'white');
     header.find('.a3 img').attr('src', changeImg.search.over);

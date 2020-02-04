@@ -50,7 +50,7 @@ public class MyPageController {
     }
 
     @GetMapping("/detail")
-    public String orderDetail(@RequestParam("id") Long id, Principal principal,  Model model) {
+    public String orderDetail(@RequestParam("id") Long id, Principal principal, Model model) {
 
 //        Order order = orderService.findById(id);
         Orders orders = orderService.findByIdQuery(id);
@@ -68,7 +68,7 @@ public class MyPageController {
 
     @GetMapping("/likes")
     public String itemLikes(@PageableDefault(page = 0, size = 12, direction = Sort.Direction.DESC, sort = "likedAt") Pageable pageable,
-                                @ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Principal principal, Model model) {
+                            @ModelAttribute("likeDelete") LikesDto.Delete deleteDto, Principal principal, Model model) {
 
         String name = principal.getName();
         Member member = memberService.findByName(name);
@@ -148,21 +148,6 @@ public class MyPageController {
         return "redirect:/myPage";
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

@@ -5,12 +5,15 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Getter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class CategoryItem {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "category_item_id")
     private Long id;
 

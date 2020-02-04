@@ -24,7 +24,7 @@
                 </p>
             </div>
             <nav class="orders-nav">
-                <a th:href="@{/myPage}" >주문 배송 조회</a><br>
+                <a th:href="@{/myPage}">주문 배송 조회</a><br>
                 <a th:href="@{/myPage/likes}" class="active">찜 리스트</a><br>
                 <a th:href="@{/myPage/qna}">상품 Q&A</a><br>
                 <a th:href="@{/myPage/reviews}">구매후기</a><br>
@@ -43,7 +43,7 @@
 
                     <button type="button" onclick="selectAll()">모두선택</button>
                     <form th:action="@{/myPage/removeLikes}" th:object="${likeDelete}" id="likeForm" method="post">
-<!--                        <input type="hidden" th:field="*{likeIds}">-->
+                        <!--                        <input type="hidden" th:field="*{likeIds}">-->
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>
@@ -68,7 +68,8 @@
                                 <p th:text="*{likeDto.itemName}"></p>
                             </div>
                             <p class="item-price">
-                                <span class="bold" th:text="*{#numbers.formatInteger((likeDto.itemPrice), 3, 'COMMA')}"></span>
+                                <span class="bold"
+                                      th:text="*{#numbers.formatInteger((likeDto.itemPrice), 3, 'COMMA')}"></span>
                                 <span>원</span>
                             </p>
                         </a>

@@ -20,7 +20,8 @@
             <h2 th:text="${status == null ? '상품등록' : '상품 수정'}">상품 등록</h2>
         </div>
 
-        <form th:if="${status == null}" th:action="@{/admin/items/new}" method="post" th:object="${itemDto}" enctype="multipart/form-data">
+        <form th:if="${status == null}" th:action="@{/admin/items/new}" method="post" th:object="${itemDto}"
+              enctype="multipart/form-data">
 
             <div class="form__group">
                 <label th:for="name">이름</label><br>
@@ -40,7 +41,8 @@
 
             <div class="form__group">
                 <label th:for="stockQuantity">제품 설명</label><br>
-                <textarea type="number" th:field="*{description}" class="input" placeholder="상품의 설명을 입력해 주세요."></textarea>
+                <textarea type="number" th:field="*{description}" class="input"
+                          placeholder="상품의 설명을 입력해 주세요."></textarea>
             </div>
 
             <div class="form__group">
@@ -55,23 +57,25 @@
                 </div>
             </div>
 
-<!--            <div class="form__group">-->
-<!--                <input type="text" th:field="*{mainRemove}" hidden>-->
-<!--            </div>-->
+            <!--            <div class="form__group">-->
+            <!--                <input type="text" th:field="*{mainRemove}" hidden>-->
+            <!--            </div>-->
 
             <div class="form__group" id="img-div">
                 <h3>메인 이미지</h3>
                 <output id="result"></output>
                 <label th:for="mainImg" class="add-img">+</label><br>
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main" th:onchange="handleFileSelect(this)">
-<!--                <button type="button" onclick="resetFile()">이미지 리셋</button>-->
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main"
+                       th:onchange="handleFileSelect(this)">
+                <!--                <button type="button" onclick="resetFile()">이미지 리셋</button>-->
             </div>
 
             <div class="form__group" id="detail-img-div">
                 <h3>상세 이미지</h3>
                 <output id="detail_result"></output>
                 <label th:for="detailImg" class="add-img">+</label><br>
-                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input" th:onchange="handleFileSelect(this)">
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input"
+                       th:onchange="handleFileSelect(this)">
             </div>
 
             <div class="form__group">
@@ -84,7 +88,8 @@
         <!-- 업데이트 -->
         <!--  ///////-->
 
-        <form th:if="${status != null}" th:action="@{/admin/items/update}" method="post" th:object="${updateDto}" enctype="multipart/form-data">
+        <form th:if="${status != null}" th:action="@{/admin/items/update}" method="post" th:object="${updateDto}"
+              enctype="multipart/form-data">
 
             <input type="text" th:field="*{id}" hidden>
 
@@ -106,7 +111,8 @@
 
             <div class="form__group">
                 <label th:for="stockQuantity">제품 설명</label><br>
-                <textarea type="number" th:field="*{description}" class="input" placeholder="상품의 설명을 입력해 주세요."></textarea>
+                <textarea type="number" th:field="*{description}" class="input"
+                          placeholder="상품의 설명을 입력해 주세요."></textarea>
             </div>
 
             <div class="form__group">
@@ -125,7 +131,8 @@
                 <h3>메인 이미지</h3>
 
                 <output id="result">
-                    <div th:each="main : *{mainSrcs}" class="preview-box main" th:style="'background-image: url(/upload/' + ${main.s3Key} + ');'">
+                    <div th:each="main : *{mainSrcs}" class="preview-box main"
+                         th:style="'background-image: url(/upload/' + ${main.s3Key} + ');'">
                         <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
                             <span style="display: none;" th:text="${main.id}"></span>
                         </button>
@@ -134,7 +141,8 @@
 
                 <label th:for="mainImg" class="add-img">+</label><br>
                 <!--                <img th:src="@{${'/upload/' + updateDto.mainImg.get(0).s3Key}}" alt="" class="preview">-->
-                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main" th:onchange="handleFileSelect(this)">
+                <input multiple="multiple" type="file" th:field="*{mainImg}" class="input files main"
+                       th:onchange="handleFileSelect(this)">
             </div>
 
             <div class="form__group" id="detail-img-div">
@@ -142,7 +150,8 @@
                 <h3>상세 이미지</h3>
 
                 <output id="detail_result">
-                    <div th:each="detail : *{detailSrcs}" class="preview-box long" th:style="'background-image: url(/upload/' + ${detail.s3Key} + ');'">
+                    <div th:each="detail : *{detailSrcs}" class="preview-box long"
+                         th:style="'background-image: url(/upload/' + ${detail.s3Key} + ');'">
                         <button type="button" class="cancel originCancel" onclick="imgDelete(this)">X
                             <span style="display: none;" th:text="${detail.id}"></span>
                         </button>
@@ -151,7 +160,8 @@
 
                 <label th:for="detailImg" class="add-img">+</label><br>
 
-                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input" th:onchange="handleFileSelect(this)">
+                <input multiple="multiple" type="file" th:field="*{detailImg}" class="input files detail_input"
+                       th:onchange="handleFileSelect(this)">
             </div>
 
             <div class="form__group">

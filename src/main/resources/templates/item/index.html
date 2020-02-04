@@ -16,63 +16,67 @@
 </style>
 <link rel="stylesheet" th:href="@{/css/nature_republic_list.css}">
 
-    <header th:replace="partials/bodyHeader :: bodyHeader"/>
+<header th:replace="partials/bodyHeader :: bodyHeader"/>
 
-    <!-- BANNER -->
+<!-- BANNER -->
 
-    <section class="top">
-        <div class="top_name">
-            <h1>Products</h1>
-            <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.<br>우리는 전세계의 청정 자연에서 자연이 주는 선물을 찾아서 가장 자연<br>그대로에 가까운 상태로 고객들에게 제공하는 것을 목표로 합니다.</p>
-        </div>
-    </section>
+<section class="top">
+    <div class="top_name">
+        <h1>Products</h1>
+        <p>네이처리퍼블릭은 자연의 완벽함을 믿습니다.<br>우리는 전세계의 청정 자연에서 자연이 주는 선물을 찾아서 가장 자연<br>그대로에 가까운 상태로 고객들에게 제공하는 것을 목표로 합니다.</p>
+    </div>
+</section>
 
-    <!-- BEST ITEM -->
+<!-- BEST ITEM -->
 
-    <section class="best">
-        <div class="best_title">
-            <h2 class="main_font">Category Best</h2>
-            <p class="sub_font">
-<!--                <span th:text="${currentCategory.equals('ALL') ? '전체' : currentCategory}"></span> -->
-                전체 베스트 상품입니다
-            </p>
-        </div>
-        <ol class="best_item clearfix">
-            <li class="col-3" th:each="popular : ${populars}">
-                <div class="out_box">
-                    <div class='inner-box'>
-<!--                        <a class='be_item' th:href="@{/item/detail/{id}(id=*{popular.itemDto.id})}">-->
-                        <a class='be_item' th:href="@{/item/detail(id=*{popular.itemDto.id}, currentCategory=${currentCategory})}">
-                            <img th:src="@{${'/upload/' + popular.itemDto.mainSrcs.get(0).s3Key}}">
-                            <div class="best_hover"></div>
-                        </a>
-                    </div>
-                    <h3 th:text="*{popular.itemDto.nameKor}"></h3>
-                    <p class="d"><span class="won"></span><span id="id_color" th:text="${#numbers.formatInteger(popular.itemDto.price, 3, 'COMMA')}">13,900</span> 원</p>
+<section class="best">
+    <div class="best_title">
+        <h2 class="main_font">Category Best</h2>
+        <p class="sub_font">
+            <!--                <span th:text="${currentCategory.equals('ALL') ? '전체' : currentCategory}"></span> -->
+            전체 베스트 상품입니다
+        </p>
+    </div>
+    <ol class="best_item clearfix">
+        <li class="col-3" th:each="popular : ${populars}">
+            <div class="out_box">
+                <div class='inner-box'>
+                    <!--                        <a class='be_item' th:href="@{/item/detail/{id}(id=*{popular.itemDto.id})}">-->
+                    <a class='be_item'
+                       th:href="@{/item/detail(id=*{popular.itemDto.id}, currentCategory=${currentCategory})}">
+                        <img th:src="@{${'/upload/' + popular.itemDto.mainSrcs.get(0).s3Key}}">
+                        <div class="best_hover"></div>
+                    </a>
                 </div>
-            </li>
+                <h3 th:text="*{popular.itemDto.nameKor}"></h3>
+                <p class="d"><span class="won"></span><span id="id_color"
+                                                            th:text="${#numbers.formatInteger(popular.itemDto.price, 3, 'COMMA')}">13,900</span>
+                    원</p>
+            </div>
+        </li>
 
-        </ol>
-    </section>
+    </ol>
+</section>
 
-    <nav class="category_nav">
-        <ul class="clearfix category_wrapper">
-            <li th:each="categoty : ${categories}">
-                <!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
-                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active"
-                   th:href="@{/item(currentCategory=${categoty.categoryName})}"
-                   th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}" class="category-a"></a>
-                <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
-            </li>
-        </ul>
-    </nav>
+<nav class="category_nav">
+    <ul class="clearfix category_wrapper">
+        <li th:each="categoty : ${categories}">
+            <!--                <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active" th:href="@{/item(currentCategory=${categoty.categoryName})}" th:utext="*{categoty.categoryName}"></a>-->
+            <a th:classappend="*{categoty.categoryName.equals(currentCategory)} ? active"
+               th:href="@{/item(currentCategory=${categoty.categoryName})}"
+               th:utext="*{#strings.replace(categoty.categoryName, ' ', '<br/>')}" class="category-a"></a>
+            <!--                <a th:onclick="'javascript:replace('+ ${categoty.name} +')'" th:utext="*{categoty.name}"></a>-->
+        </li>
+    </ul>
+</nav>
 
-    <!-- LIST -->
+<!-- LIST -->
 
-    <section class="skin_care">
+<section class="skin_care">
     <div class="skin_top">
         <p>
-            전체 <span id="id_color" th:text="${itemCount}"></span>개의 제품이 있습니다 [<span id="id_color" th:text="${categoryItems.getNumberOfElements()}"></span>]
+            전체 <span id="id_color" th:text="${itemCount}"></span>개의 제품이 있습니다 [<span id="id_color"
+                                                                                    th:text="${categoryItems.getNumberOfElements()}"></span>]
         </p>
     </div>
     <div class="skin_select">
@@ -92,7 +96,8 @@
             </div>
             <h3 class="a" th:text="*{categoryItem.itemDto.nameKor}"></h3>
             <p class="b" th:text="*{categoryItem.itemDto.description}"></p>
-            <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(categoryItem.itemDto.price, 3, 'COMMA')}"></span> 원</p>
+            <p class="c"><span id="id_color"
+                               th:text="${#numbers.formatInteger(categoryItem.itemDto.price, 3, 'COMMA')}"></span> 원</p>
             <div class="cart">
                 <img src="/image/list_img/list/cart.png">
             </div>
@@ -113,9 +118,9 @@
     </div>
 </section>
 
-    <!-- BOTTOM -->
+<!-- BOTTOM -->
 
-    <div th:replace="partials/bottom :: bottom"/>
+<div th:replace="partials/bottom :: bottom"/>
 
 <footer th:replace="partials/footer :: footer"/>
 
@@ -209,8 +214,6 @@
     window.addEventListener('scroll', getHref);
     window.addEventListener('load', offset);
     window.addEventListener('load', sortStyle);
-
-
 
 
 </script>

@@ -6,7 +6,8 @@ import lombok.Setter;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter @Setter
+@Getter
+@Setter
 public class OrderAddress {
 
     private String main;

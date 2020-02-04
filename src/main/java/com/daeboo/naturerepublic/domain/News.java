@@ -17,7 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class News {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String title;

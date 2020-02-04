@@ -49,7 +49,7 @@
                     <button type="button" onclick="showContent(this)" class="show-content-btn"></button>
 
                     <div class="info-box">
-                        <h4 >
+                        <h4>
                             <span th:text="*{#strings.abbreviate((qnaDto.content), 40)}"></span>
                             <span th:if="${!qnaDto.commentList.isEmpty()}" class="reply-complete">답변완료</span>
                         </h4>
@@ -72,7 +72,9 @@
                     <form th:action="@{/qna/delete}" method="post" class="qna-delete-form">
                         <input type="hidden" name="qnaId" th:value="${qnaDto.id}">
                         <input type="hidden" name="_method" value="delete">
-                        <button type="button" th:if="${qnaDto.commentList.isEmpty()}" th:onclick="|javascript:updateQna(this,'${qnaDto.id}')|">수정</button>
+                        <button type="button" th:if="${qnaDto.commentList.isEmpty()}"
+                                th:onclick="|javascript:updateQna(this,'${qnaDto.id}')|">수정
+                        </button>
                         <button type="submit">삭제</button>
                     </form>
 
@@ -83,10 +85,12 @@
                         <p th:utext="${#strings.replace((qnaDto.content), newLineChar, '&lt;br /&gt;')}"></p>
                     </div>
 
-                    <form th:if="${qnaDto.commentList.isEmpty()}" th:action="@{/qna/update}" method="post" class="qna-update-form">
+                    <form th:if="${qnaDto.commentList.isEmpty()}" th:action="@{/qna/update}" method="post"
+                          class="qna-update-form">
                         <input type="hidden" name="qnaId" th:value="${qnaDto.id}">
                         <input type="hidden" name="_method" value="patch">
-                        <textarea name="qnaContent" id="qnaContent" cols="30" rows="10" th:text="${qnaDto.content}"></textarea><br>
+                        <textarea name="qnaContent" id="qnaContent" cols="30" rows="10"
+                                  th:text="${qnaDto.content}"></textarea><br>
                         <button type="submit">완료</button>
                         <button type="button" class="update-cancel" onclick="updateCancel(this)">취소</button>
                     </form>
@@ -97,7 +101,8 @@
                         <div class="reply__inner">
                             <span class="admin-name">운영자답변</span>
                             <p th:utext="${#strings.replace((qnaDto.commentList.get(0).reply), newLineChar, '&lt;br /&gt;')}"></p>
-                            <span th:text="${#temporals.format((qnaDto.commentList.get(0).wroteAt), 'yyyy년 MM월 dd일 HH:mm')}" class="admin-reply-date"></span>
+                            <span th:text="${#temporals.format((qnaDto.commentList.get(0).wroteAt), 'yyyy년 MM월 dd일 HH:mm')}"
+                                  class="admin-reply-date"></span>
                         </div>
                     </div>
 
@@ -123,7 +128,7 @@
             replyBoxTag.style.display = 'none';
         }
     }
-    
+
     function allShowContentBtnsRemoveClassActive() {
         var showContentBtnTags = document.getElementsByClassName('show-content-btn');
         for (i = 0; i < showContentBtnTags.length; i++) {
@@ -145,7 +150,7 @@
 
         replyBoxDisplayNone();
         qnaUpdateFormDisplayNone();
-        
+
         var contentInnerTag = elem.parentElement;
         var contentBox = contentInnerTag.parentElement;
         var replyBoxTag = contentBox.childNodes[3];
@@ -169,7 +174,7 @@
             elem.classList.remove('active');
         }
     }
-    
+
     // qna delete form
     function updateQna(elem, id) {
 
@@ -196,7 +201,7 @@
 
         }
 
-        var qnaDeleteForm  = elem.parentElement;
+        var qnaDeleteForm = elem.parentElement;
         var contentInner = qnaDeleteForm.parentElement;
 
         var showContentBtn = contentInner.childNodes[1];

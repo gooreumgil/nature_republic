@@ -36,7 +36,7 @@ class ItemDslRepositoryImpl extends QuerydslRepositorySupport implements ItemDsl
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        if(Strings.isNotEmpty(itemSearchDto.getName())) {
+        if (Strings.isNotEmpty(itemSearchDto.getName())) {
             booleanBuilder.and(item.nameKor.like("%" + itemSearchDto.getName() + "%"));
         }
 

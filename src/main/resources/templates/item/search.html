@@ -49,52 +49,53 @@
 </style>
 <link rel="stylesheet" th:href="@{/css/nature_republic_list.css}">
 
-    <header th:replace="partials/bodyHeader :: bodyHeader"/>
+<header th:replace="partials/bodyHeader :: bodyHeader"/>
 
-    <section class="skin_care">
+<section class="skin_care">
 
-        <h1>
-            <span>검색어:</span>
-            <span th:text="${word}" class="word"></span>
-        </h1>
+    <h1>
+        <span>검색어:</span>
+        <span th:text="${word}" class="word"></span>
+    </h1>
 
-        <ul class="skn_list clearfix">
-            <div class="divider"></div>
-            <li class="col-3 item-list" th:each="itemSearchDto : ${itemSearchDtos}">
-                <div class="img-box">
-                    <a th:href="@{/item/detail(id=*{itemSearchDto.id})}">
-                        <img th:src="@{${'/upload/' + itemSearchDto.mainSrcs.get(0).s3Key}}">
-                    </a>
-                </div>
-                <h3 class="a" th:text="*{itemSearchDto.nameKor}"></h3>
-                <p class="b" th:text="*{itemSearchDto.description}"></p>
-                <p class="c"><span id="id_color" th:text="${#numbers.formatInteger(itemSearchDto.price, 3, 'COMMA')}"></span> 원</p>
-                <div class="cart">
-                    <img src="/image/list_img/list/cart.png">
-                </div>
-            </li>
-        </ul>
-        <div class="more">
-            <div>
-                <a th:if="${itemSearchDtos.totalElements >= itemSearchDtos.getSize()}"
-                   th:href="@{/item/search(page=0,
+    <ul class="skn_list clearfix">
+        <div class="divider"></div>
+        <li class="col-3 item-list" th:each="itemSearchDto : ${itemSearchDtos}">
+            <div class="img-box">
+                <a th:href="@{/item/detail(id=*{itemSearchDto.id})}">
+                    <img th:src="@{${'/upload/' + itemSearchDto.mainSrcs.get(0).s3Key}}">
+                </a>
+            </div>
+            <h3 class="a" th:text="*{itemSearchDto.nameKor}"></h3>
+            <p class="b" th:text="*{itemSearchDto.description}"></p>
+            <p class="c"><span id="id_color"
+                               th:text="${#numbers.formatInteger(itemSearchDto.price, 3, 'COMMA')}"></span> 원</p>
+            <div class="cart">
+                <img src="/image/list_img/list/cart.png">
+            </div>
+        </li>
+    </ul>
+    <div class="more">
+        <div>
+            <a th:if="${itemSearchDtos.totalElements >= itemSearchDtos.getSize()}"
+               th:href="@{/item/search(page=0,
                size=${itemSearchDtos.size + itemSearchDtos.size},
                sort=${#strings.replace(itemSearchDtos.sort, ': ', ',')})}" class="moreView">
 
-                    <p>More</p>
-                    <img src="/image/list_img/list/arrow.png">
+                <p>More</p>
+                <img src="/image/list_img/list/arrow.png">
 
-                </a>
-            </div>
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
 
 </section>
 
-    <!-- BOTTOM -->
+<!-- BOTTOM -->
 
-    <div th:replace="partials/bottom :: bottom"/>
+<div th:replace="partials/bottom :: bottom"/>
 
 <footer th:replace="partials/footer :: footer"/>
 
@@ -188,8 +189,6 @@
     window.addEventListener('scroll', getHref);
     window.addEventListener('load', offset);
     window.addEventListener('load', sortStyle);
-
-
 
 
 </script>

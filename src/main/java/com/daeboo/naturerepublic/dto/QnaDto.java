@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 
 public class QnaDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class MyPage {
 
@@ -43,18 +44,22 @@ public class QnaDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class RequestForm {
 
-        @NotNull @NotEmpty @NotBlank
+        @NotNull
+        @NotEmpty
+        @NotBlank
         private String content;
         private boolean secretVal;
         private Long itemId;
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ItemDetail {
 
@@ -79,7 +84,8 @@ public class QnaDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class RequestComment {
 
@@ -89,7 +95,9 @@ public class QnaDto {
         private Long itemId;
         @NotNull
         private Long qnaId;
-        @NotNull @NotEmpty @NotBlank
+        @NotNull
+        @NotEmpty
+        @NotBlank
         private String content;
 
     }

@@ -13,7 +13,8 @@ import java.util.List;
 
 public class OrderDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class OrderComplete {
 
@@ -53,7 +54,8 @@ public class OrderDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Preview {
 
@@ -76,7 +78,8 @@ public class OrderDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class DetailPage {
 
@@ -127,7 +130,8 @@ public class OrderDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class AdminPage {
 
@@ -153,7 +157,8 @@ public class OrderDto {
     }
 
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class AdminDetailPage {
 

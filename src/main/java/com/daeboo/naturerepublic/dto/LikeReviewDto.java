@@ -7,7 +7,8 @@ import lombok.Setter;
 
 public class LikeReviewDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ItemDetail {
 

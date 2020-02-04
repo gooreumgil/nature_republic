@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 public class ItemDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class CreateForm {
 
@@ -52,7 +53,8 @@ public class ItemDto {
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class UpdateForm {
 
@@ -93,14 +95,15 @@ public class ItemDto {
             itemSrcs.forEach(itemSrc -> {
                 if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
-                } else if (itemSrc.getImgType().equals(ImgType.DETAIL)){
+                } else if (itemSrc.getImgType().equals(ImgType.DETAIL)) {
                     detailSrcs.add(itemSrc);
                 }
             });
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ListView {
 
@@ -135,7 +138,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class PopularPreview {
 
@@ -158,7 +162,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class LatestPreview {
 
@@ -172,14 +177,15 @@ public class ItemDto {
             this.nameKor = item.getNameKor();
             this.price = item.getPrice();
             item.getItemSrcs().forEach(itemSrc -> {
-                if(itemSrc.getImgType().equals(ImgType.MAIN)) {
+                if (itemSrc.getImgType().equals(ImgType.MAIN)) {
                     mainSrcs.add(itemSrc);
                 }
             });
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class CategoryList {
 
@@ -203,7 +209,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Detail {
 
@@ -252,7 +259,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Order {
 
@@ -273,7 +281,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class ReviewForm {
 
@@ -288,7 +297,8 @@ public class ItemDto {
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @NoArgsConstructor
     public static class Search {
 

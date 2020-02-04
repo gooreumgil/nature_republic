@@ -1,4 +1,4 @@
-function search () {
+function search() {
     var searchImgTag = document.getElementsByClassName('search-submit')[0];
 
     searchImgTag.addEventListener('click', function (evt) {

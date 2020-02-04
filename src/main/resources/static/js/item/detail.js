@@ -1,4 +1,3 @@
-
 var countNum = 0;
 
 // 장바구니 추가
@@ -66,7 +65,6 @@ function minusCount(countParam) {
 }
 
 
-
 function likeTypeSet() {
     var likeTypeTag = document.getElementsByClassName('likeType')[0];
     var likeImgTag = document.getElementById('likeImg');
@@ -77,9 +75,15 @@ function likeTypeSet() {
     }
 }
 
-var infoTab = document.getElementById('info');
-var reviewTab = document.getElementById('reviews');
-var qnaTab = document.getElementById('qna');
+var infoTab;
+var reviewTab;
+var qnaTab;
+
+document.addEventListener("DOMContentLoaded", function (ev) {
+    infoTab = document.getElementById('info');
+    reviewTab = document.getElementById('reviews');
+    qnaTab = document.getElementById('qna');
+});
 
 var tabs = document.getElementsByClassName('item-tab');
 var tabLinks = document.getElementsByClassName('tab-link');
@@ -115,6 +119,7 @@ function itemReviewScroll(elem) {
     displayNoneTabs();
     styleReset();
     styleChange(elem);
+    console.log(reviewTab);
     reviewTab.setAttribute('style', 'display: block;');
 
 }
@@ -174,7 +179,7 @@ function allowContent(elem) {
 
         elem.classList.add('active-button');
 
-        while(true) {
+        while (true) {
             var parentElement = elem.parentElement;
             if (parentElement.classList.contains(className)) {
                 parentElement.style.height = 'auto';
@@ -186,7 +191,7 @@ function allowContent(elem) {
     } else {
         elem.classList.remove('active-button');
 
-        while(true) {
+        while (true) {
             var parentElement = elem.parentElement;
             if (parentElement.classList.contains(className)) {
                 parentElement.style.height = '80px';
