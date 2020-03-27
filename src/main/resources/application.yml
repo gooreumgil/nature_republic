@@ -33,6 +33,7 @@ logging:
           .sql: trace
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    ]
 
 
 #jwt:
