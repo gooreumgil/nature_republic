@@ -2,7 +2,8 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/nature?useUnicode=true;characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-    password: Skwdkwla153@
+#    password: Skwdkwla153@
+    password: Tkrldmlskfk13@
     driver-class-name: com.mysql.cj.jdbc.Driver
   #    url: jdbc:h2:tcp://localhost/~/nature
   #    username: sa
@@ -33,7 +34,6 @@ logging:
           .sql: trace
     org.hibernate.SQL: debug
     org.hibernate.type: trace
-    ]
 
 
 #jwt:
